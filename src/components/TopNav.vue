@@ -1,5 +1,6 @@
 <template>
-  <div id="top-nav">
+<div id="sticky-wrapper">
+  <div id="nav-container">
     <div class="top-section">
       <div class="nav-item">Something</div>
       <div class="product-title">Alt Power</div>
@@ -12,6 +13,8 @@
       <div class="nav-item">Blog</div>
     </div>
   </div>
+</div>
+ 
 </template>
 
 <script>
@@ -25,10 +28,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#top-nav{
-  width: 90%;
-  margin: 0 auto;
+#sticky-wrapper{
+  position: sticky;
+  position: -webkit-sticky;
+  margin-top: 38px;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+}
+#nav-container{
   border: solid 1px #000000;
+  width: 100%;
   
   .top-section, .bottom-section{
     width: 100%;

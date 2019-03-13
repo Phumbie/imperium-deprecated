@@ -1,6 +1,7 @@
 <template>
   <div id="main-page">
     <top-nav/>
+    <router-view></router-view>
   </div>
 </template>
 

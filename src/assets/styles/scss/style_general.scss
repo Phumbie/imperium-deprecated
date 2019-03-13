@@ -1,20 +1,36 @@
 // @import "fonts";
 
 body{
-    margin: 0;
-}
-
-#app{
-
-}
-
-body{
-    font-family: 'Graphik';
-    font-weight: normal;
+  margin: 0; 
+  font-family: 'Graphik';
+  font-weight: normal;
 }
 
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
   margin: 0; 
+}
+
+input, button{
+  outline: none;
+}
+
+.header-text-28{
+  font-size: 28px;
+  text-align: center;
+}
+
+.small-text{
+  width: 28%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.33;
+  color: #1b1b1b;
+  margin-top: 16px;
+}
+
+.full-width{
+  width: 100%;
 }

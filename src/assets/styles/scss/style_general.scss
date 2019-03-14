@@ -1,3 +1,5 @@
+//styles used generally across all pages and components goes here
+
 // @import "fonts";
 
 body{
@@ -21,6 +23,10 @@ input, button{
   text-align: center;
 }
 
+.text-blue{
+  color: #4a90e2;
+}
+
 .small-text{
   width: 28%;
   margin: 0 auto;
@@ -33,4 +39,40 @@ input, button{
 
 .full-width{
   width: 100%;
+}
+
+.products-container{
+  width: 100%;
+  border: solid 1px #000000;
+  margin-top: 31px;
+  float: left;
+  border-right: none;
+  border-bottom: none;
+
+  .product-item{
+    border-right: solid 1px #000000;
+    border-bottom: solid 1px black;
+    width: 24.9%;
+    float: left;
+
+    .centered-content{
+      width: 50%;
+      margin: 0 auto;
+      padding-top: 30px;
+      padding-bottom: 30px;
+
+      .image-container{
+        width: 100%;
+        height: 222px;
+        background: gray;
+        margin-bottom: 24px;
+      }
+
+      .small-text-18{
+        font-size: 18px;
+        margin-bottom: 7px;
+        line-height: 1.14;
+      }
+    }
+  }
 }

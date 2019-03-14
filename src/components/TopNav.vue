@@ -39,6 +39,7 @@ export default {
 #nav-container{
   border: solid 1px #000000;
   width: 100%;
+  border-right: none;
   
   .top-section, .bottom-section{
     width: 100%;

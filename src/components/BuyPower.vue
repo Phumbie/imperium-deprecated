@@ -8,88 +8,11 @@
     </div>
     <div class="small-text full-width">Choose a monthly subscription that fits your consumption band</div>
     <div class="products-container">
-      <div class="product-item">
+      <div class="product-item" v-for="(n, index) in 8" :key="index">
         <div class="centered-content">
-          <div class="power-consumption">5KW/h</div>
+          <div class="small-text-18 text-blue">5KW/h</div>
           <div class="price">N 100,000.00</div>
-          <div class="very-small-text">Service guaranty </div>
-        </div>
-      </div>
-      <div class="product-item">
-        <div class="centered-content">
-          <div class="power-consumption">5KW/h</div>
-          <div class="price">N 100,000.00</div>
-          <div class="very-small-text">Service guaranty </div>
-        </div>
-      </div>
-      <div class="product-item">
-        <div class="centered-content">
-          <div class="power-consumption">5KW/h</div>
-          <div class="price">N 100,000.00</div>
-          <div class="very-small-text">Service guaranty </div>
-        </div>
-      </div>
-      <div class="product-item">
-        <div class="centered-content">
-          <div class="power-consumption">5KW/h</div>
-          <div class="price">N 100,000.00</div>
-          <div class="very-small-text">Service guaranty </div>
-        </div>
-      </div>
-      <div class="product-item">
-        <div class="centered-content">
-          <div class="power-consumption">5KW/h</div>
-          <div class="price">N 100,000.00</div>
-          <div class="very-small-text">Service guaranty </div>
-        </div>
-      </div>
-      <div class="product-item">
-        <div class="centered-content">
-          <div class="power-consumption">5KW/h</div>
-          <div class="price">N 100,000.00</div>
-          <div class="very-small-text">Service guaranty </div>
-        </div>
-      </div>
-      <div class="product-item">
-        <div class="centered-content">
-          <div class="power-consumption">5KW/h</div>
-          <div class="price">N 100,000.00</div>
-          <div class="very-small-text">Service guaranty </div>
-        </div>
-      </div>
-      <div class="product-item">
-        <div class="centered-content">
-          <div class="power-consumption">5KW/h</div>
-          <div class="price">N 100,000.00</div>
-          <div class="very-small-text">Service guaranty </div>
-        </div>
-      </div>
-      <div class="product-item">
-        <div class="centered-content">
-          <div class="power-consumption">5KW/h</div>
-          <div class="price">N 100,000.00</div>
-          <div class="very-small-text">Service guaranty </div>
-        </div>
-      </div>
-      <div class="product-item">
-        <div class="centered-content">
-          <div class="power-consumption">5KW/h</div>
-          <div class="price">N 100,000.00</div>
-          <div class="very-small-text">Service guaranty </div>
-        </div>
-      </div>
-      <div class="product-item">
-        <div class="centered-content">
-          <div class="power-consumption">5KW/h</div>
-          <div class="price">N 100,000.00</div>
-          <div class="very-small-text">Service guaranty </div>
-        </div>
-      </div>
-      <div class="product-item">
-        <div class="centered-content">
-          <div class="power-consumption">5KW/h</div>
-          <div class="price">N 100,000.00</div>
-          <div class="very-small-text">Service guaranty </div>
+          <div class="very-small-text">Service guaranty</div>
         </div>
       </div>
     </div>
@@ -143,32 +66,8 @@ export default {
   }
 
   .products-container{
-    width: 100%;
-    border: solid 1px #000000;
-    margin-top: 31px;
-    float: left;
-
     .product-item{
-      border-right: solid 1px #000000;
-      border-bottom: solid 1px black;
-      width: 24.93%;
-      float: left;
-
       .centered-content{
-        width: 50%;
-        margin: 0 auto;
-        height: 100px;
-        // background: bisque;
-        padding-top: 30px;
-        padding-bottom: 30px;
-
-        .power-consumption{
-          font-size: 18px;
-          line-height: 1.14;
-          color: #4a90e2;
-          margin-bottom: 6px;
-        }
-
         .price{
           font-size: 30px;
            line-height: 1.23;

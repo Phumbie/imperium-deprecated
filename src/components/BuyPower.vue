@@ -21,7 +21,6 @@
 
 <script>
 export default {
-  name: 'TopNav',
   data () {
     return {
     }
@@ -31,10 +30,6 @@ export default {
 
 <style lang="scss" scoped>
 #paas-section{
-  padding-top: 36px;
-  padding-bottom: 70px;
-  display: flex;
-  flex-direction: column;
 
   .power-consumption-field{
     width: 25%;

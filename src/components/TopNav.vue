@@ -2,14 +2,14 @@
 <div id="sticky-wrapper">
   <div id="nav-container">
     <div class="top-section">
-      <div class="nav-item">Something</div>
+      <router-link to="/login" class="nav-item">Account</router-link>
       <div class="product-title">Alt Power</div>
-      <div class="nav-item">Shopping cart (0)</div>
+      <router-link to="/cart" class="nav-item">Shopping cart (2)</router-link>
     </div>
     <div class="bottom-section">
-      <div class="nav-item">Energy Calculator</div>
-      <div class="nav-item">Buy Power</div>
-      <div class="nav-item">Buy Products</div>
+      <a href="https://renewable-calculator.surge.sh/" target="blank" class="nav-item">Energy Calculator</a>
+      <router-link to="/" class="nav-item">Buy Power</router-link>
+      <router-link to="/product-catalogue" class="nav-item">Buy Products</router-link>
       <div class="nav-item">Blog</div>
     </div>
   </div>
@@ -57,14 +57,22 @@ export default {
     padding-top: 25px;
     padding-bottom: 25px;
     text-align: center;
-    // float: left;
+    text-decoration: none;
+    color: black;
+    transition: 0.5s;
+    cursor: pointer;
+  }
+
+  .nav-item:hover{
+    background: #000000;
+    color: white;
+    transition: 0.5s;
   }
 
   .product-title{
     width: 50%;
     font-size: 32px;
     padding-top: 15px;
-    // float: left;
   }
 }
 </style>

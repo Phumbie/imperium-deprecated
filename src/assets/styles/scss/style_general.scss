@@ -1,6 +1,6 @@
-//styles used generally across all pages and components goes here
+//styles used generally across pages and components go here
 
-// @import "fonts";
+@import "fonts";
 
 body{
   margin: 0; 
@@ -18,6 +18,27 @@ input, button{
   outline: none;
 }
 
+button{
+  cursor: pointer;
+}
+
+.image-container{
+
+  img{
+    object-position: center;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+#normal-products-section, #cart-section, #paas-section, #login-section, #signup-section{
+  padding-top: 36px;
+  padding-bottom: 70px;
+  display: flex;
+  flex-direction: column;
+}
+
 .header-text-28{
   font-size: 28px;
   text-align: center;
@@ -28,7 +49,7 @@ input, button{
 }
 
 .small-text{
-  width: 28%;
+  width: 35%;
   margin: 0 auto;
   text-align: center;
   font-size: 18px;
@@ -56,7 +77,7 @@ input, button{
     float: left;
 
     .centered-content{
-      width: 50%;
+      width: 70%;
       margin: 0 auto;
       padding-top: 30px;
       padding-bottom: 30px;
@@ -73,6 +94,55 @@ input, button{
         margin-bottom: 7px;
         line-height: 1.14;
       }
+    }
+  }
+}
+
+#login-section, #signup-section{
+  form{
+    width: 50%;
+    margin: 0 auto;
+
+    .text-field{
+      width: 100%;
+      border: solid 1px black;
+      font-size: 16px;
+      margin-top: 35px;
+      padding-left: 20px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      box-sizing:border-box;
+    }
+
+    .buttons{
+      margin-top: 30px;
+      display: flex;
+      justify-content: flex-end;
+
+      button{
+        margin-left: 0px;
+        padding: 15px 30px 15px 30px;
+        font-size: 14px;
+        background: transparent;
+        border: solid 1px black;
+        transition: 0.5s;
+      }
+
+      button:hover{
+        background: black;
+        color: white;
+        transition: 0.5s;
+      }
+
+      button.border-none{
+        border: none;
+      }
+
+      button.border-none:hover{
+        color: black;
+        background: none;
+      }
+    
     }
   }
 }

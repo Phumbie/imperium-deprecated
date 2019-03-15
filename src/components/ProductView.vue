@@ -1,7 +1,9 @@
 <template>
   <div id="product-view">
     <div class="product">
-      <div class="image-container"></div>
+      <div class="image-container">
+        <img src="../assets/images/battery.jpg">
+      </div>
       <div class="product-details">
         <div class="centered-content">
           <div class="product-name">10Kva Solar inverter</div>
@@ -25,7 +27,9 @@
     <div class="products-container">
       <div class="product-item" v-for="(n, index) in 4" :key="index">
         <div class="centered-content">
-          <div class="image-container"></div>
+          <div class="image-container">
+            <img src="../assets/images/battery.jpg">
+          </div>
           <div class="small-text-18">10kWh Battery</div>
           <div class="small-text-18 text-blue">3 configurations</div>
           <div class="small-text-18 text-blue">Suggested loading</div>
@@ -48,8 +52,8 @@ export default {
 <style lang="scss" scoped>
 #product-view{
   padding-top: 74px;
-   padding-bottom: 70px;
-   display: flex;
+  padding-bottom: 70px;
+  display: flex;
   flex-direction: column;
 
   .product{

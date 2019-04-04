@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import MainPage from '@/MainPage'
-import BuyPower from '@/components/BuyPower';
+// import BuyPower from '@/components/BuyPower';
+import PaasSubscriptionPlan from '@/components/PaasSubscriptionPlan';
 import BuyProducts from '@/components/BuyProducts';
 import ProductView from '@/components/ProductView';
 import ShoppingCart from '@/components/ShoppingCart';
@@ -17,7 +18,7 @@ export default new Router({
       path: '/',
       component: MainPage,
       children: [
-        { path: '', component: BuyPower },
+        { path: '', component: PaasSubscriptionPlan },
         { path: 'product-catalogue', component: BuyProducts },
         { path: 'product', component: ProductView },
         { path: 'cart', component: ShoppingCart },

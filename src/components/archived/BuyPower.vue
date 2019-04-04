@@ -4,7 +4,7 @@
     <div class="small-text">Input your projected monthly power consumption or preferred monthly spend</div>
     <div class="power-consumption-field">
       <input type="number" placeholder="KW/HR" class="text-field">
-        <button>Consumption</button>
+      <button>Consumption</button>
     </div>
     <div class="small-text full-width">Choose a monthly subscription that fits your consumption band</div>
     <div class="products-container">

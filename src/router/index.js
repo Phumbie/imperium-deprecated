@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import MainPage from '@/MainPage'
 // import BuyPower from '@/components/BuyPower';
 import PaasSubscriptionPlan from '@/components/PaasSubscriptionPlan';
+import PaasApplianceConfiguration from '@/components/PaasApplianceConfiguration';
 import BuyProducts from '@/components/BuyProducts';
 import ProductView from '@/components/ProductView';
 import ShoppingCart from '@/components/ShoppingCart';
@@ -13,12 +14,14 @@ import CheckoutPage from '@/CheckoutPage'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
       component: MainPage,
       children: [
         { path: '', component: PaasSubscriptionPlan },
+        { path: 'paas/appliance-configuration', component: PaasApplianceConfiguration },
         { path: 'product-catalogue', component: BuyProducts },
         { path: 'product', component: ProductView },
         { path: 'cart', component: ShoppingCart },

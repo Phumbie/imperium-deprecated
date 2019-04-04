@@ -30,7 +30,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#login-section{
- 
-}
+
 </style>

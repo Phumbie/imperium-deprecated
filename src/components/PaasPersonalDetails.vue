@@ -12,7 +12,7 @@
         <input type="password" placeholder="Confirm password" class="text-field align-right">
         <button>Next</button>
       </form>
-    </div> 
+    </div>
   </div> 
 </template>
 

@@ -29,7 +29,7 @@
         <input type="range" min="1" max="100" value="10" class="slider">
       </div>
       <div class="total-power-rating">0.3 of 0.9KW</div>
-      <button class="button-check-eligibilty">Check eligibility</button>
+      <button class="button-check-eligibilty" @click="goTo('register')">Check eligibility</button>
     </div>
   </div> 
 </template>
@@ -39,6 +39,11 @@ export default {
   data () {
     return {
     }
+  },
+  methods: {
+    goTo(page) {
+      this.$router.push(page); 
+    },
   }
 }
 </script>

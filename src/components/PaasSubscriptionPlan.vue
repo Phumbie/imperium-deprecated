@@ -53,7 +53,7 @@
           </div>
         </div>
         <div class="txt-monthly-cost">Billed monthly at N200,000.00</div>
-        <button>See details</button>
+        <button @click="goTo('paas/appliance-configuration')">See details</button>
       </div>
     </div>
     <div class="right-side">
@@ -67,6 +67,11 @@ export default {
   data () {
     return {
     }
+  },
+  methods: {
+    goTo(page) {
+      this.$router.push(page); 
+    },
   }
 }
 </script>
@@ -194,6 +199,7 @@ export default {
       padding-bottom: 15px;
       border-radius: 3px;
       background-color: black;
+      background: #59a358;
       color: white;
       font-size: 15px;
       border-radius: 5px;

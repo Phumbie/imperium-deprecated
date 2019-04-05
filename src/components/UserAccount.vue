@@ -1,7 +1,7 @@
 <template>
   <div id="user-account">
     <div class="header-text-28">My Account</div>
-    <div class="small-text">Logout</div>
+    <router-link to="login" class="small-text">Logout</router-link>
     <div class="section-title">Account Details</div>
     <span class="text-edit">Edit</span>
     <div class="details-container">
@@ -35,7 +35,7 @@
           <div class="small-text-18">10kWh Battery</div>
           <div class="small-gray-text">Order no: 00990987</div>
           <div class="small-gray-text">Status: Delivered</div>
-          <button class="button-view-order">View Order</button>
+          <router-link to="my-account/order-history" tag="button" class="button-view-order">View Order</router-link>
         </div>
       </div>
     </div>
@@ -61,8 +61,9 @@ export default {
 
 <style lang="scss" scoped>
 #user-account{
-  .small-text{
-    cursor: pointer;
+  a{
+    text-decoration: none;
+    width: auto !important;
   }
 
   .small-text-18{
@@ -104,33 +105,6 @@ export default {
 
   .products-container, .details-container{
     margin-bottom: 50px;
-  }
-
-  .details-container{
-    margin-top: 29px;
-    width: 100%;
-    border: solid 1px #000000;
-    display: flex;
-
-    .box{
-      width: 33.1%;
-      border-right: solid 1px black;
-      padding-top: 30px;
-      padding-left: 38px;
-      padding-bottom: 20px;
-
-      .small-header-text{
-        font-size: 18px;
-        font-weight: 500;
-        margin-bottom: 25px;
-      }
-
-      .info-text{
-        font-size: 16px;
-        margin-bottom: 20px;
-        font-size: 15px;
-      }
-    }
   }
 
   .paas-active-plan-container{

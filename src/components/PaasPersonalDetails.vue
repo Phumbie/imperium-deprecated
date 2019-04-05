@@ -10,7 +10,7 @@
         <input type="text" placeholder="Email address" class="text-field align-right">
         <input type="password" placeholder="Password" class="text-field">
         <input type="password" placeholder="Confirm password" class="text-field align-right">
-        <button>Next</button>
+        <router-link to="account-details" tag="button">Next</router-link>
       </form>
     </div>
   </div> 

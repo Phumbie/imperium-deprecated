@@ -32,7 +32,7 @@ button{
   }
 }
 
-#normal-products-section, #cart-section, #paas-section, #login-section, #signup-section, #paas-sub, #user-account{
+#normal-products-section, #cart-section, #paas-section, #login-section, #signup-section, #paas-sub, #user-account, #user-order-history{
   padding-top: 36px;
   padding-bottom: 70px;
   display: flex;
@@ -98,6 +98,38 @@ button{
   }
 }
 
+.details-container{
+  margin-top: 29px;
+  width: 100%;
+  border: solid 1px #000000;
+  display: flex;
+
+  .border-right-none{
+    border-right: none !important;
+  }
+
+  .box{
+    width: 33.1%;
+    border-right: solid 1px black;
+    padding-top: 30px;
+    padding-left: 38px;
+    padding-bottom: 20px;
+    padding-right: 38px;
+
+    .small-header-text{
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 25px;
+    }
+
+    .info-text{
+      font-size: 16px;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+  }
+}
+
 #login-section, #signup-section{
   form{
     width: 50%;
@@ -147,20 +179,20 @@ button{
   }
 }
 
-#paas-personal-details, #paas-account-details{ 
+#paas-personal-details, #paas-account-details, #paas-statement-confirmed{ 
   display: flex;
 
   .align-right{
     float: right;
   }
 
-  .form-box{
+  .form-box, .center-box{
     border-radius: 5px;
     box-shadow: 0 9px 42px 6px rgba(35, 38, 42, 0.08), 0 2px 3px 0 rgba(73, 73, 85, 0.06);
     background-color: #ffffff;
-    width: 42%;
+    width: 33%;
     margin: 0 auto;
-    margin-top: 200px;
+    margin-top: 172px;
     padding: 38px 43px 38px 43px;
     display: block;
 

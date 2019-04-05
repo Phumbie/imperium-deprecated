@@ -7,12 +7,14 @@ import PaasPage from '@/PaasPage'
 import PaasSubscriptionPlan from '@/components/PaasSubscriptionPlan';
 import PaasPersonalDetails from '@/components/PaasPersonalDetails';
 import PaasAccountDetails from '@/components/PaasAccountDetails';
+import PaasStatementConfirmation from '@/components/PaasStatementConfirmation';
 import PaasApplianceConfiguration from '@/components/PaasApplianceConfiguration';
 import BuyProducts from '@/components/BuyProducts';
 import ProductView from '@/components/ProductView';
 import ShoppingCart from '@/components/ShoppingCart';
 import Login from '@/components/Login';
 import UserAccount from '@/components/UserAccount';
+import UserOrderHistory from '@/components/UserOrderHistory';
 import Signup from '@/components/Signup';
 import CheckoutPage from '@/CheckoutPage'
 
@@ -32,7 +34,8 @@ export default new Router({
         { path: 'cart', component: ShoppingCart },
         { path: 'Login', component: Login },
         { path: 'Signup', component: Signup },
-        { path: '/my-account', component: UserAccount }
+        { path: '/my-account', component: UserAccount },
+        { path: '/my-account/order-history', component: UserOrderHistory }
       ]
     },
     {
@@ -44,8 +47,9 @@ export default new Router({
       path: '/paas',
       component: PaasPage,
       children: [
-        { path: 'personal-details', component: PaasPersonalDetails },
-        { path: 'account-details', component: PaasAccountDetails }
+        { path: 'register', component: PaasPersonalDetails },
+        { path: 'account-details', component: PaasAccountDetails },
+        { path: 'statement-confirmed', component: PaasStatementConfirmation }
       ]
     },
   ]

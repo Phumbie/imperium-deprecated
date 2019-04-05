@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import VModal from 'vue-js-modal'
+
 import MainPage from '@/MainPage'
 import PaasPage from '@/PaasPage'
 import PaasSubscriptionPlan from '@/components/PaasSubscriptionPlan';
@@ -10,10 +12,11 @@ import BuyProducts from '@/components/BuyProducts';
 import ProductView from '@/components/ProductView';
 import ShoppingCart from '@/components/ShoppingCart';
 import Login from '@/components/Login';
+import UserAccount from '@/components/UserAccount';
 import Signup from '@/components/Signup';
 import CheckoutPage from '@/CheckoutPage'
 
-Vue.use(Router)
+[Router, VModal].forEach((x) => Vue.use(x))
 
 export default new Router({
   mode: 'history',
@@ -28,7 +31,8 @@ export default new Router({
         { path: 'product', component: ProductView },
         { path: 'cart', component: ShoppingCart },
         { path: 'Login', component: Login },
-        { path: 'Signup', component: Signup }
+        { path: 'Signup', component: Signup },
+        { path: '/my-account', component: UserAccount }
       ]
     },
     {

@@ -2,7 +2,7 @@
 <div id="sticky-wrapper">
   <div id="nav-container">
     <div class="top-section">
-      <router-link to="/login" class="nav-item">Account</router-link>
+      <router-link to="my-account" class="nav-item">Account</router-link>
       <div class="product-title">Alt Power</div>
       <router-link to="/cart" class="nav-item">Shopping cart (2)</router-link>
     </div>

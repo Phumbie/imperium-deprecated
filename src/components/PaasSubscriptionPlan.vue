@@ -10,7 +10,8 @@
             <option>1 bedroom</option>
             <option>2 bedroom</option>
             <option>3 bedroom</option>
-            <option>4 bedroom</option>
+            <option>4 bedroom Type A</option>
+            <option>4 bedroom Type B</option>
           </select>
         </div>
         <div class="section-location">

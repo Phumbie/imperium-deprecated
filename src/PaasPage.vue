@@ -4,8 +4,8 @@
       <div class="left-side">Imperium</div>
       <div class="right-side">
         <a href="">Blog</a>
-        <a href="">About</a>
-        <a href="">Shop</a>
+        <a href="https://renewable-calculator.surge.sh/" target="blank">Calculator</a>
+        <router-link to="/product-catalogue" class="nav-item">Shop</router-link>
       </div>
     </div>
     <img src="@/assets/images/bg-wave-purple.svg" class="img-wave">

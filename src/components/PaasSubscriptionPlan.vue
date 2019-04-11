@@ -103,7 +103,8 @@ export default {
     width: 85%;
     background: white;
     margin: 0 auto;
-    box-shadow: 0px 0px 15px #aaaaaa93;
+    // box-shadow: 0px 0px 15px #aaaaaa93;
+    box-shadow: 0 9px 42px 6px rgba(35, 38, 42, 0.08), 0 2px 3px 0 rgba(73, 73, 85, 0.06);
     margin-top: 20px;
     border-radius: 5px;
     padding: 38px 43px 38px 43px;

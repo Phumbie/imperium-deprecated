@@ -3,7 +3,7 @@
     <form>
       <div class="header-text-28">Login</div>
       <input type="text" placeholder="Email address" class="text-field">
-      <input type="text" placeholder="Password" class="text-field">
+      <input type="password" placeholder="Password" class="text-field">
       <div class="buttons">
         <button class="border-none">Forgot your password?</button>
         <button class="border-none" @click="goTo('/signup')">Create account</button>

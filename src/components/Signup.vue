@@ -5,7 +5,7 @@
       <input type="text" placeholder="First name" class="text-field">
       <input type="text" placeholder="Last name" class="text-field">
       <input type="text" placeholder="Email address" class="text-field">
-      <input type="text" placeholder="Password" class="text-field">
+      <input type="password" placeholder="Password" class="text-field">
       <div class="buttons">
         <button>Create account</button>
       </div>

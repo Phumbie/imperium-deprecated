@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import VModal from 'vue-js-modal'
 
 import MainPage from '@/MainPage'
 import PaasPage from '@/PaasPage'
@@ -18,7 +17,8 @@ import UserOrderHistory from '@/components/UserOrderHistory';
 import Signup from '@/components/Signup';
 import CheckoutPage from '@/CheckoutPage'
 
-[Router, VModal].forEach((x) => Vue.use(x))
+// [Router, VModal].forEach((x) => Vue.use(x))
+Vue.use(Router)
 
 export default new Router({
   mode: 'history',

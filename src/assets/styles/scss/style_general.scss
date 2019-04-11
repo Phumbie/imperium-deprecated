@@ -226,7 +226,7 @@ button{
         box-sizing: border-box;
       }
 
-      button{
+      .button-submit{
         width: 46%;
         padding-top: 12px;
         padding-bottom: 12px;
@@ -238,6 +238,7 @@ button{
         font-size: 15px;
         justify-content: flex-end;
         float: right;
+        cursor: pointer;
       }
     }
   }

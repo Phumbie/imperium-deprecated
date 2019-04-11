@@ -52,7 +52,8 @@ export default {
 
   .nav-item, .product-title{
     width: 25%;
-    background: bisque;
+    // background: bisque;
+    background: white;
     border-right: solid 1px #000000;
     padding-top: 25px;
     padding-bottom: 25px;

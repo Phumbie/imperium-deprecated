@@ -39,6 +39,7 @@
         placeholder="Password"
         class="text-field width-half"
         v-model="password"
+        minlength="6"
         required
       />
       <input
@@ -46,12 +47,14 @@
         placeholder="Confirm password"
         class="text-field width-half float-right"
         v-model="confirmPassword"
+        minlength="6"
         required
       />
       <input 
         type="text" 
         placeholder="Street" 
         class="text-field" 
+        v-model="streetAddress"
         required 
       />
       <input
@@ -117,10 +120,10 @@ export default {
         .signupCustomer(data)
         .then(({ data }) => {
           console.log(data);
-          alert(data.message);
+          alert(data);
         })
         .catch(({ response }) => {
-          console.log(response.data.message);
+          console.log(response);
         });
     }
   }

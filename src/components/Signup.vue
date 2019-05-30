@@ -1,9 +1,8 @@
 <template>
   <div id="signup-section">
-    <form>
+    <form @submit.prevent="signupCustomer()">
       <div 
         class="header-text-28" 
-        @submit.prevent="signupCustomer()"
       >
         Signup
       </div>
@@ -49,7 +48,12 @@
         v-model="confirmPassword"
         required
       />
-      <input type="text" placeholder="Street" class="text-field" required />
+      <input 
+        type="text" 
+        placeholder="Street" 
+        class="text-field" 
+        required 
+      />
       <input
         type="text"
         placeholder="LGA"
@@ -91,6 +95,11 @@ export default {
   },
   methods: {
     signupCustomer() {
+      if(this.password != this.confirmPassword){
+        alert("password field doesn't match password confirmation");
+        return;
+      }
+
       let data = {
         address: {
           street: this.streetAddress,
@@ -108,7 +117,7 @@ export default {
         .signupCustomer(data)
         .then(({ data }) => {
           console.log(data);
-          return data;
+          alert(data.message);
         })
         .catch(({ response }) => {
           console.log(response.data.message);

@@ -119,8 +119,9 @@ export default {
       return api
         .signupCustomer(data)
         .then(({ data }) => {
-          console.log(data);
-          alert(data);
+          if(data.status == "success"){
+            alert("signup successful");
+          }
         })
         .catch(({ response }) => {
           console.log(response);

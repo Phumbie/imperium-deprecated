@@ -1,16 +1,16 @@
 <template>
   <div id="user-account">
     <div class="header-text-28">My Account</div>
-    <router-link to="login" class="small-text">Logout</router-link>
+    <button class="button-logout small-text" @click="logout()">Logout</button>
     <div class="section-title">Account Details</div>
     <span class="text-edit">Edit</span>
     <div class="details-container">
       <div class="box">
         <div class="small-header-text">Personal details</div>
         <div class="info-text">Bruno Pluto</div>
-        <div class="info-text">earthyjupiter@moon.com</div>
-        <div class="info-text">Gender binary</div>
-        <div class="info-text">+2349071657890</div>
+        <div class="info-text">{{ userDetails.email }}</div>
+        <div class="info-text">Non binary</div>
+        <div class="info-text">{{ userDetails.phone_number }}</div>
       </div>
       <div class="box">
         <div class="small-header-text">Payment Details</div>
@@ -48,11 +48,23 @@
 export default {
   data () {
     return {
+      userDetails: ""
     }
   },
+  mounted(){
+    if(!localStorage.getItem("user_details")) {
+      this.navigateTo("login");
+      return;
+    }
 
+    this.userDetails = JSON.parse(localStorage.getItem('user_details'));
+  },
   methods: {
-    goTo(page) {
+    logout(){
+      localStorage.clear();
+      this.navigateTo('login');
+    },
+    navigateTo(page) {
       this.$router.push(page); 
     },
   }
@@ -115,5 +127,11 @@ export default {
     color: #1d1d1d;
   }
 
+  .button-logout{
+    width: 100px;
+    // margin: 0 auto;
+    background: transparent;
+    border: none;
+  }
 }
 </style>

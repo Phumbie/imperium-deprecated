@@ -153,13 +153,14 @@ button{
       display: flex;
       justify-content: flex-end;
 
-      button{
+      button, input[type="submit"]{
         margin-left: 0px;
         padding: 15px 30px 15px 30px;
         font-size: 14px;
         background: transparent;
         border: solid 1px black;
         transition: 0.5s;
+        cursor: pointer;
       }
 
       button:hover{

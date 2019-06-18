@@ -30,7 +30,7 @@ export default new Router({
         { path: '', component: PaasSubscriptionPlan },
         { path: 'paas/appliance-configuration', component: PaasApplianceConfiguration },
         { path: 'product-catalogue', component: BuyProducts },
-        { path: 'product/:name/id/:id', component: ProductView },
+        { path: 'product/:slug/id/:id', component: ProductView },
         { path: 'cart', component: ShoppingCart },
         { path: 'login', component: Login },
         { path: 'signup', component: Signup },

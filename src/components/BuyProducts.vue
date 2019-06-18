@@ -7,7 +7,7 @@
         class="product-item" 
         v-for="(product, index) in productsList" 
         :key="index" 
-        @click="navigateTo(`/product/${product.name}/id/${product.id}`)"
+        @click="navigateTo(`/product/${product.slug}/id/${product.id}`)"
       >
         <div class="centered-content">
           <div class="image-container">

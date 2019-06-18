@@ -14,8 +14,12 @@
             <img :src="product.display_image">
           </div>
           <div class="small-text-18">{{ product.name }}</div>
-          <div class="small-text-18 text-blue">₦{{ toLocaleString(product.price) }}</div>
-          <div class="small-text-18 text-blue">{{ product.capacity }} KV</div>
+          <div class="small-text-18 text-blue">
+            ₦{{ product.price.toLocaleString() }}
+          </div>
+          <div class="small-text-18 text-blue">
+            {{ product.capacity }} KV
+          </div>
           <!-- <div class="small-text-18 text-blue">3 configurations</div> -->
           <!-- <div class="small-text-18 text-blue">Suggested loading</div> -->
         </div>
@@ -39,9 +43,6 @@ export default {
   methods: {
      navigateTo(page) {
       this.$router.push(page);
-    },
-    toLocaleString(val) {
-      return parseFloat(val).toLocaleString();
     },
     fetchProducts(){
       api

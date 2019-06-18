@@ -11,7 +11,7 @@
             {{ productDetails.name }}
           </div>
           <div class="price">
-            ₦ {{ toLocaleString(productDetails.price) }}
+            ₦ {{ productDetails.price.toLocaleString() }}
           </div>
           <div class="btn-add-to-cart">Add to cart</div>
           <div class="desc-conf-set">
@@ -57,9 +57,6 @@ export default {
     this.getProductDetails();
   },
   methods: {
-    toLocaleString(val) {
-      return parseFloat(val).toLocaleString();
-    },
     getProductDetails(){
       api
         .getProductBySlug(this.productSlug)

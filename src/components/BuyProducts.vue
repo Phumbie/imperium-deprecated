@@ -3,7 +3,12 @@
     <div class="header-text-28">Power your home with our range of products</div> 
     <div class="small-text">Find batteries, inverters, solar panels and more</div>
     <div class="products-container">
-      <div class="product-item" v-for="(product, index) in productsList" :key="index" @click="navigateTo('/product')">
+      <div 
+        class="product-item" 
+        v-for="(product, index) in productsList" 
+        :key="index" 
+        @click="navigateTo(`/product/${product.name}/id/${product.id}`)"
+      >
         <div class="centered-content">
           <div class="image-container">
             <img :src="product.display_image">
@@ -25,7 +30,7 @@ import api from "@/utils/api.js";
 export default {
   data () {
     return {
-      productsList: [],
+      productsList: []
     }
   },
   mounted(){

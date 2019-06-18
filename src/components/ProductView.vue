@@ -7,8 +7,12 @@
       </div>
       <div class="product-details">
         <div class="centered-content">
-          <div class="product-name">{{ productDetails.name }}</div>
-          <div class="price">₦ {{ toLocaleString(productDetails.price) }}</div>
+          <div class="product-name">
+            {{ productDetails.name }}
+          </div>
+          <div class="price">
+            ₦ {{ toLocaleString(productDetails.price) }}
+          </div>
           <div class="btn-add-to-cart">Add to cart</div>
           <div class="desc-conf-set">
             <span class="align-left">Description</span>

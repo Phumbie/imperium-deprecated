@@ -30,10 +30,10 @@ export default new Router({
         { path: '', component: PaasSubscriptionPlan },
         { path: 'paas/appliance-configuration', component: PaasApplianceConfiguration },
         { path: 'product-catalogue', component: BuyProducts },
-        { path: 'product', component: ProductView },
+        { path: 'product/:slug/id/:id', component: ProductView },
         { path: 'cart', component: ShoppingCart },
-        { path: 'Login', component: Login },
-        { path: 'Signup', component: Signup },
+        { path: 'login', component: Login },
+        { path: 'signup', component: Signup },
         { path: '/my-account', component: UserAccount },
         { path: '/my-account/order-history', component: UserOrderHistory }
       ]

@@ -2,12 +2,17 @@
   <div id="product-view">
     <div class="product">
       <div class="image-container">
-        <img src="../assets/images/battery.jpg">
+        <!-- <img src="../assets/images/battery.jpg"> -->
+        <img :src="productDetails.display_image">
       </div>
       <div class="product-details">
         <div class="centered-content">
-          <div class="product-name">10Kva Solar inverter</div>
-          <div class="price">NGN 200,000.00</div>
+          <div class="product-name">
+            {{ productDetails.name }}
+          </div>
+          <div class="price">
+            ₦ {{ productDetails.price.toLocaleString() }}
+          </div>
           <div class="btn-add-to-cart">Add to cart</div>
           <div class="desc-conf-set">
             <span class="align-left">Description</span>
@@ -15,10 +20,7 @@
             <span class="align-right">Configurations</span>
           </div>
           <div class="long-details">
-            Bringing consumers (individuals or corporates), funding agencies, energy solution developers, 
-            technical support services and regulators together with a view to connecting the demand and supply for renewable energy resources.
-            <br><br>
-            What’s more? We offer a Guarantee on the Quality of solutions you get from our installer partners as a consumer.
+            {{ productDetails.description }}
           </div>
         </div>
       </div>
@@ -40,11 +42,43 @@
 </template>
 
 <script>
+import api from "@/utils/api.js";
+
 export default {
   name: 'ProductView',
   data () {
     return {
+      productSlug: this.$route.params.slug,
+      productId: this.$route.params.id,
+      productDetails: []
     }
+  },
+  mounted() {
+    this.getProductDetails();
+  },
+  methods: {
+    getProductDetails(){
+      api
+        .getProductBySlug(this.productSlug)
+        .then(({ data }) => {
+          this.productDetails = data.data;
+          console.log(data);
+        })
+        .catch(({ response }) => {
+          alert(response.data.message);
+        });
+    },
+    // addProductToCart(){
+    //   api
+    //     .addProductToCart(this.productId)
+    //     .then(({ data }) => {
+    //       // this.productDetails = data.data;
+    //       // console.log(data);
+    //     })
+    //     .catch(({ response }) => {
+      
+    //     });
+    // }
   }
 }
 </script>
@@ -62,7 +96,18 @@ export default {
 
     .image-container{
       width: 50%;
-      background: gray;
+      background: transparent !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: solid 1px #000000;
+      border-right: none;
+
+      img{
+        object-fit: cover;
+        width: 80%;
+        height: 80%;
+      }
     }
 
     .product-details{
@@ -84,6 +129,7 @@ export default {
         .product-name{
           font-size: 32px;
           margin-bottom: 18px;
+          text-transform: capitalize;
         }
 
         .price{

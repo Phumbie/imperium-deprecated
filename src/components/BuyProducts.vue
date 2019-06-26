@@ -15,7 +15,7 @@
           </div>
           <div class="small-text-18">{{ product.name }}</div>
           <div class="small-text-18 text-blue">
-            ₦{{ product.price.toLocaleString() }}
+            ₦{{ (product.price/100).toLocaleString() }}
           </div>
           <div class="small-text-18 text-blue">
             {{ product.capacity }} KV

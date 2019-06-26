@@ -11,7 +11,7 @@
             {{ productDetails.name }}
           </div>
           <div class="price">
-            ₦ {{ productDetails.price.toLocaleString() }}
+            ₦ {{ (productDetails.price/100).toLocaleString() }}
           </div>
           <div class="btn-add-to-cart">Add to cart</div>
           <div class="desc-conf-set">

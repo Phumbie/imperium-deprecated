@@ -20,10 +20,11 @@ export default {
   getProductBySlug: slug  => {
     return axios.get(`${SINGLE_PRODUCT_URL}/${slug}`);
   },
-  addProductToCart: (pid, token) => {
+  addProductToCart: (pid) => {
     let header = { 
-      Authorization: "bearer "+token
+      Authorization: "bearer "+localStorage.getItem('token')
     }
-    return axios.post(`${ADD_TO_CART_URL}/${pid}`, {headers: header});
+    let data = {}
+    return axios.post(`${ADD_TO_CART_URL}/${pid}`, data, {headers: header});
   }
 };

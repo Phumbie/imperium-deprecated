@@ -1,6 +1,6 @@
 <template>
   <div id="product-view">
-    <div class="product">
+    <div class="product" v-if="fetchedProductDetails">
       <div class="image-container">
         <!-- <img src="../assets/images/battery.jpg"> -->
         <img :src="productDetails.display_image">
@@ -13,7 +13,12 @@
           <div class="price">
             ₦ {{ (productDetails.price/100).toLocaleString() }}
           </div>
-          <div class="btn-add-to-cart">Add to cart</div>
+          <div 
+            class="btn-add-to-cart" 
+            @click="addProductToCart()"
+          >
+            Add to cart
+          </div>
           <div class="desc-conf-set">
             <span class="align-left">Description</span>
             <span class="align-right">Setup</span>
@@ -50,35 +55,46 @@ export default {
     return {
       productSlug: this.$route.params.slug,
       productId: this.$route.params.id,
-      productDetails: []
+      productDetails: [],
+      fetchedProductDetails: false
     }
   },
   mounted() {
     this.getProductDetails();
   },
   methods: {
+    navigateTo(page) {
+      this.$router.push(page); 
+    },
     getProductDetails(){
       api
         .getProductBySlug(this.productSlug)
         .then(({ data }) => {
           this.productDetails = data.data;
+          this.fetchedProductDetails = true;
           console.log(data);
         })
         .catch(({ response }) => {
+          console.log(response.data);
           alert(response.data.message);
         });
     },
-    // addProductToCart(){
-    //   api
-    //     .addProductToCart(this.productId)
-    //     .then(({ data }) => {
-    //       // this.productDetails = data.data;
-    //       // console.log(data);
-    //     })
-    //     .catch(({ response }) => {
-      
-    //     });
-    // }
+    addProductToCart(){
+      if(!localStorage.getItem("user_details")) {
+        alert("You have to login or signup to add product to cart 🙃");
+        this.navigateTo("/login");
+        return;
+      }
+
+      api
+        .addProductToCart(this.productId)
+        .then(({ data }) => {
+          alert("Successfully added product to cart!");
+        })
+        .catch(({ response }) => {
+          alert("Sorry boo, an error occured while adding to cart");
+        });
+    }
   }
 }
 </script>

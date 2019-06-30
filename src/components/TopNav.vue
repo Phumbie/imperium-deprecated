@@ -36,6 +36,12 @@ export default {
       'cartCounter'
     ])
   },
+  mounted(){
+    this.$store.dispatch(
+      'setCartCounter', 
+      localStorage.getItem("cartCounter")
+    );
+  }
 }
 </script>
 

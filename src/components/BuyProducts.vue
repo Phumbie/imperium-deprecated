@@ -49,7 +49,7 @@ export default {
         .getAllProducts()
         .then(({ data }) => {
           this.productsList = data.data.result;
-          console.log(this.productsList);
+          // console.log(this.productsList);
         })
         .catch(({ response }) => {
       

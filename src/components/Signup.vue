@@ -116,7 +116,7 @@ export default {
         phone_number: this.phoneNumber
       };
 
-      return api
+      api
         .signupCustomer(data)
         .then(({ data }) => {
           if(data.status == "success"){

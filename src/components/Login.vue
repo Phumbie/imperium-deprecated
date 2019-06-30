@@ -34,7 +34,7 @@ export default {
         password: this.password,
       };
 
-      return api
+      api
         .loginCustomer(data)
         .then(({ data }) => {
           if(data.status == "success"){

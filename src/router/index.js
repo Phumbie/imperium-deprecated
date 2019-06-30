@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import MainPage from '@/MainPage'
-import PaasPage from '@/PaasPage'
+import MainPage from '@/views/MainPage'
+import PaasPage from '@/views/PaasPage'
 import PaasSubscriptionPlan from '@/components/PaasSubscriptionPlan';
 import PaasPersonalDetails from '@/components/PaasPersonalDetails';
 import PaasAccountDetails from '@/components/PaasAccountDetails';
@@ -15,7 +15,7 @@ import Login from '@/components/Login';
 import UserAccount from '@/components/UserAccount';
 import UserOrderHistory from '@/components/UserOrderHistory';
 import Signup from '@/components/Signup';
-import CheckoutPage from '@/CheckoutPage'
+import CheckoutPage from '@/views/CheckoutPage'
 
 // [Router, VModal].forEach((x) => Vue.use(x))
 Vue.use(Router)

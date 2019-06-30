@@ -25,7 +25,7 @@
     <div class="right-side">
       <div class="cart-item">
         <div class="image-container">
-          <img src="./assets/images/battery.jpg">
+          <img src="@/assets/images/battery.jpg">
         </div>
         <span class="item-name">Renewable xm power 2x gen conv</span>
         <br>
@@ -35,7 +35,7 @@
       </div>
       <div class="cart-item">
         <div class="image-container">
-          <img src="./assets/images/battery.jpg">
+          <img src="@/assets/images/battery.jpg">
         </div>
         <span class="item-name">Turbo solar power 2x gen conv</span>
         <br>

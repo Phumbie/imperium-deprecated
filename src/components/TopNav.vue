@@ -2,9 +2,13 @@
 <div id="sticky-wrapper">
   <div id="nav-container">
     <div class="top-section">
-      <router-link to="my-account" class="nav-item">Account</router-link>
+      <router-link to="/my-account" class="nav-item">
+        Account
+      </router-link>
       <div class="product-title">Alt Power</div>
-      <router-link to="/cart" class="nav-item">Shopping cart (2)</router-link>
+      <router-link to="/cart" class="nav-item">
+        Shopping cart ({{ cartCounter }})
+      </router-link>
     </div>
     <div class="bottom-section">
       <a href="https://renewable-calculator.surge.sh/" target="blank" class="nav-item">Energy Calculator</a>
@@ -18,12 +22,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'TopNav',
   data () {
     return {
+      // cartCounter: 0
     }
-  }
+  },
+  computed: {
+    ...mapGetters([
+      'cartCounter'
+    ])
+  },
 }
 </script>
 

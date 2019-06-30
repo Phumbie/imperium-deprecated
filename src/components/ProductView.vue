@@ -89,6 +89,7 @@ export default {
       api
         .addProductToCart(this.productId)
         .then(({ data }) => {
+          this.$store.dispatch('incrementCartCounter');
           alert("Successfully added product to cart!");
         })
         .catch(({ response }) => {

@@ -7,53 +7,95 @@
         <div class="text-quantity">Quantity</div>
         <div class="text-amount">Total amount</div>
       </div>
-      <div class="cart-item" v-for="(n, index) in 2" :key="index">
+      <div 
+        class="cart-item" 
+        v-for="(n, index) in cartItems.length" 
+        :key="index"
+      >
         <div class="product-img-name-section">
           <div class="image-container">
-            <img src="../assets/images/battery.jpg">
+            <img :src="cartItems[index].product.display_image">
           </div>
           <div class="product-name-price-section">
-            <div class="product-name">Rnewable Sun Max</div>
-            <div class="price">N 1,600</div>
+            <div class="product-name">
+              {{ cartItems[index].product.name }}
+            </div>
+            <div class="price">
+              ₦ {{ (cartItems[index].product.price/100).toLocaleString() }}
+            </div>
             <button class="button-remove">Remove</button>
           </div>
         </div>
         <div class="quantity-section">
           <button class="button-minus">-</button>
-          <span class="quantity">1</span>
+          <span class="quantity">{{ cartItems[index].quantity }}</span>
           <button class="button-plus">+</button>
         </div>
         <div class="amount-section">
-          <div class="amount">N 120,000</div>
+          <div class="amount">
+            ₦ {{ (cartItems[index].product.price * cartItems[index].quantity/100).toLocaleString() }}
+          </div>
         </div>
       </div>
     </div>
-    <div class="shop-checkout-buttons-section">
+    <div 
+      class="shop-checkout-buttons-section"
+      v-if="fetchedCart"
+    >
       <div class="subtotal-section">
         <span>Subtotal</span>
-        <span>N 240,000</span>
+        <span>
+          ₦ {{ (subtotal/100).toLocaleString() }}
+        </span>
       </div>
-      <div class="text">Delivery and taxes are calculated at checkout</div>
+      <div class="text">
+        Delivery and taxes are calculated at checkout
+      </div>
       <div class="buttons">
-        <button @click="goTo('/product-catalogue')">Continue shopping</button>
-        <button class="bg-black" @click="goTo('/checkout')">Check out</button>
+        <button @click="goTo('/product-catalogue')">
+          Continue shopping
+        </button>
+        <button class="bg-black" @click="goTo('/checkout')">
+          Check out
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import api from "@/utils/api.js";
+
 export default {
   name: 'ShoppingCart',
   data () {
     return {
+      fetchedCart: false,
+      cartItems: {},
+      subtotal: 0
     }
   },
-  
+  mounted(){
+    this.getCart();
+  },
   methods: {
     goTo(page) {
       this.$router.push(page); 
     },
+    getCart() {
+      api
+        .getCart()
+        .then(({ data }) => {
+          if(data.status == "success"){
+            this.fetchedCart = true;
+            this.cartItems = data.data.cart.items;
+            this.subtotal = data.data.sub_total;
+          }
+        })
+        .catch(({ response }) => {
+          alert("Unable to fetch cart items :(");
+        });
+    }
   }
 }
 </script>

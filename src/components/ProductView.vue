@@ -30,6 +30,9 @@
         </div>
       </div>
     </div>
+    <content-loader v-else>
+      <span>Fetching products details...</span>
+    </content-loader>
     <div class="header-text-28">Similar Products</div>
     <div class="products-container">
       <div class="product-item" v-for="(n, index) in 4" :key="index">
@@ -48,9 +51,13 @@
 
 <script>
 import api from "@/utils/api.js";
+import contentLoader from "@/components/contentLoader"
 
 export default {
   name: 'ProductView',
+  components: {
+    contentLoader
+  },
   data () {
     return {
       productSlug: this.$route.params.slug,

@@ -1,7 +1,7 @@
 <template>
   <div id="cart-section">
     <div class="header-text-28">Shopping Cart</div>
-    <div class="cart-list">
+    <div class="cart-list" v-if="fetchedCart">
       <div class="header-section">
         <div class="text-product-details">Product details</div>
         <div class="text-quantity">Quantity</div>
@@ -43,6 +43,9 @@
         </div>
       </div>
     </div>
+    <content-loader v-else>
+      <span>Fetching cart...</span>
+    </content-loader>
     <div 
       class="shop-checkout-buttons-section"
       v-if="fetchedCart"
@@ -70,9 +73,13 @@
 
 <script>
 import api from "@/utils/api.js";
+import contentLoader from "@/components/contentLoader"
 
 export default {
   name: 'ShoppingCart',
+  components: {
+    contentLoader
+  },
   data () {
     return {
       fetchedCart: false,

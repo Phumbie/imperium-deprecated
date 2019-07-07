@@ -33,7 +33,14 @@ button{
   }
 }
 
-#normal-products-section, #cart-section, #paas-section, #login-section, #signup-section, #paas-sub, #user-account, #user-order-history{
+#normal-products-section, 
+#cart-section, 
+#paas-section, 
+#login-section, 
+#signup-section, 
+#paas-sub, 
+#user-account, 
+#user-order-history {
   padding-top: 36px;
   padding-bottom: 70px;
   display: flex;
@@ -133,7 +140,8 @@ button{
   }
 }
 
-#login-section, #signup-section{
+#login-section, 
+#signup-section {
   form{
     width: 50%;
     margin: 0 auto;
@@ -183,14 +191,17 @@ button{
   }
 }
 
-#paas-personal-details, #paas-account-details, #paas-statement-confirmed{ 
+#paas-personal-details, 
+#paas-account-details, 
+#paas-statement-confirmed { 
   display: flex;
 
   .align-right{
     float: right;
   }
 
-  .form-box, .center-box{
+  .form-box, 
+  .center-box {
     border-radius: 5px;
     box-shadow: 0 9px 42px 6px rgba(35, 38, 42, 0.08), 0 2px 3px 0 rgba(73, 73, 85, 0.06);
     background-color: #ffffff;

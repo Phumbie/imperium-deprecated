@@ -23,7 +23,12 @@
             <div class="price">
               ₦ {{ (cartItems[index].product.price/100).toLocaleString() }}
             </div>
-            <button class="button-remove">Remove</button>
+            <button 
+              class="button-remove" 
+              @click=" removeProductFromCart(cartItems[index].id)"
+            >
+              Remove
+            </button>
           </div>
         </div>
         <div class="quantity-section">
@@ -94,6 +99,21 @@ export default {
         })
         .catch(({ response }) => {
           alert("Unable to fetch cart items :(");
+        });
+    },
+    removeProductFromCart(productId) {
+      api
+        .removeFromCart(productId)
+        .then(({ data }) => {
+          if(data.status == "success"){
+            this.cartItems = data.data.cart.items;
+            this.subtotal = data.data.sub_total;
+            console.log(data.data.cart);
+            alert("Successfully removed product from cart");
+          }
+        })
+        .catch(({ response }) => {
+          alert("An error occurred while removing product");
         });
     }
   }

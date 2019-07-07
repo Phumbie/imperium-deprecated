@@ -29,9 +29,16 @@ export default {
   },
   addProductToCart(pid) { 
     let data = {}
-    return axios.post(`${ADD_TO_CART_URL}/${pid}`, data, {headers: this.getHeader()});
+    return axios.post(
+      `${ADD_TO_CART_URL}/${pid}`, data, {headers: this.getHeader()}
+    );
   },
   getCart() {
     return axios.get(`${GET_CART_URL}`, {headers: this.getHeader()});
-  } 
+  },
+  removeFromCart(pid) {
+    return axios.delete(
+      `${GET_CART_URL}/${pid}`, {headers: this.getHeader()}
+    );
+  }
 };

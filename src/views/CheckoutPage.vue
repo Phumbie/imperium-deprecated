@@ -20,47 +20,53 @@
       <input type="text" placeholder="Card number" class="text-field">
       <input type="text" placeholder="05 / 22" class="text-field width-half">
       <input type="text" placeholder="CVV" class="text-field width-half float-right">
-      <button>Place order</button>
+      <button @click="placeOrder()">Place order</button>
     </div>
     <div class="right-side">
-      <div class="cart-item">
+      <div
+        class="cart-item" 
+        v-for="(product, index) in orderItems.length"
+        :key="index">
         <div class="image-container">
-          <img src="@/assets/images/battery.jpg">
+          <img :src="orderItems[index].display_image">
         </div>
-        <span class="item-name">Renewable xm power 2x gen conv</span>
+        <span class="item-name">
+          {{ orderItems[index].name }}
+        </span>
         <br>
-        <span class="proce">N 150, 000</span>
+        <span class="price">
+          ₦ {{ (orderItems[index].price/100).toLocaleString() }}
+        </span>
         <br>
-        <span class="quantity">Quantity: 2</span>
-      </div>
-      <div class="cart-item">
-        <div class="image-container">
-          <img src="@/assets/images/battery.jpg">
-        </div>
-        <span class="item-name">Turbo solar power 2x gen conv</span>
-        <br>
-        <span class="proce">N 60, 000</span>
-        <br>
-        <span class="quantity">Quantity: 1</span>
+        <span class="quantity">
+          {{ orderItems[index].quantity }}
+        </span>
       </div>
       <div class="divider"></div>
       <div class="text-row">
         <span class="left-text">Subtotal</span>
-        <span class="right-text">N 210, 000</span>
+        <span class="right-text">
+          ₦ {{ subtotal.toLocaleString() }}
+        </span>
       </div>
       <div class="text-row">
         <span class="left-text">Delivery</span>
-        <span class="right-text">N 7, 500</span>
+        <span class="right-text">
+          ₦ {{ deliveryCost.toLocaleString() }}
+        </span>
       </div>
       <div class="text-row">
         <span class="left-text">Total</span>
-        <span class="right-text">N 217, 500</span>
+        <span class="right-text">
+          ₦ {{ totalCost.toLocaleString() }}
+        </span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import api from "@/utils/api.js";
 import TopNav from '@/components/TopNav'
 
 export default {
@@ -69,7 +75,45 @@ export default {
   },
   data () {
     return {
+      order : {},
+      orderItems: [],
+      subtotal: 0,
+      totalCost: 0,
+      deliveryCost: 0,
     }
+  },
+  mounted() {
+    this.order = this.getNewlyCreatedOrder();
+    this.totalCost = this.order.total_price/100;
+    this.subtotal = this.order.sub_total/100;
+    this.deliveryCost = this.order.delivery_cost/100;
+    this.orderItems = this.order.items;
+  },
+  methods: {
+    navigateTo(page) {
+      this.$router.push(page);
+    },
+    getNewlyCreatedOrder() {
+      return JSON.parse(localStorage.getItem('user_order'));
+    },
+    placeOrder() {
+      const handler = PaystackPop.setup({
+        key: "pk_test_81acab8a6b2d493b0e65cee63c8bee581c874aa1",
+        email: "test@gmail.com",
+        amount: this.totalCost * 100,
+        currency: "NGN",
+        metadata: {
+          
+        },
+        callback: function(response) {
+          alert(
+            "Order is being processed, you'll get an email shortly on the order status"
+          );
+          this.navigateTo("/product-catalogue");
+        }
+      });
+      handler.openIframe();
+    },
   }
 }
 </script>

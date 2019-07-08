@@ -7,6 +7,7 @@ const ALL_PRODUCTS_URL = `${BASE_URL}/product`;
 const ADD_TO_CART_URL = `${BASE_URL}/cart`;
 const SINGLE_PRODUCT_URL = `${BASE_URL}/product`;
 const GET_CART_URL = `${BASE_URL}/cart`;
+const CART_CHECKOUT_URL = `${BASE_URL}/order/checkout`;
 
 export default {
   getHeader(){
@@ -39,6 +40,12 @@ export default {
   removeFromCart(pid) {
     return axios.delete(
       `${GET_CART_URL}/${pid}`, {headers: this.getHeader()}
+    );
+  },
+  cartCheckout(){
+    let data = {}
+    return axios.post(
+      `${CART_CHECKOUT_URL}`, data, {headers: this.getHeader()}
     );
   }
 };

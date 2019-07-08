@@ -44,7 +44,7 @@
       </div>
     </div>
     <content-loader v-else>
-      <span>Fetching cart...</span>
+      <span>{{ contentLoaderText }}</span>
     </content-loader>
     <div 
       class="shop-checkout-buttons-section"
@@ -63,7 +63,7 @@
         <button @click="goTo('/product-catalogue')">
           Continue shopping
         </button>
-        <button class="bg-black" @click="goTo('/checkout')">
+        <button class="bg-black" @click="checkout()">
           Check out
         </button>
       </div>
@@ -84,28 +84,39 @@ export default {
     return {
       fetchedCart: false,
       cartItems: {},
-      subtotal: 0
+      subtotal: 0,
+      contentLoaderText: "Fetching cart..."
     }
   },
   mounted(){
     this.getCart();
   },
   methods: {
-    goTo(page) {
-      this.$router.push(page); 
+    navigateTo(page) {
+      this.$router.push(page);
     },
     getCart() {
       api
         .getCart()
         .then(({ data }) => {
           if(data.status == "success"){
-            this.fetchedCart = true;
             this.cartItems = data.data.cart.items;
             this.subtotal = data.data.sub_total;
+
+            if(this.cartItems.length == 0){
+              this.contentLoaderText = "Nothing to show";
+              return;
+            }
+
+            this.fetchedCart = true;
           }
         })
         .catch(({ response }) => {
-          alert("Unable to fetch cart items :(");
+          let errorMessage = "Unable to fetch cart items :("
+          if(response){
+            errorMessage = this.response.message;
+          }
+          alert(errorMessage);
         });
     },
     removeProductFromCart(productId) {
@@ -121,6 +132,20 @@ export default {
         })
         .catch(({ response }) => {
           alert("An error occurred while removing product");
+        });
+    },
+    checkout() {
+      api
+        .cartCheckout()
+        .then(({ data }) => {
+          if(data.status == "success"){
+            console.log(data.data);
+            localStorage.setItem('user_order', JSON.stringify(data.data.order));
+            this.navigateTo("/checkout");
+          }
+        })
+        .catch(({ response }) => {
+          alert(response.data.message);
         });
     }
   }

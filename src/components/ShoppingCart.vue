@@ -25,20 +25,28 @@
             </div>
             <button 
               class="button-remove" 
-              @click=" removeProductFromCart(cartItems[index].id)"
+              @click="removeProductFromCart(cartItems[index].product.id)"
             >
               Remove
             </button>
           </div>
         </div>
         <div class="quantity-section">
-          <button class="button-minus">-</button>
+          <button 
+            class="button-minus"
+            @click="decreaseProductQuantityInCart(cartItems[index].product.id)"
+          >
+            -
+          </button>
           <span class="quantity">{{ cartItems[index].quantity }}</span>
           <button class="button-plus">+</button>
         </div>
         <div class="amount-section">
           <div class="amount">
-            ₦ {{ (cartItems[index].product.price * cartItems[index].quantity/100).toLocaleString() }}
+            ₦ {{ 
+              (cartItems[index].product.price * cartItems[index]
+              .quantity/100).toLocaleString() 
+            }}
           </div>
         </div>
       </div>
@@ -102,13 +110,7 @@ export default {
           if(data.status == "success"){
             this.cartItems = data.data.cart.items;
             this.subtotal = data.data.sub_total;
-
-            if(this.cartItems.length == 0){
-              this.contentLoaderText = "Nothing to show";
-              return;
-            }
-
-            this.fetchedCart = true;
+            this.checkIfCartIsEmpty();
           }
         })
         .catch(({ response }) => {
@@ -126,13 +128,26 @@ export default {
           if(data.status == "success"){
             this.cartItems = data.data.cart.items;
             this.subtotal = data.data.sub_total;
-            console.log(data.data.cart);
+            // console.log(data.data.cart);
+             this.fetchedCart = false;
+            this.checkIfCartIsEmpty();
             alert("Successfully removed product from cart");
           }
         })
         .catch(({ response }) => {
           alert("An error occurred while removing product");
         });
+    },
+    checkIfCartIsEmpty() {
+      if(this.cartItems.length == 0){
+        this.contentLoaderText = "Nothing to show";
+        return;
+      }
+
+      this.fetchedCart = true;
+    },
+    decreaseProductQuantityInCart() {
+
     },
     checkout() {
       api

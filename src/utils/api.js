@@ -42,6 +42,11 @@ export default {
       `${GET_CART_URL}/${pid}`, {headers: this.getHeader()}
     );
   },
+  decreaseProductQuantityInCart(pid) {
+    return axios.delete(
+      `${GET_CART_URL}/${pid}/decrease`, {headers: this.getHeader()}
+    );
+  },
   cartCheckout(){
     let data = {}
     return axios.post(

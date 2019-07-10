@@ -135,7 +135,8 @@ export default {
           }
         })
         .catch(({ response }) => {
-          alert("An error occurred while removing product");
+          // alert("An error occurred while removing product");
+          alert(response.data.message);
         });
     },
     checkIfCartIsEmpty() {
@@ -146,8 +147,20 @@ export default {
 
       this.fetchedCart = true;
     },
-    decreaseProductQuantityInCart() {
-
+    decreaseProductQuantityInCart(productId) {
+      api
+        .decreaseProductQuantityInCart(productId)
+        .then(({ data }) => {
+          if(data.status == "success"){
+            this.cartItems = data.data.cart.items;
+            this.subtotal = data.data.sub_total;
+            this.fetchedCart = false;
+            this.checkIfCartIsEmpty();
+          }
+        })
+        .catch(({ response }) => {
+          alert(response.data.message);
+        });
     },
     checkout() {
       api

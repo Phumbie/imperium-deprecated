@@ -34,12 +34,17 @@
         <div class="quantity-section">
           <button 
             class="button-minus"
-            @click="decreaseProductQuantityInCart(cartItems[index].product.id)"
+            @click="decreaseProductQuantity(cartItems[index].product.id)"
           >
             -
           </button>
           <span class="quantity">{{ cartItems[index].quantity }}</span>
-          <button class="button-plus">+</button>
+          <button
+            class="button-plus"
+            @click="increaseProductQuantity(cartItems[index].product.id)"
+          >
+            +
+          </button>
         </div>
         <div class="amount-section">
           <div class="amount">
@@ -91,13 +96,20 @@ export default {
   data () {
     return {
       fetchedCart: false,
-      cartItems: {},
-      subtotal: 0,
+      customerCart: {},
       contentLoaderText: "Fetching cart..."
     }
   },
   mounted(){
     this.getCart();
+  },
+  computed: {
+    cartItems: function() {
+      return this.customerCart.cart.items;
+    },
+    subtotal: function() {
+      return this.customerCart.sub_total;
+    },
   },
   methods: {
     navigateTo(page) {
@@ -108,8 +120,7 @@ export default {
         .getCart()
         .then(({ data }) => {
           if(data.status == "success"){
-            this.cartItems = data.data.cart.items;
-            this.subtotal = data.data.sub_total;
+            this.customerCart = data.data;
             this.checkIfCartIsEmpty();
           }
         })
@@ -126,10 +137,7 @@ export default {
         .removeFromCart(productId)
         .then(({ data }) => {
           if(data.status == "success"){
-            this.cartItems = data.data.cart.items;
-            this.subtotal = data.data.sub_total;
-            // console.log(data.data.cart);
-             this.fetchedCart = false;
+            this.customerCart = data.data;
             this.checkIfCartIsEmpty();
             alert("Successfully removed product from cart");
           }
@@ -140,6 +148,8 @@ export default {
         });
     },
     checkIfCartIsEmpty() {
+      this.fetchedCart = false;
+
       if(this.cartItems.length == 0){
         this.contentLoaderText = "Nothing to show";
         return;
@@ -147,15 +157,25 @@ export default {
 
       this.fetchedCart = true;
     },
-    decreaseProductQuantityInCart(productId) {
+    decreaseProductQuantity(productId) {
       api
         .decreaseProductQuantityInCart(productId)
         .then(({ data }) => {
           if(data.status == "success"){
-            this.cartItems = data.data.cart.items;
-            this.subtotal = data.data.sub_total;
-            this.fetchedCart = false;
+            this.customerCart = data.data;
             this.checkIfCartIsEmpty();
+          }
+        })
+        .catch(({ response }) => {
+          alert(response.data.message);
+        });
+    },
+    increaseProductQuantity(productId) {
+      api
+        .addProductToCart(productId)
+        .then(({ data }) => {
+          if(data.status == "success"){
+            this.customerCart = data.data;
           }
         })
         .catch(({ response }) => {
@@ -167,7 +187,7 @@ export default {
         .cartCheckout()
         .then(({ data }) => {
           if(data.status == "success"){
-            console.log(data.data);
+            // console.log(data.data);
             localStorage.setItem('user_order', JSON.stringify(data.data.order));
             this.navigateTo("/checkout");
           }

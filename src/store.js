@@ -5,18 +5,18 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    cartCounter: 0 
+    cartCounter: '...'
   },
   mutations: {
     SET_CART_COUNTER (state, payload) {
       state.cartCounter = payload;
     },
     INCREMENT_CART_COUNTER (state) {
-      state.cartCounter++
+      state.cartCounter++;
       localStorage.setItem("cartCounter", state.cartCounter);
     },
     DECREMENT_CART_COUNTER (state) {
-      state.cartCounter--
+      state.cartCounter--;
       localStorage.setItem("cartCounter", state.cartCounter);
     }
   },

@@ -23,6 +23,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import api from "@/utils/api.js";
 
 export default {
   name: 'TopNav',
@@ -37,10 +38,28 @@ export default {
     ])
   },
   mounted(){
-    this.$store.dispatch(
-      'setCartCounter', 
-      localStorage.getItem("cartCounter")
-    );
+    this.setCartCounter();
+  },
+  methods: {
+    setCartCounter() {
+      api
+        .getCart()
+        .then(({ data }) => {
+          if(data.status == "success"){
+            let cartSize = 0;
+            let cartItems = data.data.cart.items;
+            cartItems.forEach(item => {
+              cartSize += item.quantity;
+            });
+            this.$store.dispatch('setCartCounter', cartSize);
+          }
+        })
+        .catch(({ response }) => {
+          if(response){
+            alert(response.data.message);
+          }
+        });
+    }
   }
 }
 </script>

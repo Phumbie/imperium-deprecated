@@ -27,9 +27,9 @@ export default new Router({
       path: '/',
       component: MainPage,
       children: [
-        { path: '', component: PaasSubscriptionPlan },
+        { path: '', component: BuyProducts },
         { path: 'paas/appliance-configuration', component: PaasApplianceConfiguration },
-        { path: 'product-catalogue', component: BuyProducts },
+        { path: 'power-as-a-service', component: PaasSubscriptionPlan },
         { path: 'product/:slug/id/:id', component: ProductView },
         { path: 'cart', component: ShoppingCart },
         { path: 'login', component: Login },

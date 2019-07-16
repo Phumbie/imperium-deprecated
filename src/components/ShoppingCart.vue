@@ -163,6 +163,7 @@ export default {
         .then(({ data }) => {
           if(data.status == "success"){
             this.customerCart = data.data;
+            this.$store.dispatch('decrementCartCounter');
             this.checkIfCartIsEmpty();
           }
         })
@@ -176,6 +177,7 @@ export default {
         .then(({ data }) => {
           if(data.status == "success"){
             this.customerCart = data.data;
+            this.$store.dispatch('incrementCartCounter');
           }
         })
         .catch(({ response }) => {

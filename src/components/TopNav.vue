@@ -12,8 +12,8 @@
     </div>
     <div class="bottom-section">
       <a href="https://renewable-calculator.surge.sh/" target="blank" class="nav-item">Energy Calculator</a>
-      <router-link to="/" class="nav-item">Buy Power</router-link>
-      <router-link to="/product-catalogue" class="nav-item">Buy Products</router-link>
+      <router-link to="/power-as-a-service" class="nav-item">Buy Power</router-link>
+      <router-link to="/" class="nav-item">Buy Products</router-link>
       <div class="nav-item">Blog</div>
     </div>
   </div>

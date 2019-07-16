@@ -73,7 +73,7 @@
         Delivery and taxes are calculated at checkout
       </div>
       <div class="buttons">
-        <button @click="goTo('/product-catalogue')">
+        <button @click="navigateTo('/')">
           Continue shopping
         </button>
         <button class="bg-black" @click="checkout()">

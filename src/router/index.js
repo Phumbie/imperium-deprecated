@@ -13,6 +13,7 @@ import ProductView from '@/components/ProductView';
 import ShoppingCart from '@/components/ShoppingCart';
 import Login from '@/components/Login';
 import UserAccount from '@/components/UserAccount';
+import EditUserAccount from '@/components/EditUserAccount';
 import UserOrderHistory from '@/components/UserOrderHistory';
 import Signup from '@/components/Signup';
 import CheckoutPage from '@/views/CheckoutPage'
@@ -35,7 +36,8 @@ export default new Router({
         { path: 'login', component: Login },
         { path: 'signup', component: Signup },
         { path: '/my-account', component: UserAccount },
-        { path: '/my-account/order-history', component: UserOrderHistory }
+        { path: '/edit-my-account', component: EditUserAccount },
+        { path: '/order-history', component: UserOrderHistory }
       ]
     },
     {

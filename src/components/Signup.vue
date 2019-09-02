@@ -97,6 +97,9 @@ export default {
     };
   },
   methods: {
+    navigateTo(page) {
+      this.$router.push(page); 
+    },
     signupCustomer() {
       if(this.password != this.confirmPassword){
         alert("password field doesn't match password confirmation");
@@ -116,15 +119,18 @@ export default {
         phone_number: this.phoneNumber
       };
 
-      return api
+      api
         .signupCustomer(data)
         .then(({ data }) => {
           if(data.status == "success"){
             alert("signup successful");
+            localStorage.setItem('user_details', JSON.stringify(data.data.customer));
+            localStorage.setItem('token', data.data.token)
+            this.navigateTo("my-account");
           }
         })
         .catch(({ response }) => {
-          console.log(response);
+          alert(response.data.message);
         });
     }
   }

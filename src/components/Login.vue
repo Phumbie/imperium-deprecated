@@ -34,11 +34,12 @@ export default {
         password: this.password,
       };
 
-      return api
+      api
         .loginCustomer(data)
         .then(({ data }) => {
           if(data.status == "success"){
             localStorage.setItem('user_details', JSON.stringify(data.data.user));
+            localStorage.setItem('token', data.data.token)
             // console.log(data);
             this.navigateTo("my-account");
           }

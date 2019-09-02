@@ -2,7 +2,7 @@
   <div id="normal-products-section">
     <div class="header-text-28">Power your home with our range of products</div> 
     <div class="small-text">Find batteries, inverters, solar panels and more</div>
-    <div class="products-container">
+    <div class="products-container" v-if="fetchedProducts">
       <div 
         class="product-item" 
         v-for="(product, index) in productsList" 
@@ -15,7 +15,7 @@
           </div>
           <div class="small-text-18">{{ product.name }}</div>
           <div class="small-text-18 text-blue">
-            ₦{{ product.price.toLocaleString() }}
+            ₦{{ (product.price/100).toLocaleString() }}
           </div>
           <div class="small-text-18 text-blue">
             {{ product.capacity }} KV
@@ -25,16 +25,24 @@
         </div>
       </div>
     </div>
+    <content-loader v-else>
+      <span>Fetching products...</span>
+    </content-loader>
   </div> 
 </template>
 
 <script>
 import api from "@/utils/api.js";
+import contentLoader from "@/components/contentLoader"
 
 export default {
+  components: {
+    contentLoader
+  },
   data () {
     return {
-      productsList: []
+      productsList: [],
+      fetchedProducts: false
     }
   },
   mounted(){
@@ -49,7 +57,8 @@ export default {
         .getAllProducts()
         .then(({ data }) => {
           this.productsList = data.data.result;
-          console.log(this.productsList);
+          this.fetchedProducts = true;
+          // console.log(this.productsList);
         })
         .catch(({ response }) => {
       

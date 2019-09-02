@@ -2,14 +2,18 @@
 <div id="sticky-wrapper">
   <div id="nav-container">
     <div class="top-section">
-      <router-link to="my-account" class="nav-item">Account</router-link>
+      <router-link to="/my-account" class="nav-item">
+        Account
+      </router-link>
       <div class="product-title">Alt Power</div>
-      <router-link to="/cart" class="nav-item">Shopping cart (2)</router-link>
+      <router-link to="/cart" class="nav-item">
+        Shopping cart ({{ cartCounter }})
+      </router-link>
     </div>
     <div class="bottom-section">
       <a href="https://renewable-calculator.surge.sh/" target="blank" class="nav-item">Energy Calculator</a>
-      <router-link to="/" class="nav-item">Buy Power</router-link>
-      <router-link to="/product-catalogue" class="nav-item">Buy Products</router-link>
+      <router-link to="/power-as-a-service" class="nav-item">Buy Power</router-link>
+      <router-link to="/" class="nav-item">Buy Products</router-link>
       <div class="nav-item">Blog</div>
     </div>
   </div>
@@ -18,10 +22,43 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import api from "@/utils/api.js";
+
 export default {
   name: 'TopNav',
   data () {
     return {
+      // cartCounter: 0
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'cartCounter'
+    ])
+  },
+  mounted(){
+    this.setCartCounter();
+  },
+  methods: {
+    setCartCounter() {
+      api
+        .getCart()
+        .then(({ data }) => {
+          if(data.status == "success"){
+            let cartSize = 0;
+            let cartItems = data.data.cart.items;
+            cartItems.forEach(item => {
+              cartSize += item.quantity;
+            });
+            this.$store.dispatch('setCartCounter', cartSize);
+          }
+        })
+        .catch(({ response }) => {
+          if(response){
+            alert(response.data.message);
+          }
+        });
     }
   }
 }

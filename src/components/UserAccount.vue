@@ -7,10 +7,14 @@
     <div class="details-container">
       <div class="box">
         <div class="small-header-text">Personal details</div>
-        <div class="info-text">Bruno Pluto</div>
+        <div class="info-text">
+          {{ userFullName }}
+        </div>
         <div class="info-text">{{ userDetails.email }}</div>
         <div class="info-text">Non binary</div>
-        <div class="info-text">{{ userDetails.phone_number }}</div>
+        <div class="info-text">
+          {{ userDetails.phone_number }}
+        </div>
       </div>
       <div class="box">
         <div class="small-header-text">Payment Details</div>
@@ -48,7 +52,8 @@
 export default {
   data () {
     return {
-      userDetails: ""
+      userDetails: "",
+      userFullName: "",
     }
   },
   mounted(){
@@ -58,6 +63,7 @@ export default {
     }
 
     this.userDetails = JSON.parse(localStorage.getItem('user_details'));
+    this.userFullName = `${this.userDetails.first_name} ${this.userDetails.last_name}`
   },
   methods: {
     logout(){

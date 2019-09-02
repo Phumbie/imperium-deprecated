@@ -1,59 +1,203 @@
 <template>
   <div id="cart-section">
     <div class="header-text-28">Shopping Cart</div>
-    <div class="cart-list">
+    <div class="cart-list" v-if="fetchedCart">
       <div class="header-section">
         <div class="text-product-details">Product details</div>
         <div class="text-quantity">Quantity</div>
         <div class="text-amount">Total amount</div>
       </div>
-      <div class="cart-item" v-for="(n, index) in 2" :key="index">
+      <div 
+        class="cart-item" 
+        v-for="(n, index) in cartItems.length" 
+        :key="index"
+      >
         <div class="product-img-name-section">
           <div class="image-container">
-            <img src="../assets/images/battery.jpg">
+            <img :src="cartItems[index].product.display_image">
           </div>
           <div class="product-name-price-section">
-            <div class="product-name">Rnewable Sun Max</div>
-            <div class="price">N 1,600</div>
-            <button class="button-remove">Remove</button>
+            <div class="product-name">
+              {{ cartItems[index].product.name }}
+            </div>
+            <div class="price">
+              ₦ {{ (cartItems[index].product.price/100).toLocaleString() }}
+            </div>
+            <button 
+              class="button-remove" 
+              @click="removeProductFromCart(cartItems[index].product.id)"
+            >
+              Remove
+            </button>
           </div>
         </div>
         <div class="quantity-section">
-          <button class="button-minus">-</button>
-          <span class="quantity">1</span>
-          <button class="button-plus">+</button>
+          <button 
+            class="button-minus"
+            @click="decreaseProductQuantity(cartItems[index].product.id)"
+          >
+            -
+          </button>
+          <span class="quantity">{{ cartItems[index].quantity }}</span>
+          <button
+            class="button-plus"
+            @click="increaseProductQuantity(cartItems[index].product.id)"
+          >
+            +
+          </button>
         </div>
         <div class="amount-section">
-          <div class="amount">N 120,000</div>
+          <div class="amount">
+            ₦ {{ 
+              (cartItems[index].product.price * cartItems[index]
+              .quantity/100).toLocaleString() 
+            }}
+          </div>
         </div>
       </div>
     </div>
-    <div class="shop-checkout-buttons-section">
+    <content-loader v-else>
+      <span>{{ contentLoaderText }}</span>
+    </content-loader>
+    <div 
+      class="shop-checkout-buttons-section"
+      v-if="fetchedCart"
+    >
       <div class="subtotal-section">
         <span>Subtotal</span>
-        <span>N 240,000</span>
+        <span>
+          ₦ {{ (subtotal/100).toLocaleString() }}
+        </span>
       </div>
-      <div class="text">Delivery and taxes are calculated at checkout</div>
+      <div class="text">
+        Delivery and taxes are calculated at checkout
+      </div>
       <div class="buttons">
-        <button @click="goTo('/product-catalogue')">Continue shopping</button>
-        <button class="bg-black" @click="goTo('/checkout')">Check out</button>
+        <button @click="navigateTo('/')">
+          Continue shopping
+        </button>
+        <button class="bg-black" @click="checkout()">
+          Check out
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import api from "@/utils/api.js";
+import contentLoader from "@/components/contentLoader"
+
 export default {
   name: 'ShoppingCart',
+  components: {
+    contentLoader
+  },
   data () {
     return {
+      fetchedCart: false,
+      customerCart: {},
+      contentLoaderText: "Fetching cart..."
     }
   },
-  
-  methods: {
-    goTo(page) {
-      this.$router.push(page); 
+  mounted(){
+    this.getCart();
+  },
+  computed: {
+    cartItems: function() {
+      return this.customerCart.cart.items;
     },
+    subtotal: function() {
+      return this.customerCart.sub_total;
+    },
+  },
+  methods: {
+    navigateTo(page) {
+      this.$router.push(page);
+    },
+    getCart() {
+      api
+        .getCart()
+        .then(({ data }) => {
+          if(data.status == "success"){
+            this.customerCart = data.data;
+            this.checkIfCartIsEmpty();
+          }
+        })
+        .catch(({ response }) => {
+          let errorMessage = "Unable to fetch cart items :("
+          if(response){
+            errorMessage = this.response.message;
+          }
+          alert(errorMessage);
+        });
+    },
+    removeProductFromCart(productId) {
+      api
+        .removeFromCart(productId)
+        .then(({ data }) => {
+          if(data.status == "success"){
+            this.customerCart = data.data;
+            this.checkIfCartIsEmpty();
+            alert("Successfully removed product from cart");
+          }
+        })
+        .catch(({ response }) => {
+          // alert("An error occurred while removing product");
+          alert(response.data.message);
+        });
+    },
+    checkIfCartIsEmpty() {
+      this.fetchedCart = false;
+
+      if(this.cartItems.length == 0){
+        this.contentLoaderText = "Nothing to show";
+        return;
+      }
+
+      this.fetchedCart = true;
+    },
+    decreaseProductQuantity(productId) {
+      api
+        .decreaseProductQuantityInCart(productId)
+        .then(({ data }) => {
+          if(data.status == "success"){
+            this.customerCart = data.data;
+            this.$store.dispatch('decrementCartCounter');
+            this.checkIfCartIsEmpty();
+          }
+        })
+        .catch(({ response }) => {
+          alert(response.data.message);
+        });
+    },
+    increaseProductQuantity(productId) {
+      api
+        .addProductToCart(productId)
+        .then(({ data }) => {
+          if(data.status == "success"){
+            this.customerCart = data.data;
+            this.$store.dispatch('incrementCartCounter');
+          }
+        })
+        .catch(({ response }) => {
+          alert(response.data.message);
+        });
+    },
+    checkout() {
+      api
+        .cartCheckout()
+        .then(({ data }) => {
+          if(data.status == "success"){
+            // console.log(data.data);
+            localStorage.setItem('user_order', JSON.stringify(data.data.order));
+            this.navigateTo("/checkout");
+          }
+        })
+        .catch(({ response }) => {
+          alert(response.data.message);
+        });
+    }
   }
 }
 </script>

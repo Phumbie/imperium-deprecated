@@ -10,12 +10,6 @@
         <div class="info-text">Gender binary</div>
         <div class="info-text">+2349071657890</div>
       </div>
-      <div class="box">
-        <div class="small-header-text">Delivery Details</div>
-        <div class="info-text">Mastercard</div>
-        <div class="info-text">5622 6799 1987 ****</div>
-        <div class="info-text">Bruno Pluto</div>
-      </div>
       <div class="box border-right-none">
         <div class="small-header-text">Order Total</div>
         <div class="amount-row">
@@ -63,6 +57,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// #user-order-history{
+//   .section-title{
+//     margin-top: 60px;
+//     font-size: 19px;
+//     margin-bottom: 18px;
+//   }
+
+//   .small-gray-text{
+//     font-size: 15px;
+//     margin-top: 12px;
+//   }
+
+//   .float-right{
+//     float: right;
+//   }
+  
+//   .amount-row{
+//     margin-bottom: 30px;
+//   }
+// }
 #user-order-history{
   .section-title{
     margin-top: 60px;
@@ -81,6 +95,9 @@ export default {
   
   .amount-row{
     margin-bottom: 30px;
+  }
+  .box{
+    width: 50%;
   }
 }
 </style>

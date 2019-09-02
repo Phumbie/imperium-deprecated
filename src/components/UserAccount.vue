@@ -23,7 +23,14 @@
         <div class="info-text">100201</div>
       </div>
     </div>
-    <span class="section-title">Order History</span>
+    <span class="section-title">
+      Order History
+      <span class="view-all-title">
+        <router-link to="/order-history" class="text-edit">
+          View All
+        </router-link>
+      </span>
+    </span>
     <div class="products-container">
       <div class="product-item" v-for="(n, index) in 4" :key="index">
         <div class="centered-content">
@@ -39,6 +46,7 @@
     </div>
     <span class="section-title">Power As A Service</span>
     <div class="paas-active-plan-container">You have no active power as a service plan</div>
+    
     <span class="section-title">Help & Support</span>
     <div class="help-box-container">
       <span class="help-box">
@@ -116,6 +124,9 @@ export default {
     font-size: 19px;
     margin-bottom: 18px;
   }
+  .view-all-title{
+    float: right;
+  }
 
   .text-edit{
     font-size: 15px;
@@ -141,8 +152,13 @@ export default {
     transition: 0.5s ease-in-out;
   }
 
-  .products-container, .details-container{
+  .products-container{
     margin-bottom: 50px;
+  }
+
+  .details-container{
+    margin-bottom: 50px;
+    width: 99.9%;
   }
 
   .paas-active-plan-container{
@@ -160,6 +176,7 @@ export default {
     background: transparent;
     border: none;
   }
+
   .box{
     width: 50%;
   }

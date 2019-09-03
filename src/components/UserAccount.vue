@@ -46,8 +46,8 @@
     </div>
     <span class="section-title">Power As A Service</span>
     <div class="paas-active-plan-container">You have no active power as a service plan</div>
-    
-    <span class="section-title">Help & Support</span>
+
+    <!-- <span class="section-title">Help & Support</span>
     <div class="help-box-container">
       <span class="help-box">
         <div class="small-header-text">Shop</div>
@@ -70,7 +70,7 @@
         <p class="small-header-text">Can't find what you're looking for?</p>
         <router-link to="#" tag="button" class="button-send-mail">Send us an email</router-link>
       </span>
-    </div>
+    </div> -->
   </div>
 </template>
 

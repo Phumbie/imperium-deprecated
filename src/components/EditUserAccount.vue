@@ -4,7 +4,7 @@
     <button class="button-logout small-text" @click="logout()">Logout</button>
     <div id="signup-section">
       <form @submit.prevent="signupCustomer()">
-        <div class="section-title">Personal Details</div>
+        <div class="header-text-28">Personal Details</div>
           <input
             type="text"
             placeholder="Name"
@@ -28,12 +28,12 @@
           required
         />
         <select name="gender"
-          class="text-field width-half float-right" required>
+          class="text-field text-field-dropdown width-half float-right" required>
           <option value="Gender" selected>--Select Gender--</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
         </select>
-        <div class="section-title">Address Details</div>
+        <div class="header-text-28">Address Details</div>
         <input 
           type="text" 
           placeholder="Street" 
@@ -56,12 +56,10 @@
           required
         />
         <div class="change-password">
-          <div class="section-title change-password-child">Security</div>
-          <span>
-            <div class="section-title change-password-child" @click="show=!show">
-              Change Password
-            </div>
-          </span>
+          <div class="header-text-28 change-password-child">Security</div>
+          <div class="header-text-28 change-password-child" @click="show=!show">
+            Change Password
+          </div>
         </div>
         <div class="" v-if="show">
           <input
@@ -113,6 +111,7 @@ export default {
   .button-logout{
     width: 100px;
     // margin: 0 auto;
+    margin: 16px auto;
     background: transparent;
     border: none;
   }
@@ -124,9 +123,27 @@ export default {
     width: 80%;
     margin: 0 auto;
   }
-  .section-title{
-    margin-top: 60px;
-    font-size: 19px;
+  .header-text-28{
+  text-align: left;
+  margin-top: 60px;
+  height: 29px;
+  font-size: 24px;
+  }
+  .text-field{
+    height: 45px;
+    width: 55px;
+    // height: 16px;
+    font-family: Graphik;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #1d1d1d;
+  }
+  .text-field-dropdown{
+    font-size: 14px;
   }
   .width-half {
     width: 48%;
@@ -147,9 +164,22 @@ export default {
     text-align: end;
     cursor: pointer;
   }
+  .change-password-child{
+    // width: 155px;
+    // height: 18px;
+    // font-family: Graphik;
+    font-size: 18px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #1d1d1d;
+  }
   .buttons{
     justify-content: start;
-    margin-top: 7%;
+    margin-bottom: 2%;
+    margin-top: 8.1%;
   }
   button{
     width: 30%;

@@ -63,7 +63,7 @@
       </div>
     </div>
     <content-loader v-else>
-      <span><div class="loader"></div></span>
+      <div class="loader"></div>
     </content-loader>
     </div>
     <div class="" v-if="activeTabID == 0">
@@ -99,7 +99,7 @@
       </div>
     </div>
     <content-loader v-else>
-      <span><div class="loader"></div></span>
+      <div class="loader"></div>
     </content-loader>
     </div>
     <div class="" v-if="activeTabID == 1">
@@ -135,7 +135,7 @@
       </div>
     </div>
     <content-loader v-else>
-      <span><div class="loader"></div></span>
+      <div class="loader"></div>
     </content-loader>
     </div>
     <div class="" v-if="activeTabID == 2">
@@ -383,9 +383,9 @@ export default {
     margin: 0% auto;
   }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 }
 </style>

@@ -57,8 +57,8 @@
       </div>
     </div>
     <content-loader v-else>
-      <span >{{ contentLoaderText }}</span>
-      <div v-if="!fetchedCart" class="loader"></div>
+      <div v-if="show" class="loader"></div>
+      <span v-else>{{ contentLoaderText }}</span>
     </content-loader>
     <div 
       class="shop-checkout-buttons-section"
@@ -98,7 +98,8 @@ export default {
     return {
       fetchedCart: false,
       customerCart: {},
-      contentLoaderText: "Nothing to show"
+      contentLoaderText: "",
+      show: true
     }
   },
   mounted(){
@@ -152,6 +153,7 @@ export default {
       this.fetchedCart = false;
 
       if(this.cartItems.length == 0){
+        this.show = false;
         this.contentLoaderText = "Nothing to show";
         return;
       }

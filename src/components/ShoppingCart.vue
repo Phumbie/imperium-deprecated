@@ -57,7 +57,8 @@
       </div>
     </div>
     <content-loader v-else>
-      <span>{{ contentLoaderText }}</span>
+      <span >{{ contentLoaderText }}</span>
+      <div v-if="!fetchedCart" class="loader"></div>
     </content-loader>
     <div 
       class="shop-checkout-buttons-section"
@@ -339,6 +340,16 @@ export default {
         }
       }
     }
+  }
+  .loader {
+    display: flex;
+    border: 6px solid #f3f3f3;
+    border-top: 6px groove #414b55;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0% auto;
   }
 }
 </style>

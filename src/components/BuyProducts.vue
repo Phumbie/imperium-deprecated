@@ -39,16 +39,15 @@
 
     <div class="long-details" v-if="activeTabID == 0">
     <div class="products-container" v-if="fetchedProducts">
-
       <div 
         class="product-item" 
         v-for="(product, index) in productsList" 
         :key="index" 
         @click="navigateTo(`/product/${product.slug}/id/${product.id}`)"
       >
-        <!-- <div class="">
+        <div class="">
           <h1>Batteries</h1>
-        </div> -->
+        </div>
         <div class="centered-content">
           <div class="image-container">
             <img :src="product.display_image">
@@ -63,9 +62,12 @@
         </div>
       </div>
     </div>
+    <content-loader v-else>
+      <span><div class="loader"></div></span>
+    </content-loader>
     </div>
-    <div class="pagination-container" v-if="activeTabID == 0">
-    <div class="" v-if="fetchedProducts">
+    <div class="" v-if="activeTabID == 0">
+    <div class="pagination-container" v-if="fetchedProducts">
       <span class="pagination"><p>Previous Page</p></span>
       <span class="pagination"><p>1 2 3 ... 5</p></span>
       <span class="pagination"><p>Next Page</p></span>
@@ -79,9 +81,9 @@
         :key="index" 
         @click="navigateTo(`/product/${product.slug}/id/${product.id}`)"
       >
-        <!-- <div class="">
+        <div class="">
           <h1>Inverters</h1>
-        </div> -->
+        </div>
         <div class="centered-content">
           <div class="image-container">
             <img :src="product.display_image">
@@ -96,9 +98,12 @@
         </div>
       </div>
     </div>
+    <content-loader v-else>
+      <span><div class="loader"></div></span>
+    </content-loader>
     </div>
-    <div class="pagination-container" v-if="activeTabID == 1">
-    <div class="" v-if="fetchedProducts">
+    <div class="" v-if="activeTabID == 1">
+    <div class="pagination-container" v-if="fetchedProducts">
       <span class="pagination"><p>Previous Page</p></span>
       <span class="pagination"><p>1 2 3 ... 5</p></span>
       <span class="pagination"><p>Next Page</p></span>
@@ -112,9 +117,9 @@
         :key="index" 
         @click="navigateTo(`/product/${product.slug}/id/${product.id}`)"
       >
-        <!-- <div class="">
+        <div class="">
           <h1>Panels</h1>
-        </div> -->
+        </div>
         <div class="centered-content">
           <div class="image-container">
             <img :src="product.display_image">
@@ -129,9 +134,12 @@
         </div>
       </div>
     </div>
+    <content-loader v-else>
+      <span><div class="loader"></div></span>
+    </content-loader>
     </div>
-    <div class="pagination-container" v-if="activeTabID == 2">
-    <div class="" v-if="fetchedProducts">
+    <div class="" v-if="activeTabID == 2">
+    <div class="pagination-container" v-if="fetchedProducts">
       <span class="pagination"><p>Previous Page</p></span>
       <span class="pagination"><p>1 2 3 ... 5</p></span>
       <span class="pagination"><p>Next Page</p></span>
@@ -145,9 +153,9 @@
           :key="index" 
           @click="navigateTo(`/product/${product.slug}/id/${product.id}`)"
         >
-          <!-- <div class="">
+          <div class="">
             <h1>Accesories</h1>
-          </div> -->
+          </div>
           <div class="centered-content">
             <div class="image-container">
               <img :src="product.display_image">
@@ -162,9 +170,12 @@
           </div>
         </div>
       </div>
+    <content-loader v-else>
+      <span><div class="loader"></div></span>
+    </content-loader>
     </div>
-    <div class="pagination-container" v-if="activeTabID == 3">
-    <div class="" v-if="fetchedProducts">
+    <div class="" v-if="activeTabID == 3">
+    <div class="pagination-container" v-if="fetchedProducts">
       <span class="pagination"><p>Previous Page</p></span>
       <span class="pagination"><p>1 2 3 ... 5</p></span>
       <span class="pagination"><p>Next Page</p></span>
@@ -338,7 +349,6 @@ export default {
   }
   
   .pagination-container{
-    display: inline-block;
     border: 1px solid #000000;
     border-top: none;
     padding: 1% 0%;
@@ -362,5 +372,20 @@ export default {
   .pagination p:hover{
     cursor: pointer;
   }
+  .loader {
+    display: flex;
+    border: 6px solid #f3f3f3;
+    border-top: 6px groove #414b55;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0% auto;
+  }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 }
 </style>

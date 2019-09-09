@@ -88,9 +88,6 @@ export default {
   }
 
 
-  .products-container{
-    margin-bottom: 10%;
-  }
 
 
 
@@ -150,6 +147,7 @@ export default {
   .help-box p:first-child{
     margin-top: 7%;
   }
+
 }
 
 #account-section{
@@ -243,6 +241,14 @@ export default {
     padding: 114px 0;
     text-align: center;
     color: #1d1d1d;
+  }
+  
+  .products-container{
+    border-right: none;    
+    margin-bottom: 10%;
+  }
+  .product-item{
+    border-right: 1px solid #000000;    
   }
 }
   

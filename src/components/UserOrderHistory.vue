@@ -107,6 +107,9 @@ export default {
   .products-container{
     border-top: none;
     margin-top: 0%;
+    .product-item{
+      border:none;
+    }
     .header-text-28{
       text-align: left;
       // width: 134px;

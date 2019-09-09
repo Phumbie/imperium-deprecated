@@ -20,21 +20,21 @@
             Add to cart
           </div>
           <div class="">
-            <div class="loan-calc-title">Loan Calculator</div>
+            <div class="loan-calc-title duration-margin">Loan Calculator</div>
             <div class="loan-calc-details">
               Loan Amount (+5% VAT and Service Fee)
               <span class="loan-calc-value">
                 ₦ {{ (productDetails.price/100).toLocaleString() }}
               </span>
             </div>
-            <div class="loan-calc-details">
+            <div class="loan-calc-details duration-margin">
               Deposit(Min 30%)
               <span class="loan-calc-value">
                 ₦ {{ (productDetails.price/100).toLocaleString() }}
               </span>
             </div>
             <input type="range" min="1" max="100" value="0" class="slider" id="my-range">
-            <div class="loan-calc-details">
+            <div class="loan-calc-details duration-margin">
               Duration
               <span class="loan-calc-value">12 Months</span>
             </div>
@@ -210,7 +210,7 @@ export default {
           // width: 346px;
           height: 36px;
           font-family: Graphik;
-          font-size: 36px;
+          font-size: 32px;
           font-weight: 500;
           font-style: normal;
           font-stretch: normal;
@@ -223,7 +223,7 @@ export default {
           // width: 159px;
           height: 31px;
           font-family: Helvetica;
-          font-size: 26px;
+          font-size: 24px;
           font-weight: normal;
           font-style: normal;
           font-stretch: normal;
@@ -234,18 +234,18 @@ export default {
 
         .btn-add-to-cart{
           width: 100%;
-          height: 9.6%;
+          // height: 9.6%;
           padding-top: 15px;
           padding-bottom: 15px;
           border: solid 1px #000000;
-          margin-top: 5.2%;
+          margin-top: 4%;
           margin-right: 5px;
           margin-left: 5px;
           cursor: pointer;
           transition: 0.5s;
           font-family: Graphik;
           font-size: 26px;
-          font-weight: 500;
+          font-weight: normal;
           font-style: normal;
           font-stretch: normal;
           line-height: normal;
@@ -408,22 +408,25 @@ export default {
     transition: opacity .2s;
   }
   .slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%; 
-  box-shadow: 0 2px 4px 0 rgba(120, 120, 120, 0.5);
-  background: #fffcfc;
-  cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%; 
+    box-shadow: 0 2px 4px 0 rgba(120, 120, 120, 0.5);
+    background: #fffcfc;
+    cursor: pointer;
   }
   .slider::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px 0 rgba(120, 120, 120, 0.5);
-  background: #fffcfc;
-  cursor: pointer;
-}
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px 0 rgba(120, 120, 120, 0.5);
+    background: #fffcfc;
+    cursor: pointer;
+  }
+  .duration-margin{
+    margin-top: 8%;
+  }
 }
 </style>

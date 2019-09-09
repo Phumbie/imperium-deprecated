@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import MainPage from '@/views/MainPage'
+import LoginSignup from '@/views/LoginSignup'
 import PaasPage from '@/views/PaasPage'
 import PaasSubscriptionPlan from '@/components/PaasSubscriptionPlan';
 import PaasPersonalDetails from '@/components/PaasPersonalDetails';
@@ -33,17 +34,19 @@ export default new Router({
         { path: 'power-as-a-service', component: PaasSubscriptionPlan },
         { path: 'product/:slug/id/:id', component: ProductView },
         { path: 'cart', component: ShoppingCart },
-        { path: 'login', component: Login },
-        { path: 'signup', component: Signup },
         { path: '/my-account', component: UserAccount },
         { path: '/edit-my-account', component: EditUserAccount },
         { path: '/order-history', component: UserOrderHistory }
       ]
     },
+    { path: '/checkout', name: 'CheckoutPage',component: CheckoutPage },
     {
-      path: '/checkout',
-      name: 'CheckoutPage',
-      component: CheckoutPage,
+      path: '/',
+      component:LoginSignup,
+      children: [
+        { path: 'login', component: Login },
+        { path: 'signup', component: Signup },
+      ]
     },
     {
       path: '/paas',

@@ -35,8 +35,8 @@ export default new Router({
         { path: 'product/:slug/id/:id', component: ProductView },
         { path: 'cart', component: ShoppingCart },
         { path: '/my-account', component: UserAccount },
-        { path: '/edit-my-account', component: EditUserAccount },
-        { path: '/order-history', component: UserOrderHistory }
+        { path: '/my-account/update', component: EditUserAccount },
+        { path: '/my-account/order-history', component: UserOrderHistory }
       ]
     },
     { path: '/checkout', name: 'CheckoutPage',component: CheckoutPage },

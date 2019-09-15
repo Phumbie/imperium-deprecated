@@ -2,7 +2,6 @@
   <div id="product-view">
     <div class="product" v-if="fetchedProductDetails">
       <div class="image-container">
-        <!-- <img src="../assets/images/battery.jpg"> -->
         <img :src="productDetails.display_image">
       </div>
       <div class="product-details">
@@ -110,7 +109,7 @@
 
 <script>
 import api from "@/utils/api.js";
-import contentLoader from "@/components/contentLoader"
+import contentLoader from "@/components/ContentLoader"
 
 export default {
   name: 'ProductView',
@@ -139,10 +138,8 @@ export default {
         .then(({ data }) => {
           this.productDetails = data.data;
           this.fetchedProductDetails = true;
-          console.log(data);
         })
         .catch(({ response }) => {
-          console.log(response.data);
           alert(response.data.message);
         });
     },
@@ -352,22 +349,6 @@ export default {
 
   .duration-margin{
     margin-top: 8%;
-  }
-  
-  .loader {
-    display: flex;
-    border: 6px solid #f3f3f3;
-    border-top: 6px groove #414b55;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-    margin: 0% auto;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
   }
 }
 </style>

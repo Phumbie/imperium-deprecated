@@ -28,7 +28,6 @@
         </span>  
       </div>
     </div>
-
     <div class="long-details" v-if="activeTabID == 0">
     <div class="products-container" v-if="fetchedProducts">
       <div 
@@ -239,7 +238,6 @@ export default {
     .product-item{
       cursor: pointer;
       border-right: 1px solid #000000;
-      width: 24.9%;
       border-bottom: 1px solid #000000;
 
       .centered-content{

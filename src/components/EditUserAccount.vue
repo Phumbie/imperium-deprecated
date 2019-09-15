@@ -28,7 +28,7 @@
           required
         />
         <select name="gender"
-          class="text-field width-half float-right" required>
+          class="dropdown width-half float-right" required>
           <option value="Gender" selected disabled>--Select Gender--</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
@@ -129,7 +129,8 @@ export default {
   height: 29px;
   font-size: 24px;
   }
-  .text-field{
+  .text-field,
+  .dropdown {
     height: 45px;
     width: 55px;
     // height: 16px;

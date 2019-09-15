@@ -126,8 +126,6 @@ export default {
 
     .header-text-28{
       text-align: left;
-      font-size: 32px;
-      margin-bottom: 15%;
     }
 
     .txt-choose-plan{

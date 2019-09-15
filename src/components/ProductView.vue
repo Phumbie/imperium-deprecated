@@ -205,58 +205,31 @@ export default {
         padding-bottom: 4.6%;
 
         .product-name{
+          font-size: 32px;
           margin-bottom: 18px;
           text-transform: capitalize;
-          // width: 346px;
-          height: 36px;
-          font-family: Graphik;
-          font-size: 32px;
-          font-weight: 500;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: normal;
-          letter-spacing: normal;
-          color: #1d1d1d;
         }
 
         .price{
-          // width: 159px;
-          height: 31px;
-          font-family: Helvetica;
-          font-size: 24px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: normal;
-          letter-spacing: normal;
-          color: #1d1d1d;          
+          font-size: 24px;     
         }
 
         .btn-add-to-cart{
           width: 100%;
-          // height: 9.6%;
           padding-top: 15px;
           padding-bottom: 15px;
           border: solid 1px #000000;
-          margin-top: 4%;
-          margin-right: 5px;
-          margin-left: 5px;
+          text-align: center;
+          font-size: 24px;
+          margin-top: 45px;
           cursor: pointer;
           transition: 0.5s;
-          font-family: Graphik;
-          font-size: 26px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: normal;
-          letter-spacing: normal;
-          text-align: center;
-          color: #1d1d1d;
-        }
-        .btn-add-to-cart:hover{
-          background: #000000;
-          color: white;
-          transition: 0.5s;
+
+          &:hover {
+            background: #000000;
+            color: white;
+            transition: 0.5s;
+          }
         }
       }
     }
@@ -278,86 +251,38 @@ export default {
     margin-top: 40px;
     width: 100%;
     font-size: 19px;
-    // float: left;
     margin-bottom: 27px;
 
     .nav-desc-conf-set__item{
       display: inline-block;
       margin-top: 20px;
       margin-right: 80px;
-
-      // width: 103px;
-      height: 23px;
       font-family: Graphik;
       font-size: 19px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
-      letter-spacing: normal;
       color: #1d1d1d;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
-    .nav-desc-conf-set__item:hover{
-      cursor: pointer;
-    }
+   
     .line-black{
       border-bottom: solid 1px #000000;
       margin-top: 7px;
     }
   }
+
   .long-details{
     width: 62%;
-    // height: 253px;
-    font-family: Graphik;
     font-size: 18px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
     line-height: 1.44;
-    letter-spacing: normal;
-    color: #000000;
-  }
-  .small-text-18{
-    // width: 127px;
-    height: 18px;
-    padding: 2%;
-    font-family: Graphik;
-    font-size: 18px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: 0.43px;
-    color: #414b55;
-  }
-  .text-blue{
-    // width: 145px;
-    height: 18px;
-    padding: 2%;
-    font-family: Graphik;
-    font-size: 18px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: 0.43px;
-    // text-align: center;
-    color: #4a90e2;
   }
   
   .loan-calc-title{
     margin-top: 6%;
-    // width: 189px;
-    height: 29px;
-    font-family: Graphik;
     font-size: 24px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: 0.58px;
-    color: #000000;
   }
+
   .loan-calc-details{
     margin-top: 4.7%;
     color: #7F7F7F;
@@ -370,31 +295,28 @@ export default {
     font-stretch: normal;
     line-height: normal;
     letter-spacing: 0.43px;  
+
+    span {
+      float: right;
+    }
   }
-  .loan-calc-details span{
-    float: right;
-  }
+
   .loan-calc-value{
     color: #000000;
   }
+
   .monthly-payment{
     width: 100%;
-    height: 29px;
-    font-family: Graphik;
     font-size: 24px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
     letter-spacing: 0.58px;
     text-align: center;
-    // color: rgba(0, 0, 0, 0.5);
 
+      span {
+      float: none;
+      font-weight: 500;
+    }
   }
-  .monthly-payment span{
-    float: none;
-    font-weight: 500;
-  }
+
   .slider {
     -webkit-appearance: none;
     width: 100%;
@@ -407,6 +329,7 @@ export default {
     -webkit-transition: .2s;
     transition: opacity .2s;
   }
+
   .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -417,6 +340,7 @@ export default {
     background: #fffcfc;
     cursor: pointer;
   }
+
   .slider::-moz-range-thumb {
     width: 18px;
     height: 18px;
@@ -425,9 +349,11 @@ export default {
     background: #fffcfc;
     cursor: pointer;
   }
+
   .duration-margin{
     margin-top: 8%;
   }
+  
   .loader {
     display: flex;
     border: 6px solid #f3f3f3;

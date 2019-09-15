@@ -50,19 +50,8 @@ button{
 }
 
 .header-text-28{
-  // width: 207px;
-  height: 36px;
-  font-family: Graphik;
-  font-size: 36px;
-  font-weight: 500;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
+  font-size: 28px;
   text-align: center;
-  color: #1d1d1d; 
-  // font-size: 28px;
-  // text-align: center;
 }
 
 .text-blue{
@@ -70,8 +59,8 @@ button{
 }
 
 .small-text{
-  // width: 35%;
-  // margin: 0 auto;
+  width: 35%;
+  margin: 0 auto;
   text-align: center;
   font-family: Graphik;
   font-size: 18px;
@@ -89,24 +78,19 @@ button{
   border: solid 1px #000000;
   margin-top: 31px;
   float: left;
-  // border-right: none;
-  // border-bottom: none;
+  border-right: none;
+  border-bottom: none;
 
   .small-header-text{
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 25px;
-    font-family: Graphik;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
     color: #1d1d1d;
   }
 
   .product-item{
     border-right: solid 1px #000000;
-    // border-bottom: solid 1px black;
+    border-bottom: solid 1px black;
     width: 24.9%;
     float: left;
 
@@ -125,20 +109,10 @@ button{
       }
 
       .small-text-18{
-        // width: 131px;
-        height: 18px;
-        font-family: Graphik;
         font-size: 18px;
-        font-weight: 500;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: normal;
-        letter-spacing: 0.43px;
-        color: #414b55;
-        // font-size: 18px;
-        // margin-bottom: 7px;
-        // line-height: 1.14;
-        // text-transform: capitalize;
+        margin-bottom: 7px;
+        line-height: 1.14;
+        text-transform: capitalize;
       }
     }
   }
@@ -166,27 +140,12 @@ button{
       font-size: 18px;
       font-weight: 500;
       margin-bottom: 25px;
-      font-family: Graphik;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      color: #1d1d1d;
     }
 
     .info-text{
-      font-family: Graphik;
+      font-size: 16px;
       margin-bottom: 20px;
-      height: 18px;
-      font-size: 18px;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      color: #1d1d1d;
-      // font-size: 16px;
-      // margin-bottom: 20px;
-      // font-size: 15px;
+      font-size: 15px;
     }
   }
 }
@@ -197,7 +156,8 @@ button{
     width: 50%;
     margin: 0 auto;
 
-    .text-field, .text-field-dropdown{
+    .text-field, 
+    .dropdown {
       width: 100%;
       border: solid 1px black;
       font-size: 16px;
@@ -268,21 +228,10 @@ button{
     }
 
     .small-text{
-      // width: 60px;
-      height: 18px;
-      font-family: Graphik;
-      font-size: 18px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      text-align: center;
-      color: #1d1d1d;
-      // color: #181c52;
-      // text-align: left;
-      // width: 100%;
-      // font-size: 16px;
+      color: #181c52;
+      text-align: left;
+      width: 100%;
+      font-size: 16px;
     }
 
     form{

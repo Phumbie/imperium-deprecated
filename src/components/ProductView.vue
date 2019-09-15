@@ -77,7 +77,6 @@
         </span>  
       </div>
     </div>
-
     <div class="long-details" v-if="activeTabID == 0">
       {{ productDetails.description }}      
     </div>
@@ -140,7 +139,7 @@ export default {
           this.fetchedProductDetails = true;
         })
         .catch(({ response }) => {
-          alert(response.data.message);
+          this.navigateTo("/404");
         });
     },
     addProductToCart(){

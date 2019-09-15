@@ -128,8 +128,12 @@ button{
     border-right: none !important;
   }
 
+  & :last-child {
+    border-right: none !important;
+  }
+
   .box{
-    width: 33.1%;
+    width: 100%;
     border-right: solid 1px black;
     padding-top: 30px;
     padding-left: 38px;

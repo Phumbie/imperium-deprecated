@@ -1,5 +1,4 @@
 <template>
-<div id="sticky-wrapper">
   <div id="nav-container">
     <div class="top-section">
       <router-link to="/my-account" class="nav-item">
@@ -11,14 +10,30 @@
       </router-link>
     </div>
     <div class="bottom-section">
-      <a href="https://renewable-calculator.surge.sh/" target="blank" class="nav-item">Energy Calculator</a>
-      <router-link to="/power-as-a-service" class="nav-item">Buy Power</router-link>
-      <router-link to="/" class="nav-item">Buy Products</router-link>
-      <div class="nav-item">Blog</div>
+      <a 
+        href="https://renewable-calculator.surge.sh/" 
+        target="blank" 
+        class="nav-item"
+      >
+        Energy Calculator
+      </a>
+      <router-link 
+        to="/power-as-a-service" 
+        class="nav-item"
+      >
+        Buy Power
+      </router-link>
+      <router-link 
+        to="/" 
+        class="nav-item"
+      >
+        Buy Products
+      </router-link>
+      <div class="nav-item">
+        Blog
+      </div>
     </div>
   </div>
-</div>
- 
 </template>
 
 <script>
@@ -29,7 +44,6 @@ export default {
   name: 'TopNav',
   data () {
     return {
-      // cartCounter: 0
     }
   },
   computed: {
@@ -65,18 +79,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#sticky-wrapper{
+#nav-container{
+  border: solid 1px #000000;
+  width: 100%;
+  border-right: none;
   position: sticky;
   position: -webkit-sticky;
   margin-top: 38px;
   top: 0;
   z-index: 10;
   width: 100%;
-}
-#nav-container{
-  border: solid 1px #000000;
-  width: 100%;
-  border-right: none;
   
   .top-section, .bottom-section{
     width: 100%;

@@ -1,5 +1,5 @@
 <template>
-  <div id="main-page">
+  <div id="container-main">
     <top-nav/>
     <router-view></router-view>
     <Footer />
@@ -23,8 +23,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#main-page{
-  width: 80%;
-  margin: 0 auto;
-}
 </style>

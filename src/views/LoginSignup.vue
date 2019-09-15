@@ -1,5 +1,5 @@
 <template>
-  <div id="login-signup">
+  <div id="container-main">
     <top-nav/>
     <router-view></router-view>
   </div>
@@ -20,8 +20,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#login-signup{
-  width: 80%;
-  margin: 0 auto;
-}
 </style>

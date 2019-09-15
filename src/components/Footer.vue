@@ -11,7 +11,13 @@
       <div class="box">
         <div class="small-header-text">Power As A Service</div>
         <div class="info-text">
-          <a href="https://renewable-calculator.surge.sh/" target="blank" class="info-text">Energy Calculator</a>
+          <a 
+            href="https://alt-power-calculator.netlify.com/" 
+            target="blank" 
+            class="info-text"
+          >
+            Energy Calculator
+          </a>
         </div>
         <div class="info-text">Plans</div>
         <div class="info-text">Outright Purchase</div>
@@ -57,15 +63,12 @@ export default {
       padding-right: 0px;
 
       .small-header-text{
-        // width: 68px;
-        height: 18px;
         letter-spacing: 0.43px;
         color: #414b55;
         margin-bottom: 25px;
       }
 
       .info-text{
-        // width: 92px;
         font-weight: normal;
         letter-spacing: 0.43px;
         color: #414b55;

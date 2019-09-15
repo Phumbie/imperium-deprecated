@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 import MainPage from '@/views/MainPage'
 import LoginSignup from '@/views/LoginSignup'
 import PaasPage from '@/views/PaasPage'

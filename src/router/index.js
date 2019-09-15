@@ -17,6 +17,7 @@ import EditUserAccount from '@/components/EditUserAccount';
 import UserOrderHistory from '@/components/UserOrderHistory';
 import Signup from '@/components/Signup';
 import CheckoutPage from '@/views/CheckoutPage'
+import PageNotFound from '@/views/404'
 
 // [Router, VModal].forEach((x) => Vue.use(x))
 Vue.use(Router)
@@ -38,7 +39,10 @@ export default new Router({
         { path: '/my-account/order-history', component: UserOrderHistory }
       ]
     },
-    { path: '/checkout', name: 'CheckoutPage',component: CheckoutPage },
+    { path: '/checkout', 
+      name: 'CheckoutPage',
+      component: CheckoutPage 
+    },
     {
       path: '/',
       component:LoginSignup,
@@ -55,6 +59,10 @@ export default new Router({
         { path: 'account-details', component: PaasAccountDetails },
         { path: 'statement-confirmed', component: PaasStatementConfirmation }
       ]
+    },
+    { path: '/404', 
+      name: '404Page',
+      component: PageNotFound
     },
   ]
 })

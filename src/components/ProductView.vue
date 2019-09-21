@@ -2,7 +2,7 @@
   <div id="product-view">
     <div class="product" v-if="fetchedProductDetails">
       <div class="image-container">
-        <img :src="productDetails.display_image">
+        <img :src="productDetails.display_image" />
       </div>
       <div class="product-details">
         <div class="centered-content">
@@ -10,12 +10,9 @@
             {{ productDetails.name }}
           </div>
           <div class="price">
-            ₦ {{ (productDetails.price/100).toLocaleString() }}
+            ₦ {{ (productDetails.price / 100).toLocaleString() }}
           </div>
-            <div 
-            class="btn-add-to-cart" 
-            @click="addProductToCart()"
-          >
+          <div class="btn-add-to-cart" @click="addProductToCart()">
             Add to cart
           </div>
           <div class="">
@@ -23,33 +20,44 @@
             <div class="loan-calc-details">
               Loan Amount (+5% VAT and Service Fee)
               <span class="loan-calc-value">
-                ₦ {{ (productDetails.price/100).toLocaleString() }}
+                ₦ {{ (productDetails.price / 100).toLocaleString() }}
               </span>
             </div>
             <div class="loan-calc-details duration-margin">
               Deposit(Min 30%)
               <span class="loan-calc-value">
-                ₦ {{ (productDetails.price/100).toLocaleString() }}
+                ₦ {{ (productDetails.price / 100).toLocaleString() }}
               </span>
             </div>
-            <input type="range" min="1" max="100" value="0" class="slider" id="my-range">
+            <input
+              type="range"
+              min="1"
+              max="100"
+              value="0"
+              class="slider"
+              id="my-range"
+            />
             <div class="loan-calc-details duration-margin">
               Duration
               <span class="loan-calc-value">12 Months</span>
             </div>
-            <input type="range" min="1" max="100" value="0" class="slider" id="my-range">
+            <input
+              type="range"
+              min="1"
+              max="100"
+              value="0"
+              class="slider"
+              id="my-range"
+            />
             <div class="loan-calc-details monthly-payment">
               Monthly Repayment:
               <span class="loan-calc-value monthly-payment">
-                ₦ {{ (productDetails.price/100).toLocaleString() }}
+                ₦ {{ (productDetails.price / 100).toLocaleString() }}
               </span>
             </div>
-            <div 
-            class="btn-add-to-cart" 
-            @click="addProductToCart()"
-          >
-            Buy Now
-          </div>
+            <div class="btn-add-to-cart" @click="addProductToCart()">
+              Pay Installmentally
+            </div>
           </div>
         </div>
       </div>
@@ -62,7 +70,7 @@
         <span class="nav-desc-conf-set__item">
           Description
           <div class="line-black" v-if="activeTabID == 0"></div>
-        </span> 
+        </span>
       </div>
       <div class="nav-conf" @click="activeTabID = 1">
         <span class="nav-desc-conf-set__item">
@@ -74,28 +82,27 @@
         <span class="nav-desc-conf-set__item">
           Setup
           <div class="line-black" v-if="activeTabID == 2"></div>
-        </span>  
+        </span>
       </div>
     </div>
     <div class="long-details" v-if="activeTabID == 0">
-      {{ productDetails.description }}      
+      {{ productDetails.description }}
     </div>
     <div class="long-details" v-else-if="activeTabID == 1">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis molestias 
-      perferendis unde repudiandae cupiditate 
-      sint neque odit dolorem ipsa omnis facilis 
-      qui quos possimus saepe nihil aliquid, dicta quo deleniti.
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis molestias
+      perferendis unde repudiandae cupiditate sint neque odit dolorem ipsa omnis
+      facilis qui quos possimus saepe nihil aliquid, dicta quo deleniti.
     </div>
     <div class="long-details" v-else>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-      Quasi voluptas ad placeat fuga in corrupti veri
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi voluptas
+      ad placeat fuga in corrupti veri
     </div>
     <div class="header-text-28">Similar Products</div>
     <div class="products-container">
       <div class="product-item" v-for="(n, index) in 4" :key="index">
         <div class="centered-content">
           <div class="image-container">
-            <img src="../assets/images/battery.jpg">
+            <img src="../assets/images/battery.jpg" />
           </div>
           <div class="small-text-18">10kWh Battery</div>
           <div class="small-text-18 text-blue">3 configurations</div>
@@ -103,35 +110,35 @@
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 </template>
 
 <script>
 import api from "@/utils/api.js";
-import contentLoader from "@/components/ContentLoader"
+import contentLoader from "@/components/ContentLoader";
 
 export default {
-  name: 'ProductView',
+  name: "ProductView",
   components: {
     contentLoader
   },
-  data () {
+  data() {
     return {
       productSlug: this.$route.params.slug,
       productId: this.$route.params.id,
       productDetails: [],
       fetchedProductDetails: false,
-      activeTabID: 0,
-    }
+      activeTabID: 0
+    };
   },
   mounted() {
     this.getProductDetails();
   },
   methods: {
     navigateTo(page) {
-      this.$router.push(page); 
+      this.$router.push(page);
     },
-    getProductDetails(){
+    getProductDetails() {
       api
         .getProductBySlug(this.productSlug)
         .then(({ data }) => {
@@ -142,8 +149,8 @@ export default {
           this.navigateTo("/404");
         });
     },
-    addProductToCart(){
-      if(!localStorage.getItem("user_details")) {
+    addProductToCart() {
+      if (!localStorage.getItem("user_details")) {
         alert("You have to login or signup to add product to cart 🙃");
         this.navigateTo("/login");
         return;
@@ -152,7 +159,7 @@ export default {
       api
         .addProductToCart(this.productId)
         .then(({ data }) => {
-          this.$store.dispatch('incrementCartCounter');
+          this.$store.dispatch("incrementCartCounter");
           alert("Successfully added product to cart!");
         })
         .catch(({ response }) => {
@@ -160,21 +167,21 @@ export default {
         });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-#product-view{
+#product-view {
   padding-top: 74px;
   padding-bottom: 70px;
   display: flex;
   flex-direction: column;
 
-  .product{
+  .product {
     display: flex;
     flex-direction: row;
 
-    .image-container{
+    .image-container {
       width: 50%;
       background: transparent !important;
       display: flex;
@@ -183,34 +190,34 @@ export default {
       border: solid 1px #000000;
       border-right: none;
 
-      img{
+      img {
         object-fit: cover;
         width: 80%;
         height: 90%;
       }
     }
 
-    .product-details{
+    .product-details {
       width: 50%;
       border: solid 1px #000000;
 
-      .centered-content{
+      .centered-content {
         width: 70%;
         margin: 0 auto;
         padding-top: 5.1%;
         padding-bottom: 4.6%;
 
-        .product-name{
+        .product-name {
           font-size: 32px;
           margin-bottom: 18px;
           text-transform: capitalize;
         }
 
-        .price{
-          font-size: 24px;     
+        .price {
+          font-size: 24px;
         }
 
-        .btn-add-to-cart{
+        .btn-add-to-cart {
           width: 100%;
           padding-top: 15px;
           padding-bottom: 15px;
@@ -231,25 +238,25 @@ export default {
     }
   }
 
-  .header-text-28{
+  .header-text-28 {
     margin-top: 62px;
     margin-bottom: 10px;
   }
 
-  .product-item{
-    .centered-content{
+  .product-item {
+    .centered-content {
       width: 70%;
     }
   }
 
-  .nav-desc-conf-set{
+  .nav-desc-conf-set {
     display: flex;
     margin-top: 40px;
     width: 100%;
     font-size: 19px;
     margin-bottom: 27px;
 
-    .nav-desc-conf-set__item{
+    .nav-desc-conf-set__item {
       display: inline-block;
       margin-top: 20px;
       margin-right: 80px;
@@ -261,27 +268,27 @@ export default {
         cursor: pointer;
       }
     }
-   
-    .line-black{
+
+    .line-black {
       border-bottom: solid 1px #000000;
       margin-top: 7px;
     }
   }
 
-  .long-details{
+  .long-details {
     width: 62%;
     font-size: 18px;
     line-height: 1.44;
   }
-  
-  .loan-calc-title{
+
+  .loan-calc-title {
     margin-top: 6%;
     font-size: 24px;
   }
 
-  .loan-calc-details{
+  .loan-calc-details {
     margin-top: 4.7%;
-    color: #7F7F7F;
+    color: #7f7f7f;
     width: 100%;
     // height: 22px;
     font-family: Helvetica;
@@ -290,24 +297,24 @@ export default {
     font-style: normal;
     font-stretch: normal;
     line-height: normal;
-    letter-spacing: 0.43px;  
+    letter-spacing: 0.43px;
 
     span {
       float: right;
     }
   }
 
-  .loan-calc-value{
+  .loan-calc-value {
     color: #000000;
   }
 
-  .monthly-payment{
+  .monthly-payment {
     width: 100%;
     font-size: 24px;
     letter-spacing: 0.58px;
     text-align: center;
 
-      span {
+    span {
       float: none;
       font-weight: 500;
     }
@@ -317,13 +324,13 @@ export default {
     -webkit-appearance: none;
     width: 100%;
     height: 4px;
-    border-radius: 3px;  
+    border-radius: 3px;
     background: #bfbdbd;
     cursor: pointer;
     outline: none;
     opacity: 0.33;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
   }
 
   .slider::-webkit-slider-thumb {
@@ -331,7 +338,7 @@ export default {
     appearance: none;
     width: 18px;
     height: 18px;
-    border-radius: 50%; 
+    border-radius: 50%;
     box-shadow: 0 2px 4px 0 rgba(120, 120, 120, 0.5);
     background: #fffcfc;
     cursor: pointer;
@@ -346,7 +353,7 @@ export default {
     cursor: pointer;
   }
 
-  .duration-margin{
+  .duration-margin {
     margin-top: 8%;
   }
 }

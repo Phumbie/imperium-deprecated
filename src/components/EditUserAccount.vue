@@ -83,7 +83,7 @@
           <button class="">Save Changes</button>
         </div>
       </form>
-  </div>
+    </div>
   </div>
 </template>
 
@@ -110,80 +110,77 @@ export default {
 #user-account{
   .button-logout{
     width: 100px;
-    // margin: 0 auto;
     margin: 16px auto;
     background: transparent;
     border: none;
   }
 }
+
 #signup-section{
   border: solid 1px #000000;
   margin: 5% 0 5% 0;
+
   form{
     width: 80%;
     margin: 0 auto;
   }
+
   .header-text-28{
-  text-align: left;
-  margin-top: 60px;
-  height: 29px;
-  font-size: 24px;
+    text-align: left;
+    margin-top: 60px;
+    height: 29px;
+    font-size: 24px;
   }
+
   .text-field,
   .dropdown {
     height: 45px;
     width: 55px;
-    // height: 16px;
     font-family: Graphik;
     font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
     outline: none;
     letter-spacing: normal;
     color: #1d1d1d;
   }
-  // .text-field > option{
-  //   font-size: 14px;
-  //   outline: none;
-  // }
+
   .width-half {
     width: 48%;
   }
+
   .street-width{
     width: 100%;
   }
+
   .float-right {
     float: right;
   }
+
   .change-password{
     display: flex;
   }
+
   .change-password-child{
     flex: 1;
   }
+
   .change-password div:last-child{
     text-align: end;
     cursor: pointer;
   }
+
   .change-password-child{
-    // width: 155px;
-    // height: 18px;
-    // font-family: Graphik;
     font-size: 18px;
     font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
+
     color: #1d1d1d;
   }
+
   .buttons{
     justify-content: start;
     margin-bottom: 2%;
     margin-top: 8.1%;
   }
+  
   button{
     width: 30%;
   }

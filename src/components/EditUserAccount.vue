@@ -91,7 +91,14 @@
 export default {
     data () {
     return {
-      show: false
+      show: false,
+      firstName: "",
+      lastName: "",
+      email: "",
+      streetAddress: "",
+      lga: "",
+      state: "",
+      
     }
   },
     methods: {

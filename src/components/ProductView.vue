@@ -20,45 +20,34 @@
             <div class="loan-calc-details">
               Loan Amount (+5% VAT and Service Fee)
               <span class="loan-calc-value">
-                ₦ {{ (productDetails.price / 100).toLocaleString() }}
+                ₦ {{ loanAmount.toLocaleString() }}
               </span>
             </div>
             <div class="loan-calc-details duration-margin">
               Deposit(Min 30%)
-              <span class="loan-calc-value">
-                ₦ {{ (productDetails.price / 100).toLocaleString() }}
-              </span>
+              <span class="loan-calc-value">₦ {{ loanDeposit.toLocaleString() }}</span>
             </div>
-            <input
-              type="range"
-              min="1"
-              max="100"
-              value="0"
-              class="slider"
-              id="my-range"
-            />
+            <input type="range" :min ="minDeposit" :max="loanAmount" v-model="loanDeposit" 
+              @change="deposit()" class="slider">
             <div class="loan-calc-details duration-margin">
               Duration
-              <span class="loan-calc-value">12 Months</span>
+              <span class="loan-calc-value" v-text="rangeDuration"></span>
             </div>
-            <input
-              type="range"
-              min="1"
-              max="100"
-              value="0"
-              class="slider"
-              id="my-range"
-            />
+            <input type="range" min="1" max="12" v-model="monthValue" class="slider" 
+              @change="duration()">
             <div class="loan-calc-details monthly-payment">
               Monthly Repayment:
               <span class="loan-calc-value monthly-payment">
-                ₦ {{ (productDetails.price / 100).toLocaleString() }}
+                ₦ {{ instalment.toLocaleString() }}
               </span>
             </div>
-            <div class="btn-add-to-cart" @click="addProductToCart()">
+            <div 
+            class="btn-add-to-cart" 
+            @click="addProductToCart()"
+            >
               Pay Installmentally
             </div>
-          </div>
+            </div>
         </div>
       </div>
     </div>
@@ -128,43 +117,99 @@ export default {
       productId: this.$route.params.id,
       productDetails: [],
       fetchedProductDetails: false,
-      activeTabID: 0
-    };
+      activeTabID: 0,
+      loanAmount: "",
+      loanDeposit: "",
+      minDeposit: this.loanDeposit,
+      outstandingPayment: "",
+      instalment: "",
+      monthValue: 1
+    }
   },
   mounted() {
     this.getProductDetails();
+  },
+  computed: {
+    rangeDuration() {
+      return `${this.monthValue} Month(s)`
+    },
+    totalDeposit() {
+      return `₦ ${this.loanDeposit}`
+    }
   },
   methods: {
     navigateTo(page) {
       this.$router.push(page);
     },
-    getProductDetails() {
+
+    deposit() {
+      this.outstandingPayment = this.loanAmount - this.loanDeposit
+      this.instalment = Math.ceil(this.outstandingPayment / this.monthValue)
+    },
+
+    duration() {
+      this.instalment = Math.ceil(this.outstandingPayment / this.monthValue).toLocaleString()
+    },
+
+    getProductDetails(){
       api
         .getProductBySlug(this.productSlug)
         .then(({ data }) => {
           this.productDetails = data.data;
           this.fetchedProductDetails = true;
+          //vat calculation
+          this.vat = (this.productDetails.price / 100) * 0.05
+          //service charge calculation
+          this.serviceCharge = (this.productDetails.price / 100) * 0.1
+          //total loan amount
+          this.loanAmount = Math.ceil((this.productDetails.price/100) + this.vat + this.serviceCharge)
+          //loan deposit calculation
+          this.loanDeposit =  Math.ceil(this.loanAmount * 0.3)
+          this.minDeposit = this.loanDeposit
+          this.deposit()
+          this.duration()
         })
         .catch(({ response }) => {
           this.navigateTo("/404");
         });
     },
-    addProductToCart() {
-      if (!localStorage.getItem("user_details")) {
-        alert("You have to login or signup to add product to cart 🙃");
-        this.navigateTo("/login");
-        return;
-      }
 
-      api
-        .addProductToCart(this.productId)
-        .then(({ data }) => {
-          this.$store.dispatch("incrementCartCounter");
-          alert("Successfully added product to cart!");
+    addProductToCart(){
+      if(!localStorage.getItem("user_details")) {
+        let mathcingProducts = false;
+        let localCart = JSON.parse(localStorage.getItem("product_id"))
+        localCart.map(items => {
+          if(items.id == this.productId){
+            items.quantity += 1
+            items.subtotal += this.productDetails.price
+            mathcingProducts = true;
+          }
         })
-        .catch(({ response }) => {
-          alert("Sorry boo, an error occured while adding to cart");
-        });
+
+        if(!mathcingProducts) {
+          let productDetails = {
+            id: this.productId,
+            quantity: 1,
+            subtotal: this.productDetails.price
+          };
+          localCart.push(productDetails)
+        }
+
+        localStorage.setItem("product_id", JSON.stringify(localCart))
+        this.$store.dispatch("incrementCartCounter");
+        alert("Successfully added product to cart!");
+      }else {
+
+        api
+          .addProductToCart(this.productId)
+          .then(({ data }) => {
+            this.$store.dispatch("incrementCartCounter");
+            alert("Successfully added product to cart!");
+          })
+          .catch(({ response }) => {
+            alert("Sorry boo, an error occured while adding to cart");
+          });
+      }
     }
   }
 };

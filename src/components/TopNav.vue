@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'cartCounter'
+      'cartCounter',
     ])
   },
   mounted(){
@@ -56,6 +56,30 @@ export default {
   },
   methods: {
     setCartCounter() {
+    if(!localStorage.getItem("user_details") && !localStorage.getItem("product_id")) {
+      let localCart = []
+      let productDetails = {
+        id: "",
+        quantity: 0,
+        subtotal: 0
+      };
+      let cartSize = 0;
+      localCart.push(productDetails)
+      localStorage.setItem("product_id", JSON.stringify(localCart))
+      JSON.parse(localStorage.getItem("product_id")).map(item => {
+        cartSize += item.quantity
+      })
+      this.$store.dispatch('setCartCounter', cartSize);
+      return
+    }
+    if(!localStorage.getItem("user_details") && JSON.parse(localStorage.getItem("product_id"))) {
+      let cartSize = 0;
+      JSON.parse(localStorage.getItem("product_id")).map(item => {
+        cartSize += item.quantity
+      })
+      this.$store.dispatch('setCartCounter', cartSize);
+      return
+    }
       api
         .getCart()
         .then(({ data }) => {

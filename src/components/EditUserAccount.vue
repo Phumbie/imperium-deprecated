@@ -98,7 +98,8 @@ export default {
       streetAddress: "",
       lga: "",
       state: "",
-      
+      password: "",
+      confirmPassword: ""
     }
   },
     methods: {

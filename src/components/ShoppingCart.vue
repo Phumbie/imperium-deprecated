@@ -249,11 +249,14 @@ export default {
     removeProductFromCart(productId) {
       if(!localStorage.getItem("user_details")) {
         let local_items = JSON.parse(localStorage.getItem("product_id"))
+        let counter = JSON.parse(localStorage.getItem("cartCounter"))
         local_items.map((item, index) => {
           if(item.id === productId){
+            counter -= item.quantity
             item.quantity = 0
             this.subtotalArr -= item.subtotal
             local_items.splice(index, 1)
+            this.$store.dispatch('setCartCounter', counter);
           }
         })
         localStorage.setItem("product_id", JSON.stringify(local_items))
@@ -314,6 +317,9 @@ export default {
         let localQuantity = JSON.parse(localStorage.getItem("product_id"))
         localCart.map(item => {
           localQuantity.map(items => {
+            if(item.quantity == 0){
+              return
+            }
             if(item.id === productId && items.id === productId && item.quantity !== 0){
               item.quantity = item.quantity -= 1
               items.quantity = items.quantity -= 1
@@ -322,10 +328,10 @@ export default {
               localStorage.setItem("local_cart", JSON.stringify(localCart))
               localStorage.setItem("product_id", JSON.stringify(localQuantity))
               this.clientArr = JSON.parse(localStorage.getItem("local_cart"))
+              this.$store.dispatch('decrementCartCounter');
             }
           })
         })
-        this.$store.dispatch('decrementCartCounter');
         return
       }
       api
@@ -347,7 +353,11 @@ export default {
         let localQuantity = JSON.parse(localStorage.getItem("product_id"))
         localCart.map(item => {
           localQuantity.map(items => {
-            if(item.id === productId && items.id === productId){
+            if(item.quantity == item.stock.quantity_available){
+              return
+            }
+            if(item.id === productId && items.id === productId
+              && item.quantity !== item.stock.quantity_available){
               item.quantity = item.quantity += 1
               items.quantity = items.quantity += 1
               items.subtotal += item.price
@@ -355,10 +365,10 @@ export default {
               localStorage.setItem("local_cart", JSON.stringify(localCart))
               localStorage.setItem("product_id", JSON.stringify(localQuantity))
               this.clientArr = JSON.parse(localStorage.getItem("local_cart"))
+              this.$store.dispatch('incrementCartCounter');
             }
           })
         })
-        this.$store.dispatch('incrementCartCounter');
         return
       }
       api

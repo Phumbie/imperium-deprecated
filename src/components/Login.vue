@@ -38,7 +38,8 @@ export default {
         .loginCustomer(data)
         .then(({ data }) => {
           if(data.status == "success"){
-            localStorage.setItem('user_details', JSON.stringify(data.data.user));
+            // localStorage.setItem('user_details', JSON.stringify(data.data.user));
+            localStorage.setItem('user_details', JSON.stringify(data.data.customer));
             localStorage.setItem('token', data.data.token)
             this.navigateTo("my-account");
           }

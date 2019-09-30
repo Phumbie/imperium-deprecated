@@ -17,17 +17,17 @@
         <div class="info-text">
           {{ userFullName }}
         </div>
-        <div class="info-text">{{ userDetails.email }}</div>
+        <div class="info-text">{{ userDetails.user.email }}</div>
         <div class="info-text">Non binary</div>
         <div class="info-text">
-          {{ userDetails.phone_number }}
+          {{ userDetails.user.phone_number }}
         </div>
       </div>
       <div class="box">
         <div class="small-header-text">Address</div>
-        <div class="info-text">Sterling Towers, 20 Marina Road,</div>
-        <div class="info-text">Lagos-Island,</div>
-        <div class="info-text">100201</div>
+        <div class="info-text">{{ userDetails.address.street }},</div>
+        <div class="info-text">{{ userDetails.address.lga }},</div>
+        <div class="info-text">{{ userDetails.address.state }}.</div>
       </div>
     </div>
     <span class="section-title">Order History</span>
@@ -70,6 +70,7 @@ export default {
     }
 
     this.userDetails = JSON.parse(localStorage.getItem('user_details'));
+    // console.log(this.userDetails)
     this.userFullName = `${this.userDetails.first_name} ${this.userDetails.last_name}`
   },
   methods: {

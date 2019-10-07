@@ -220,8 +220,8 @@ export default {
           })
           localStorage.setItem("subtotal_arr", JSON.stringify(this.subtotalArr))
           localStorage.setItem("local_cart", JSON.stringify(this.clientArr))
-          this.subtotalArr = this.subtotalArr.reduce(function(acc, value){
-            return acc + value}, 0) 
+          this.subtotalArr = this.subtotalArr.reduce((acc, value) => {
+            return acc + value}) 
           localStorage.setItem("subtotal", JSON.stringify(this.subtotalArr))
           this.checkIfLocalStorageIsEmpty()
         })

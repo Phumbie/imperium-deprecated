@@ -1,5 +1,5 @@
 <template>
-  <div id="user-account">
+  <div id="user-account" v-if="userDetails">
     <div class="header-text-28">My Account</div>
     <button class="button-logout small-text" @click="logout()">Logout</button>
     <div class="section-title">Account Details</div>

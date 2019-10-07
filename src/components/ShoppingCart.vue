@@ -56,7 +56,8 @@
         </div>
       </div>
     </div>
-        <div class="cart-list" v-else-if ="fetchedLocalStorage">
+
+    <div class="cart-list" v-else-if ="fetchedLocalStorage">
       <div class="header-section">
         <div class="text-product-details">Product details</div>
         <div class="text-quantity">Quantity</div>
@@ -257,6 +258,7 @@ export default {
             this.subtotalArr -= item.subtotal
             local_items.splice(index, 1)
             this.$store.dispatch('setCartCounter', counter);
+            localStorage.setItem("cartCounter", JSON.stringify(counter))
           }
         })
         localStorage.setItem("product_id", JSON.stringify(local_items))
@@ -272,7 +274,16 @@ export default {
           })
         localStorage.setItem("local_cart", JSON.stringify(this.clientArr))
         this.checkIfLocalStorageIsEmpty()
-        alert("Successfully removed product from cart");
+        // alert("Successfully removed product from cart");
+        this.$swal.fire({
+          position: 'top',
+          type: 'success',
+          width: 150,
+          html: 'Removed',
+          showConfirmButton: false,
+          timer: 1000,
+          toast: true,
+        })
         return
       }
         api
@@ -281,7 +292,16 @@ export default {
             if(data.status == "success"){
               this.customerCart = data.data;
               this.checkIfCartIsEmpty();
-              alert("Successfully removed product from cart");
+              // alert("Successfully removed product from cart");
+        this.$swal.fire({
+          position: 'top',
+          type: 'success',
+          width: 150,
+          html: 'Removed',
+          showConfirmButton: false,
+          timer: 1000,
+          toast: true,
+        })
             }
           })
           .catch(({ response }) => {
@@ -385,7 +405,11 @@ export default {
     },
     checkout() {
       if (!localStorage.getItem("user_details")) {
-        alert("You have to login or signup to check out 🙃");
+        // alert("You have to login or signup to check out 🙃");
+        this.$swal.fire({
+          type: 'info',
+          html: 'You have to login or signup to check out 🙃',
+        })
         this.navigateTo("/login");
         return;
       }

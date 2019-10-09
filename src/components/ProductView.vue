@@ -201,7 +201,7 @@ export default {
         this.$swal.fire({
           position: 'top',
           type: 'success',
-          width: 100,
+          width: 150,
           html: 'Added',
           showConfirmButton: false,
           timer: 1000,
@@ -217,7 +217,7 @@ export default {
         this.$swal.fire({
           position: 'top',
           type: 'success',
-          width: 100,
+          width: 150,
           html: 'Added',
           showConfirmButton: false,
           timer: 1000,
@@ -229,7 +229,7 @@ export default {
         this.$swal.fire({
           position: 'top',
           type: 'error',
-          width: 100,
+          width: 150,
           html: 'Error',
           showConfirmButton: false,
           timer: 1000,
@@ -430,3 +430,4 @@ export default {
   }
 }
 </style>
+

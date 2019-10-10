@@ -197,17 +197,44 @@ export default {
 
         localStorage.setItem("product_id", JSON.stringify(localCart))
         this.$store.dispatch("incrementCartCounter");
-        alert("Successfully added product to cart!");
+            // alert("Successfully added product to cart!");
+        this.$swal.fire({
+          position: 'top',
+          type: 'success',
+          width: 150,
+          html: 'Added',
+          showConfirmButton: false,
+          timer: 1000,
+          toast: true,
+        })
       }else {
 
         api
           .addProductToCart(this.productId)
           .then(({ data }) => {
             this.$store.dispatch("incrementCartCounter");
-            alert("Successfully added product to cart!");
+            // alert("Successfully added product to cart!");
+        this.$swal.fire({
+          position: 'top',
+          type: 'success',
+          width: 150,
+          html: 'Added',
+          showConfirmButton: false,
+          timer: 1000,
+          toast: true,
+        })
           })
           .catch(({ response }) => {
-            alert("Sorry boo, an error occured while adding to cart");
+            // alert("Sorry boo, an error occured while adding to cart");
+        this.$swal.fire({
+          position: 'top',
+          type: 'error',
+          width: 150,
+          html: 'Error',
+          showConfirmButton: false,
+          timer: 1000,
+          toast: true,
+        })
           });
       }
     }
@@ -403,3 +430,4 @@ export default {
   }
 }
 </style>
+

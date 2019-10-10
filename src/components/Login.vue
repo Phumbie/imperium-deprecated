@@ -45,6 +45,9 @@ export default {
             if(JSON.parse(localStorage.getItem("product_id"))){
               let localCart = JSON.parse(localStorage.getItem("product_id"))
               localCart.map(item => {
+                if(item.id === ""){
+                  return
+                }
               api
                 .addProductToCart(item.id)
                 .then(({ data }) => {

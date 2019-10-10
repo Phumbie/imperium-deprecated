@@ -6,7 +6,7 @@
       </router-link>
       <div class="product-title">Alt Power</div>
       <router-link to="/cart" class="nav-item">
-        Shopping cart ({{ cartCounter }})
+        Shopping cart ({{ cartCounter === 0 ? "..." : cartCounter }})
       </router-link>
     </div>
     <div class="bottom-section">

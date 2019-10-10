@@ -1,5 +1,5 @@
 <template>
-  <div id="user-account">
+  <div id="user-account" v-if="userDetails">
     <div class="header-text-28">My Account</div>
     <button class="button-logout small-text" @click="logout()">Logout</button>
     <div class="section-title">Account Details</div>
@@ -14,7 +14,7 @@
     <div class="details-container">
       <div class="box">
         <div class="small-header-text">Personal details</div>
-        <div class="info-text">
+        <div class="info-text capitalize">
           {{ userFullName }}
         </div>
         <div class="info-text">{{ userDetails.user.email }}</div>
@@ -25,9 +25,9 @@
       </div>
       <div class="box">
         <div class="small-header-text">Address</div>
-        <div class="info-text">{{ userDetails.address.street }},</div>
-        <div class="info-text">{{ userDetails.address.lga }},</div>
-        <div class="info-text">{{ userDetails.address.state }}.</div>
+        <div class="info-text capitalize">{{ userDetails.address.street }},</div>
+        <div class="info-text capitalize">{{ userDetails.address.lga }},</div>
+        <div class="info-text capitalize">{{ userDetails.address.state }}.</div>
       </div>
     </div>
     <span class="section-title">Order History</span>
@@ -90,6 +90,10 @@ export default {
   a{
     text-decoration: none;
     width: auto !important;
+  }
+
+  .capitalize {
+    text-transform: capitalize;
   }
 
   .small-text-18{

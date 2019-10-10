@@ -373,6 +373,17 @@ export default {
         .decreaseProductQuantityInCart(productId)
         .then(({ data }) => {
           if(data.status == "success"){
+            let newQuantity = 0
+              if(data.data.cart.items.length === 0){
+                newQuantity = 0
+                this.$store.dispatch('setCartCounter', newQuantity);
+                localStorage.setItem("cartCounter", JSON.stringify(newQuantity))
+              }
+              data.data.cart.items.map((item) => {
+                newQuantity += item.quantity
+                this.$store.dispatch('setCartCounter', newQuantity);
+                localStorage.setItem("cartCounter", JSON.stringify(newQuantity))
+              })
             this.customerCart = data.data;
             this.checkIfCartIsEmpty();
           }
@@ -384,7 +395,7 @@ export default {
             html: response.data.message,
           })
         });
-      this.$store.dispatch('decrementCartCounter');
+      // this.$store.dispatch('decrementCartCounter');
     },
     increaseProductQuantity(productId) {
       if(!localStorage.getItem("user_details")) {
@@ -414,6 +425,17 @@ export default {
         .addProductToCart(productId)
         .then(({ data }) => {
           if(data.status == "success"){
+            let newQuantity = 0
+              if(data.data.cart.items.length === 0){
+                newQuantity = 0
+                this.$store.dispatch('setCartCounter', newQuantity);
+                localStorage.setItem("cartCounter", JSON.stringify(newQuantity))
+              }
+              data.data.cart.items.map((item) => {
+                newQuantity += item.quantity
+                this.$store.dispatch('setCartCounter', newQuantity);
+                localStorage.setItem("cartCounter", JSON.stringify(newQuantity))
+              })
             this.customerCart = data.data;
           }
         })
@@ -424,7 +446,7 @@ export default {
             html: response.data.message,
           })
         });
-      this.$store.dispatch('incrementCartCounter');
+      // this.$store.dispatch('incrementCartCounter');
     },
     checkout() {
       if (!localStorage.getItem("user_details")) {

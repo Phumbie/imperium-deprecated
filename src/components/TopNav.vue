@@ -57,6 +57,7 @@ export default {
   methods: {
     setCartCounter() {
     if(!localStorage.getItem("user_details") && !localStorage.getItem("product_id")) {
+      let details = []
       let localCart = []
       let productDetails = {
         id: "",
@@ -64,8 +65,9 @@ export default {
         subtotal: 0
       };
       let cartSize = 0;
-      localCart.push(productDetails)
-      localStorage.setItem("product_id", JSON.stringify(localCart))
+      details.push(productDetails)
+      localStorage.setItem("product_id", JSON.stringify(details))
+      localStorage.setItem("local_cart", JSON.stringify(localCart))
       JSON.parse(localStorage.getItem("product_id")).map(item => {
         cartSize += item.quantity
       })

@@ -403,7 +403,12 @@ export default {
         let localQuantity = JSON.parse(localStorage.getItem("product_id"))
         localCart.map(item => {
           localQuantity.map(items => {
-            if(item.quantity == item.stock.quantity_available){
+            if(item.quantity === item.stock.quantity_available 
+              && items.id === productId && item.id === productId){
+              this.$swal.fire({
+                type: 'info',
+                html: `We have only ${item.stock.quantity_available} of this Product left`,
+              })
               return
             }
             if(item.id === productId && items.id === productId
@@ -416,6 +421,7 @@ export default {
               localStorage.setItem("product_id", JSON.stringify(localQuantity))
               this.clientArr = JSON.parse(localStorage.getItem("local_cart"))
               this.$store.dispatch('incrementCartCounter');
+              return
             }
           })
         })

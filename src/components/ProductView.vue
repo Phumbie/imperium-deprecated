@@ -177,36 +177,62 @@ export default {
     addProductToCart(){
       if(!localStorage.getItem("user_details")) {
         let mathcingProducts = false;
-        let localCart = JSON.parse(localStorage.getItem("product_id"))
-        localCart.map(items => {
+        let localDetails = JSON.parse(localStorage.getItem("product_id"))
+        localDetails.map(items => {
           if(items.id == this.productId){
-            items.quantity += 1
-            items.subtotal += this.productDetails.price
-            mathcingProducts = true;
+            if(items.quantity < this.productDetails.stock.quantity_available){
+              items.quantity += 1
+              items.subtotal += this.productDetails.price
+              mathcingProducts = true;
+              this.$store.dispatch("incrementCartCounter");
+              this.$swal.fire({
+                position: 'top',
+                type: 'success',
+                width: 150,
+                html: 'Added',
+                showConfirmButton: false,
+                timer: 1000,
+                toast: true,
+              })
+            }else {
+              this.$swal.fire({
+                type: 'info',
+                html: `We have only ${this.productDetails.stock.quantity_available} of this Product left`,
+              })
+              mathcingProducts = true;
+            }
+            return
           }
         })
 
         if(!mathcingProducts) {
+          if(this.productDetails.stock.quantity_available === 0){
+            this.$swal.fire({
+              type: 'info',
+              html: "Product is not available",
+            })
+            return
+          }
           let productDetails = {
             id: this.productId,
             quantity: 1,
             subtotal: this.productDetails.price
           };
-          localCart.push(productDetails)
+          localDetails.push(productDetails)
+          this.$store.dispatch("incrementCartCounter");
+          this.$swal.fire({
+            position: 'top',
+            type: 'success',
+            width: 150,
+            html: 'Added',
+            showConfirmButton: false,
+            timer: 1000,
+            toast: true,
+          })
         }
 
-        localStorage.setItem("product_id", JSON.stringify(localCart))
-        this.$store.dispatch("incrementCartCounter");
+        localStorage.setItem("product_id", JSON.stringify(localDetails))
             // alert("Successfully added product to cart!");
-        this.$swal.fire({
-          position: 'top',
-          type: 'success',
-          width: 150,
-          html: 'Added',
-          showConfirmButton: false,
-          timer: 1000,
-          toast: true,
-        })
       }else {
 
         api
@@ -238,13 +264,8 @@ export default {
           .catch(({ response }) => {
             // alert("Sorry boo, an error occured while adding to cart");
             this.$swal.fire({
-              position: 'top',
-              type: 'error',
-              width: 150,
-              html: 'Error',
-              showConfirmButton: false,
-              timer: 1000,
-              toast: true,
+              type: 'info',
+              html: response.data.message,
             })
           });
       }

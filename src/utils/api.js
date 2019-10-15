@@ -8,6 +8,8 @@ const ADD_TO_CART_URL = `${BASE_URL}/cart`;
 const SINGLE_PRODUCT_URL = `${BASE_URL}/product`;
 const GET_CART_URL = `${BASE_URL}/cart`;
 const CART_CHECKOUT_URL = `${BASE_URL}/order/checkout`;
+const CUSTOMER_ORDER_URL = `${BASE_URL}/order/?status=placed`;
+const CUSTOMER_ORDER_BY_ID_URL = `${BASE_URL}/order`
 
 export default {
   getHeader(){
@@ -52,5 +54,15 @@ export default {
     return axios.post(
       `${CART_CHECKOUT_URL}`, data, {headers: this.getHeader()}
     );
+  },
+  getCustomerOrder(){
+    return axios.get(      
+      `${CUSTOMER_ORDER_URL}`, {headers: this.getHeader()}
+    )
+  },
+  getCustomerOrderById(orderId){
+    return axios.get(      
+      `${CUSTOMER_ORDER_BY_ID_URL}/${orderId}`, {headers: this.getHeader()}
+    )
   }
 };

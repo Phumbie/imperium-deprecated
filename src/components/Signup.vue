@@ -138,7 +138,7 @@ export default {
                 alert("Successfully added product to cart!");
               })
               .catch(({ response }) => {
-                alert("Sorry boo, an error occured while adding to cart");
+                alert(response.data.message);
               });
             })
           }

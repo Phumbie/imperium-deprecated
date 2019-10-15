@@ -1,65 +1,68 @@
 <template>
-  <div id="checkout-page">
-    <div class="left-side">
-      <div class="header-text">Alt Power</div>
-      <div class="sub-header">Shipping address</div>
-      <input type="text" placeholder="Full name" class="text-field">
-      <input type="text" placeholder="Phone number" class="text-field">
-      <input type="text" placeholder="Address" class="text-field">
-      <select class="width-half">
-        <option value="" selected disabled>State</option>
-        <option value="lagos">Lagos</option>
-        <option value="abuja">Abuja</option>
-      </select>
-      <select class="width-half float-right">
-        <option value="" selected disabled>City</option>
-        <option value="">Ikeja</option>
-        <option value="">Victoria Island</option>
-      </select>
-      <div class="sub-header">Payment info</div>
-      <input type="text" placeholder="Card number" class="text-field">
-      <input type="text" placeholder="05 / 22" class="text-field width-half">
-      <input type="text" placeholder="CVV" class="text-field width-half float-right">
-      <button @click="placeOrder()">Place order</button>
-    </div>
-    <div class="right-side">
-      <div
-        class="cart-item" 
-        v-for="(product, index) in orderItems.length"
-        :key="index">
-        <div class="image-container">
-          <img :src="orderItems[index].display_image">
+  <div>
+    <!-- <TopNav /> -->
+    <div id="checkout-page">
+      <div class="left-side">
+        <div class="header-text">Alt Power</div>
+        <div class="sub-header">Shipping address</div>
+        <input type="text" placeholder="Full name" :value="this.fullName" class="text-field capitalize">
+        <input type="text" placeholder="Phone number" :value="this.phone_number" class="text-field">
+        <input type="text" placeholder="Address" :value="this.address"  class="text-field capitalize">
+        <select class="width-half">
+          <option value="" selected disabled>State</option>
+          <option value="lagos">Lagos</option>
+          <option value="abuja">Abuja</option>
+        </select>
+        <select class="width-half float-right">
+          <option value="" selected disabled>City</option>
+          <option value="">Ikeja</option>
+          <option value="">Victoria Island</option>
+        </select>
+        <!-- <div class="sub-header">Payment info</div>
+        <input type="text" placeholder="Card number" class="text-field">
+        <input type="text" placeholder="05 / 22" class="text-field width-half">
+        <input type="text" placeholder="CVV" class="text-field width-half float-right"> -->
+        <button @click="placeOrder()">Place order</button>
+      </div>
+      <div class="right-side">
+        <div
+          class="cart-item" 
+          v-for="(product, index) in orderItems.length"
+          :key="index">
+          <div class="image-container">
+            <img :src="orderItems[index].display_image">
+          </div>
+          <span class="item-name">
+            {{ orderItems[index].name }}
+          </span>
+          <br>
+          <span class="price">
+            ₦ {{ (orderItems[index].price/100).toLocaleString() }}
+          </span>
+          <br>
+          <span class="quantity">
+            {{ orderItems[index].quantity }}
+          </span>
         </div>
-        <span class="item-name">
-          {{ orderItems[index].name }}
-        </span>
-        <br>
-        <span class="price">
-          ₦ {{ (orderItems[index].price/100).toLocaleString() }}
-        </span>
-        <br>
-        <span class="quantity">
-          {{ orderItems[index].quantity }}
-        </span>
-      </div>
-      <div class="divider"></div>
-      <div class="text-row">
-        <span class="left-text">Subtotal</span>
-        <span class="right-text">
-          ₦ {{ subtotal.toLocaleString() }}
-        </span>
-      </div>
-      <div class="text-row">
-        <span class="left-text">Delivery</span>
-        <span class="right-text">
-          ₦ {{ deliveryCost.toLocaleString() }}
-        </span>
-      </div>
-      <div class="text-row">
-        <span class="left-text">Total</span>
-        <span class="right-text">
-          ₦ {{ totalCost.toLocaleString() }}
-        </span>
+        <div class="divider"></div>
+        <div class="text-row">
+          <span class="left-text">Subtotal</span>
+          <span class="right-text">
+            ₦ {{ subtotal.toLocaleString() }}
+          </span>
+        </div>
+        <div class="text-row">
+          <span class="left-text">Delivery</span>
+          <span class="right-text">
+            ₦ {{ deliveryCost.toLocaleString() }}
+          </span>
+        </div>
+        <div class="text-row">
+          <span class="left-text">Total</span>
+          <span class="right-text">
+            ₦ {{ totalCost.toLocaleString() }}
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -80,6 +83,10 @@ export default {
       subtotal: 0,
       totalCost: 0,
       deliveryCost: 0,
+      address: "",
+      user: "",
+      fullName: "",
+      phone_number: ""
     }
   },
   mounted() {
@@ -88,6 +95,10 @@ export default {
     this.subtotal = this.order.sub_total/100;
     this.deliveryCost = this.order.delivery_cost/100;
     this.orderItems = this.order.items;
+    this.user = JSON.parse(localStorage.getItem('user_details'));
+    this.address = `${this.order.shipping_address.street}, ${this.order.shipping_address.lga}, ${this.order.shipping_address.state}`;
+    this.fullName = `${this.user.first_name} ${this.user.last_name}`
+    this.phone_number = `${this.user.user.phone_number}`
   },
   methods: {
     navigateTo(page) {
@@ -97,13 +108,16 @@ export default {
       return JSON.parse(localStorage.getItem('user_order'));
     },
     placeOrder() {
+      const order = this.getNewlyCreatedOrder();
       const handler = PaystackPop.setup({
-        key: "pk_test_81acab8a6b2d493b0e65cee63c8bee581c874aa1",
+        key: "pk_test_8d401b3f50e9dd566c8273a1ebc1524a2d34d3f4",
         email: "test@gmail.com",
-        amount: this.totalCost * 100,
+        amount: Math.ceil(this.totalCost * 100),
         currency: "NGN",
         metadata: {
-          
+          custom_fields: {
+            order_id: order.id
+          }
         },
         callback: function(response) {
           alert(

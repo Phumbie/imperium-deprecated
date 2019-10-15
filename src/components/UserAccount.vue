@@ -59,6 +59,9 @@
     <span class="section-title">Power As A Service</span>
     <div class="paas-active-plan-container">You have no active power as a service plan</div>
   </div>
+  <content-loader v-else>
+    <div v-if="show" class="loader"></div>
+  </content-loader>
 </template>
 
 <script>
@@ -79,6 +82,7 @@ export default {
       userFullName: "",
       orderHistory: [],
       contentLoaderText: "",
+      show: true
     }
   },
   mounted(){

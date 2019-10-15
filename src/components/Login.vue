@@ -42,12 +42,13 @@ export default {
             localStorage.setItem('user_details', JSON.stringify(data.data.customer));
             localStorage.setItem('token', data.data.token)
             this.navigateTo("my-account");
-            if(JSON.parse(localStorage.getItem("product_id"))){
-              let localCart = JSON.parse(localStorage.getItem("product_id"))
-              localCart.map(item => {
-                if(item.id === ""){
-                  return
-                }
+          }
+          if(JSON.parse(localStorage.getItem("product_id"))){
+            let localCart = JSON.parse(localStorage.getItem("product_id"))
+            localCart.map(item => {
+              if(item.id === ""){
+                return
+              }
               api
                 .addProductToCart(item.id)
                 .then(({ data }) => {
@@ -55,11 +56,10 @@ export default {
                   alert("Successfully added product to cart!");
                 })
                 .catch(({ response }) => {
-                  alert("Sorry boo, an error occured while adding to cart");
+                  alert(response.data.message);
                 });
               })
             }
-          }
         })
         .catch(({ response }) => {
           alert(response.data.message);

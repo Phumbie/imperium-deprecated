@@ -194,7 +194,7 @@ export default {
           // console.log(this.productsList);
         })
         .catch(({ response }) => {
-      
+          alert(response.data.message)
         });
     }
   }

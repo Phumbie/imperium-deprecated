@@ -149,6 +149,7 @@ export default {
   }
 
   .small-gray-text{
+    width: 100px;
     font-size: 15px;
     margin-top: 12px;
   }

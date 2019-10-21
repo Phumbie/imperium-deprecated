@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <!-- <TopNav /> -->
+  <div class="container">
+    <TopNav />
     <div id="checkout-page">
       <div class="left-side">
         <div class="header-text">Alt Power</div>
@@ -8,7 +8,7 @@
         <input type="text" placeholder="Full name" :value="this.fullName" class="text-field capitalize">
         <input type="text" placeholder="Phone number" :value="this.phone_number" class="text-field">
         <input type="text" placeholder="Address" :value="this.address"  class="text-field capitalize">
-        <select class="width-half">
+        <!-- <select class="width-half">
           <option value="" selected disabled>State</option>
           <option value="lagos">Lagos</option>
           <option value="abuja">Abuja</option>
@@ -17,7 +17,7 @@
           <option value="" selected disabled>City</option>
           <option value="">Ikeja</option>
           <option value="">Victoria Island</option>
-        </select>
+        </select> -->
         <!-- <div class="sub-header">Payment info</div>
         <input type="text" placeholder="Card number" class="text-field">
         <input type="text" placeholder="05 / 22" class="text-field width-half">
@@ -134,13 +134,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  padding: 0 9rem;
+
+}
+
 #checkout-page{
   width: 70%;
   margin: 0 auto;
   display: flex;
 
   .left-side{
-    width: 50%;
+    width: 47%;
     min-height: 100vh;
     float: left;
     border-right: solid 1px rgba(128, 128, 128, 0.404);

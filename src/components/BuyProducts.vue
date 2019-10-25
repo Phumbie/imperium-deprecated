@@ -41,10 +41,10 @@
             <img :src="product.display_image">
           </div>
           <div class="small-text-18">{{ product.name }}</div>
-          <div class="small-text-18 text-blue">
+          <div class="small-gray-text text-blue">
             ₦{{ (product.price/100).toLocaleString() }}
           </div>
-          <div class="small-text-18 text-blue">
+          <div class="small-gray-text text-blue">
             {{ product.capacity }} KV
           </div>
         </div>
@@ -55,11 +55,17 @@
     </content-loader>
     </div>
     <div class="" v-if="activeTabID == 0">
-    <div class="pagination-container" v-if="fetchedProducts">
-      <span class="pagination"><p>Previous Page</p></span>
-      <span class="pagination"><p>1 2 3 ... 5</p></span>
-      <span class="pagination"><p>Next Page</p></span>
-    </div>
+      <paginate
+        v-model="page"
+        :page-count="2"
+        :click-handler="changePage"
+        :prev-text="'Previous Page'"
+        :next-text="'Next Page'"
+        :container-class="'pagination'"
+        :page-class="'page-item'"
+        :next-class="'page-item'"
+        :prev-class="'page-item'"
+      />
     </div>
     <div class="long-details" v-if="activeTabID == 1">
       <div class="products-container" v-if="fetchedProducts">
@@ -74,10 +80,10 @@
             <img :src="product.display_image">
           </div>
           <div class="small-text-18">{{ product.name }}</div>
-          <div class="small-text-18 text-blue">
+          <div class="small-gray-text text-blue">
             ₦{{ (product.price/100).toLocaleString() }}
           </div>
-          <div class="small-text-18 text-blue">
+          <div class="small-gray-text text-blue">
             {{ product.capacity }} KV
           </div>
         </div>
@@ -88,11 +94,17 @@
     </content-loader>
     </div>
     <div class="" v-if="activeTabID == 1">
-    <div class="pagination-container" v-if="fetchedProducts">
-      <span class="pagination"><p>Previous Page</p></span>
-      <span class="pagination"><p>1 2 3 ... 5</p></span>
-      <span class="pagination"><p>Next Page</p></span>
-    </div>
+      <paginate
+        v-model="page"
+        :page-count="2"
+        :click-handler="changePage"
+        :prev-text="'Previous Page'"
+        :next-text="'Next Page'"
+        :container-class="'pagination'"
+        :page-class="'page-item'"
+        :next-class="'page-item'"
+        :prev-class="'page-item'"
+      />
     </div>
     <div class="long-details" v-if="activeTabID == 2">
       <div class="products-container" v-if="fetchedProducts">
@@ -107,10 +119,10 @@
             <img :src="product.display_image">
           </div>
           <div class="small-text-18">{{ product.name }}</div>
-          <div class="small-text-18 text-blue">
+          <div class="small-gray-text text-blue">
             ₦{{ (product.price/100).toLocaleString() }}
           </div>
-          <div class="small-text-18 text-blue">
+          <div class="small-gray-text text-blue">
             {{ product.capacity }} KV
           </div>
         </div>
@@ -121,11 +133,17 @@
     </content-loader>
     </div>
     <div class="" v-if="activeTabID == 2">
-    <div class="pagination-container" v-if="fetchedProducts">
-      <span class="pagination"><p>Previous Page</p></span>
-      <span class="pagination"><p>1 2 3 ... 5</p></span>
-      <span class="pagination"><p>Next Page</p></span>
-    </div>
+      <paginate
+        v-model="page"
+        :page-count="2"
+        :click-handler="changePage"
+        :prev-text="'Previous Page'"
+        :next-text="'Next Page'"
+        :container-class="'pagination'"
+        :page-class="'page-item'"
+        :next-class="'page-item'"
+        :prev-class="'page-item'"
+      />
     </div>
     <div class="long-details" v-if="activeTabID == 3">
       <div class="products-container" v-if="fetchedProducts">
@@ -140,10 +158,10 @@
               <img :src="product.display_image">
             </div>
             <div class="small-text-18">{{ product.name }}</div>
-            <div class="small-text-18 text-blue">
+            <div class="small-gray-text text-blue">
               ₦{{ (product.price/100).toLocaleString() }}
             </div>
-            <div class="small-text-18 text-blue">
+            <div class="small-gray-text text-blue">
               {{ product.capacity }} KV
             </div>
           </div>
@@ -154,11 +172,17 @@
     </content-loader>
     </div>
     <div class="" v-if="activeTabID == 3">
-    <div class="pagination-container" v-if="fetchedProducts">
-      <span class="pagination"><p>Previous Page</p></span>
-      <span class="pagination"><p>1 2 3 ... 5</p></span>
-      <span class="pagination"><p>Next Page</p></span>
-    </div>
+      <paginate
+        v-model="page"
+        :page-count="2"
+        :click-handler="changePage"
+        :prev-text="'Previous Page'"
+        :next-text="'Next Page'"
+        :container-class="'pagination'"
+        :page-class="'page-item'"
+        :next-class="'page-item'"
+        :prev-class="'page-item'"
+      />
     </div>
   </div> 
 </template>
@@ -169,13 +193,14 @@ import contentLoader from "@/components/ContentLoader"
 
 export default {
   components: {
-    contentLoader
+    contentLoader,
   },
   data () {
     return {
       productsList: [],
       fetchedProducts: false,
       activeTabID: 0,
+      page: 1,
     }
   },
   mounted(){
@@ -187,15 +212,18 @@ export default {
     },
     fetchProducts(){
       api
-        .getAllProducts()
+        .getAllProducts(this.page)
         .then(({ data }) => {
           this.productsList = data.data.result;
           this.fetchedProducts = true;
-          // console.log(this.productsList);
         })
         .catch(({ response }) => {
           alert(response.data.message)
         });
+    },
+    changePage(page) {
+      this.page = page
+      this.fetchProducts();
     }
   }
 }
@@ -231,6 +259,8 @@ export default {
   }
 
   .products-container {
+    display: flex;
+    // justify-content: space-between;
     border-bottom: none;
     border-right: none;
     width: 100%;
@@ -238,32 +268,21 @@ export default {
     .product-item{
       cursor: pointer;
       border-right: 1px solid #000000;
+      // border-left: 1px solid #000000;
       border-bottom: 1px solid #000000;
-
-      .centered-content{
-        width: 80%;
-      }
     }
   }
-  
-  .pagination-container {
-    border: 1px solid #000000;
+
+  .pagination {
+    width: 88%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    // border: 1px solid #000000;
     border-top: none;
-    padding: 1% 0%;
-
-    span{
-      display: inline-block;
-      padding: 0% 12%;
-    }
-
-    .pagination {
-      font-size: 18px;
-      color: #1d1d1d;
-
-      p:hover {
-        cursor: pointer;
-      }
-    }
+    padding: 1rem 5rem;
+    list-style: none;
+    margin: 0;
   }
 }
 </style>

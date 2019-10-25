@@ -125,6 +125,7 @@ export default {
 }
 
 #signup-section{
+  width: 99.9%;
   border: solid 1px #000000;
   margin: 5% 0 5% 0;
 

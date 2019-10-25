@@ -284,6 +284,9 @@ export default {
   .product {
     display: flex;
     flex-direction: row;
+    width: 99.9%;
+    border: solid 1px #000000;
+
 
     .image-container {
       width: 50%;
@@ -291,7 +294,6 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      border: solid 1px #000000;
       border-right: none;
 
       img {
@@ -303,7 +305,7 @@ export default {
 
     .product-details {
       width: 50%;
-      border: solid 1px #000000;
+      border-left: solid 1px #000000;
 
       .centered-content {
         width: 70%;

@@ -193,7 +193,7 @@ export default {
   }
 
   .paas-active-plan-container{
-    width: 100%;
+    width: 99.9%;
     border: solid 1px #000000;
     padding-top: 114px;
     padding-bottom: 114px;

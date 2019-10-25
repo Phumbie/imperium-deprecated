@@ -50,7 +50,7 @@ export default {
 
   .details-container{
     margin-top: 29px;
-    width: 100%;
+    width: 99.9%;
     border: solid 1px #000000;
     display: flex;
 

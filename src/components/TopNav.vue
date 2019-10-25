@@ -119,7 +119,7 @@ export default {
     background: white;
     border-right: solid 1px #000000;
     border-left: solid 1px #000000;
-    flex: 2;
+    width: 50%;
     font-size: 32px;
     padding-top: 15px;
     padding-top: 25px;

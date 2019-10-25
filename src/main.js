@@ -6,11 +6,13 @@ import router from './router'
 import VModal from 'vue-js-modal'
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { store }  from './store'
+import Paginate from 'vuejs-paginate';
+import { store }  from './store';
 
 Vue.use(VModal)
 
 Vue.use(VueSweetalert2);
+Vue.component('paginate', Paginate)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

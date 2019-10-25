@@ -37,8 +37,8 @@
           <div class="image-container">
             <img :src="`${order.items[0].display_image}`">
           </div>
-          <div class="small-text-18">{{ `Date: ${(order.created_at).split("T")[0]}` }}</div>
-          <div class="small-gray-text">{{ `Order ID: ${order.transaction_id}` }}</div>
+          <div class="small-gray-text wrap">{{ `Order ID: ${order.transaction_id}` }}</div>
+          <div class="small-gray-text">{{ `Date: ${(order.created_at).split("T")[0]}` }}</div>
           <div class="small-gray-text">{{ `Status: ${ order.status }`}}</div>
           <button 
             id="btn"
@@ -148,8 +148,12 @@ export default {
     margin-bottom: 18px;
   }
 
-  .small-gray-text{
+  .wrap {
     width: 100px;
+  }
+
+  .small-gray-text{
+    margin-bottom: 18px;
     font-size: 15px;
     margin-top: 12px;
   }
@@ -189,6 +193,7 @@ export default {
   }
 
   .paas-active-plan-container{
+    width: 100%;
     border: solid 1px #000000;
     padding-top: 114px;
     padding-bottom: 114px;

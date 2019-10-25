@@ -13,23 +13,23 @@
       <a 
         href="https://renewable-calculator.surge.sh/" 
         target="blank" 
-        class="nav-item"
+        class="nav-item1"
       >
         Energy Calculator
       </a>
       <router-link 
         to="/power-as-a-service" 
-        class="nav-item"
+        class="nav-item2"
       >
         Buy Power
       </router-link>
       <router-link 
         to="/" 
-        class="nav-item"
+        class="nav-item3"
       >
         Buy Products
       </router-link>
-      <div class="nav-item">
+      <div class="nav-item4">
         Blog
       </div>
     </div>
@@ -99,17 +99,15 @@ export default {
 <style lang="scss" scoped>
 #nav-container{
   border: solid 1px #000000;
-  width: 100%;
-  border-right: none;
+  width: 99.9%;
+  // border-right: none;
   position: sticky;
   position: -webkit-sticky;
   margin-top: 38px;
   top: 0;
   z-index: 10;
-  width: 100%;
   
   .top-section, .bottom-section{
-    width: 100%;
     display: flex;
   }
 
@@ -117,11 +115,22 @@ export default {
     border-bottom: solid 1px #000000;
   }
 
-  .nav-item, .product-title{
-    width: 25%;
-    // background: bisque;
+  .product-title {
     background: white;
     border-right: solid 1px #000000;
+    border-left: solid 1px #000000;
+    flex: 2;
+    font-size: 32px;
+    padding-top: 15px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    text-align: center;
+    color: black;
+  }
+
+  .nav-item, .nav-item1, .nav-item2, .nav-item3,.nav-item4 {
+    flex: 1;
+    background: white;
     padding-top: 25px;
     padding-bottom: 25px;
     text-align: center;
@@ -131,16 +140,22 @@ export default {
     cursor: pointer;
   }
 
-  .nav-item:hover{
+  .nav-item:hover, .nav-item1:hover, .nav-item2:hover, .nav-item3:hover, .nav-item4:hover{
     background: #000000;
     color: white;
     transition: 0.5s;
   }
 
-  .product-title{
-    width: 50%;
-    font-size: 32px;
-    padding-top: 15px;
+  .nav-item1 {
+    border-right: solid 1px #000000;
+  }
+
+  .nav-item2 {
+    border-right: solid 1px #000000;
+  }
+
+  .nav-item3 {
+    border-right: solid 1px #000000;
   }
 }
 </style>

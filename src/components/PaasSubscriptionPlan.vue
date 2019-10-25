@@ -101,7 +101,7 @@ export default {
   }
 
   .box-container{
-    width: 85%;
+    width: 90%;
     background: white;
     margin: 0 auto;
     // box-shadow: 0px 0px 15px #aaaaaa93;
@@ -169,19 +169,20 @@ export default {
         justify-content: space-between;
 
         .config{
-          width: 32%;
+          width: 30%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           border-radius: 5px;
           border: solid 1px #979797;
-          padding: 20px 15px 20px 15px;
+          padding: 20px 10px;
           box-sizing: border-box;
           margin-bottom: 15px;
+          margin-right: 0.5rem;
 
           .power-rating{
-            font-size: 14px;
-          }
-
-          .radio-button{
-            float: right;
+            font-size: 0.8rem;
+            margin-right: 0.1rem;
           }
         }
       }

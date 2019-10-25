@@ -107,7 +107,7 @@ button{
     float: left;
 
     .centered-content{
-      width: 70%;
+      width: 80%;
       margin: 0 auto;
       padding-top: 30px;
       padding-bottom: 20%;
@@ -125,6 +125,12 @@ button{
         margin-bottom: 7px;
         line-height: 1.14;
         text-transform: capitalize;
+        border-bottom: #D8D8D8 solid 1px;
+      }
+
+      .small-gray-text{
+        font-size: 15px;
+        margin-top: 12px;
       }
     }
   }

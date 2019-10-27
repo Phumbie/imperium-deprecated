@@ -41,7 +41,7 @@
           <div class="small-gray-text">{{ `Date: ${(order.created_at).split("T")[0]}` }}</div>
           <div class="small-gray-text">{{ `Status: ${ order.status }`}}</div>
           <button 
-            id="btn"
+            ref="btn"
             :disabled="disabledBtn"
             to="my-account/order-history" 
             tag="button" 
@@ -67,6 +67,7 @@
 <script>
 import api from "@/utils/api.js";
 import contentLoader from "@/components/ContentLoader"
+import { TweenMax } from 'gsap'
 
 export default {
   name: 'UserAccount',
@@ -118,6 +119,8 @@ export default {
       this.$router.push(page); 
     },
     getOrderHistoryById(orderId){
+      const { btn } = this.$refs
+      TweenMax.to(btn, 2, { cursor: "not-allowed" });
       //disable button when clicked
       this.disabledBtn = true;
       api

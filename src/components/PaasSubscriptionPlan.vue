@@ -57,17 +57,26 @@
         <button @click="goTo('paas/appliance-configuration')">See details</button>
       </div>
     </div>
-    <div class="right-side">
+    <div ref="name" class="right-side name">
       <img src="../assets/images/renewable-image.svg">
     </div>
   </div> 
 </template>
 
 <script>
+import { TimelineLite } from 'gsap'
+
 export default {
   data () {
     return {
     }
+  },
+  mounted() {
+
+    const { name } = this.$refs
+    const timeline = new TimelineLite() 
+    
+    timeline.to(name, 2.5, { y: 800, scale: 0.8, ease: Bounce.easeOut}) 
   },
   methods: {
     goTo(page) {
@@ -91,10 +100,13 @@ export default {
 
   .right-side{
     width: 50%;
+    position: relative;
+    top: -50rem;
+    left: -4rem;
     padding-top: 100px;
     img{
-      // width: 100%;
-      height: 80%;
+      // width: 80%;
+      // height: 80%;
       object-position: right;
       object-fit: contain;
     }

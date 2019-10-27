@@ -121,11 +121,15 @@ export default {
     border-left: solid 1px #000000;
     width: 50%;
     font-size: 32px;
-    padding-top: 15px;
-    padding-top: 25px;
-    padding-bottom: 25px;
+    padding: 15px 0;
     text-align: center;
     color: black;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .nav-item, .nav-item1, .nav-item2, .nav-item3,.nav-item4 {

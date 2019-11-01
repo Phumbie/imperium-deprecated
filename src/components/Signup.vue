@@ -1,11 +1,7 @@
 <template>
   <div id="signup-section">
     <form @submit.prevent="signupCustomer()">
-      <div 
-        class="header-text-28" 
-      >
-        Signup
-      </div>
+      <div class="header-text-28">Signup</div>
       <input
         type="text"
         placeholder="First name"
@@ -50,20 +46,8 @@
         minlength="6"
         required
       />
-      <input 
-        type="text" 
-        placeholder="Street" 
-        class="text-field" 
-        v-model="streetAddress"
-        required 
-      />
-      <input
-        type="text"
-        placeholder="LGA"
-        class="text-field width-half"
-        v-model="lga"
-        required
-      />
+      <input type="text" placeholder="Street" class="text-field" v-model="streetAddress" required />
+      <input type="text" placeholder="LGA" class="text-field width-half" v-model="lga" required />
       <input
         type="text"
         placeholder="State"
@@ -72,7 +56,7 @@
         required
       />
       <div class="buttons">
-        <button>Create account</button>
+        <button class="btn">Create account</button>
       </div>
     </form>
   </div>
@@ -98,10 +82,10 @@ export default {
   },
   methods: {
     navigateTo(page) {
-      this.$router.push(page); 
+      this.$router.push(page);
     },
     signupCustomer() {
-      if(this.password != this.confirmPassword){
+      if (this.password != this.confirmPassword) {
         alert("password field doesn't match password confirmation");
         return;
       }
@@ -122,25 +106,28 @@ export default {
       api
         .signupCustomer(data)
         .then(({ data }) => {
-          if(data.status == "success"){
+          if (data.status == "success") {
             alert("signup successful");
-            localStorage.setItem('user_details', JSON.stringify(data.data.customer));
-            localStorage.setItem('token', data.data.token)
+            localStorage.setItem(
+              "user_details",
+              JSON.stringify(data.data.customer)
+            );
+            localStorage.setItem("token", data.data.token);
             this.navigateTo("my-account");
           }
-          if(JSON.parse(localStorage.getItem("product_id"))){
-            let localCart = JSON.parse(localStorage.getItem("product_id"))
+          if (JSON.parse(localStorage.getItem("product_id"))) {
+            let localCart = JSON.parse(localStorage.getItem("product_id"));
             localCart.map(item => {
-            api
-              .addProductToCart(item.id)
-              .then(({ data }) => {
-                this.$store.dispatch("incrementCartCounter");
-                alert("Successfully added product to cart!");
-              })
-              .catch(({ response }) => {
-                alert(response.data.message);
-              });
-            })
+              api
+                .addProductToCart(item.id)
+                .then(({ data }) => {
+                  this.$store.dispatch("incrementCartCounter");
+                  alert("Successfully added product to cart!");
+                })
+                .catch(({ response }) => {
+                  alert(response.data.message);
+                });
+            });
           }
         })
         .catch(({ response }) => {

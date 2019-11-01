@@ -3,11 +3,21 @@
     <TopNav />
     <div id="checkout-page">
       <div class="left-side">
-        <div class="header-text">Alt Power</div>
+        <!-- <div class="header-text">Alt Power</div> -->
         <div class="sub-header">Shipping address</div>
-        <input type="text" placeholder="Full name" :value="this.fullName" class="text-field capitalize">
-        <input type="text" placeholder="Phone number" :value="this.phone_number" class="text-field">
-        <input type="text" placeholder="Address" :value="this.address"  class="text-field capitalize">
+        <input
+          type="text"
+          placeholder="Full name"
+          :value="this.fullName"
+          class="text-field capitalize"
+        />
+        <input type="text" placeholder="Phone number" :value="this.phone_number" class="text-field" />
+        <input
+          type="text"
+          placeholder="Address"
+          :value="this.address"
+          class="text-field capitalize"
+        />
         <!-- <select class="width-half">
           <option value="" selected disabled>State</option>
           <option value="lagos">Lagos</option>
@@ -17,51 +27,36 @@
           <option value="" selected disabled>City</option>
           <option value="">Ikeja</option>
           <option value="">Victoria Island</option>
-        </select> -->
+        </select>-->
         <!-- <div class="sub-header">Payment info</div>
         <input type="text" placeholder="Card number" class="text-field">
         <input type="text" placeholder="05 / 22" class="text-field width-half">
-        <input type="text" placeholder="CVV" class="text-field width-half float-right"> -->
+        <input type="text" placeholder="CVV" class="text-field width-half float-right">-->
         <button @click="placeOrder()">Place order</button>
       </div>
       <div class="right-side">
-        <div
-          class="cart-item" 
-          v-for="(product, index) in orderItems.length"
-          :key="index">
+        <div class="cart-item" v-for="(product, index) in orderItems.length" :key="index">
           <div class="image-container">
-            <img :src="orderItems[index].display_image">
+            <img :src="orderItems[index].display_image" />
           </div>
-          <span class="item-name">
-            {{ orderItems[index].name }}
-          </span>
-          <br>
-          <span class="price">
-            ₦ {{ (orderItems[index].price/100).toLocaleString() }}
-          </span>
-          <br>
-          <span class="quantity">
-            {{ orderItems[index].quantity }}
-          </span>
+          <span class="item-name capitalize">{{ orderItems[index].name }}</span>
+          <br />
+          <span class="price">₦{{ (orderItems[index].price/100).toLocaleString() }}</span>
+          <br />
+          <span class="quantity">{{ orderItems[index].quantity }}</span>
         </div>
         <div class="divider"></div>
         <div class="text-row">
           <span class="left-text">Subtotal</span>
-          <span class="right-text">
-            ₦ {{ subtotal.toLocaleString() }}
-          </span>
+          <span class="right-text">₦ {{ subtotal.toLocaleString() }}</span>
         </div>
         <div class="text-row">
           <span class="left-text">Delivery</span>
-          <span class="right-text">
-            ₦ {{ deliveryCost.toLocaleString() }}
-          </span>
+          <span class="right-text">₦ {{ deliveryCost.toLocaleString() }}</span>
         </div>
         <div class="text-row">
           <span class="left-text">Total</span>
-          <span class="right-text">
-            ₦ {{ totalCost.toLocaleString() }}
-          </span>
+          <span class="right-text">₦ {{ totalCost.toLocaleString() }}</span>
         </div>
       </div>
     </div>
@@ -70,15 +65,15 @@
 
 <script>
 import api from "@/utils/api.js";
-import TopNav from '@/components/TopNav'
+import TopNav from "@/components/TopNav";
 
 export default {
   components: {
     TopNav
   },
-  data () {
+  data() {
     return {
-      order : {},
+      order: {},
       orderItems: [],
       subtotal: 0,
       totalCost: 0,
@@ -87,31 +82,31 @@ export default {
       user: "",
       fullName: "",
       phone_number: ""
-    }
+    };
   },
   mounted() {
     this.order = this.getNewlyCreatedOrder();
-    this.totalCost = this.order.total_price/100;
-    this.subtotal = this.order.sub_total/100;
-    this.deliveryCost = this.order.delivery_cost/100;
+    this.totalCost = this.order.total_price / 100;
+    this.subtotal = this.order.sub_total / 100;
+    this.deliveryCost = this.order.delivery_cost / 100;
     this.orderItems = this.order.items;
-    this.user = JSON.parse(localStorage.getItem('user_details'));
+    this.user = JSON.parse(localStorage.getItem("user_details"));
     this.address = `${this.order.shipping_address.street}, ${this.order.shipping_address.lga}, ${this.order.shipping_address.state}`;
-    this.fullName = `${this.user.first_name} ${this.user.last_name}`
-    this.phone_number = `${this.user.user.phone_number}`
+    this.fullName = `${this.user.first_name} ${this.user.last_name}`;
+    this.phone_number = `${this.user.user.phone_number}`;
   },
   methods: {
     navigateTo(page) {
       this.$router.push(page);
     },
     getNewlyCreatedOrder() {
-      return JSON.parse(localStorage.getItem('user_order'));
+      return JSON.parse(localStorage.getItem("user_order"));
     },
     placeOrder() {
       const order = this.getNewlyCreatedOrder();
       const handler = PaystackPop.setup({
         // key: "pk_test_8d401b3f50e9dd566c8273a1ebc1524a2d34d3f4",
-        key:"pk_test_a5e5a7ad89b8d468a6482b29dcf2acd7b09a1c18",
+        key: "pk_test_a5e5a7ad89b8d468a6482b29dcf2acd7b09a1c18",
         email: "test@gmail.com",
         amount: Math.ceil(this.totalCost * 100),
         currency: "NGN",
@@ -128,108 +123,107 @@ export default {
         }
       });
       handler.openIframe();
-    },
+    }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
 .container {
-  padding: 0 9rem;
-
+  margin: 0 10%;
 }
 
-#checkout-page{
-  width: 70%;
+#checkout-page {
+  width: 100%;
   margin: 0 auto;
   display: flex;
 
-  .left-side{
-    width: 47%;
+  .left-side {
+    width: 50%;
     min-height: 100vh;
-    float: left;
     border-right: solid 1px rgba(128, 128, 128, 0.404);
     padding-top: 50px;
     padding-right: 100px;
   }
 
-  .right-side{
+  .right-side {
     padding-top: 100px;
-    padding-left: 80px;
+    padding-left: 100px;
     width: 50%;
     float: left;
 
-    .cart-item{
+    .cart-item {
       width: 100%;
       float: left;
       display: block;
       font-size: 17px;
       margin-bottom: 50px;
 
-      .image-container{
+      .image-container {
         width: 150px;
         height: 150px;
-        background: gray;
         float: left;
+        background: transparent;
+        padding: 10px 0;
         margin-right: 20px;
       }
 
-      span{
+      span {
         display: inline-block;
         margin-bottom: 20px;
         color: rgba(0, 0, 0, 0.9);
       }
 
-      span.item-name{
+      span.item-name {
         margin-top: 20px;
         font-weight: 500;
       }
     }
 
-     .divider{
-       width: 100%;
-       height: 1px;
-       background: rgb(218, 218, 218);
-       float: left;
-       display: block;
-       margin-bottom: 30px;
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: rgb(218, 218, 218);
+      float: left;
+      display: block;
+      margin-bottom: 30px;
     }
 
-    .text-row{
+    .text-row {
       margin-bottom: 20px;
 
-      span{
+      span {
         font-size: 17px;
       }
 
-      span.right-text{
+      span.right-text {
         float: right;
       }
     }
   }
 
-  .header-text{
+  .header-text {
     font-size: 32px;
   }
 
-  .sub-header{
+  .sub-header {
     font-size: 20px;
     margin-top: 50px;
     margin-bottom: 20px;
   }
 
-  .text-field{
+  .text-field {
     width: 100%;
     padding: 15px 20px 15px 20px;
     border-radius: 5px;
-    box-sizing:border-box;
+    box-sizing: border-box;
     font-size: 14px;
     outline: none;
     border: solid 1px rgba(0, 0, 0, 0.2);
     margin-bottom: 30px;
   }
 
-  select{
+  select {
     width: 40%;
     outline: none;
     background: transparent;
@@ -239,15 +233,15 @@ export default {
     color: rgb(112, 112, 112);
   }
 
-  .width-half{
+  .width-half {
     width: 48%;
   }
 
-  .float-right{
+  .float-right {
     float: right;
   }
 
-  button{
+  button {
     display: block;
     width: 100%;
     padding-top: 20px;
@@ -259,6 +253,129 @@ export default {
     border-radius: 5px;
     text-transform: uppercase;
   }
+}
 
+//mobile
+@media only screen and (min-device-width: 320px) and (max-device-width: 767px) and (-webkit-min-device-pixel-ratio: 2) {
+  .container {
+    margin: 0 5%;
+  }
+
+  #checkout-page {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+
+    .left-side {
+      width: 100%;
+      min-height: 60vh;
+      border-right: none;
+      border-bottom: solid #000000 1px;
+      padding-top: 20px;
+      padding-right: 0px;
+    }
+
+    .right-side {
+      width: 100%;
+      padding-top: 0px;
+      padding-left: 0px;
+
+      .cart-item {
+        width: 100%;
+        // float: left;
+        font-size: 12px;
+        margin-bottom: 5px;
+        border-bottom: solid #000000 1px;
+
+        .image-container {
+          width: 150px;
+          height: 150px;
+          background: transparent;
+          margin-right: 20px;
+        }
+
+        span {
+          display: inline-block;
+          margin-bottom: 10px;
+          margin-left: 30px;
+          color: rgba(0, 0, 0, 0.9);
+        }
+
+        span.item-name {
+          margin-top: 50px;
+          font-weight: 500;
+        }
+      }
+
+      .divider {
+        display: none;
+      }
+
+      .text-row {
+        margin-bottom: 30px;
+
+        span {
+          font-size: 14px;
+        }
+
+        span.right-text {
+          float: right;
+        }
+      }
+    }
+
+    .header-text {
+      font-size: 32px;
+    }
+
+    .sub-header {
+      font-size: 20px;
+      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+
+    .text-field {
+      width: 100%;
+      padding: 15px 20px 15px 20px;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 14px;
+      outline: none;
+      border: solid 1px rgba(0, 0, 0, 0.2);
+      margin-bottom: 30px;
+    }
+
+    select {
+      width: 40%;
+      outline: none;
+      background: transparent;
+      border: solid 1px rgba(0, 0, 0, 0.2);
+      height: 40px;
+      font-size: 14px;
+      color: rgb(112, 112, 112);
+    }
+
+    .width-half {
+      width: 48%;
+    }
+
+    .float-right {
+      float: right;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      background: black;
+      color: white;
+      font-size: 14px;
+      margin-top: 20px;
+      border-radius: 5px;
+      text-transform: uppercase;
+    }
+  }
 }
 </style>

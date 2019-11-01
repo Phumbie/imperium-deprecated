@@ -6,48 +6,49 @@
       </div>
       <div class="product-details">
         <div class="centered-content">
-          <div class="product-name">
-            {{ productDetails.name }}
-          </div>
-          <div class="price">
-            ₦ {{ (productDetails.price / 100).toLocaleString() }}
-          </div>
-          <div class="btn-add-to-cart" @click="addProductToCart()">
-            Add to cart
-          </div>
-          <div class="">
+          <div class="product-name">{{ productDetails.name }}</div>
+          <div class="price">₦{{ (productDetails.price / 100).toLocaleString() }}</div>
+          <div class="btn-add-to-cart" @click="addProductToCart()">Add to cart</div>
+          <div class>
             <div class="loan-calc-title duration-margin">Loan Calculator</div>
             <div class="loan-calc-details">
               Loan Amount (+5% VAT and Service Fee)
-              <span class="loan-calc-value">
-                ₦ {{ loanAmount.toLocaleString() }}
-              </span>
+              <span
+                class="loan-calc-value"
+              >₦{{ loanAmount.toLocaleString() }}</span>
             </div>
             <div class="loan-calc-details duration-margin">
               Deposit(Min 30%)
-              <span class="loan-calc-value">₦ {{ loanDeposit.toLocaleString() }}</span>
+              <span class="loan-calc-value">₦{{ loanDeposit.toLocaleString() }}</span>
             </div>
-            <input type="range" :min ="minDeposit" :max="loanAmount" v-model="loanDeposit" 
-              @change="deposit()" class="slider">
+            <input
+              type="range"
+              :min="minDeposit"
+              :max="loanAmount"
+              v-model="loanDeposit"
+              @change="deposit()"
+              class="slider"
+            />
             <div class="loan-calc-details duration-margin">
               Duration
               <span class="loan-calc-value" v-text="rangeDuration"></span>
             </div>
-            <input type="range" min="1" max="12" v-model="monthValue" class="slider" 
-              @change="duration()">
+            <input
+              type="range"
+              min="1"
+              max="12"
+              v-model="monthValue"
+              class="slider"
+              @change="duration()"
+            />
             <div class="loan-calc-details monthly-payment">
               Monthly Repayment:
-              <span class="loan-calc-value monthly-payment">
-                ₦ {{ instalment.toLocaleString() }}
-              </span>
+              <span
+                class="loan-calc-value monthly-payment"
+              >₦{{ instalment.toLocaleString() }}</span>
             </div>
-            <div 
-            class="btn-add-to-cart" 
-            @click="addProductToCart()"
-            >
-              Pay Installmentally
-            </div>
-            </div>
+            <div class="btn-add-to-cart" @click="addProductToCart()">Pay Installmentally</div>
+          </div>
         </div>
       </div>
     </div>
@@ -56,27 +57,19 @@
     </content-loader>
     <div class="nav-desc-conf-set">
       <div class="nav-desc" @click="activeTabID = 0">
-        <span class="nav-desc-conf-set__item">
-          Description
-          <div class="line-black" v-if="activeTabID == 0"></div>
-        </span>
+        <div class="nav-desc-conf-set__item">Description</div>
+        <div class="line-black" v-if="activeTabID == 0"></div>
       </div>
       <div class="nav-conf" @click="activeTabID = 1">
-        <span class="nav-desc-conf-set__item">
-          Configurations
-          <div class="line-black" v-if="activeTabID == 1"></div>
-        </span>
+        <div class="nav-desc-conf-set__item">Configurations</div>
+        <div class="line-black" v-if="activeTabID == 1"></div>
       </div>
       <div class="nav-set" @click="activeTabID = 2">
-        <span class="nav-desc-conf-set__item">
-          Setup
-          <div class="line-black" v-if="activeTabID == 2"></div>
-        </span>
+        <div class="nav-desc-conf-set__item">Setup</div>
+        <div class="line-black" v-if="activeTabID == 2"></div>
       </div>
     </div>
-    <div class="long-details" v-if="activeTabID == 0">
-      {{ productDetails.description }}
-    </div>
+    <div class="long-details" v-if="activeTabID == 0">{{ productDetails.description }}</div>
     <div class="long-details" v-else-if="activeTabID == 1">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis molestias
       perferendis unde repudiandae cupiditate sint neque odit dolorem ipsa omnis
@@ -124,17 +117,17 @@ export default {
       outstandingPayment: "",
       instalment: "",
       monthValue: 1
-    }
+    };
   },
   mounted() {
     this.getProductDetails();
   },
   computed: {
     rangeDuration() {
-      return `${this.monthValue} Month(s)`
+      return `${this.monthValue} Month(s)`;
     },
     totalDeposit() {
-      return `₦ ${this.loanDeposit}`
+      return `₦ ${this.loanDeposit}`;
     }
   },
   methods: {
@@ -143,130 +136,133 @@ export default {
     },
 
     deposit() {
-      this.outstandingPayment = this.loanAmount - this.loanDeposit
-      this.instalment = Math.ceil(this.outstandingPayment / this.monthValue)
+      this.outstandingPayment = this.loanAmount - this.loanDeposit;
+      this.instalment = Math.ceil(this.outstandingPayment / this.monthValue);
     },
 
     duration() {
-      this.instalment = Math.ceil(this.outstandingPayment / this.monthValue).toLocaleString()
+      this.instalment = Math.ceil(
+        this.outstandingPayment / this.monthValue
+      ).toLocaleString();
     },
 
-    getProductDetails(){
+    getProductDetails() {
       api
         .getProductBySlug(this.productSlug)
         .then(({ data }) => {
           this.productDetails = data.data;
           this.fetchedProductDetails = true;
           //vat calculation
-          this.vat = (this.productDetails.price / 100) * 0.05
+          this.vat = (this.productDetails.price / 100) * 0.05;
           //service charge calculation
-          this.serviceCharge = (this.productDetails.price / 100) * 0.1
+          this.serviceCharge = (this.productDetails.price / 100) * 0.1;
           //total loan amount
-          this.loanAmount = Math.ceil((this.productDetails.price/100) + this.vat + this.serviceCharge)
+          this.loanAmount = Math.ceil(
+            this.productDetails.price / 100 + this.vat + this.serviceCharge
+          );
           //loan deposit calculation
-          this.loanDeposit =  Math.ceil(this.loanAmount * 0.3)
-          this.minDeposit = this.loanDeposit
-          this.deposit()
-          this.duration()
+          this.loanDeposit = Math.ceil(this.loanAmount * 0.3);
+          this.minDeposit = this.loanDeposit;
+          this.deposit();
+          this.duration();
         })
         .catch(({ response }) => {
           this.navigateTo("/404");
         });
     },
 
-    addProductToCart(){
-      if(!localStorage.getItem("user_details")) {
+    addProductToCart() {
+      if (!localStorage.getItem("user_details")) {
         let mathcingProducts = false;
-        let localDetails = JSON.parse(localStorage.getItem("product_id"))
+        let localDetails = JSON.parse(localStorage.getItem("product_id"));
         localDetails.map(items => {
-          if(items.id == this.productId){
-            if(items.quantity < this.productDetails.stock.quantity_available){
-              items.quantity += 1
-              items.subtotal += this.productDetails.price
+          if (items.id == this.productId) {
+            if (items.quantity < this.productDetails.stock.quantity_available) {
+              items.quantity += 1;
+              items.subtotal += this.productDetails.price;
               mathcingProducts = true;
               this.$store.dispatch("incrementCartCounter");
               this.$swal.fire({
-                position: 'top',
-                type: 'success',
+                position: "top",
+                type: "success",
                 width: 150,
-                html: 'Added',
+                html: "Added",
                 showConfirmButton: false,
                 timer: 1000,
-                toast: true,
-              })
-            }else {
+                toast: true
+              });
+            } else {
               this.$swal.fire({
-                type: 'info',
-                html: `We have only ${this.productDetails.stock.quantity_available} of this Product left`,
-              })
+                type: "info",
+                html: `We have only ${this.productDetails.stock.quantity_available} of this Product left`
+              });
               mathcingProducts = true;
             }
-            return
+            return;
           }
-        })
+        });
 
-        if(!mathcingProducts) {
-          if(this.productDetails.stock.quantity_available === 0){
+        if (!mathcingProducts) {
+          if (this.productDetails.stock.quantity_available === 0) {
             this.$swal.fire({
-              type: 'info',
-              html: "Product is not available",
-            })
-            return
+              type: "info",
+              html: "Product is not available"
+            });
+            return;
           }
           let productDetails = {
             id: this.productId,
             quantity: 1,
             subtotal: this.productDetails.price
           };
-          localDetails.push(productDetails)
+          localDetails.push(productDetails);
           this.$store.dispatch("incrementCartCounter");
           this.$swal.fire({
-            position: 'top',
-            type: 'success',
+            position: "top",
+            type: "success",
             width: 150,
-            html: 'Added',
+            html: "Added",
             showConfirmButton: false,
             timer: 1000,
-            toast: true,
-          })
+            toast: true
+          });
         }
 
-        localStorage.setItem("product_id", JSON.stringify(localDetails))
-            // alert("Successfully added product to cart!");
-      }else {
-
+        localStorage.setItem("product_id", JSON.stringify(localDetails));
+        // alert("Successfully added product to cart!");
+      } else {
         api
           .addProductToCart(this.productId)
           .then(({ data }) => {
-            let newQuantity = 0
-              if(data.data.cart.items.length === 0){
-                newQuantity = 0
-                this.$store.dispatch('setCartCounter', newQuantity);
-                localStorage.setItem("cartCounter", JSON.stringify(newQuantity))
-              }
-              data.data.cart.items.map((item) => {
-                newQuantity += item.quantity
-                this.$store.dispatch('setCartCounter', newQuantity);
-                localStorage.setItem("cartCounter", JSON.stringify(newQuantity))
-              })
+            let newQuantity = 0;
+            if (data.data.cart.items.length === 0) {
+              newQuantity = 0;
+              this.$store.dispatch("setCartCounter", newQuantity);
+              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
+            }
+            data.data.cart.items.map(item => {
+              newQuantity += item.quantity;
+              this.$store.dispatch("setCartCounter", newQuantity);
+              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
+            });
             // this.$store.dispatch("incrementCartCounter");
             // alert("Successfully added product to cart!");
             this.$swal.fire({
-              position: 'top',
-              type: 'success',
+              position: "top",
+              type: "success",
               width: 150,
-              html: 'Added',
+              html: "Added",
               showConfirmButton: false,
               timer: 1000,
-              toast: true,
-            })
+              toast: true
+            });
           })
           .catch(({ response }) => {
             // alert("Sorry boo, an error occured while adding to cart");
             this.$swal.fire({
-              type: 'info',
-              html: response.data.message,
-            })
+              type: "info",
+              html: response.data.message
+            });
           });
       }
     }
@@ -275,193 +271,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#product-view {
-  padding-top: 74px;
-  padding-bottom: 70px;
-  display: flex;
-  flex-direction: column;
-
-  .product {
-    display: flex;
-    flex-direction: row;
-    width: 99.9%;
-    border: solid 1px #000000;
-
-
-    .image-container {
-      width: 50%;
-      background: transparent !important;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-right: none;
-
-      img {
-        object-fit: cover;
-        width: 80%;
-        height: 90%;
-      }
-    }
-
-    .product-details {
-      width: 50%;
-      border-left: solid 1px #000000;
-
-      .centered-content {
-        width: 70%;
-        margin: 0 auto;
-        padding-top: 5.1%;
-        padding-bottom: 4.6%;
-
-        .product-name {
-          font-size: 32px;
-          margin-bottom: 18px;
-          text-transform: capitalize;
-        }
-
-        .price {
-          font-size: 24px;
-        }
-
-        .btn-add-to-cart {
-          width: 100%;
-          padding-top: 15px;
-          padding-bottom: 15px;
-          border: solid 1px #000000;
-          text-align: center;
-          font-size: 24px;
-          margin-top: 45px;
-          cursor: pointer;
-          transition: 0.5s;
-
-          &:hover {
-            background: #000000;
-            color: white;
-            transition: 0.5s;
-          }
-        }
-      }
-    }
-  }
-
-  .header-text-28 {
-    margin-top: 62px;
-    margin-bottom: 10px;
-  }
-
-  .product-item {
-    .centered-content {
-      width: 70%;
-    }
-  }
-
-  .nav-desc-conf-set {
-    display: flex;
-    margin-top: 40px;
-    width: 100%;
-    font-size: 19px;
-    margin-bottom: 27px;
-
-    .nav-desc-conf-set__item {
-      display: inline-block;
-      margin-top: 20px;
-      margin-right: 80px;
-      font-family: Graphik;
-      font-size: 19px;
-      color: #1d1d1d;
-
-      &:hover {
-        cursor: pointer;
-      }
-    }
-
-    .line-black {
-      border-bottom: solid 1px #000000;
-      margin-top: 7px;
-    }
-  }
-
-  .long-details {
-    width: 62%;
-    font-size: 18px;
-    line-height: 1.44;
-  }
-
-  .loan-calc-title {
-    margin-top: 6%;
-    font-size: 24px;
-  }
-
-  .loan-calc-details {
-    margin-top: 4.7%;
-    color: #7f7f7f;
-    width: 100%;
-    // height: 22px;
-    font-family: Helvetica;
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: 0.43px;
-
-    span {
-      float: right;
-    }
-  }
-
-  .loan-calc-value {
-    color: #000000;
-  }
-
-  .monthly-payment {
-    width: 100%;
-    font-size: 24px;
-    letter-spacing: 0.58px;
-    text-align: center;
-
-    span {
-      float: none;
-      font-weight: 500;
-    }
-  }
-
-  .slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 4px;
-    border-radius: 3px;
-    background: #bfbdbd;
-    cursor: pointer;
-    outline: none;
-    opacity: 0.33;
-    -webkit-transition: 0.2s;
-    transition: opacity 0.2s;
-  }
-
-  .slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px 0 rgba(120, 120, 120, 0.5);
-    background: #fffcfc;
-    cursor: pointer;
-  }
-
-  .slider::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px 0 rgba(120, 120, 120, 0.5);
-    background: #fffcfc;
-    cursor: pointer;
-  }
-
-  .duration-margin {
-    margin-top: 8%;
-  }
-}
 </style>
 

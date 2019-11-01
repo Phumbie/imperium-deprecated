@@ -1,60 +1,56 @@
 <template>
   <div id="normal-products-section">
-    <div class="header-text-28">Power your home with our range of products</div> 
+    <div class="header-text-28">Power your home with our range of products</div>
     <div class="small-text">Find batteries, inverters, solar panels and more</div>
-    <div class="nav-desc-conf-set">
+    <div class="bat-inv-pan-acc">
       <div class="nav-link" @click="activeTabID = 0">
-        <span class="nav-desc-conf-set__item">
+        <span class="bat-inv-pan-acc__item">
           Batteries
           <div class="line-black" v-if="activeTabID == 0"></div>
-        </span> 
+        </span>
       </div>
       <div class="nav-link" @click="activeTabID = 1">
-        <span class="nav-desc-conf-set__item">
+        <span class="bat-inv-pan-acc__item">
           Inverters
           <div class="line-black" v-if="activeTabID == 1"></div>
         </span>
       </div>
       <div class="nav-link" @click="activeTabID = 2">
-        <span class="nav-desc-conf-set__item">
+        <span class="bat-inv-pan-acc__item">
           Panels
           <div class="line-black" v-if="activeTabID == 2"></div>
-        </span>  
+        </span>
       </div>
       <div class="nav-link" @click="activeTabID = 3">
-        <span class="nav-desc-conf-set__item">
+        <span class="bat-inv-pan-acc__item">
           Accesories
           <div class="line-black" v-if="activeTabID == 3"></div>
-        </span>  
+        </span>
       </div>
     </div>
     <div class="long-details" v-if="activeTabID == 0">
-    <div class="products-container" v-if="fetchedProducts">
-      <div 
-        class="product-item" 
-        v-for="(product, index) in productsList" 
-        :key="index" 
-        @click="navigateTo(`/product/${product.slug}/id/${product.id}`)"
-      >
-        <div class="centered-content">
-          <div class="image-container">
-            <img :src="product.display_image">
-          </div>
-          <div class="small-text-18">{{ product.name }}</div>
-          <div class="small-gray-text text-blue">
-            ₦{{ (product.price/100).toLocaleString() }}
-          </div>
-          <div class="small-gray-text text-blue">
-            {{ product.capacity }} KV
+      <div class="products-container" v-if="fetchedProducts">
+        <div
+          class="product-item"
+          v-for="(product, index) in productsList"
+          :key="index"
+          @click="navigateTo(`/product/${product.slug}/id/${product.id}`)"
+        >
+          <div class="centered-content">
+            <div class="image-container">
+              <img :src="product.display_image" />
+            </div>
+            <div class="small-text-18">{{ product.name }}</div>
+            <div class="small-gray-text text-blue">₦{{ (product.price/100).toLocaleString() }}</div>
+            <div class="small-gray-text text-blue">{{ product.capacity }} KV</div>
           </div>
         </div>
       </div>
+      <content-loader v-else>
+        <div class="loader"></div>
+      </content-loader>
     </div>
-    <content-loader v-else>
-      <div class="loader"></div>
-    </content-loader>
-    </div>
-    <div class="" v-if="activeTabID == 0">
+    <div class v-if="activeTabID == 0">
       <paginate
         v-model="page"
         :page-count="2"
@@ -69,31 +65,27 @@
     </div>
     <div class="long-details" v-if="activeTabID == 1">
       <div class="products-container" v-if="fetchedProducts">
-      <div 
-        class="product-item" 
-        v-for="(product, index) in productsList" 
-        :key="index" 
-        @click="navigateTo(`/product/${product.slug}/id/${product.id}`)"
-      >
-        <div class="centered-content">
-          <div class="image-container">
-            <img :src="product.display_image">
-          </div>
-          <div class="small-text-18">{{ product.name }}</div>
-          <div class="small-gray-text text-blue">
-            ₦{{ (product.price/100).toLocaleString() }}
-          </div>
-          <div class="small-gray-text text-blue">
-            {{ product.capacity }} KV
+        <div
+          class="product-item"
+          v-for="(product, index) in productsList"
+          :key="index"
+          @click="navigateTo(`/product/${product.slug}/id/${product.id}`)"
+        >
+          <div class="centered-content">
+            <div class="image-container">
+              <img :src="product.display_image" />
+            </div>
+            <div class="small-text-18">{{ product.name }}</div>
+            <div class="small-gray-text text-blue">₦{{ (product.price/100).toLocaleString() }}</div>
+            <div class="small-gray-text text-blue">{{ product.capacity }} KV</div>
           </div>
         </div>
       </div>
+      <content-loader v-else>
+        <div class="loader"></div>
+      </content-loader>
     </div>
-    <content-loader v-else>
-      <div class="loader"></div>
-    </content-loader>
-    </div>
-    <div class="" v-if="activeTabID == 1">
+    <div class v-if="activeTabID == 1">
       <paginate
         v-model="page"
         :page-count="2"
@@ -108,31 +100,27 @@
     </div>
     <div class="long-details" v-if="activeTabID == 2">
       <div class="products-container" v-if="fetchedProducts">
-      <div 
-        class="product-item" 
-        v-for="(product, index) in productsList" 
-        :key="index" 
-        @click="navigateTo(`/product/${product.slug}/id/${product.id}`)"
-      >
-        <div class="centered-content">
-          <div class="image-container">
-            <img :src="product.display_image">
-          </div>
-          <div class="small-text-18">{{ product.name }}</div>
-          <div class="small-gray-text text-blue">
-            ₦{{ (product.price/100).toLocaleString() }}
-          </div>
-          <div class="small-gray-text text-blue">
-            {{ product.capacity }} KV
+        <div
+          class="product-item"
+          v-for="(product, index) in productsList"
+          :key="index"
+          @click="navigateTo(`/product/${product.slug}/id/${product.id}`)"
+        >
+          <div class="centered-content">
+            <div class="image-container">
+              <img :src="product.display_image" />
+            </div>
+            <div class="small-text-18">{{ product.name }}</div>
+            <div class="small-gray-text text-blue">₦{{ (product.price/100).toLocaleString() }}</div>
+            <div class="small-gray-text text-blue">{{ product.capacity }} KV</div>
           </div>
         </div>
       </div>
+      <content-loader v-else>
+        <div class="loader"></div>
+      </content-loader>
     </div>
-    <content-loader v-else>
-      <div class="loader"></div>
-    </content-loader>
-    </div>
-    <div class="" v-if="activeTabID == 2">
+    <div class v-if="activeTabID == 2">
       <paginate
         v-model="page"
         :page-count="2"
@@ -147,31 +135,29 @@
     </div>
     <div class="long-details" v-if="activeTabID == 3">
       <div class="products-container" v-if="fetchedProducts">
-        <div 
-          class="product-item" 
-          v-for="(product, index) in productsList" 
-          :key="index" 
+        <div
+          class="product-item"
+          v-for="(product, index) in productsList"
+          :key="index"
           @click="navigateTo(`/product/${product.slug}/id/${product.id}`)"
         >
           <div class="centered-content">
             <div class="image-container">
-              <img :src="product.display_image">
+              <img :src="product.display_image" />
             </div>
             <div class="small-text-18">{{ product.name }}</div>
-            <div class="small-gray-text text-blue">
-              ₦{{ (product.price/100).toLocaleString() }}
-            </div>
-            <div class="small-gray-text text-blue">
-              {{ product.capacity }} KV
-            </div>
+            <div class="small-gray-text text-blue">₦{{ (product.price/100).toLocaleString() }}</div>
+            <div class="small-gray-text text-blue">{{ product.capacity }} KV</div>
           </div>
         </div>
       </div>
-    <content-loader v-else>
-      <span><div class="loader"></div></span>
-    </content-loader>
+      <content-loader v-else>
+        <span>
+          <div class="loader"></div>
+        </span>
+      </content-loader>
     </div>
-    <div class="" v-if="activeTabID == 3">
+    <div class v-if="activeTabID == 3">
       <paginate
         v-model="page"
         :page-count="2"
@@ -184,33 +170,33 @@
         :prev-class="'page-item'"
       />
     </div>
-  </div> 
+  </div>
 </template>
 
 <script>
 import api from "@/utils/api.js";
-import contentLoader from "@/components/ContentLoader"
+import contentLoader from "@/components/ContentLoader";
 
 export default {
   components: {
-    contentLoader,
+    contentLoader
   },
-  data () {
+  data() {
     return {
       productsList: [],
       fetchedProducts: false,
       activeTabID: 0,
-      page: 1,
-    }
+      page: 1
+    };
   },
-  mounted(){
+  mounted() {
     this.fetchProducts();
   },
   methods: {
-     navigateTo(page) {
+    navigateTo(page) {
       this.$router.push(page);
     },
-    fetchProducts(){
+    fetchProducts() {
       api
         .getAllProducts(this.page)
         .then(({ data }) => {
@@ -218,71 +204,16 @@ export default {
           this.fetchedProducts = true;
         })
         .catch(({ response }) => {
-          alert(response.data.message)
+          alert(response.data.message);
         });
     },
     changePage(page) {
-      this.page = page
+      this.page = page;
       this.fetchProducts();
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-#normal-products-section{
-  .nav-desc-conf-set{
-    display: flex;
-    margin-top: 40px;
-    font-size: 19px;
-    align-items: center;
-    justify-content: center;
-    font-weight: normal;
-
-    .nav-link{
-      margin: 26px;
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
-    .nav-desc-conf-set__item{
-      display: inline-block;
-      font-size: 19px;
-      color: #1d1d1d;
-    }
-    .nav-desc-conf-set__item:hover{
-      cursor: pointer;
-    }
-    .line-black{
-      border-bottom: solid 1px #000000;
-      margin-top: 2px;
-    }
-  }
-
-  .products-container {
-    display: flex;
-    // justify-content: space-between;
-    border-bottom: none;
-    border-right: none;
-    width: 100%;
-
-    .product-item{
-      cursor: pointer;
-      border-right: 1px solid #000000;
-      // border-left: 1px solid #000000;
-      border-bottom: 1px solid #000000;
-    }
-  }
-
-  .pagination {
-    width: 88%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    // border: 1px solid #000000;
-    border-top: none;
-    padding: 1rem 5rem;
-    list-style: none;
-    margin: 0;
-  }
-}
 </style>

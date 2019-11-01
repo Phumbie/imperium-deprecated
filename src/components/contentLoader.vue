@@ -5,7 +5,7 @@
 </template>
 
 <style lang="scss">
-#content-loader{
+#content-loader {
   margin-top: 31px;
   width: 99.9%;
   border: solid 1px black;
@@ -26,8 +26,18 @@
   }
 
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 767px) and (-webkit-min-device-pixel-ratio: 2) {
+  #content-loader {
+    width: 99.7%;
   }
 }
 </style>

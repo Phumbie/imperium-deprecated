@@ -3,33 +3,32 @@
     <div class="nav">
       <div class="left-side">Imperium</div>
       <div class="right-side">
-        <a href="">Blog</a>
+        <a href>Blog</a>
         <a href="https://renewable-calculator.surge.sh/" target="blank">Calculator</a>
         <router-link to="/product-catalogue" class="nav-item">Shop</router-link>
       </div>
     </div>
-    <img src="@/assets/images/bg-wave-purple.svg" class="img-wave">
+    <img src="@/assets/images/bg-wave-purple.svg" class="img-wave" />
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import TopNav from '@/components/TopNav'
+import TopNav from "@/components/TopNav";
 
 export default {
   components: {
     TopNav
   },
-  data () {
-    return {
-    }
+  data() {
+    return {};
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-#paas-page{
-  .nav{
+#paas-page {
+  .nav {
     width: 80%;
     margin: 0 auto;
     font-weight: 500;
@@ -37,16 +36,16 @@ export default {
     display: flex;
     justify-content: space-between;
 
-    .left-side{
+    .left-side {
       font-size: 18px;
       color: rgba(0, 0, 0, 0.8);
       width: 20%;
     }
 
-    .right-side{
+    .right-side {
       width: 80%;
-      
-      a{
+
+      a {
         float: right;
         margin-left: 50px;
         font-size: 15px;
@@ -56,7 +55,7 @@ export default {
     }
   }
 
-  .img-wave{
+  .img-wave {
     position: absolute;
     width: 100%;
     z-index: -10;

@@ -1,25 +1,24 @@
 <template>
   <div id="container-main">
-    <top-nav/>
+    <top-nav />
     <router-view></router-view>
     <Footer />
   </div>
 </template>
 
 <script>
-import TopNav from '@/components/TopNav'
-import Footer from '@/components/Footer'
+import TopNav from "@/components/TopNav";
+import Footer from "@/components/Footer";
 
 export default {
   components: {
     TopNav,
     Footer
   },
-  data () {
-    return {
-    }
+  data() {
+    return {};
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

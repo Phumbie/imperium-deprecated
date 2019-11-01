@@ -4,33 +4,30 @@
       <div class="header-text">Personal details</div>
       <div class="small-text">We’ll need you to provide us with your personal details.</div>
       <form @submit.prevent="goToPage('account-details')">
-        <input type="text" placeholder="First name" class="text-field">
-        <input type="text" placeholder="Last name" class="text-field align-right">
-        <input type="text" placeholder="Date of birth" class="text-field">
-        <input type="text" placeholder="Email address" class="text-field align-right">
-        <input type="password" placeholder="Password" class="text-field">
-        <input type="password" placeholder="Confirm password" class="text-field align-right">
-        <input type="submit" value="Next" class="button-submit">
+        <input type="text" placeholder="First name" class="text-field" />
+        <input type="text" placeholder="Last name" class="text-field align-right" />
+        <input type="text" placeholder="Date of birth" class="text-field" />
+        <input type="text" placeholder="Email address" class="text-field align-right" />
+        <input type="password" placeholder="Password" class="text-field" />
+        <input type="password" placeholder="Confirm password" class="text-field align-right" />
+        <input type="submit" value="Next" class="button-submit" />
       </form>
     </div>
-  </div> 
+  </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-    }
+  data() {
+    return {};
   },
-
   methods: {
     goToPage(page) {
-      this.$router.push(page); 
-    },
+      this.$router.push(page);
+    }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-
 </style>

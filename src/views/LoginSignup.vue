@@ -1,22 +1,21 @@
 <template>
   <div id="container-main">
-    <top-nav/>
+    <top-nav />
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import TopNav from '@/components/TopNav'
+import TopNav from "@/components/TopNav";
 
 export default {
   components: {
-    TopNav,
+    TopNav
   },
-  data () {
-    return {
-    }
+  data() {
+    return {};
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

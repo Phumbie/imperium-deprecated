@@ -175,7 +175,7 @@
 
 <script>
 import api from "@/utils/api.js";
-import contentLoader from "@/components/ContentLoader";
+import contentLoader from "@/components/contentLoader";
 
 export default {
   components: {

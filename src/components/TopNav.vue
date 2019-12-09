@@ -210,6 +210,11 @@ export default {
       width: calc(50% - 0.5px);
       font-size: 28px;
       border: none;
+      border-bottom: solid 1px #000000;
+    }
+
+    .mobile-nav-item {
+      border-bottom: solid 1px #000000;
     }
 
     .mobile-nav-item,

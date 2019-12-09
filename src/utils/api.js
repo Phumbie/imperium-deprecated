@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = process.env.VUE_APP_BASE_URL;
+const BASE_URL = 'https://api.imperiumng.com/v1';
 const CUSTOMER_SIGNUP_URL = `${BASE_URL}/customer`;
 const CUSTOMER_LOGIN_URL = `${BASE_URL}/user/login`;
 const ALL_PRODUCTS_URL = `${BASE_URL}/product?page=`;

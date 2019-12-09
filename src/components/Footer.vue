@@ -14,7 +14,7 @@
           <div class="mobile-paas-small-header-text">PaaS</div>
           <div class="info-text">
             <a
-              href="https://alt-power-calculator.netlify.com/"
+              href="https://calculator.imperiumng.com/"
               target="blank"
               class="info-text"
             >Energy Calculator</a>

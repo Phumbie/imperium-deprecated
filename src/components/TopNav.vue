@@ -2,34 +2,48 @@
   <div id="nav-container">
     <div class="top-section">
       <router-link to="/my-account" class="nav-item">Account</router-link>
-      <router-link to="/my-account" class="mobile-nav-item border-right">Account</router-link>
-      <div class="product-title">Alt Power</div>
-      <router-link
-        to="/cart"
-        class="nav-item"
-      >Shopping cart ({{ cartCounter === 0 ? "..." : cartCounter }})</router-link>
-      <router-link
-        to="/cart"
-        class="mobile-nav-item border-left"
-      >cart ({{ cartCounter === 0 ? "..." : cartCounter }})</router-link>
+      <router-link to="/my-account" class="mobile-nav-item border-right"
+        >Account</router-link
+      >
+      <div class="product-title">Imperium</div>
+      <router-link to="/cart" class="nav-item"
+        >Shopping cart ({{
+          cartCounter === 0 ? "..." : cartCounter
+        }})</router-link
+      >
+      <router-link to="/cart" class="mobile-nav-item border-left"
+        >cart ({{ cartCounter === 0 ? "..." : cartCounter }})</router-link
+      >
     </div>
     <div class="bottom-section">
       <a
-        href="https://renewable-calculator.surge.sh/"
+        href="https:/calculator.imperiumng.com/"
         target="blank"
         class="nav-item1"
-      >Energy Calculator</a>
+        >Energy Calculator</a
+      >
       <a
-        href="https://renewable-calculator.surge.sh/"
+        href="https://calculator.imperiumng.com/"
         target="blank"
         class="mobile-nav-item1"
-      >Energy Calc</a>
-      <router-link to="/power-as-a-service" class="nav-item2">Buy Power</router-link>
-      <router-link to="/power-as-a-service" class="mobile-nav-item2">Buy Power</router-link>
+        >Energy Calc</a
+      >
+      <router-link to="#" class="nav-item2">Buy Power</router-link>
+      <router-link to="#" class="mobile-nav-item2">Buy Power</router-link>
       <router-link to="/" class="nav-item3">Buy Products</router-link>
       <router-link to="/" class="mobile-nav-item3">Buy Products</router-link>
-      <div class="nav-item4">Blog</div>
-      <div class="mobile-nav-item4">Blog</div>
+      <a
+        class="nav-item4"
+        href="https://www.imperiumng.com/blog"
+        target="blank"
+        >Blog</a
+      >
+      <a
+        class="mobile-nav-item4"
+        href="https://www.imperiumng.com/blog"
+        target="blank"
+        >Blog</a
+      >
     </div>
   </div>
 </template>
@@ -114,7 +128,7 @@ export default {
   }
 
   .top-section {
-    border-bottom: solid 1px #000000;
+    // border-bottom: solid 1px #000000;
   }
 
   .product-title {
@@ -124,7 +138,8 @@ export default {
     background: white;
     border-right: solid 1px #000000;
     border-left: solid 1px #000000;
-    width: 50%;
+    border-bottom: solid 1px #000000;
+    width: 49.9%;
     font-size: 32px;
     padding: 15px 0;
     text-align: center;
@@ -135,6 +150,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    border-bottom: solid 1px #000000;
   }
 
   .nav-item,

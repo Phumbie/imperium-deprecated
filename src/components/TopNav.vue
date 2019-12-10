@@ -18,13 +18,13 @@
     <div class="bottom-section">
       <a
         href="https:/calculator.imperiumng.com/"
-        target="blank"
+        target="_blank"
         class="nav-item1"
         >Energy Calculator</a
       >
       <a
         href="https://calculator.imperiumng.com/"
-        target="blank"
+        target="_blank"
         class="mobile-nav-item1"
         >Energy Calc</a
       >
@@ -35,13 +35,13 @@
       <a
         class="nav-item4"
         href="https://www.imperiumng.com/blog"
-        target="blank"
+        target="_blank"
         >Blog</a
       >
       <a
         class="mobile-nav-item4"
         href="https://www.imperiumng.com/blog"
-        target="blank"
+        target="_blank"
         >Blog</a
       >
     </div>

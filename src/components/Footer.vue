@@ -15,7 +15,7 @@
           <div class="info-text">
             <a
               href="https://calculator.imperiumng.com/"
-              target="blank"
+              target="_blank"
               class="info-text"
             >Energy Calculator</a>
           </div>

@@ -17,7 +17,8 @@
               href="https://calculator.imperiumng.com/"
               target="_blank"
               class="info-text"
-            >Energy Calculator</a>
+              >Energy Calculator</a
+            >
           </div>
           <div class="info-text">Plans</div>
           <div class="info-text">Purchase</div>
@@ -30,7 +31,11 @@
       </div>
       <div class="box last-box">
         <p class="small-header-text">Can't find what you're looking for?</p>
-        <router-link to="#" tag="button" class="button-send-mail">Send us an email</router-link>
+        <div class="send-mail-div">
+          <a tag="button" class="button-send-mail" href="mailto:Imperiumng@sterlinbankng.com" target="_top">
+            Send us an email</a
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -98,13 +103,18 @@ export default {
     text-align: center;
   }
 
+  .send-mail-div {
+    margin-top: 1.8rem;
+  }
+
   .button-send-mail {
-    width: 50%;
-    // margin-top: 25px;
+    // margin: 0 150px;
     font-size: 14px;
-    background: none;
-    padding: 12px 0;
+    border: #000000 1px solid;
+    padding: 1rem 6rem;
     transition: 0.5s ease-in-out;
+    color: black;
+    text-decoration: none;
     outline: none;
   }
   .button-send-mail:hover {

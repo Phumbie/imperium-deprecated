@@ -17,7 +17,7 @@
     </div>
     <div class="bottom-section">
       <a
-        href="https:/calculator.imperiumng.com/"
+        href="https://calculator.imperiumng.com/"
         target="_blank"
         class="nav-item1"
         >Energy Calculator</a

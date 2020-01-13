@@ -1,56 +1,65 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-
-import MainPage from '@/MainPage'
-import PaasPage from '@/PaasPage'
-import PaasSubscriptionPlan from '@/components/PaasSubscriptionPlan';
-import PaasPersonalDetails from '@/components/PaasPersonalDetails';
-import PaasAccountDetails from '@/components/PaasAccountDetails';
-import PaasStatementConfirmation from '@/components/PaasStatementConfirmation';
-import PaasApplianceConfiguration from '@/components/PaasApplianceConfiguration';
-import BuyProducts from '@/components/BuyProducts';
-import ProductView from '@/components/ProductView';
-import ShoppingCart from '@/components/ShoppingCart';
-import Login from '@/components/Login';
-import UserAccount from '@/components/UserAccount';
-import UserOrderHistory from '@/components/UserOrderHistory';
-import Signup from '@/components/Signup';
-import CheckoutPage from '@/CheckoutPage'
+import Vue from "vue";
+import Router from "vue-router";
+import MainPage from "@/views/MainPage";
+import LoginSignup from "@/views/LoginSignup";
+import PaasPage from "@/views/PaasPage";
+import PaasSubscriptionPlan from "@/components/PaasSubscriptionPlan";
+import PaasPersonalDetails from "@/components/PaasPersonalDetails";
+import PaasAccountDetails from "@/components/PaasAccountDetails";
+import PaasStatementConfirmation from "@/components/PaasStatementConfirmation";
+import PaasApplianceConfiguration from "@/components/PaasApplianceConfiguration";
+import BuyProducts from "@/components/BuyProducts";
+import ProductView from "@/components/ProductView";
+import ShoppingCart from "@/components/ShoppingCart";
+import Login from "@/components/Login";
+import UserAccount from "@/components/UserAccount";
+import EditUserAccount from "@/components/EditUserAccount";
+import UserOrderHistory from "@/components/UserOrderHistory";
+import Signup from "@/components/Signup";
+import CheckoutPage from "@/views/CheckoutPage";
+import PageNotFound from "@/views/404";
 
 // [Router, VModal].forEach((x) => Vue.use(x))
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
+  mode: "history",
   routes: [
     {
-      path: '/',
+      path: "/",
       component: MainPage,
       children: [
-        { path: '', component: PaasSubscriptionPlan },
-        { path: 'paas/appliance-configuration', component: PaasApplianceConfiguration },
-        { path: 'product-catalogue', component: BuyProducts },
-        { path: 'product/:slug/id/:id', component: ProductView },
-        { path: 'cart', component: ShoppingCart },
-        { path: 'login', component: Login },
-        { path: 'signup', component: Signup },
-        { path: '/my-account', component: UserAccount },
-        { path: '/my-account/order-history', component: UserOrderHistory }
+        { path: "", component: BuyProducts },
+        {
+          path: "paas/appliance-configuration",
+          component: PaasApplianceConfiguration
+        },
+        { path: "power-as-a-service", component: PaasSubscriptionPlan },
+        { path: "product/:slug/id/:id", component: ProductView },
+        { path: "cart", component: ShoppingCart },
+        { path: "/my-account", component: UserAccount },
+        { path: "/my-account/update", component: EditUserAccount },
+        { path: "/my-account/order-history", component: UserOrderHistory }
+      ]
+    },
+    { path: "/checkout", name: "CheckoutPage", component: CheckoutPage },
+    {
+      path: "/",
+      component: LoginSignup,
+      children: [
+        { path: "login", component: Login },
+        { path: "signup", component: Signup }
       ]
     },
     {
-      path: '/checkout',
-      name: 'CheckoutPage',
-      component: CheckoutPage,
-    },
-    {
-      path: '/paas',
+      path: "/paas",
       component: PaasPage,
       children: [
-        { path: 'register', component: PaasPersonalDetails },
-        { path: 'account-details', component: PaasAccountDetails },
-        { path: 'statement-confirmed', component: PaasStatementConfirmation }
+        { path: "register", component: PaasPersonalDetails },
+        { path: "account-details", component: PaasAccountDetails },
+        { path: "statement-confirmed", component: PaasStatementConfirmation }
       ]
     },
+    { path: "/404", name: "404Page", component: PageNotFound }
   ]
-})
+});

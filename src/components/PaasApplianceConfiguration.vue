@@ -4,7 +4,9 @@
       <div class="header-text">1 Bedroom 0.9KW</div>
       <div class="text-monthly-price">NGN 200,000.00 per month</div>
       <div class="small-text">Description</div>
-      <div class="long-desc">Bringing consumers (individuals or corporates), funding agencies, energy solution developers, technical support services and regulators together with a view to connecting the demand and supply for renewable energy resources.</div>
+      <div
+        class="long-desc"
+      >Bringing consumers (individuals or corporates), funding agencies, energy solution developers, technical support services and regulators together with a view to connecting the demand and supply for renewable energy resources.</div>
     </div>
     <div class="right-content">
       <div class="appliance-config-text">Appliance Configuration</div>
@@ -16,40 +18,39 @@
       <div class="appliance">
         <span class="name">Bulb (18W)</span>
         <span class="name float-right">3</span>
-        <input type="range" min="1" max="100" value="30" class="slider">
+        <input type="range" min="1" max="100" value="30" class="slider" />
       </div>
       <div class="appliance">
         <span class="name">Small fan (20W)</span>
         <span class="name float-right">1</span>
-        <input type="range" min="1" max="100" value="10" class="slider">
+        <input type="range" min="1" max="100" value="10" class="slider" />
       </div>
       <div class="appliance">
         <span class="name">Refrigerator (20W)</span>
         <span class="name float-right">1</span>
-        <input type="range" min="1" max="100" value="10" class="slider">
+        <input type="range" min="1" max="100" value="10" class="slider" />
       </div>
       <div class="total-power-rating">0.3 of 0.9KW</div>
       <button class="button-check-eligibilty" @click="goTo('register')">Check eligibility</button>
     </div>
-  </div> 
+  </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-    }
+  data() {
+    return {};
   },
   methods: {
     goTo(page) {
-      this.$router.push(page); 
-    },
+      this.$router.push(page);
+    }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-#paas-appliance-config{
+#paas-appliance-config {
   padding-top: 40px;
   padding-bottom: 30px;
   width: 85%;
@@ -59,31 +60,31 @@ export default {
   flex-direction: row;
   justify-content: space-between;
 
-  .float-right{
+  .float-right {
     float: right;
   }
 
-  .left-content{
+  .left-content {
     width: 40%;
     padding-top: 50px;
 
-    .header-text{
+    .header-text {
       font-size: 36px;
     }
 
-    .text-monthly-price{
+    .text-monthly-price {
       font-size: 26px;
       margin-top: 18px;
     }
 
-    .small-text{
+    .small-text {
       text-align: left;
       float: left;
       margin-top: 38px;
       width: 100%;
     }
 
-    .long-desc{
+    .long-desc {
       margin-top: 27px;
       float: left;
       line-height: 1.44;
@@ -91,36 +92,37 @@ export default {
     }
   }
 
-  .right-content{
+  .right-content {
     width: 42%;
     background: white;
-    box-shadow: 0 9px 42px 6px rgba(35, 38, 42, 0.08), 0 2px 3px 0 rgba(73, 73, 85, 0.06);
+    box-shadow: 0 9px 42px 6px rgba(35, 38, 42, 0.08),
+      0 2px 3px 0 rgba(73, 73, 85, 0.06);
     border-radius: 5px;
     box-sizing: border-box;
     padding: 43px 46px 30px 46px;
 
-    .appliance-config-text{
+    .appliance-config-text {
       font-size: 22px;
     }
 
-    .small-text{
+    .small-text {
       text-align: left;
       float: left;
       width: 100%;
       font-size: 16px;
     }
 
-    .item-qty-label{
+    .item-qty-label {
       margin-top: 30px;
       float: left;
       width: 100%;
       margin-bottom: 41px;
     }
 
-    .appliance{
+    .appliance {
       margin-bottom: 45px;
 
-      .name{
+      .name {
         font-size: 18px;
       }
 
@@ -130,8 +132,8 @@ export default {
         -webkit-appearance: none;
         height: 5px;
         outline: none;
-        -webkit-transition: .2s;
-        transition: opacity .2s;
+        -webkit-transition: 0.2s;
+        transition: opacity 0.2s;
         border-radius: 3px;
         background: #dddddd;
       }
@@ -159,12 +161,12 @@ export default {
       }
     }
 
-    .total-power-rating{
+    .total-power-rating {
       font-size: 28px;
       text-align: center;
     }
 
-    .button-check-eligibilty{
+    .button-check-eligibilty {
       color: white;
       width: 100%;
       border-radius: 5px;

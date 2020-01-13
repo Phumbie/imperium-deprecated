@@ -1,9 +1,11 @@
 <template>
   <div id="paas-section">
-    <div class="header-text-28">Simple, affordable monthly payments</div> 
-    <div class="small-text">Input your projected monthly power consumption or preferred monthly spend</div>
+    <div class="header-text-28">Simple, affordable monthly payments</div>
+    <div
+      class="small-text"
+    >Input your projected monthly power consumption or preferred monthly spend</div>
     <div class="power-consumption-field">
-      <input type="number" placeholder="KW/HR" class="text-field">
+      <input type="number" placeholder="KW/HR" class="text-field" />
       <button>Consumption</button>
     </div>
     <div class="small-text full-width">Choose a monthly subscription that fits your consumption band</div>
@@ -16,22 +18,20 @@
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-    }
+  data() {
+    return {};
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-#paas-section{
-
-  .power-consumption-field{
+#paas-section {
+  .power-consumption-field {
     width: 25%;
     height: 50px;
     // background: #d8d8d86c;
@@ -42,7 +42,7 @@ export default {
     justify-content: center;
     margin-bottom: 30px;
 
-    .text-field{
+    .text-field {
       width: 60%;
       border: none;
       background: #d8d8d86c;
@@ -50,7 +50,7 @@ export default {
       padding-left: 20px;
     }
 
-    button{
+    button {
       width: 40%;
       height: 100%;
       border: none;
@@ -60,16 +60,16 @@ export default {
     }
   }
 
-  .products-container{
-    .product-item{
-      .centered-content{
-        .price{
+  .products-container {
+    .product-item {
+      .centered-content {
+        .price {
           font-size: 30px;
-           line-height: 1.23;
-           margin-bottom: 6px;
+          line-height: 1.23;
+          margin-bottom: 6px;
         }
 
-        .very-small-text{
+        .very-small-text {
           font-size: 16px;
           line-height: 1.33;
           color: #637381;

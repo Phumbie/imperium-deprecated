@@ -29,6 +29,35 @@
           <div class="info-text">Terms&Conditions</div>
         </div>
       </div>
+
+      <div class="mobile-footer-nav">
+        <div class="box first-box">
+          <div class="small-header-text">Shop</div>
+          <div class="info-text">Returns</div>
+          <div class="info-text">Payment</div>
+          <div class="info-text">Delivery</div>
+          <div class="info-text">Terms & Conditions</div>
+        </div>
+        <div class="box border-right-none">
+          <div class="paas-small-header-text">Power As A Service</div>
+          <div class="mobile-paas-small-header-text">PaaS</div>
+          <div class="info-text">
+            <a
+              href="https://calculator.imperiumng.com/"
+              target="_blank"
+              class="info-text"
+              >Energy Calculator</a
+            >
+          </div>
+          <div class="info-text">Plans</div>
+          <div class="info-text">Purchase</div>
+          <div class="info-text">Lease to Own</div>
+        </div>
+        <!-- <div class="box ">
+          <div class="small-header-text">AltPay</div>
+          <div class="info-text">Terms&Conditions</div>
+        </div> -->
+      </div>
       <div class="box last-box">
         <p class="small-header-text">Can't find what you're looking for?</p>
         <div class="send-mail-div">
@@ -95,6 +124,10 @@ export default {
         }
       }
     }
+
+    .mobile-footer-nav {
+      display: none;
+    }
   }
   .last-box {
     flex: 1;
@@ -125,7 +158,7 @@ export default {
 }
 
 //Mobile
-@media only screen and (min-device-width: 320px) and (max-device-width: 767px) and (-webkit-min-device-pixel-ratio: 2) {
+@media only screen and (min-device-width: 320px) and (max-device-width: 1025px) and (-webkit-min-device-pixel-ratio: 2) {
   #footer {
     width: 99.7%;
 
@@ -135,21 +168,30 @@ export default {
       align-items: center;
       justify-content: center;
 
+
       .footer-nav {
+        display: none;
+      }
+
+      .mobile-footer-nav {
+        display: flex;
         width: 100%;
 
         .box {
+          display: flex;
+          flex-direction: column;
           width: 100%;
           border: none;
           padding-top: 10px;
-          padding-left: 10px;
+          padding-left: 20px;
           border-right: solid 1px #000000;
           padding-bottom: 20px;
           padding-right: 0px;
 
           .small-header-text,
           .mobile-paas-small-header-text {
-            display: flex;
+            // display: flex;
+            // align-self: center;
             font-weight: bold;
             letter-spacing: 0.43px;
             color: #000000;
@@ -162,6 +204,7 @@ export default {
 
           .info-text {
             font-weight: normal;
+            // align-self: center;
             margin-bottom: 10px;
             letter-spacing: 0.43px;
             color: #414b55;
@@ -193,7 +236,7 @@ export default {
       margin-top: 15px;
       font-size: 14px;
       background: none;
-      padding: 12px 0;
+      padding: 12px 54px;
       transition: 0.5s ease-in-out;
       outline: none;
     }

@@ -2,11 +2,25 @@
   <div id="login-section">
     <form @submit.prevent="login()">
       <div class="header-text-28">Login</div>
-      <input type="text" placeholder="Email address" class="text-field" v-model="email" required />
-      <input type="password" placeholder="Password" class="text-field" v-model="password" required />
+      <input
+        type="text"
+        placeholder="Email address"
+        class="text-field"
+        v-model="email"
+        required
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        class="text-field"
+        v-model="password"
+        required
+      />
       <div class="buttons">
         <button class="border-none">Forgot your password?</button>
-        <button class="border-none" @click="navigateTo('/signup')">Create account</button>
+        <button class="border-none" @click="navigateTo('/signup')">
+          Create account
+        </button>
         <input type="submit" value="Sign in" />
       </div>
     </form>
@@ -72,5 +86,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

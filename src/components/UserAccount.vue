@@ -4,7 +4,9 @@
     <button class="button-logout small-text" @click="logout()">Logout</button>
     <div class="section-title">Account Details</div>
     <span class="edit">
-      <router-link to="my-account/update" class="header-text-28 text-edit">Edit</router-link>
+      <router-link to="my-account/update" class="header-text-28 text-edit"
+        >Edit</router-link
+      >
     </span>
     <div class="details-container">
       <div class="box border-right border-bottom">
@@ -16,21 +18,31 @@
       </div>
       <div class="box">
         <div class="small-header-text">Address</div>
-        <div class="info-text capitalize">{{ userDetails.address.street }},</div>
+        <div class="info-text capitalize">
+          {{ userDetails.address.street }},
+        </div>
         <div class="info-text capitalize">{{ userDetails.address.lga }},</div>
         <div class="info-text capitalize">{{ userDetails.address.state }}.</div>
       </div>
     </div>
     <span class="section-title">Order History</span>
     <div class="products-container" v-if="hasHistory">
-      <div class="product-item" v-for="(order, index) in orderHistory" :key="index">
+      <div
+        class="product-item"
+        v-for="(order, index) in orderHistory"
+        :key="index"
+      >
         <div class="centered-content">
           <div class="image-container">
             <img :src="`${order.items[0].display_image}`" />
           </div>
-          <div class="small-gray-text wrap">{{ `Order ID: ${order.transaction_id}` }}</div>
-          <div class="small-gray-text">{{ `Date: ${(order.created_at).split("T")[0]}` }}</div>
-          <div class="small-gray-text">{{ `Status: ${ order.status }`}}</div>
+          <div class="small-gray-text wrap">
+            {{ `Order ID: ${order.transaction_id}` }}
+          </div>
+          <div class="small-gray-text">
+            {{ `Date: ${order.created_at.split("T")[0]}` }}
+          </div>
+          <div class="small-gray-text">{{ `Status: ${order.status}` }}</div>
           <button
             ref="btn"
             :disabled="disabledBtn"
@@ -38,7 +50,9 @@
             tag="button"
             class="button-view-order"
             @click="getOrderHistoryById(order.id)"
-          >View Order</button>
+          >
+            View Order
+          </button>
         </div>
       </div>
     </div>
@@ -46,7 +60,9 @@
       <span>{{ contentLoaderText }}</span>
     </content-loader>
     <span class="section-title">Power As A Service</span>
-    <div class="paas-active-plan-container">You have no active power as a service plan</div>
+    <div class="paas-active-plan-container">
+      You have no active power as a service plan
+    </div>
   </div>
   <content-loader v-else>
     <div v-if="show" class="loader"></div>
@@ -82,14 +98,13 @@ export default {
     }
 
     this.userDetails = JSON.parse(localStorage.getItem("user_details"));
-    // console.log(this.userDetails)
     this.userFullName = `${this.userDetails.first_name} ${this.userDetails.last_name}`;
 
     api
       .getCustomerOrder()
-      .then(({ data }) => {
-        if (data.status == "success") {
-          this.orderHistory = data.data.result;
+      .then(data => {
+        if (data.data.status == "success") {
+          this.orderHistory = data.data.data.orders.result;
           this.orderHistory.length === 0
             ? (this.hasHistory = false)
             : (this.hasHistory = true);
@@ -134,5 +149,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

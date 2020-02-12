@@ -7,19 +7,23 @@
       <div class="product-details">
         <div class="centered-content">
           <div class="product-name">{{ productDetails.name }}</div>
-          <div class="price">₦{{ (productDetails.price / 100).toLocaleString() }}</div>
-          <div class="btn-add-to-cart" @click="addProductToCart()">Add to cart</div>
+          <div class="price">₦{{ productDetails.price.toLocaleString() }}</div>
+          <div class="btn-add-to-cart" @click="addProductToCart()">
+            Add to cart
+          </div>
           <div class>
             <div class="loan-calc-title duration-margin">Loan Calculator</div>
             <div class="loan-calc-details">
               Loan Amount (+5% VAT and Service Fee)
-              <span
-                class="loan-calc-value"
-              >₦{{ loanAmount.toLocaleString() }}</span>
+              <span class="loan-calc-value"
+                >₦{{ loanAmount.toLocaleString() }}</span
+              >
             </div>
             <div class="loan-calc-details duration-margin">
               Deposit(Min 30%)
-              <span class="loan-calc-value">₦{{ loanDeposit.toLocaleString() }}</span>
+              <span class="loan-calc-value"
+                >₦{{ loanDeposit.toLocaleString() }}</span
+              >
             </div>
             <input
               type="range"
@@ -43,11 +47,13 @@
             />
             <div class="loan-calc-details monthly-payment">
               Monthly Repayment:
-              <span
-                class="loan-calc-value monthly-payment"
-              >₦{{ instalment.toLocaleString() }}</span>
+              <span class="loan-calc-value monthly-payment"
+                >₦{{ instalment.toLocaleString() }}</span
+              >
             </div>
-            <div class="btn-add-to-cart" @click="addProductToCart()">Pay Installmentally</div>
+            <div class="btn-add-to-cart" @click="addProductToCart()">
+              Pay Installmentally
+            </div>
           </div>
         </div>
       </div>
@@ -69,7 +75,9 @@
         <div class="line-black" v-if="activeTabID == 2"></div>
       </div>
     </div>
-    <div class="long-details" v-if="activeTabID == 0">{{ productDetails.description }}</div>
+    <div class="long-details" v-if="activeTabID == 0">
+      {{ productDetails.description }}
+    </div>
     <div class="long-details" v-else-if="activeTabID == 1">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis molestias
       perferendis unde repudiandae cupiditate sint neque odit dolorem ipsa omnis
@@ -153,12 +161,12 @@ export default {
           this.productDetails = data.data;
           this.fetchedProductDetails = true;
           //vat calculation
-          this.vat = (this.productDetails.price / 100) * 0.05;
+          this.vat = this.productDetails.price * 0.05;
           //service charge calculation
-          this.serviceCharge = (this.productDetails.price / 100) * 0.1;
+          this.serviceCharge = this.productDetails.price * 0.1;
           //total loan amount
           this.loanAmount = Math.ceil(
-            this.productDetails.price / 100 + this.vat + this.serviceCharge
+            this.productDetails.price + this.vat + this.serviceCharge
           );
           //loan deposit calculation
           this.loanDeposit = Math.ceil(this.loanAmount * 0.3);
@@ -270,6 +278,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
-
+<style lang="scss" scoped></style>

@@ -11,7 +11,12 @@
           :value="this.fullName"
           class="text-field capitalize"
         />
-        <input type="text" placeholder="Phone number" :value="this.phone_number" class="text-field" />
+        <input
+          type="text"
+          placeholder="Phone number"
+          :value="this.phone_number"
+          class="text-field"
+        />
         <input
           type="text"
           placeholder="Address"
@@ -35,13 +40,19 @@
         <button @click="placeOrder()">Place order</button>
       </div>
       <div class="right-side">
-        <div class="cart-item" v-for="(product, index) in orderItems.length" :key="index">
+        <div
+          class="cart-item"
+          v-for="(product, index) in orderItems.length"
+          :key="index"
+        >
           <div class="image-container">
             <img :src="orderItems[index].display_image" />
           </div>
           <span class="item-name capitalize">{{ orderItems[index].name }}</span>
           <br />
-          <span class="price">₦{{ (orderItems[index].price/100).toLocaleString() }}</span>
+          <span class="price"
+            >₦{{ orderItems[index].price.toLocaleString() }}</span
+          >
           <br />
           <span class="quantity">{{ orderItems[index].quantity }}</span>
         </div>
@@ -81,19 +92,19 @@ export default {
       address: "",
       user: "",
       fullName: "",
-      phone_number: ""
+      phone_number: JSON.parse(localStorage.getItem("user_order")).contact_phone
     };
   },
   mounted() {
     this.order = this.getNewlyCreatedOrder();
-    this.totalCost = this.order.total_price / 100;
-    this.subtotal = this.order.sub_total / 100;
-    this.deliveryCost = this.order.delivery_cost / 100;
+    this.totalCost = this.order.total_price;
+    this.subtotal = this.order.sub_total;
+    this.deliveryCost = this.order.delivery_cost;
     this.orderItems = this.order.items;
     this.user = JSON.parse(localStorage.getItem("user_details"));
     this.address = `${this.order.shipping_address.street}, ${this.order.shipping_address.lga}, ${this.order.shipping_address.state}`;
     this.fullName = `${this.user.first_name} ${this.user.last_name}`;
-    this.phone_number = `${this.user.user.phone_number}`;
+    // this.phone_number = `${this.user.user.phone_number}`;
   },
   methods: {
     navigateTo(page) {

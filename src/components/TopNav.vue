@@ -127,9 +127,9 @@ export default {
     display: flex;
   }
 
-  .top-section {
-    // border-bottom: solid 1px #000000;
-  }
+  // .top-section {
+  // border-bottom: solid 1px #000000;
+  // }
 
   .product-title {
     display: flex;

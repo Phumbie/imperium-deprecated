@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = 'https://api.imperiumng.com/v1';
+// const BASE_URL = 'https://api.imperiumng.com/v1';
+const BASE_URL = "https://altpower.herokuapp.com/v1";
 const CUSTOMER_SIGNUP_URL = `${BASE_URL}/customer`;
 const CUSTOMER_LOGIN_URL = `${BASE_URL}/user/login`;
 const ALL_PRODUCTS_URL = `${BASE_URL}/product?page=`;
@@ -10,6 +11,7 @@ const GET_CART_URL = `${BASE_URL}/cart`;
 const CART_CHECKOUT_URL = `${BASE_URL}/order/checkout`;
 const CUSTOMER_ORDER_URL = `${BASE_URL}/order/?status=placed`;
 const CUSTOMER_ORDER_BY_ID_URL = `${BASE_URL}/order`;
+// const CUSTOMER_ORDER_URL = `${BASE_URL}/order/?status=placed`;
 
 export default {
   getHeader() {

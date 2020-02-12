@@ -7,36 +7,52 @@
         <div class="text-quantity">Quantity</div>
         <div class="text-amount">Total amount</div>
       </div>
-      <div class="cart-item" v-for="(n, index) in cartItems.length" :key="index">
+      <div
+        class="cart-item"
+        v-for="(n, index) in cartItems.length"
+        :key="index"
+      >
         <div class="product-img-name-section">
           <div class="image-container">
             <img :src="cartItems[index].product.display_image" />
           </div>
           <div class="product-name-price-section">
-            <div class="product-name capitalize">{{ cartItems[index].product.name }}</div>
-            <div class="price">₦ {{ (cartItems[index].product.price/100).toLocaleString() }}</div>
+            <div class="product-name capitalize">
+              {{ cartItems[index].product.name }}
+            </div>
+            <div class="price">
+              ₦ {{ cartItems[index].product.price.toLocaleString() }}
+            </div>
             <button
               class="button-remove"
               @click="removeProductFromCart(cartItems[index].product.id)"
-            >Remove</button>
+            >
+              Remove
+            </button>
           </div>
         </div>
         <div class="quantity-section">
           <button
             class="button-minus"
             @click="decreaseProductQuantity(cartItems[index].product.id)"
-          >-</button>
+          >
+            -
+          </button>
           <span class="quantity">{{ cartItems[index].quantity }}</span>
           <button
             class="button-plus"
             @click="increaseProductQuantity(cartItems[index].product.id)"
-          >+</button>
+          >
+            +
+          </button>
         </div>
         <div class="amount-section">
           <div class="amount">
-            ₦ {{
-            (cartItems[index].product.price * cartItems[index]
-            .quantity/100).toLocaleString()
+            ₦
+            {{
+              (
+                cartItems[index].product.price * cartItems[index].quantity
+              ).toLocaleString()
             }}
           </div>
         </div>
@@ -49,27 +65,50 @@
         <div class="text-quantity">Quantity</div>
         <div class="text-amount">Total amount</div>
       </div>
-      <div class="cart-item" v-for="(n, index) in clientArr.length" :key="index">
+      <div
+        class="cart-item"
+        v-for="(n, index) in clientArr.length"
+        :key="index"
+      >
         <div class="product-img-name-section">
           <div class="image-container">
             <img :src="clientArr[index].display_image" />
           </div>
           <div class="product-name-price-section">
             <div class="product-name">{{ clientArr[index].name }}</div>
-            <div class="price">₦ {{ (clientArr[index].price/100).toLocaleString() }}</div>
-            <button class="button-remove" @click="removeProductFromCart(clientArr[index].id)">Remove</button>
+            <div class="price">
+              ₦ {{ clientArr[index].price.toLocaleString() }}
+            </div>
+            <button
+              class="button-remove"
+              @click="removeProductFromCart(clientArr[index].id)"
+            >
+              Remove
+            </button>
           </div>
         </div>
         <div class="quantity-section">
-          <button class="button-minus" @click="decreaseProductQuantity(clientArr[index].id)">-</button>
+          <button
+            class="button-minus"
+            @click="decreaseProductQuantity(clientArr[index].id)"
+          >
+            -
+          </button>
           <span class="quantity">{{ clientArr[index].quantity }}</span>
-          <button class="button-plus" @click="increaseProductQuantity(clientArr[index].id)">+</button>
+          <button
+            class="button-plus"
+            @click="increaseProductQuantity(clientArr[index].id)"
+          >
+            +
+          </button>
         </div>
         <div class="amount-section">
           <div class="amount">
-            ₦ {{
-            (clientArr[index].price * clientArr[index]
-            .quantity/100).toLocaleString()
+            ₦
+            {{
+              (
+                clientArr[index].price * clientArr[index].quantity
+              ).toLocaleString()
             }}
           </div>
         </div>
@@ -82,7 +121,7 @@
     <div class="shop-checkout-buttons-section" v-if="fetchedCart">
       <div class="subtotal-section">
         <span>Subtotal</span>
-        <span>₦ {{ (subtotal/100).toLocaleString() }}</span>
+        <span>₦ {{ subtotal.toLocaleString() }}</span>
       </div>
       <div class="text">Delivery and taxes are calculated at checkout</div>
       <div class="buttons">
@@ -93,7 +132,7 @@
     <div class="shop-checkout-buttons-section" v-else-if="fetchedLocalStorage">
       <div class="subtotal-section">
         <span>Subtotal</span>
-        <span>₦ {{ (subtotalArr/100).toLocaleString() }}</span>
+        <span>₦ {{ subtotalArr.toLocaleString() }}</span>
       </div>
       <div class="text">Delivery and taxes are calculated at checkout</div>
       <div class="buttons">
@@ -437,5 +476,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -1,7 +1,9 @@
 <template>
   <div id="normal-products-section">
     <div class="header-text-28">Power your home with our range of products</div>
-    <div class="small-text">Find batteries, inverters, solar panels and more</div>
+    <div class="small-text">
+      Find batteries, inverters, solar panels and more
+    </div>
     <div class="bat-inv-pan-acc">
       <div class="nav-link" @click="activeTabID = 0">
         <span class="bat-inv-pan-acc__item">
@@ -41,8 +43,12 @@
               <img :src="product.display_image" />
             </div>
             <div class="small-text-18">{{ product.name }}</div>
-            <div class="small-gray-text text-blue">₦{{ (product.price/100).toLocaleString() }}</div>
-            <div class="small-gray-text text-blue">{{ product.capacity }} KV</div>
+            <div class="small-gray-text text-blue">
+              ₦{{ product.price.toLocaleString() }}
+            </div>
+            <div class="small-gray-text text-blue">
+              {{ product.capacity }} KV
+            </div>
           </div>
         </div>
       </div>
@@ -76,8 +82,12 @@
               <img :src="product.display_image" />
             </div>
             <div class="small-text-18">{{ product.name }}</div>
-            <div class="small-gray-text text-blue">₦{{ (product.price/100).toLocaleString() }}</div>
-            <div class="small-gray-text text-blue">{{ product.capacity }} KV</div>
+            <div class="small-gray-text text-blue">
+              ₦{{ product.price.toLocaleString() }}
+            </div>
+            <div class="small-gray-text text-blue">
+              {{ product.capacity }} KV
+            </div>
           </div>
         </div>
       </div>
@@ -111,8 +121,12 @@
               <img :src="product.display_image" />
             </div>
             <div class="small-text-18">{{ product.name }}</div>
-            <div class="small-gray-text text-blue">₦{{ (product.price/100).toLocaleString() }}</div>
-            <div class="small-gray-text text-blue">{{ product.capacity }} KV</div>
+            <div class="small-gray-text text-blue">
+              ₦{{ product.price.toLocaleString() }}
+            </div>
+            <div class="small-gray-text text-blue">
+              {{ product.capacity }} KV
+            </div>
           </div>
         </div>
       </div>
@@ -146,8 +160,12 @@
               <img :src="product.display_image" />
             </div>
             <div class="small-text-18">{{ product.name }}</div>
-            <div class="small-gray-text text-blue">₦{{ (product.price/100).toLocaleString() }}</div>
-            <div class="small-gray-text text-blue">{{ product.capacity }} KV</div>
+            <div class="small-gray-text text-blue">
+              ₦{{ product.price.toLocaleString() }}
+            </div>
+            <div class="small-gray-text text-blue">
+              {{ product.capacity }} KV
+            </div>
           </div>
         </div>
       </div>
@@ -215,5 +233,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

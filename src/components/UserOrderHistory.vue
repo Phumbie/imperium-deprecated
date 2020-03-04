@@ -98,9 +98,8 @@ export default {
       this.placedOrder.items.map(item => {
         this.totalItems += item.quantity;
       });
-      if (JSON.parse(localStorage.getItem("placed_order")).items.length < 4) {
-        let emptyProductSpace =
-          4 - JSON.parse(localStorage.getItem("placed_order")).items.length;
+      if (this.placedOrder.items.length < 4) {
+        let emptyProductSpace = 4 - this.placedOrder.items.length;
         let emptyObject = {};
         let emptyProductArray = new Array(emptyProductSpace).fill(emptyObject);
         this.orderItems = JSON.parse(

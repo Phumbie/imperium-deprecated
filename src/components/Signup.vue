@@ -1,39 +1,24 @@
 <template>
   <div id="signup-section">
+    <div class="header-text-28">Signup</div>
     <form @submit.prevent="signupCustomer()">
-      <div class="header-text-28">Signup</div>
       <input
         type="text"
         placeholder="First name"
-        class="text-field width-half"
         required
         v-model="firstName"
       />
-      <input
-        type="text"
-        placeholder="Last name"
-        class="text-field width-half float-right"
-        v-model="lastName"
-        required
-      />
-      <input
-        type="text"
-        placeholder="Email address"
-        class="text-field width-half"
-        v-model="email"
-        required
-      />
+      <input type="text" placeholder="Last name" v-model="lastName" required />
+      <input type="text" placeholder="Email address" v-model="email" required />
       <input
         type="tel"
         placeholder="Phone number"
-        class="text-field width-half float-right"
         v-model="phoneNumber"
         required
       />
       <input
         type="password"
         placeholder="Password"
-        class="text-field width-half"
         v-model="password"
         minlength="6"
         required
@@ -41,22 +26,25 @@
       <input
         type="password"
         placeholder="Confirm password"
-        class="text-field width-half float-right"
         v-model="confirmPassword"
         minlength="6"
         required
       />
-      <input type="text" placeholder="Street" class="text-field" v-model="streetAddress" required />
-      <input type="text" placeholder="LGA" class="text-field width-half" v-model="lga" required />
-      <input
-        type="text"
-        placeholder="State"
-        class="text-field width-half float-right"
-        v-model="state"
-        required
-      />
+      <div class="address">
+        <input
+          type="text"
+          placeholder="Street"
+          v-model="streetAddress"
+          required
+        />
+        <input type="text" placeholder="LGA" v-model="lga" required />
+        <input type="text" placeholder="State" v-model="state" required />
+      </div>
       <div class="buttons">
-        <button class="btn">Create account</button>
+        <input type="submit" value="Create account" />
+        <button @click="navigateTo('/login')">
+          Login
+        </button>
       </div>
     </form>
   </div>
@@ -140,12 +128,33 @@ export default {
 
 <style lang="scss" scoped>
 #signup-section {
-  .width-half {
+  form {
     width: 49%;
-  }
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
 
-  .float-right {
-    float: right;
+    input {
+      width: 49%;
+    }
+
+    .address {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+
+      input {
+        width: 49%;
+      }
+    }
+
+    input[placeholder="Street"] {
+      width: 100%;
+    }
   }
 }
 </style>

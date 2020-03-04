@@ -2,26 +2,21 @@
   <div id="login-section">
     <form @submit.prevent="login()">
       <div class="header-text-28">Login</div>
-      <input
-        type="text"
-        placeholder="Email address"
-        class="text-field"
-        v-model="email"
-        required
-      />
+      <input type="text" placeholder="Email address" v-model="email" required />
       <input
         type="password"
         placeholder="Password"
-        class="text-field"
         v-model="password"
         required
       />
       <div class="buttons">
-        <button class="border-none">Forgot your password?</button>
-        <button class="border-none" @click="navigateTo('/signup')">
+        <router-link tag="button" to="/forget-password">
+          Forgot your password?
+        </router-link>
+        <input type="submit" value="Sign in" />
+        <button @click="navigateTo('/signup')">
           Create account
         </button>
-        <input type="submit" value="Sign in" />
       </div>
     </form>
   </div>
@@ -50,36 +45,51 @@ export default {
 
       api
         .loginCustomer(data)
-        .then(({ data }) => {
-          if (data.status == "success") {
-            // localStorage.setItem('user_details', JSON.stringify(data.data.user));
+        .then(response => {
+          if (response.data.status == "success") {
             localStorage.setItem(
               "user_details",
-              JSON.stringify(data.data.customer)
+              JSON.stringify(response.data.data.customer)
             );
-            localStorage.setItem("token", data.data.token);
+            localStorage.setItem("token", response.data.data.token);
             this.navigateTo("my-account");
           }
-          if (JSON.parse(localStorage.getItem("product_id"))) {
+          if (JSON.parse(localStorage.getItem("product_id")).length !== 0) {
             let localCart = JSON.parse(localStorage.getItem("product_id"));
-            localCart.map(item => {
-              if (item.id === "") {
-                return;
-              }
-              api
-                .addProductToCart(item.id)
-                .then(({ data }) => {
-                  this.$store.dispatch("incrementCartCounter");
-                  alert("Successfully added product to cart!");
-                })
-                .catch(({ response }) => {
-                  alert(response.data.message);
-                });
+            localCart.map(product => {
+              product.product_id = product.id;
+              delete product.subtotal;
+              delete product.id;
             });
+            const payload = { products: localCart };
+            api
+              .addBulkProductToCart(payload)
+              .then(response => {
+                if (response) {
+                  api
+                    .getCart()
+                    .then(({ data }) => {
+                      if (data.status == "success") {
+                        let cartSize = 0;
+                        let cartItems = data.data.cart.items;
+                        cartItems.forEach(item => {
+                          cartSize += item.quantity;
+                        });
+                        this.$store.dispatch("setCartCounter", cartSize);
+                      }
+                    })
+                    .catch(error => {
+                      alert(error.data.data.message);
+                    });
+                }
+              })
+              .catch(error => {
+                alert(error.data.data.message);
+              });
           }
         })
-        .catch(({ response }) => {
-          alert(response.data.message);
+        .catch(error => {
+          alert(error.data.data.message);
         });
     }
   }

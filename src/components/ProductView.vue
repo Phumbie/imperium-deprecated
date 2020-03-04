@@ -100,8 +100,8 @@
             <div class="image-container">
               <img :src="products.display_image" />
             </div>
-            <div class="small-text-18">{{ products.name }}</div>
-            <div class="small-gray-text truncate">
+            <div class="small-text-18 truncate-name">{{ products.name }}</div>
+            <div class="small-gray-text truncate-description">
               {{ products.description }}
             </div>
             <div class="small-gray-text">
@@ -317,8 +317,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.truncate {
+.truncate-name {
   display: -webkit-box;
+  height: 2rem;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.truncate-description {
+  display: -webkit-box;
+  height: 2.6rem;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;

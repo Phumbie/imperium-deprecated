@@ -1,74 +1,55 @@
 <template>
-  <div class="container">
-    <TopNav />
-    <div id="checkout-page">
-      <div class="left-side">
-        <!-- <div class="header-text">Alt Power</div> -->
-        <div class="sub-header">Shipping address</div>
-        <input
-          type="text"
-          placeholder="Full name"
-          :value="this.fullName"
-          class="text-field capitalize"
-        />
-        <input
-          type="text"
-          placeholder="Phone number"
-          :value="this.phone_number"
-          class="text-field"
-        />
-        <input
-          type="text"
-          placeholder="Address"
-          :value="this.address"
-          class="text-field capitalize"
-        />
-        <!-- <select class="width-half">
-          <option value="" selected disabled>State</option>
-          <option value="lagos">Lagos</option>
-          <option value="abuja">Abuja</option>
-        </select>
-        <select class="width-half float-right">
-          <option value="" selected disabled>City</option>
-          <option value="">Ikeja</option>
-          <option value="">Victoria Island</option>
-        </select>-->
-        <!-- <div class="sub-header">Payment info</div>
-        <input type="text" placeholder="Card number" class="text-field">
-        <input type="text" placeholder="05 / 22" class="text-field width-half">
-        <input type="text" placeholder="CVV" class="text-field width-half float-right">-->
-        <button @click="placeOrder()">Place order</button>
-      </div>
-      <div class="right-side">
-        <div
-          class="cart-item"
-          v-for="(product, index) in orderItems.length"
-          :key="index"
-        >
-          <div class="image-container">
-            <img :src="orderItems[index].display_image" />
+  <div id="checkout-page">
+    <div class="left-side">
+      <div class="sub-header">Shipping details</div>
+      <input
+        type="text"
+        placeholder="Full name"
+        :value="this.fullName"
+        class="text-field capitalize"
+      />
+      <input
+        type="text"
+        placeholder="Phone number"
+        :value="this.phone_number"
+        class="text-field"
+      />
+      <input
+        type="text"
+        placeholder="Address"
+        :value="this.address"
+        class="text-field capitalize"
+      />
+      <button @click="placeOrder()">Place order</button>
+    </div>
+    <div class="right-side">
+      <div
+        class="cart-item"
+        v-for="(product, index) in orderItems.length"
+        :key="index"
+      >
+        <div class="image-container">
+          <img :src="orderItems[index].display_image" />
+        </div>
+        <div>
+          <div class="item-name capitalize">{{ orderItems[index].name }}</div>
+          <div class="item-name">
+            ₦{{ orderItems[index].price.toLocaleString() }}
           </div>
-          <span class="item-name capitalize">{{ orderItems[index].name }}</span>
-          <br />
-          <span class="price"
-            >₦{{ orderItems[index].price.toLocaleString() }}</span
-          >
-          <br />
-          <span class="quantity">{{ orderItems[index].quantity }}</span>
+          <div class="item-name">{{ orderItems[index].quantity }}</div>
         </div>
-        <div class="divider"></div>
-        <div class="text-row">
-          <span class="left-text">Subtotal</span>
-          <span class="right-text">₦ {{ subtotal.toLocaleString() }}</span>
-        </div>
-        <div class="text-row">
-          <span class="left-text">Delivery</span>
-          <span class="right-text">₦ {{ deliveryCost.toLocaleString() }}</span>
-        </div>
-        <div class="text-row">
-          <span class="left-text">Total</span>
-          <span class="right-text">₦ {{ totalCost.toLocaleString() }}</span>
-        </div>
+      </div>
+      <div class="text-row">
+        <span class="left-text">Subtotal</span>
+        <span class="right-text">₦ {{ subtotal.toLocaleString() }}</span>
+      </div>
+      <div class="text-row">
+        <span class="left-text">Delivery</span>
+        <span class="right-text">₦ {{ deliveryCost.toLocaleString() }}</span>
+      </div>
+      <div class="text-row">
+        <span class="left-text">Total</span>
+        <span class="right-text">₦ {{ totalCost.toLocaleString() }}</span>
       </div>
     </div>
   </div>
@@ -127,10 +108,12 @@ export default {
           }
         },
         callback: function(response) {
-          alert(
-            "Order is being processed, you'll get an email shortly on the order status"
-          );
-          this.navigateTo("/product-catalogue");
+          this.$swal.fire({
+            icon: "info",
+            html:
+              "Order is being processed, you'll get an email shortly on the order status"
+          });
+          this.navigateTo("/products");
         }
       });
       handler.openIframe();
@@ -140,68 +123,79 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  margin: 0 10%;
-}
-
 #checkout-page {
   width: 100%;
   margin: 0 auto;
   display: flex;
 
   .left-side {
+    flex: 1;
     width: 50%;
-    min-height: 100vh;
-    border-right: solid 1px rgba(128, 128, 128, 0.404);
-    padding-top: 50px;
-    padding-right: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: solid 1px #1d1d1d;
+    padding: 5rem 1px;
+
+    .sub-header {
+      margin-top: 50px;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      letter-spacing: 0.05rem;
+      text-align: start;
+    }
   }
 
   .right-side {
-    padding-top: 100px;
-    padding-left: 100px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8rem 0;
     width: 50%;
-    float: left;
 
     .cart-item {
-      width: 100%;
-      float: left;
-      display: block;
-      font-size: 17px;
-      margin-bottom: 50px;
+      width: 70%;
+      display: flex;
+      font-size: 1.2rem;
+      margin-bottom: 5rem;
 
       .image-container {
         width: 150px;
         height: 150px;
-        float: left;
         background: transparent;
-        padding: 10px 0;
         margin-right: 20px;
+
+        img {
+          object-fit: contain;
+          width: 70%;
+          height: 70%;
+          padding: 1rem;
+        }
       }
 
       span {
-        display: inline-block;
         margin-bottom: 20px;
-        color: rgba(0, 0, 0, 0.9);
+        color: #1d1d1d;
       }
 
-      span.item-name {
-        margin-top: 20px;
+      .item-name {
+        margin-top: 1rem;
         font-weight: 500;
+        color: #1d1d1d;
       }
-    }
-
-    .divider {
-      width: 100%;
-      height: 1px;
-      background: rgb(218, 218, 218);
-      float: left;
-      display: block;
-      margin-bottom: 30px;
     }
 
     .text-row {
+      width: 70%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+      font-weight: 500;
+      color: #1d1d1d;
       margin-bottom: 20px;
+      border-bottom: 1px solid #1d1d1d;
 
       span {
         font-size: 17px;
@@ -217,20 +211,13 @@ export default {
     font-size: 32px;
   }
 
-  .sub-header {
-    font-size: 20px;
-    margin-top: 50px;
-    margin-bottom: 20px;
-  }
-
   .text-field {
-    width: 100%;
+    width: 70%;
     padding: 15px 20px 15px 20px;
-    border-radius: 5px;
     box-sizing: border-box;
     font-size: 14px;
     outline: none;
-    border: solid 1px rgba(0, 0, 0, 0.2);
+    border: solid 1px #1d1d1d;
     margin-bottom: 30px;
   }
 
@@ -254,14 +241,14 @@ export default {
 
   button {
     display: block;
-    width: 100%;
+    width: 70%;
     padding-top: 20px;
     padding-bottom: 20px;
     background: black;
     color: white;
     font-size: 14px;
     margin-top: 20px;
-    border-radius: 5px;
+    border: none;
     text-transform: uppercase;
   }
 }

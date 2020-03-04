@@ -99,30 +99,32 @@ export default {
     handlePageChange(page) {
       this.loading = true;
       this.page = page;
-      this.$router.push({ path: "/products", query: { page: page } });
+      // this.$router.push({ path: "/products", query: { page: page } });
       this.fetchProducts();
     },
     switchCategory(category) {
       this.loading = true;
       this.activeTabID = category;
       this.header = category;
-      if (category === "battery") {
-        this.header = "batteries";
-      }
-      if (category === "inverter") {
-        this.header = "inverters";
-      }
-      if (category === "solar panel") {
-        this.header = "solar panels";
-      }
-      if (category === "accessory") {
-        this.header = "accessories";
-      }
-      if (category === "bundle") {
-        this.header = "complete solution";
+      switch (category) {
+        case "battery":
+          this.header = "batteries";
+          break;
+        case "inverter":
+          this.header = "inverters";
+          break;
+        case "solar panel":
+          this.header = "solar panels";
+          break;
+        case "accessory":
+          this.header = "accessories";
+          break;
+        case "bundle":
+          this.header = "complete solution";
+          break;
       }
       this.page = null;
-      this.$router.push({ path: "/products", query: { category: category } });
+      // this.$router.push({ path: "/products", query: { category: category } });
       this.fetchProducts();
     },
     fetchProducts() {

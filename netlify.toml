@@ -5,7 +5,7 @@
 
 [context.branch-deploy]
   [context.branch-deploy.environment]
-    VUE_APP_ATLPOWER_BASE_APIURL = "https://altpower.herokuapp.com/v1"
+    VUE_APP_BASE_URL = "https://altpower.herokuapp.com/v1"
     VUE_APP_MODE = "staging"
     
 [context.production]

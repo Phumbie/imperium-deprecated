@@ -1,19 +1,16 @@
 <template>
   <div id="user-account" v-if="loading">
-    <div class="header-text-28 display-none">My Account</div>
-    <button class="button-logout small-text" @click="logout()">Logout</button>
+    <div class="header-text-28">My Account</div>
+    <button class="text-edit" @click="logout()">Logout</button>
     <div class="section-title">Account Details</div>
     <span class="edit">
-      <router-link to="my-account/update" class="header-text-28 text-edit"
-        >Edit</router-link
-      >
+      <router-link to="my-account/update" class="text-edit">Edit</router-link>
     </span>
     <div class="details-container">
       <div class="box border-right border-bottom">
         <div class="small-header-text">Personal details</div>
         <div class="info-text capitalize">{{ userFullName }}</div>
         <div class="info-text">{{ userDetails.user.email }}</div>
-        <div class="info-text">Non binary</div>
         <div class="info-text">{{ userDetails.user.phone_number }}</div>
       </div>
       <div class="box">
@@ -32,20 +29,23 @@
         v-for="(order, index) in orderHistory"
         :key="index"
       >
-        <div class="centered-content">
+        <div class="centered-content" v-if="order.items">
           <div class="image-container">
             <img :src="`${order.items[0].display_image}`" />
           </div>
-          <div class="small-gray-text wrap">
-            {{ `Order ID: ${order.transaction_id}` }}
-          </div>
+          <label>Status</label>
           <div class="small-gray-text">
-            {{ `Date: ${order.created_at.split("T")[0]}` }}
+            {{ `${order.status}` }}
           </div>
-          <div class="small-gray-text">{{ `Status: ${order.status}` }}</div>
+          <label>Date</label>
+          <div class="small-gray-text">
+            {{ `${order.created_at.split("T")[0]}` }}
+          </div>
+          <!-- <label>Total price</label>
+          <div class="small-gray-text">
+            ₦ {{ `${order.sub_total.toLocaleString()}` }}
+          </div> -->
           <button
-            ref="btn"
-            :disabled="disabledBtn"
             to="my-account/order-history"
             tag="button"
             class="button-view-order"
@@ -59,10 +59,23 @@
     <content-loader v-else>
       <span>{{ contentLoaderText }}</span>
     </content-loader>
-    <span class="section-title">Power As A Service</span>
+    <div class="pagination">
+      <el-pagination
+        :background="false"
+        @current-change="handlePageChange"
+        :hide-on-single-page="true"
+        :page-size="this.pagination.per_page"
+        :current-page="this.pagination.page"
+        :pager-count="9"
+        layout="prev, pager, next"
+        :total="this.pagination.totalRecords"
+      >
+      </el-pagination>
+    </div>
+    <!-- <span class="section-title">Power As A Service</span>
     <div class="paas-active-plan-container">
       You have no active power as a service plan
-    </div>
+    </div> -->
   </div>
   <content-loader v-else>
     <div v-if="show" class="loader"></div>
@@ -72,7 +85,6 @@
 <script>
 import api from "@/utils/api.js";
 import contentLoader from "@/components/contentLoader";
-import { TweenMax } from "gsap";
 
 export default {
   name: "UserAccount",
@@ -83,11 +95,12 @@ export default {
     return {
       loading: false,
       hasHistory: false,
-      disabledBtn: false,
       userDetails: "",
       userFullName: "",
       orderHistory: [],
       contentLoaderText: "",
+      pagination: "",
+      page: 1,
       show: true
     };
   },
@@ -99,22 +112,7 @@ export default {
 
     this.userDetails = JSON.parse(localStorage.getItem("user_details"));
     this.userFullName = `${this.userDetails.first_name} ${this.userDetails.last_name}`;
-
-    api
-      .getCustomerOrder()
-      .then(data => {
-        if (data.data.status == "success") {
-          this.orderHistory = data.data.data.orders.result;
-          this.orderHistory.length === 0
-            ? (this.hasHistory = false)
-            : (this.hasHistory = true);
-          this.contentLoaderText = "Nothing to show";
-          this.loading = true;
-        }
-      })
-      .catch(({ response }) => {
-        alert(response.data.message);
-      });
+    this.getOrders();
   },
   methods: {
     logout() {
@@ -124,20 +122,52 @@ export default {
     navigateTo(page) {
       this.$router.push(page);
     },
+    handlePageChange(page) {
+      this.loading = false;
+      this.page = page;
+      this.$router.push({ path: "/my-account", query: { page: page } });
+      this.getOrders();
+    },
+    getOrders() {
+      api
+        .getCustomerOrder(this.page)
+        .then(response => {
+          if (response.data.data.orders.result.length < 4) {
+            let emptyProductSpace = 4 - response.data.data.orders.result.length;
+            let emptyObject = {};
+            let emptyProductArray = new Array(emptyProductSpace).fill(
+              emptyObject
+            );
+            this.pagination = response.data.data.orders;
+            this.orderHistory = response.data.data.orders.result.concat(
+              emptyProductArray
+            );
+            this.orderHistory.length === 0
+              ? (this.hasHistory = false)
+              : (this.hasHistory = true);
+            this.contentLoaderText = "Nothing to show";
+            this.loading = true;
+          } else {
+            this.pagination = response.data.data.orders;
+            this.orderHistory = response.data.data.orders.result;
+            this.orderHistory.length === 0
+              ? (this.hasHistory = false)
+              : (this.hasHistory = true);
+            this.contentLoaderText = "Nothing to show";
+            this.loading = true;
+          }
+        })
+        .catch(({ response }) => {
+          alert(response.data.message);
+        });
+    },
     getOrderHistoryById(orderId) {
-      const { btn } = this.$refs;
-      TweenMax.to(btn, 2, { cursor: "not-allowed" });
-      //disable button when clicked
-      this.disabledBtn = true;
+      this.loading = false;
       api
         .getCustomerOrderById(orderId)
         .then(({ data }) => {
           if (data.status == "success") {
             localStorage.setItem("placed_order", JSON.stringify(data.data));
-            localStorage.setItem(
-              "placed_items",
-              JSON.stringify(data.data.items)
-            );
           }
           this.navigateTo("my-account/order-history");
         })
@@ -149,4 +179,71 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#user-account {
+  .section-title {
+    margin-top: 60px;
+    font-size: 1.2rem;
+    margin-bottom: 18px;
+    letter-spacing: 0.05rem;
+  }
+
+  .text-edit {
+    font-size: 15px;
+    letter-spacing: 0.05rem;
+    text-decoration: none;
+    color: rgba(29, 29, 29, 0.5);
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .text-edit:hover {
+    color: #1d1d1d;
+  }
+
+  button {
+    width: 4rem;
+    align-self: center;
+    margin-top: 0.2rem;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.03rem;
+    background: transparent;
+    border: none;
+  }
+
+  label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: rgba(29, 29, 29, 0.5);
+  }
+
+  .products-container {
+    .product-item {
+      .centered-content {
+        width: 80%;
+
+        .small-gray-text {
+          font-size: 0.8rem;
+          margin: 0rem;
+          margin-bottom: 0.5rem;
+          letter-spacing: 0.1rem;
+          line-height: 1.4rem;
+        }
+
+        button {
+          width: 100%;
+          border: 1px solid #1d1d1d;
+          padding: 0.8rem 0;
+          transition: 0.5s;
+        }
+
+        button:hover {
+          background-color: #1d1d1d;
+          color: white;
+        }
+      }
+    }
+  }
+}
+</style>

@@ -6,8 +6,11 @@ body {
   margin: 0;
   font-family: "Graphik";
   font-weight: normal;
-  letter-spacing: 0.05rem;
   -webkit-font-smoothing: antialiased;
+
+  p {
+    margin: 0;
+  }
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -34,8 +37,6 @@ button {
   text-transform: capitalize;
 }
 
-#normal-products-section,
-#landing,
 #product-view,
 #normal-products,
 #cart-section,
@@ -118,22 +119,12 @@ button {
 
   .products-container {
     width: 100%;
-    // height: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     border: solid 1px #000000;
     margin-top: 31px;
-    // float: left;
     border-right: none;
     border-bottom: none;
-    display: flex;
-    // flex-direction: row;
-    flex-wrap: wrap;
-
-    // .small-header-text {
-    // font-size: 18px;
-    // font-weight: 500;
-    // margin-bottom: 25px;
-    // color: #1d1d1d;
-    // }
 
     .product-item {
       display: flex;
@@ -142,7 +133,6 @@ button {
       border-right: solid 1px #000000;
       border-bottom: solid 1px black;
       padding: 2rem 0;
-      width: calc(25% - 1px);
       cursor: pointer;
 
       .centered-content {
@@ -189,7 +179,6 @@ button {
           letter-spacing: 0.1rem;
           line-height: 1.8rem;
           text-transform: capitalize;
-          border-bottom: rgba(99, 155, 97, 0.2) solid 1px;
         }
 
         .small-gray-text {

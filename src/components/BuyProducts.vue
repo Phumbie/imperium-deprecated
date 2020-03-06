@@ -1,34 +1,42 @@
 <template>
   <div id="normal-products-section">
-    <div class="header-text-28 capitalize">{{ this.header }}</div>
-    <div class="nav-desc-conf-set">
-      <div class="nav-link" @click="switchCategory('all products')">
-        <div class="nav-desc-conf-set__item">All Products</div>
-        <div class="line-black" v-if="this.activeTabID == 'all products'"></div>
-      </div>
-      <div class="nav-link" @click="switchCategory('battery')">
-        <div class="nav-desc-conf-set__item">Batteries</div>
-        <div class="line-black" v-if="this.activeTabID == 'battery'"></div>
-      </div>
-      <div class="nav-link" @click="switchCategory('inverter')">
-        <div class="nav-desc-conf-set__item">Inverters</div>
-        <div class="line-black" v-if="activeTabID == 'inverter'"></div>
-      </div>
-      <div class="nav-link" @click="switchCategory('solar panel')">
-        <div class="nav-desc-conf-set__item">Solar Panels</div>
-        <div class="line-black" v-if="activeTabID == 'solar panel'"></div>
-      </div>
-      <div class="nav-link" @click="switchCategory('accessory')">
-        <div class="nav-desc-conf-set__item">Accessories</div>
-        <div class="line-black" v-if="activeTabID == 'accessory'"></div>
-      </div>
+    <section class="header-section">
+      <div class="header-text-28 capitalize">{{ this.header }}</div>
+      <div class="category-nav">
+        <div class="category-link" @click="switchCategory('all products')">
+          <div class="category">All Products</div>
+          <div
+            class="underline"
+            v-if="this.activeTabID == 'all products'"
+          ></div>
+        </div>
+        <div class="category-link" @click="switchCategory('solar panel')">
+          <div class="category">Solar Panels</div>
+          <div class="underline" v-if="activeTabID == 'solar panel'"></div>
+        </div>
+        <div class="category-link" @click="switchCategory('inverter')">
+          <div class="category">Inverters</div>
+          <div class="underline" v-if="activeTabID == 'inverter'"></div>
+        </div>
+        <div class="category-link" @click="switchCategory('battery')">
+          <div class="category">Batteries</div>
+          <div class="underline" v-if="this.activeTabID == 'battery'"></div>
+        </div>
+        <div class="category-link" @click="switchCategory('accessory')">
+          <div class="category">Accessories</div>
+          <div class="underline" v-if="activeTabID == 'accessory'"></div>
+        </div>
 
-      <div class="nav-link margin-right-none" @click="switchCategory('bundle')">
-        <div class="nav-desc-conf-set__item">Complete Solution</div>
-        <div class="line-black" v-if="activeTabID == 'bundle'"></div>
+        <div
+          class="category-link margin-right-none"
+          @click="switchCategory('bundle')"
+        >
+          <div class="category">Complete Solution</div>
+          <div class="underline" v-if="activeTabID == 'bundle'"></div>
+        </div>
       </div>
-    </div>
-    <div class="products-container" v-if="!loading">
+    </section>
+    <section class="products-container" v-if="!loading">
       <div
         class="product-item"
         v-for="(product, index) in productsList"
@@ -39,16 +47,14 @@
           <div class="image-container">
             <img :src="product.display_image" />
           </div>
-          <div class="small-text-18 truncate-name">{{ product.name }}</div>
-          <div class="small-gray-text truncate-description">
-            {{ product.description }} KV
-          </div>
-          <div class="small-gray-text">
+          <div class="product-name">{{ product.name }}</div>
+          <div class="product-capacity">{{ product.capacity }} KV</div>
+          <div class="price">
             ₦ {{ product.price ? product.price.toLocaleString() : "" }}
           </div>
         </div>
       </div>
-    </div>
+    </section>
     <content-loader v-else>
       <div class="loader"></div>
     </content-loader>
@@ -69,6 +75,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import api from "@/utils/api.js";
 import contentLoader from "@/components/contentLoader";
 
@@ -81,12 +88,21 @@ export default {
       productsList: [],
       pagination: "",
       loading: true,
-      activeTabID: "all products",
+      activeTabID: "",
       header: "all products",
       page: 1
     };
   },
+  computed: {
+    ...mapGetters(["activeTab"])
+  },
   mounted() {
+    if (!JSON.parse(localStorage.getItem("active_tab"))) {
+      this.switchCategory(this.activeTab);
+    } else {
+      let category = JSON.parse(localStorage.getItem("active_tab"));
+      this.switchCategory(category);
+    }
     this.fetchProducts();
   },
   methods: {
@@ -103,6 +119,7 @@ export default {
       this.fetchProducts();
     },
     switchCategory(category) {
+      this.$store.dispatch("setActiveTabId", category);
       this.loading = true;
       this.activeTabID = category;
       this.header = category;
@@ -184,20 +201,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.truncate-name {
-  display: -webkit-box;
-  height: 2rem;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.truncate-description {
-  display: -webkit-box;
-  height: 2.6rem;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+@import "@/assets/styles/scss/products.scss";
 </style>

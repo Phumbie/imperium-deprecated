@@ -1,15 +1,15 @@
 <template>
   <div id="nav-container">
-    <div class="top-section">
+    <section class="top-section">
       <router-link to="/my-account" class="nav-item">Account</router-link>
       <router-link to="/" class="product-title">Imperium</router-link>
       <router-link to="/cart" class="nav-item"
         >Shopping cart ({{
-          cartCounter === 0 ? "..." : cartCounter
+          cartCounter === 0 ? "0" : cartCounter
         }})</router-link
       >
-    </div>
-    <div class="bottom-section">
+    </section>
+    <section class="bottom-section">
       <a
         href="https://calculator.imperiumng.com/"
         target="_blank"
@@ -24,7 +24,7 @@
         target="_blank"
         >Blog</a
       >
-    </div>
+    </section>
   </div>
 </template>
 
@@ -93,36 +93,38 @@ export default {
 
 <style lang="scss" scoped>
 #nav-container {
-  border: solid 1px #000000;
-  width: 99.9%;
+  border: solid 0.0625rem #000000;
+  width: 100%;
+  border-right: none;
+  border-bottom: none;
   position: sticky;
   position: -webkit-sticky;
-  margin-top: 38px;
+  margin: 38px 0;
   top: 0;
   z-index: 10;
 
-  .top-section,
-  .bottom-section {
-    display: flex;
+  .top-section {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    border-bottom: solid 0.0625rem #000000;
   }
 
-  // .top-section {
-  // border-bottom: solid 1px #000000;
-  // }
+  .bottom-section {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: solid 0.0625rem #000000;
+    border-top: none;
+  }
 
   .product-title {
     display: flex;
     align-items: center;
     justify-content: center;
     background: white;
-    border-right: solid 1px #000000;
-    border-left: solid 1px #000000;
-    border-bottom: solid 1px #000000;
-    width: 50%;
+    border-right: solid 0.0625rem #000000;
     font-size: 2rem;
     text-decoration: none;
     padding: 0.6rem 0;
-    text-align: center;
     color: #1d1d1d;
   }
 
@@ -130,12 +132,23 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: solid 1px #000000;
-    width: 49.9%;
-    font-size: 32px;
+    border-right: solid 0.0625rem #000000;
     padding: 15px 0;
     text-align: center;
     color: black;
+  }
+
+  .nav-item1,
+  .nav-item2,
+  .nav-item3,
+  .nav-item4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 0;
+    text-align: center;
+    color: black;
+    border-right: solid 0.0625rem #000000;
   }
 
   .nav-item,
@@ -144,7 +157,7 @@ export default {
   .nav-item3,
   .nav-item4 {
     flex: 1;
-    font-size: 1.1rem;
+    font-size: 1.125rem;
     background: white;
     padding: 1.2rem 0;
     text-align: center;
@@ -162,12 +175,6 @@ export default {
     background: #000000;
     color: white;
     transition: 0.5s;
-  }
-
-  .nav-item1,
-  .nav-item2,
-  .nav-item3 {
-    border-right: solid 1px #000000;
   }
 }
 </style>

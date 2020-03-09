@@ -6,7 +6,7 @@
         <div class="info-text">Returns</div>
         <div class="info-text">Payment</div>
         <div class="info-text">Delivery</div>
-        <div class="info-text">Terms&Conditions</div>
+        <div class="info-text margin-bottom">Terms&Conditions</div>
       </div>
       <div class="box">
         <div class="small-header-text">Power as a service</div>
@@ -20,7 +20,7 @@
         </div>
         <div class="info-text">Plans</div>
         <div class="info-text">Purchase</div>
-        <div class="info-text">Lease to Own</div>
+        <div class="info-text margin-bottom">Lease to Own</div>
       </div>
       <div class="box last-box">
         <div class="small-header-text">Can't find what you're looking for?</div>
@@ -74,21 +74,24 @@ export default {
 
       .small-header-text {
         font-family: HelveticaNeue;
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         font-weight: 500;
         letter-spacing: 0.003rem;
         color: #353535;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.8rem;
       }
 
       .info-text {
         font-family: HelveticaNeue;
-        font-size: 0.9rem;
+        font-size: 1rem;
         color: #1b1b1b;
-        // font-weight: 500;
         letter-spacing: 0.03rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.7rem;
         cursor: pointer;
+      }
+
+      .margin-bottom {
+        margin-bottom: 0;
       }
     }
 
@@ -107,7 +110,7 @@ export default {
       }
 
       .send-mail-div {
-        margin-top: 0.5rem;
+        margin-top: 0.7rem;
       }
 
       .button-send-mail {

@@ -16,7 +16,12 @@
         class="nav-item1"
         >Energy Calculator</a
       >
-      <router-link to="#" class="nav-item2">Buy Power</router-link>
+      <a
+        href="https://calculator.imperiumng.com/request-audit/"
+        target="_blank"
+        class="nav-item2"
+        >Request Audit</a
+      >
       <router-link to="/products" class="nav-item3">Buy Products</router-link>
       <a
         class="nav-item4"
@@ -95,6 +100,7 @@ export default {
 #nav-container {
   border: solid 0.0625rem #000000;
   width: 100%;
+  background: white;
   border-right: none;
   border-bottom: none;
   position: sticky;

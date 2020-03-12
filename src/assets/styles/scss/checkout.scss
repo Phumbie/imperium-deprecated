@@ -1,0 +1,132 @@
+#checkout-page {
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  .left-side {
+    width: 45%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5rem;
+    border-right: solid 1px #1d1d1d;
+
+    .header-text-28 {
+      font-size: 1.75rem;
+      font-weight: 500;
+      font-family: HelveticaNeue;
+      text-align: center;
+      color: #1d1d1d;
+      margin-bottom: 1.2rem;
+    }
+
+    .text-field {
+      width: 70%;
+      padding: 15px 20px 15px 20px;
+      box-sizing: border-box;
+      font-family: HelveticaNeue;
+      font-size: 1rem;
+      outline: none;
+      border: solid 1px #1d1d1d;
+      margin-bottom: 30px;
+    }
+
+    button {
+      display: block;
+      width: 70%;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      background: black;
+      color: white;
+      font-size: 14px;
+      margin-top: 20px;
+      border: none;
+      text-transform: uppercase;
+    }
+  }
+
+  .right-side {
+    position: relative;
+    left: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    // margin-top: 5rem;
+    padding: 8rem 0;
+    width: 100%;
+    // height: 100vh;
+
+    .cart-item {
+      width: 70%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      margin-bottom: 5rem;
+
+      .image-container {
+        width: 150px;
+        height: 150px;
+        background: transparent;
+        margin-right: 20px;
+
+        img {
+          object-fit: contain;
+          width: 70%;
+          height: 70%;
+          padding: 1rem;
+        }
+      }
+
+      span {
+        margin-bottom: 20px;
+        color: #1d1d1d;
+      }
+
+      .product-name {
+        margin-bottom: 0.6rem;
+        font-family: HelveticaNeue;
+        font-size: 1.2rem;
+        color: #1d1d1d;
+      }
+
+      .price {
+        margin-bottom: 0.6rem;
+        font-family: HelveticaNeue;
+        font-size: 1.2rem;
+        color: #1d1d1d;
+      }
+
+      .quantity {
+        font-family: HelveticaNeue;
+        font-size: 1.2rem;
+        color: #1d1d1d;
+      }
+    }
+
+    .text-row {
+      width: 70%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+      font-family: HelveticaNeue;
+      color: #1d1d1d;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #1d1d1d;
+
+      span {
+        font-size: 1.2rem;
+      }
+
+      span.right-text {
+        float: right;
+      }
+    }
+  }
+}

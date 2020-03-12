@@ -1,61 +1,67 @@
 <template>
   <div id="user-account" v-if="loading">
-    <div class="header-text-28">My Account</div>
-    <button class="text-edit" @click="logout()">Logout</button>
-    <div class="section-title">Account Details</div>
-    <span class="edit">
-      <router-link to="my-account/update" class="text-edit">Edit</router-link>
-    </span>
-    <div class="details-container">
-      <div class="box border-right border-bottom">
-        <div class="small-header-text">Personal details</div>
-        <div class="info-text capitalize">{{ userFullName }}</div>
-        <div class="info-text">{{ userDetails.user.email }}</div>
-        <div class="info-text">{{ userDetails.user.phone_number }}</div>
-      </div>
-      <div class="box">
-        <div class="small-header-text">Address</div>
-        <div class="info-text capitalize">
-          {{ userDetails.address.street }},
+    <section class="header-section">
+      <div class="header-text-28">My Account</div>
+      <button class="text-edit" @click="logout()">Logout</button>
+    </section>
+    <section class="account-details-section">
+      <div class="header-text-28">Account Details</div>
+      <span>
+        <router-link to="my-account/update" class="edit">Edit</router-link>
+      </span>
+      <div class="details-container">
+        <div class="box">
+          <label>Personal Details</label>
+          <div class="info-text capitalize">{{ userFullName }}</div>
+          <div class="info-text">{{ userDetails.user.email }}</div>
+          <div class="info-text margin-bottom-zero">
+            {{ userDetails.user.phone_number }}
+          </div>
         </div>
-        <div class="info-text capitalize">{{ userDetails.address.lga }},</div>
-        <div class="info-text capitalize">{{ userDetails.address.state }}.</div>
-      </div>
-    </div>
-    <span class="section-title">Order History</span>
-    <div class="products-container" v-if="hasHistory">
-      <div
-        class="product-item"
-        v-for="(order, index) in orderHistory"
-        :key="index"
-      >
-        <div class="centered-content" v-if="order.items">
-          <div class="image-container">
-            <img :src="`${order.items[0].display_image}`" />
+        <div class="box border-left">
+          <label>Address</label>
+          <div class="info-text capitalize">
+            {{ userDetails.address.street }},
           </div>
-          <label>Status</label>
-          <div class="small-gray-text">
-            {{ `${order.status}` }}
+          <div class="info-text capitalize">{{ userDetails.address.lga }},</div>
+          <div class="info-text margin-bottom-zero capitalize">
+            {{ userDetails.address.state }}.
           </div>
-          <label>Date</label>
-          <div class="small-gray-text">
-            {{ `${order.created_at.split("T")[0]}` }}
-          </div>
-          <!-- <label>Total price</label>
-          <div class="small-gray-text">
-            ₦ {{ `${order.sub_total.toLocaleString()}` }}
-          </div> -->
-          <button
-            to="my-account/order-history"
-            tag="button"
-            class="button-view-order"
-            @click="getOrderHistoryById(order.id)"
-          >
-            View Order
-          </button>
         </div>
       </div>
-    </div>
+    </section>
+    <section class="order-history-section" v-if="hasHistory">
+      <div class="header-text-28">Order History</div>
+      <div class="products-container">
+        <div
+          class="product-item"
+          v-for="(order, index) in orderHistory"
+          :key="index"
+        >
+          <div class="centered-content" v-if="order.items">
+            <div class="image-container">
+              <img :src="`${order.items[0].display_image}`" />
+            </div>
+            <label>Status</label>
+            <div class="small-gray-text">
+              {{ `${order.status}` }}
+            </div>
+            <label>Date</label>
+            <div class="small-gray-text">
+              {{ `${order.created_at.split("T")[0]}` }}
+            </div>
+            <button
+              to="my-account/order-history"
+              tag="button"
+              class="button-view-order"
+              @click="getOrderHistoryById(order.id)"
+            >
+              View Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
     <content-loader v-else>
       <span>{{ contentLoaderText }}</span>
     </content-loader>
@@ -125,7 +131,7 @@ export default {
     handlePageChange(page) {
       this.loading = false;
       this.page = page;
-      this.$router.push({ path: "/my-account", query: { page: page } });
+      // this.$router.push({ path: "/my-account", query: { page: page } });
       this.getOrders();
     },
     getOrders() {
@@ -180,70 +186,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#user-account {
-  .section-title {
-    margin-top: 60px;
-    font-size: 1.2rem;
-    margin-bottom: 18px;
-    letter-spacing: 0.05rem;
-  }
-
-  .text-edit {
-    font-size: 15px;
-    letter-spacing: 0.05rem;
-    text-decoration: none;
-    color: rgba(29, 29, 29, 0.5);
-    font-weight: 500;
-    cursor: pointer;
-  }
-
-  .text-edit:hover {
-    color: #1d1d1d;
-  }
-
-  button {
-    width: 4rem;
-    align-self: center;
-    margin-top: 0.2rem;
-    margin-bottom: 2rem;
-    font-size: 0.9rem;
-    letter-spacing: 0.03rem;
-    background: transparent;
-    border: none;
-  }
-
-  label {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: rgba(29, 29, 29, 0.5);
-  }
-
-  .products-container {
-    .product-item {
-      .centered-content {
-        width: 80%;
-
-        .small-gray-text {
-          font-size: 0.8rem;
-          margin: 0rem;
-          margin-bottom: 0.5rem;
-          letter-spacing: 0.1rem;
-          line-height: 1.4rem;
-        }
-
-        button {
-          width: 100%;
-          border: 1px solid #1d1d1d;
-          padding: 0.8rem 0;
-          transition: 0.5s;
-        }
-
-        button:hover {
-          background-color: #1d1d1d;
-          color: white;
-        }
-      }
-    }
-  }
-}
+@import "@/assets/styles/scss/user-account.scss";
 </style>

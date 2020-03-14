@@ -1,0 +1,329 @@
+#product-view {
+  margin-top: 4.625rem;
+  .product {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 99.9%;
+    border: solid 1px #000000;
+
+    animation-name: fadeIn;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .image-container {
+      background-color: rgba(99, 155, 97, 0.2);
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-right: 1px;
+
+      img {
+        width: 50%;
+        height: 30rem;
+        position: relative;
+        object-position: center;
+        object-fit: contain;
+        margin: 4.625rem 0;
+      }
+    }
+
+    .product-details {
+      width: 100%;
+      border-left: solid 1px #000000;
+
+      .centered-content {
+        width: 80%;
+        margin: 0 auto;
+        padding: 2.4375rem 0;
+
+        .product-name {
+          font-size: 2.2rem;
+          font-weight: 500;
+          margin-bottom: 1.125rem;
+          text-transform: capitalize;
+        }
+
+        .price {
+          font-family: Helvetica;
+          font-size: 1.625rem;
+          margin-bottom: 2.5rem;
+        }
+
+        .btn-add-to-cart {
+          padding: 0.8rem 0;
+          border: solid 1px #000000;
+          text-align: center;
+          font-weight: 500;
+          font-size: 1.625rem;
+          margin-bottom: 2.5rem;
+          cursor: pointer;
+          transition: 0.5s;
+
+          &:hover {
+            background: #000000;
+            color: white;
+            transition: 0.5s;
+          }
+        }
+        .details-label {
+          display: flex;
+          justify-content: space-between;
+          font-family: Inter;
+          font-size: 1.5rem;
+          font-weight: 500;
+          letter-spacing: 0.58px;
+          margin-bottom: 1.2rem;
+
+          .margin-right {
+            margin-right: 2rem;
+          }
+
+          // .nav-link {
+          // cursor: pointer;
+          // }
+
+          .line-black {
+            border-bottom: solid 1px #000000;
+          }
+        }
+        .details {
+          height: 11rem;
+          font-family: Inter;
+          font-size: 1.125rem;
+          font-weight: normal;
+          font-stretch: normal;
+          font-style: normal;
+          letter-spacing: 0.58px;
+          line-height: 1.8rem;
+
+          .config-details {
+            display: flex;
+
+            label {
+              color: rgba(0.4, 0.4, 0.4, 0.5);
+            }
+
+            span {
+              flex: 1;
+            }
+
+            span:nth-child(1) {
+              flex: 2;
+            }
+          }
+        }
+        .truncate-name {
+          display: -webkit-box;
+          height: 2rem;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .truncate-description {
+          display: -webkit-box;
+          -webkit-line-clamp: 5;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .extra-details {
+          height: 0rem;
+          line-height: 1.8rem;
+        }
+      }
+    }
+  }
+
+  .header-text-28 {
+    margin-top: 62px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 500;
+    text-align: center;
+    color: #1d1d1d;
+  }
+
+  .products-container {
+    margin-top: 2.25rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: solid 1px #000000;
+    border-right: none;
+    border-bottom: none;
+
+    .product-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-right: solid 1px #000000;
+      border-bottom: solid 1px black;
+      padding-top: 2.125rem;
+      cursor: pointer;
+
+      .centered-content {
+        width: 85%;
+        max-height: 44.6rem;
+
+        animation-name: fadeIn;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+
+        @keyframes fadeIn {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+
+        .image-container {
+          background-color: rgba(99, 155, 97, 0.2);
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: flex-end;
+          height: 28.875rem;
+          padding-bottom: 1.875rem;
+
+          img {
+            width: 65%;
+            position: relative;
+            object-position: bottom;
+            object-fit: contain;
+          }
+        }
+
+        .product-name {
+          font-family: HelveticaNeue;
+          font-size: 1.25rem;
+          font-weight: 500;
+          color: #353535;
+          margin-top: 1.5rem;
+          margin-bottom: 0.4375rem;
+          letter-spacing: 0.003rem;
+          text-transform: capitalize;
+        }
+
+        .product-capacity {
+          font-family: HelveticaNeue;
+          font-size: 1.125rem;
+          color: #000000;
+          font-weight: 500;
+          margin-bottom: 0.4375rem;
+          letter-spacing: 0.003rem;
+          line-height: 1.4rem;
+        }
+
+        .price {
+          font-family: Gotham;
+          font-size: 1.125rem;
+          color: #000000;
+          font-weight: 500;
+          margin-bottom: 1.375rem;
+          letter-spacing: 0.003rem;
+          line-height: 1.4rem;
+        }
+      }
+    }
+  }
+
+  // .long-details {
+  //   width: 50%;
+  //   font-size: 1.1rem;
+  //   line-height: 2rem;
+  //   letter-spacing: 0.1rem;
+  // }
+
+  // .loan-calc-title {
+  //   margin-top: 6%;
+  //   font-size: 24px;
+  // }
+
+  // .loan-calc-details {
+  //   margin-top: 4.7%;
+  //   color: #7f7f7f;
+  //   width: 100%;
+  //   font-family: Helvetica;
+  //   font-size: 14px;
+  //   font-weight: normal;
+  //   font-style: normal;
+  //   font-stretch: normal;
+  //   line-height: normal;
+  //   letter-spacing: 0.43px;
+
+  //   span {
+  //     float: right;
+  //   }
+  // }
+
+  // .loan-calc-value {
+  //   color: #000000;
+  // }
+
+  // .monthly-payment {
+  //   width: 100%;
+  //   font-size: 24px;
+  //   letter-spacing: 0.58px;
+  //   text-align: center;
+
+  //   span {
+  //     float: none;
+  //     font-weight: 500;
+  //   }
+  // }
+
+  // .slider {
+  //   -webkit-appearance: none;
+  //   width: 100%;
+  //   height: 4px;
+  //   border-radius: 3px;
+  //   background: #bfbdbd;
+  //   cursor: pointer;
+  //   outline: none;
+  //   opacity: 0.33;
+  //   -webkit-transition: 0.2s;
+  //   transition: opacity 0.2s;
+  // }
+
+  // .slider::-webkit-slider-thumb {
+  //   -webkit-appearance: none;
+  //   appearance: none;
+  //   width: 18px;
+  //   height: 18px;
+  //   border-radius: 50%;
+  //   box-shadow: 0 2px 4px 0 rgba(120, 120, 120, 0.5);
+  //   background: #fffcfc;
+  //   cursor: pointer;
+  // }
+
+  // .slider::-moz-range-thumb {
+  //   width: 18px;
+  //   height: 18px;
+  //   border-radius: 50%;
+  //   box-shadow: 0 2px 4px 0 rgba(120, 120, 120, 0.5);
+  //   background: #fffcfc;
+  //   cursor: pointer;
+  // }
+
+  // .duration-margin {
+  //   margin-top: 8%;
+  // }
+}

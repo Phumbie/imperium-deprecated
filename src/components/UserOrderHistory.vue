@@ -1,69 +1,77 @@
 <template>
   <div id="user-order-history" v-if="loading">
-    <div class="header-text-28">Order Details</div>
-    <div class="details-container">
-      <div class="box border-right">
-        <span class="small-header-text" for="name">Name</span>
-        <div class="info-text capitalize">{{ this.userFullName }}</div>
-        <span class="small-header-text" for="email">Email</span>
-        <div class="info-text">{{ this.userDetails.user.email }}</div>
-        <span class="small-header-text" for="address">Address</span>
-        <div class="info-text capitalize">
-          {{
-            `${this.userDetails.address.street}, ${this.userDetails.address.lga}, ${this.userDetails.address.state}.`
-          }}
-        </div>
-      </div>
-      <div class="box border-right">
-        <span class="small-header-text">Total item</span>
-        <div class="info-text">
-          {{ this.totalItems }}
-        </div>
-        <span class="small-header-text">Payment method</span>
-        <div class="info-text capitalize">
-          {{ this.placedOrder.payment_method }}
-        </div>
-        <span class="small-header-text">Order ID</span>
-        <div class="info-text">
-          {{ this.placedOrder.id }}
-        </div>
-      </div>
-      <div class="box border-right-none">
-        <span class="small-header-text">Sub-Total</span>
-        <div class="info-text">
-          ₦ {{ this.placedOrder.sub_total.toLocaleString() }}
-        </div>
-        <span class="small-header-text">Delivery</span>
-        <div class="info-text">
-          ₦ {{ this.placedOrder.delivery_cost.toLocaleString() }}
-        </div>
-        <span class="small-header-text">Total</span>
-        <div class="info-text">
-          ₦ {{ this.placedOrder.total_price.toLocaleString() }}
-        </div>
-      </div>
-    </div>
-    <span class="section-title">Items</span>
-    <div class="products-container">
-      <div
-        class="product-item"
-        v-for="(item, index) in orderItems"
-        :key="index"
-      >
-        <div class="centered-content" v-if="item.price">
-          <div class="image-container">
-            <img :src="`${item.display_image}`" />
+    <section class="header-section">
+      <div class="header-text-28">Order Details</div>
+    </section>
+    <section class="order-details-section">
+      <div class="details-container">
+        <div class="box">
+          <label for="name">Name</label>
+          <div class="info-text capitalize">{{ this.userFullName }}</div>
+          <label for="email">Email</label>
+          <div class="info-text">{{ this.userDetails.user.email }}</div>
+          <label for="address">Address</label>
+          <div class="info-text margin-bottom-zero  capitalize">
+            {{
+              `${this.userDetails.address.street}, ${this.userDetails.address.lga}, ${this.userDetails.address.state}.`
+            }}
           </div>
-          <div class="small-text-18 truncate-name">{{ item.name }}</div>
-          <label>Price</label>
-          <div class="small-gray-text">₦ {{ item.price.toLocaleString() }}</div>
-          <label>Quantity</label>
-          <div class="small-gray-text">
-            {{ item.quantity }}
+        </div>
+        <div class="box border-left">
+          <label>Total item</label>
+          <div class="info-text">
+            {{ this.totalItems }}
+          </div>
+          <label>Payment method</label>
+          <div class="info-text capitalize">
+            {{ this.placedOrder.payment_method }}
+          </div>
+          <label>Order ID</label>
+          <div class="info-text margin-bottom-zero ">
+            {{ this.placedOrder.id }}
+          </div>
+        </div>
+        <div class="box border-left">
+          <label>Sub-Total</label>
+          <div class="info-text">
+            ₦ {{ this.placedOrder.sub_total.toLocaleString() }}
+          </div>
+          <label>Delivery</label>
+          <div class="info-text">
+            ₦ {{ this.placedOrder.delivery_cost.toLocaleString() }}
+          </div>
+          <label>Total</label>
+          <div class="info-text margin-bottom-zero ">
+            ₦ {{ this.placedOrder.total_price.toLocaleString() }}
           </div>
         </div>
       </div>
-    </div>
+    </section>
+    <section class="order-item-section">
+      <span class="header-text-28">Items</span>
+      <div class="products-container">
+        <div
+          class="product-item"
+          v-for="(item, index) in orderItems"
+          :key="index"
+        >
+          <div class="centered-content" v-if="item.price">
+            <div class="image-container">
+              <img :src="`${item.display_image}`" />
+            </div>
+            <div class="product-name truncate-name">{{ item.name }}</div>
+            <label>Price</label>
+            <div class="small-gray-text">
+              ₦ {{ item.price.toLocaleString() }}
+            </div>
+            <label>Quantity</label>
+            <div class="small-gray-text margin-bottom-zero">
+              {{ item.quantity }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -114,34 +122,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#user-order-history {
-  label {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: rgba(29, 29, 29, 0.5);
-  }
-
-  .products-container {
-    .product-item {
-      .centered-content {
-        .small-gray-text {
-          font-size: 0.8rem;
-          margin: 0rem;
-          margin-bottom: 0.5rem;
-          letter-spacing: 0.1rem;
-          line-height: 1.4rem;
-        }
-      }
-    }
-  }
-
-  .truncate-name {
-    display: -webkit-box;
-    height: 2rem;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
+@import "@/assets/styles/scss/order-history.scss";
 </style>

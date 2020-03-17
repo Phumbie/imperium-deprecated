@@ -1,20 +1,69 @@
 <template>
   <div id="product-view">
-    <div v-if="fetchedProductDetails">
-      <div class="product">
-        <div class="image-container">
-          <img :src="productDetails.display_image" />
-        </div>
-        <div class="product-details">
-          <div class="centered-content">
-            <div class="product-name">{{ productDetails.name }}</div>
-            <div class="price">
-              ₦ {{ productDetails.price.toLocaleString() }}
+    <div class="product" v-if="fetchedProductDetails">
+      <div class="image-container">
+        <img :src="productDetails.display_image" />
+      </div>
+      <div class="product-details">
+        <div class="centered-content">
+          <div class="product-name truncate-name">
+            {{ productDetails.name }}
+          </div>
+          <div class="price">₦ {{ productDetails.price.toLocaleString() }}</div>
+          <div class="btn-add-to-cart" @click="addProductToCart()">
+            Add to cart
+          </div>
+          <div class="details-label">
+            <div>
+              <div class="nav-link" @click="activeTabID = 0">
+                Description
+              </div>
+              <!-- <div class="line-black" v-if="activeTabID == 0"></div> -->
             </div>
-            <div class="btn-add-to-cart" @click="addProductToCart()">
-              Add to cart
+            <!-- <div class="details-label">
+              <div class="nav-link margin-right" @click="activeTabID = 1">
+                <div>Configurations</div>
+                <div class="line-black" v-if="activeTabID == 1"></div>
+              </div>
+              <div class="nav-link" @click="activeTabID = 2">
+                <div>Setup</div>
+                <div class="line-black" v-if="activeTabID == 2"></div>
+              </div>
+            </div> -->
+          </div>
+          <div>
+            <div class="details truncate-description" v-if="activeTabID == 0">
+              {{ productDetails.description }}
             </div>
-            <div class>
+            <!-- <div class="details" v-else-if="activeTabID == 1">
+              <div class="config-details">
+                <span>
+                  <label for="sku">SKU</label>
+                  <p>{{ productDetails.model_id }}</p>
+                </span>
+                <span>
+                  <label for="capacity">Capacity</label>
+                  <p>{{ productDetails.capacity }} KV</p>
+                </span>
+                <span>
+                  <label for="Weight">Weight</label>
+                  <p>{{ productDetails.weight }} KG</p>
+                </span>
+              </div>
+            </div>
+            <div class="details" v-if="activeTabID == 2">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi
+              voluptas ad placeat fuga in corrupti veri
+            </div> -->
+            <div class="details extra-details">
+              <p>What's more?</p>
+              <p>
+                We offer a Guarantee on the Quality of solutions you get from
+                our installer partners as a consumer.
+              </p>
+            </div>
+          </div>
+          <!-- <div class>
               <div class="loan-calc-title duration-margin">Loan Calculator</div>
               <div class="loan-calc-details">
                 Loan Amount (+5% VAT and Service Fee)
@@ -57,57 +106,27 @@
               <div class="btn-add-to-cart" @click="addProductToCart()">
                 Pay Installmentally
               </div>
-            </div>
+            </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="header-text-28" v-if="fetchedProductDetails">
+      <p>Similar Products</p>
+    </div>
+    <div class="products-container" v-if="fetchedProductDetails">
+      <div
+        class="product-item"
+        v-for="products in similarProducts"
+        :key="products.created_at"
+        @click="navigateTo(`/product/${products.slug}/id/${products.id}`)"
+      >
+        <div class="centered-content" v-if="products.price">
+          <div class="image-container">
+            <img :src="products.display_image" />
           </div>
-        </div>
-      </div>
-      <div class="nav-desc-conf-set">
-        <div class="nav-link" @click="activeTabID = 0">
-          <div class="nav-desc-conf-set__item">Description</div>
-          <div class="line-black" v-if="activeTabID == 0"></div>
-        </div>
-        <div class="nav-link" @click="activeTabID = 1">
-          <div class="nav-desc-conf-set__item">Product Details</div>
-          <div class="line-black" v-if="activeTabID == 1"></div>
-        </div>
-        <div class="nav-link" @click="activeTabID = 2">
-          <div class="nav-desc-conf-set__item">Setup</div>
-          <div class="line-black" v-if="activeTabID == 2"></div>
-        </div>
-      </div>
-      <div class="long-details" v-if="activeTabID == 0">
-        {{ productDetails.description }}
-      </div>
-      <div class="long-details" v-else-if="activeTabID == 1">
-        <p>Manufacturer: {{ productDetails.manufacturer }}</p>
-        <p>SKU: {{ productDetails.model_id }}</p>
-        <p>Capacity: {{ productDetails.capacity }}</p>
-        <p>Weight: {{ productDetails.weight }}</p>
-      </div>
-      <div class="long-details" v-else>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi voluptas
-        ad placeat fuga in corrupti veri
-      </div>
-      <div class="header-text-28">Similar Products</div>
-      <div class="products-container">
-        <div
-          class="product-item"
-          v-for="products in similarProducts"
-          :key="products.created_at"
-          @click="navigateTo(`/product/${products.slug}/id/${products.id}`)"
-        >
-          <div class="centered-content" v-if="products.price">
-            <div class="image-container">
-              <img :src="products.display_image" />
-            </div>
-            <div class="small-text-18 truncate-name">{{ products.name }}</div>
-            <div class="small-gray-text truncate-description">
-              {{ products.description }}
-            </div>
-            <div class="small-gray-text">
-              ₦ {{ products.price.toLocaleString() }}
-            </div>
-          </div>
+          <div class="product-name truncate-name">{{ products.name }}</div>
+          <div class="product-capacity">{{ products.capacity }} KV</div>
+          <div class="price">₦ {{ products.price.toLocaleString() }}</div>
         </div>
       </div>
     </div>
@@ -317,20 +336,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.truncate-name {
-  display: -webkit-box;
-  height: 2rem;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.truncate-description {
-  display: -webkit-box;
-  height: 2.6rem;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+@import "@/assets/styles/scss/product-view.scss";
 </style>

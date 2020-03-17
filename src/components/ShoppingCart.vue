@@ -1,130 +1,123 @@
 <template>
   <div id="cart-section">
-    <div class="header-text-28">Shopping Cart</div>
-    <div v-if="fetchedCart">
-      <div class="header-section">
+    <section class="header-section">
+      <div class="header-text-28">Shopping Cart</div>
+      <div class="header" v-if="fetchedCart || fetchedLocalStorage">
         <div class="table-header column-one">Product details</div>
         <div class="table-header">Quantity</div>
         <div class="table-header">Total amount</div>
       </div>
-      <div
-        class="cart-item"
-        v-for="(n, index) in cartItems.length"
-        :key="index"
-      >
-        <div class="product-img-name-section">
-          <div class="image-container">
-            <img :src="cartItems[index].product.display_image" />
+    </section>
+    <section class="cart-details-section">
+      <div v-if="fetchedCart">
+        <div
+          class="cart-item"
+          v-for="(n, index) in cartItems.length"
+          :key="index"
+        >
+          <div class="product-img">
+            <div class="image-container">
+              <img :src="cartItems[index].product.display_image" />
+            </div>
+            <div class="product-name-price">
+              <div class="product-name capitalize">
+                {{ cartItems[index].product.name }}
+              </div>
+              <div class="price">
+                ₦ {{ cartItems[index].product.price.toLocaleString() }}
+              </div>
+              <div class="cart-item-description">
+                {{ cartItems[index].product.description }}
+              </div>
+              <button
+                class="button-remove"
+                @click="removeProductFromCart(cartItems[index].product.id)"
+              >
+                Remove
+              </button>
+            </div>
           </div>
-          <div class="product-name-price-section">
-            <div class="product-name capitalize">
-              {{ cartItems[index].product.name }}
-            </div>
-            <div class="price">
-              ₦ {{ cartItems[index].product.price.toLocaleString() }}
-            </div>
-            <div class="cart-item-description truncate">
-              {{ cartItems[index].product.description }}
-            </div>
+          <div class="quantity">
             <button
-              class="button-remove"
-              @click="removeProductFromCart(cartItems[index].product.id)"
+              @click="decreaseProductQuantity(cartItems[index].product.id)"
             >
-              Remove
+              &#45;
+            </button>
+            <span>{{ cartItems[index].quantity }}</span>
+            <button
+              @click="increaseProductQuantity(cartItems[index].product.id)"
+            >
+              &#43;
             </button>
           </div>
-        </div>
-        <div class="quantity-section">
-          <button
-            class="button-minus"
-            @click="decreaseProductQuantity(cartItems[index].product.id)"
-          >
-            &#45;
-          </button>
-          <span class="quantity">{{ cartItems[index].quantity }}</span>
-          <button
-            class="button-plus"
-            @click="increaseProductQuantity(cartItems[index].product.id)"
-          >
-            &#43;
-          </button>
-        </div>
-        <div class="amount-section">
           <div class="amount">
-            ₦
-            {{
-              (
-                cartItems[index].product.price * cartItems[index].quantity
-              ).toLocaleString()
-            }}
+            <div>
+              ₦
+              {{
+                (
+                  cartItems[index].product.price * cartItems[index].quantity
+                ).toLocaleString()
+              }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div v-else-if="fetchedLocalStorage">
-      <div class="header-section">
-        <div class="table-header column-one">Product details</div>
-        <div class="table-header">Quantity</div>
-        <div class="table-header">Total amount</div>
-      </div>
-      <div
-        class="cart-item"
-        v-for="(n, index) in localCartItem.length"
-        :key="index"
-      >
-        <div class="product-img-name-section">
-          <div class="image-container">
-            <img :src="localCartItem[index].display_image" />
+      <div v-else-if="fetchedLocalStorage">
+        <div
+          class="cart-item"
+          v-for="(n, index) in localCartItem.length"
+          :key="index"
+        >
+          <div class="product-img">
+            <div class="image-container">
+              <img :src="localCartItem[index].display_image" />
+            </div>
+            <div class="product-name-price">
+              <div class="product-name capitalize">
+                {{ localCartItem[index].name }}
+              </div>
+              <div class="price">
+                ₦ {{ localCartItem[index].price.toLocaleString() }}
+              </div>
+              <div class="cart-item-description">
+                {{ localCartItem[index].description }}
+              </div>
+              <button
+                class="button-remove"
+                @click="removeProductFromCart(localCartItem[index].id)"
+              >
+                Remove
+              </button>
+            </div>
           </div>
-          <div class="product-name-price-section">
-            <div class="product-name">{{ localCartItem[index].name }}</div>
-            <div class="price">
-              ₦ {{ localCartItem[index].price.toLocaleString() }}
-            </div>
-            <div class="cart-item-description truncate">
-              {{ localCartItem[index].description }}
-            </div>
-            <button
-              class="button-remove"
-              @click="removeProductFromCart(localCartItem[index].id)"
-            >
-              Remove
+          <div class="quantity">
+            <button @click="decreaseProductQuantity(localCartItem[index].id)">
+              -
+            </button>
+            <span>{{ localCartItem[index].quantity }}</span>
+            <button @click="increaseProductQuantity(localCartItem[index].id)">
+              +
             </button>
           </div>
-        </div>
-        <div class="quantity-section">
-          <button
-            class="button-minus"
-            @click="decreaseProductQuantity(localCartItem[index].id)"
-          >
-            -
-          </button>
-          <span class="quantity">{{ localCartItem[index].quantity }}</span>
-          <button
-            class="button-plus"
-            @click="increaseProductQuantity(localCartItem[index].id)"
-          >
-            +
-          </button>
-        </div>
-        <div class="amount-section">
           <div class="amount">
-            ₦
-            {{
-              (
-                localCartItem[index].price * localCartItem[index].quantity
-              ).toLocaleString()
-            }}
+            <div>
+              ₦
+              {{
+                (
+                  localCartItem[index].price * localCartItem[index].quantity
+                ).toLocaleString()
+              }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <content-loader v-else>
-      <div v-if="show" class="loader"></div>
-      <span v-else>{{ contentLoaderText }}</span>
-    </content-loader>
-    <div class="shop-checkout-buttons-section" v-if="fetchedCart">
+      <content-loader v-else>
+        <div v-if="show" class="loader"></div>
+        <span v-else>{{ contentLoaderText }}</span>
+      </content-loader>
+    </section>
+    <section class="checkout-button-section" v-if="fetchedCart">
       <div class="subtotal-section">
         <span>Subtotal</span>
         <span>₦ {{ subtotal.toLocaleString() }}</span>
@@ -134,8 +127,8 @@
         <button @click="navigateTo('/products')">Continue shopping</button>
         <button class="bg-black" @click="checkout()">Check out</button>
       </div>
-    </div>
-    <div class="shop-checkout-buttons-section" v-else-if="fetchedLocalStorage">
+    </section>
+    <div class="checkout-button-section" v-else-if="fetchedLocalStorage">
       <div class="subtotal-section">
         <span>Subtotal</span>
         <span>₦ {{ subtotalArr.toLocaleString() }}</span>
@@ -271,7 +264,6 @@ export default {
         });
         localStorage.setItem("local_cart", JSON.stringify(this.localCartItem));
         this.checkIfLocalStorageIsEmpty();
-        // alert("Successfully removed product from cart");
         this.$swal.fire({
           position: "top",
           icon: "success",
@@ -300,7 +292,6 @@ export default {
             });
             this.customerCart = data.data;
             this.checkIfCartIsEmpty();
-            // alert("Successfully removed product from cart");
             this.$swal.fire({
               position: "top",
               icon: "success",
@@ -313,7 +304,6 @@ export default {
           }
         })
         .catch(({ response }) => {
-          // alert("An error occurred while removing product");
           alert(response.data.message);
         });
     },
@@ -388,13 +378,11 @@ export default {
           }
         })
         .catch(({ response }) => {
-          // alert(response.data.message);
           this.$swal.fire({
             icon: "info",
             html: response.data.message
           });
         });
-      // this.$store.dispatch('decrementCartCounter');
     },
     increaseProductQuantity(productId) {
       if (!localStorage.getItem("user_details")) {
@@ -486,11 +474,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.truncate {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+@import "@/assets/styles/scss/cart.scss";
 </style>

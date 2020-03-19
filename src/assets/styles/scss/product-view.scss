@@ -3,7 +3,7 @@
   .product {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    width: 99.9%;
+    width: 99.85%;
     border: solid 1px #000000;
 
     animation-name: fadeIn;
@@ -159,7 +159,7 @@
 
   .products-container {
     margin-top: 2.25rem;
-    width: 100%;
+    width: 99.9%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     border: solid 1px #000000;

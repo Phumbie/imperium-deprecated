@@ -22,7 +22,7 @@
         href="https://calculator.imperiumng.com/request-audit/"
         target="_blank"
         class="nav-item2"
-        >Request Audit</a
+        >Buy Power</a
       >
       <router-link to="/products" class="nav-item3">Buy Products</router-link>
       <a

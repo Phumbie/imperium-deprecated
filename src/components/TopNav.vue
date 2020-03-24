@@ -19,7 +19,7 @@
         >Energy Calculator</a
       >
       <a
-        href="https://calculator.imperiumng.com/request-audit/"
+        href="https://staging--alt-power-calculator.netlify.com/request-audit"
         target="_blank"
         class="nav-item2"
         >Buy Power</a
@@ -63,9 +63,21 @@ export default {
     handleScroll() {
       const topSection = document.querySelector(".top-section");
       const topSectionTop = topSection.getBoundingClientRect().top;
-      topSectionTop <= 1
-        ? gsap.to(".bottom-section", { y: -60 })
-        : gsap.to(".bottom-section", { y: 0 });
+      const topSectionBottom = topSection.getBoundingClientRect().bottom;
+      const height = topSectionBottom - topSectionTop;
+      if (topSectionTop < 1) {
+        gsap.to(".bottom-section", {
+          y: -height - 1,
+          duration: 0.2,
+          ease: "Power0.easeInOut"
+        });
+      } else {
+        gsap.to(".bottom-section", {
+          y: -1,
+          duration: 0.2,
+          ease: "Power0.easeInOut"
+        });
+      }
     },
     setCartCounter() {
       if (
@@ -117,14 +129,13 @@ export default {
 <style lang="scss" scoped>
 #nav-container {
   width: 100%;
-  // background: white;
   border-right: none;
   border-left: none;
   border-bottom: none;
   position: sticky;
   position: -webkit-sticky;
   margin: 38px 0;
-  top: 0;
+  top: -1px;
   z-index: 10;
 
   .top-section {

@@ -62,6 +62,14 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr 2fr;
 
+    @media screen and (max-width: 1200px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media screen and (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+
     .box {
       display: flex;
       flex-direction: column;
@@ -104,6 +112,16 @@ export default {
       border-bottom: solid 0.0625rem #000000;
       border-right: solid 0.0625rem #000000;
 
+      @media screen and (max-width: 1200px) {
+        grid-column-start: 1;
+        grid-column-end: 3;
+      }
+
+      @media screen and (max-width: 600px) {
+        grid-column-start: 1;
+        grid-column-end: 2;
+      }
+
       .small-header-text {
         font-size: 1.1rem;
         color: #1b1b1b;
@@ -121,6 +139,18 @@ export default {
         color: #1b1b1b;
         text-decoration: none;
         outline: none;
+
+        @media screen and (max-width: 600px) {
+          padding: 0.8rem 6rem;
+        }
+
+        @media screen and (max-width: 425px) {
+          padding: 0.8rem 4.5rem;
+        }
+
+        @media screen and (max-width: 370px) {
+          padding: 0.8rem 3rem;
+        }
       }
       .button-send-mail:hover {
         background: #1b1b1b;

@@ -80,7 +80,7 @@
           <p class="header-text-28">
             Power your home with our range of products
           </p>
-          <p class="small-text">Batteries and Complete Solution</p>
+          <p class="small-text">Batteries and Accessories</p>
         </div>
         <div class="products-container">
           <div

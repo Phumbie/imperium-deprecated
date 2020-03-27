@@ -1,9 +1,11 @@
 <template>
   <div id="nav-container">
     <section class="top-section">
-      <router-link to="/my-account" class="nav-item">Account</router-link>
+      <router-link to="/my-account" class="nav-item border-left"
+        >Account</router-link
+      >
       <router-link to="/" class="product-title">Imperium</router-link>
-      <router-link to="/cart" class="nav-item"
+      <router-link to="/cart" class="nav-item border-right"
         >Shopping cart ({{
           cartCounter === 0 ? "0" : cartCounter
         }})</router-link
@@ -13,15 +15,10 @@
       <a
         href="https://calculator.imperiumng.com/"
         target="_blank"
-        class="nav-item1"
+        class="nav-item1 border-left"
         >Energy Calculator</a
       >
-      <a
-        href="https://calculator.imperiumng.com/request-audit/"
-        target="_blank"
-        class="nav-item2"
-        >Request Audit</a
-      >
+      <a :href="requestAuditURL" target="_blank" class="nav-item2">Buy Power</a>
       <router-link to="/products" class="nav-item3">Buy Products</router-link>
       <a
         class="nav-item4"
@@ -35,12 +32,22 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { gsap } from "gsap";
 import api from "@/utils/api.js";
 
 export default {
   name: "TopNav",
   data() {
-    return {};
+    return {
+      requestAuditURL: process.env.VUE_APP_REQUEST_AUDIT_URL,
+      presentScrollPosition: ""
+    };
+  },
+  created() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
   computed: {
     ...mapGetters(["cartCounter"])
@@ -49,6 +56,25 @@ export default {
     this.setCartCounter();
   },
   methods: {
+    handleScroll() {
+      const topSection = document.querySelector(".top-section");
+      const topSectionTop = topSection.getBoundingClientRect().top;
+      const topSectionBottom = topSection.getBoundingClientRect().bottom;
+      const height = topSectionBottom - topSectionTop;
+      if (topSectionTop < 1) {
+        gsap.to(".bottom-section", {
+          y: -height - 1,
+          duration: 0.2,
+          ease: "Power0.easeInOut"
+        });
+      } else {
+        gsap.to(".bottom-section", {
+          y: -1,
+          duration: 0.2,
+          ease: "Power0.easeInOut"
+        });
+      }
+    },
     setCartCounter() {
       if (
         !localStorage.getItem("user_details") &&
@@ -98,27 +124,25 @@ export default {
 
 <style lang="scss" scoped>
 #nav-container {
-  border: solid 0.0625rem #000000;
   width: 100%;
-  background: white;
   border-right: none;
+  border-left: none;
   border-bottom: none;
   position: sticky;
   position: -webkit-sticky;
   margin: 38px 0;
-  top: 0;
+  top: -1px;
   z-index: 10;
 
   .top-section {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
-    border-bottom: solid 0.0625rem #000000;
+    border-top: solid 0.0625rem #000000;
   }
 
   .bottom-section {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    border-bottom: solid 0.0625rem #000000;
     border-top: none;
   }
 
@@ -128,6 +152,7 @@ export default {
     justify-content: center;
     background: white;
     border-right: solid 0.0625rem #000000;
+    border-left: solid 0.0625rem #000000;
     font-size: 2rem;
     text-decoration: none;
     padding: 0.6rem 0;
@@ -138,10 +163,19 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-right: solid 0.0625rem #000000;
     padding: 15px 0;
     text-align: center;
     color: black;
+    border-bottom: solid 0.0625rem #000000;
+    z-index: 100;
+  }
+
+  .border-left {
+    border-left: solid 0.0625rem #000000;
+  }
+
+  .border-right {
+    border-right: solid 0.0625rem #000000;
   }
 
   .nav-item1,
@@ -154,7 +188,26 @@ export default {
     padding: 15px 0;
     text-align: center;
     color: black;
+    border-bottom: solid 0.0625rem #000000;
+  }
+
+  .nav-item1,
+  .nav-item2 {
+    border-left: solid 0.0625rem #000000;
+  }
+
+  .nav-item3 {
+    border-left: solid 0.0625rem #000000;
+  }
+
+  .nav-item3,
+  .nav-item4 {
     border-right: solid 0.0625rem #000000;
+  }
+
+  .nav-item2,
+  .nav-item3 {
+    border-top: solid 0.0625rem #000000;
   }
 
   .nav-item,

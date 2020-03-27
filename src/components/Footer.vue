@@ -9,13 +9,16 @@
         <div class="info-text margin-bottom">Terms&Conditions</div>
       </div>
       <div class="box">
-        <div class="small-header-text">Power as a service</div>
-        <div class="info-text">
-          <a
-            href="https://calculator.imperiumng.com/"
-            target="_blank"
-            class="info-text"
+        <div class="small-header-text desktop-screen">Power as a service</div>
+        <div class="small-header-text mobile-screen">PaaS</div>
+        <div class="info-text desktop-screen">
+          <a :href="calculatorURL" target="_blank" class="info-text"
             >Energy Calculator</a
+          >
+        </div>
+        <div class="mobile-screen">
+          <a :href="calculatorURL" target="_blank" class="info-text"
+            >Calculator</a
           >
         </div>
         <div class="info-text">Plans</div>
@@ -41,7 +44,12 @@
 
 <script>
 export default {
-  name: "Footer"
+  name: "Footer",
+  data() {
+    return {
+      calculatorURL: process.env.VUE_APP_CALCULATOR_URL
+    };
+  }
 };
 </script>
 
@@ -53,6 +61,19 @@ export default {
   border-right: none;
   border-bottom: none;
 
+  .desktop-screen {
+    @media screen and (max-width: 600px) {
+      display: none;
+    }
+  }
+
+  .mobile-screen {
+    display: none;
+    @media screen and (max-width: 600px) {
+      display: flex;
+    }
+  }
+
   a {
     text-decoration: none;
   }
@@ -61,6 +82,14 @@ export default {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 2fr;
+
+    @media screen and (max-width: 1200px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media screen and (max-width: 335px) {
+      grid-template-columns: 1fr;
+    }
 
     .box {
       display: flex;
@@ -71,6 +100,10 @@ export default {
       border-bottom: solid 0.0625rem #000000;
       border-right: solid 1px #000000;
       padding: 2rem;
+
+      @media screen and (max-width: 600px) {
+        padding: 2rem 1rem;
+      }
 
       .small-header-text {
         font-family: HelveticaNeue;
@@ -104,9 +137,23 @@ export default {
       border-bottom: solid 0.0625rem #000000;
       border-right: solid 0.0625rem #000000;
 
+      @media screen and (max-width: 1200px) {
+        grid-column-start: 1;
+        grid-column-end: 3;
+      }
+
+      @media screen and (max-width: 335px) {
+        grid-column-start: 1;
+        grid-column-end: 2;
+      }
+
       .small-header-text {
         font-size: 1.1rem;
         color: #1b1b1b;
+
+        @media screen and (max-width: 375px) {
+          font-size: 0.9rem;
+        }
       }
 
       .send-mail-div {
@@ -121,6 +168,18 @@ export default {
         color: #1b1b1b;
         text-decoration: none;
         outline: none;
+
+        @media screen and (max-width: 600px) {
+          padding: 0.8rem 6rem;
+        }
+
+        @media screen and (max-width: 375px) {
+          padding: 0.8rem 4.5rem;
+        }
+
+        @media screen and (max-width: 335px) {
+          padding: 0.8rem 3rem;
+        }
       }
       .button-send-mail:hover {
         background: #1b1b1b;

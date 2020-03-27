@@ -497,8 +497,8 @@
   }
 
   .details {
-    font-family: Inter;
-    font-size: 0.9rem;
+    font-family: Graphik;
+    font-size: 1.1rem;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -507,8 +507,8 @@
 
     table {
       width: 100%;
-      font-family: Inter;
-      font-size: 0.9rem;
+      font-family: Graphik;
+      font-size: 1.1rem;
       border-collapse: collapse;
       margin-bottom: 2rem;
 

@@ -19,6 +19,7 @@ import UserAccount from "@/components/UserAccount";
 import EditUserAccount from "@/components/EditUserAccount";
 import UserOrderHistory from "@/components/UserOrderHistory";
 import Signup from "@/components/Signup";
+import TermsAndCondition from "@/components/TermsAndCondition";
 import CheckoutPage from "@/views/CheckoutPage";
 import PageNotFound from "@/views/404";
 
@@ -42,6 +43,7 @@ export default new Router({
         { path: "product/:slug/id/:id", component: ProductView },
         { path: "cart", component: ShoppingCart },
         { path: "/my-account", component: UserAccount },
+        { path: "/terms-and-condition", component: TermsAndCondition },
         { path: "/my-account/update", component: EditUserAccount },
         { path: "/my-account/order-history", component: UserOrderHistory }
       ]

@@ -6,97 +6,139 @@
       </div>
       <div class="product-details">
         <div class="centered-content">
-          <div class="product-name">{{ productDetails.name }}</div>
-          <div class="price">₦{{ (productDetails.price / 100).toLocaleString() }}</div>
-          <div class="btn-add-to-cart" @click="addProductToCart()">Add to cart</div>
-          <div class>
-            <div class="loan-calc-title duration-margin">Loan Calculator</div>
-            <div class="loan-calc-details">
-              Loan Amount (+5% VAT and Service Fee)
-              <span
-                class="loan-calc-value"
-              >₦{{ loanAmount.toLocaleString() }}</span>
-            </div>
-            <div class="loan-calc-details duration-margin">
-              Deposit(Min 30%)
-              <span class="loan-calc-value">₦{{ loanDeposit.toLocaleString() }}</span>
-            </div>
-            <input
-              type="range"
-              :min="minDeposit"
-              :max="loanAmount"
-              v-model="loanDeposit"
-              @change="deposit()"
-              class="slider"
-            />
-            <div class="loan-calc-details duration-margin">
-              Duration
-              <span class="loan-calc-value" v-text="rangeDuration"></span>
-            </div>
-            <input
-              type="range"
-              min="1"
-              max="12"
-              v-model="monthValue"
-              class="slider"
-              @change="duration()"
-            />
-            <div class="loan-calc-details monthly-payment">
-              Monthly Repayment:
-              <span
-                class="loan-calc-value monthly-payment"
-              >₦{{ instalment.toLocaleString() }}</span>
-            </div>
-            <div class="btn-add-to-cart" @click="addProductToCart()">Pay Installmentally</div>
+          <div class="product-name truncate-name">
+            {{ productDetails.name }}
           </div>
+          <div class="price">₦ {{ productDetails.price.toLocaleString() }}</div>
+          <div class="btn-add-to-cart" @click="addProductToCart()">
+            Add to cart
+          </div>
+          <div class="details-label">
+            <div>
+              <div class="nav-link" @click="activeTabID = 0">
+                Description
+              </div>
+              <!-- <div class="line-black" v-if="activeTabID == 0"></div> -->
+            </div>
+            <!-- <div class="details-label">
+              <div class="nav-link margin-right" @click="activeTabID = 1">
+                <div>Configurations</div>
+                <div class="line-black" v-if="activeTabID == 1"></div>
+              </div>
+              <div class="nav-link" @click="activeTabID = 2">
+                <div>Setup</div>
+                <div class="line-black" v-if="activeTabID == 2"></div>
+              </div>
+            </div> -->
+          </div>
+          <div>
+            <div class="details truncate-description" v-if="activeTabID == 0">
+              {{ productDetails.description }}
+            </div>
+            <!-- <div class="details" v-else-if="activeTabID == 1">
+              <div class="config-details">
+                <span>
+                  <label for="sku">SKU</label>
+                  <p>{{ productDetails.model_id }}</p>
+                </span>
+                <span>
+                  <label for="capacity">Capacity</label>
+                  <p>{{ productDetails.capacity }} KV</p>
+                </span>
+                <span>
+                  <label for="Weight">Weight</label>
+                  <p>{{ productDetails.weight }} KG</p>
+                </span>
+              </div>
+            </div>
+            <div class="details" v-if="activeTabID == 2">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi
+              voluptas ad placeat fuga in corrupti veri
+            </div> -->
+            <div class="details extra-details">
+              <p>What's more?</p>
+              <p>
+                We offer a Guarantee on the Quality of solutions you get from
+                our installer partners as a consumer.
+              </p>
+            </div>
+          </div>
+          <!-- <div class>
+              <div class="loan-calc-title duration-margin">Loan Calculator</div>
+              <div class="loan-calc-details">
+                Loan Amount (+5% VAT and Service Fee)
+                <span class="loan-calc-value"
+                  >₦ {{ loanAmount.toLocaleString() }}</span
+                >
+              </div>
+              <div class="loan-calc-details duration-margin">
+                Deposit(Min 30%)
+                <span class="loan-calc-value"
+                  >₦ {{ loanDeposit.toLocaleString() }}</span
+                >
+              </div>
+              <input
+                type="range"
+                :min="minDeposit"
+                :max="loanAmount"
+                v-model="loanDeposit"
+                @change="deposit()"
+                class="slider"
+              />
+              <div class="loan-calc-details duration-margin">
+                Duration
+                <span class="loan-calc-value" v-text="rangeDuration"></span>
+              </div>
+              <input
+                type="range"
+                min="1"
+                max="12"
+                v-model="monthValue"
+                class="slider"
+                @change="duration()"
+              />
+              <div class="loan-calc-details monthly-payment">
+                Monthly Repayment:
+                <span class="loan-calc-value monthly-payment"
+                  >₦ {{ instalment.toLocaleString() }}</span
+                >
+              </div>
+              <div class="btn-add-to-cart" @click="addProductToCart()">
+                Pay Installmentally
+              </div>
+            </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="header-text-28" v-if="fetchedProductDetails">
+      <p>Similar Products</p>
+    </div>
+    <div class="products-container" v-if="fetchedProductDetails">
+      <div
+        class="product-item"
+        v-for="products in similarProducts"
+        :key="products.created_at"
+        @click="navigateTo(`/product/${products.slug}/id/${products.id}`)"
+      >
+        <div class="centered-content" v-if="products.price">
+          <div class="image-container">
+            <img :src="products.display_image" />
+          </div>
+          <div class="product-name truncate-name">{{ products.name }}</div>
+          <div class="product-capacity">{{ products.capacity }} KV</div>
+          <div class="price">₦ {{ products.price.toLocaleString() }}</div>
         </div>
       </div>
     </div>
     <content-loader v-else>
       <div class="loader"></div>
     </content-loader>
-    <div class="nav-desc-conf-set">
-      <div class="nav-desc" @click="activeTabID = 0">
-        <div class="nav-desc-conf-set__item">Description</div>
-        <div class="line-black" v-if="activeTabID == 0"></div>
-      </div>
-      <div class="nav-conf" @click="activeTabID = 1">
-        <div class="nav-desc-conf-set__item">Configurations</div>
-        <div class="line-black" v-if="activeTabID == 1"></div>
-      </div>
-      <div class="nav-set" @click="activeTabID = 2">
-        <div class="nav-desc-conf-set__item">Setup</div>
-        <div class="line-black" v-if="activeTabID == 2"></div>
-      </div>
-    </div>
-    <div class="long-details" v-if="activeTabID == 0">{{ productDetails.description }}</div>
-    <div class="long-details" v-else-if="activeTabID == 1">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis molestias
-      perferendis unde repudiandae cupiditate sint neque odit dolorem ipsa omnis
-      facilis qui quos possimus saepe nihil aliquid, dicta quo deleniti.
-    </div>
-    <div class="long-details" v-else>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi voluptas
-      ad placeat fuga in corrupti veri
-    </div>
-    <div class="header-text-28">Similar Products</div>
-    <div class="products-container">
-      <div class="product-item" v-for="(n, index) in 4" :key="index">
-        <div class="centered-content">
-          <div class="image-container">
-            <img src="../assets/images/battery.jpg" />
-          </div>
-          <div class="small-text-18">10kWh Battery</div>
-          <div class="small-text-18 text-blue">3 configurations</div>
-          <div class="small-text-18 text-blue">Suggested loading</div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
 import api from "@/utils/api.js";
+import shuffleArray from "@/utils/shuffleArray.js";
 import contentLoader from "@/components/contentLoader";
 
 export default {
@@ -106,9 +148,10 @@ export default {
   },
   data() {
     return {
-      productSlug: this.$route.params.slug,
-      productId: this.$route.params.id,
-      productDetails: [],
+      productSlug: "",
+      productId: "",
+      productDetails: {},
+      similarProducts: [],
       fetchedProductDetails: false,
       activeTabID: 0,
       loanAmount: "",
@@ -132,7 +175,14 @@ export default {
   },
   methods: {
     navigateTo(page) {
+      if (
+        page.split("/")[2] === "undefined" ||
+        page === this.$router.currentRoute.fullPath
+      ) {
+        return;
+      }
       this.$router.push(page);
+      this.getProductDetails();
     },
 
     deposit() {
@@ -147,31 +197,49 @@ export default {
     },
 
     getProductDetails() {
+      (this.fetchedProductDetails = false),
+        (this.productSlug = this.$route.params.slug);
       api
         .getProductBySlug(this.productSlug)
         .then(({ data }) => {
           this.productDetails = data.data;
           this.fetchedProductDetails = true;
           //vat calculation
-          this.vat = (this.productDetails.price / 100) * 0.05;
+          this.vat = this.productDetails.price * 0.05;
           //service charge calculation
-          this.serviceCharge = (this.productDetails.price / 100) * 0.1;
+          this.serviceCharge = this.productDetails.price * 0.1;
           //total loan amount
           this.loanAmount = Math.ceil(
-            this.productDetails.price / 100 + this.vat + this.serviceCharge
+            this.productDetails.price + this.vat + this.serviceCharge
           );
           //loan deposit calculation
           this.loanDeposit = Math.ceil(this.loanAmount * 0.3);
           this.minDeposit = this.loanDeposit;
           this.deposit();
           this.duration();
+          api.getSimilarProducts(data.data.category, 100000).then(response => {
+            if (response.data.data.result.length < 4) {
+              let emptyProductSpace = 4 - response.data.data.result.length;
+              let emptyObject = {};
+              let emptyProductArray = new Array(emptyProductSpace).fill(
+                emptyObject
+              );
+              this.similarProducts = shuffleArray(
+                response.data.data.result
+              ).concat(emptyProductArray);
+            } else {
+              this.similarProducts = shuffleArray(
+                response.data.data.result
+              ).slice(-4);
+            }
+          });
         })
         .catch(({ response }) => {
-          this.navigateTo("/404");
+          alert(response.data.message);
         });
     },
-
     addProductToCart() {
+      this.productId = this.$route.params.id;
       if (!localStorage.getItem("user_details")) {
         let mathcingProducts = false;
         let localDetails = JSON.parse(localStorage.getItem("product_id"));
@@ -184,7 +252,7 @@ export default {
               this.$store.dispatch("incrementCartCounter");
               this.$swal.fire({
                 position: "top",
-                type: "success",
+                icon: "success",
                 width: 150,
                 html: "Added",
                 showConfirmButton: false,
@@ -219,7 +287,7 @@ export default {
           this.$store.dispatch("incrementCartCounter");
           this.$swal.fire({
             position: "top",
-            type: "success",
+            icon: "success",
             width: 150,
             html: "Added",
             showConfirmButton: false,
@@ -245,11 +313,9 @@ export default {
               this.$store.dispatch("setCartCounter", newQuantity);
               localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
             });
-            // this.$store.dispatch("incrementCartCounter");
-            // alert("Successfully added product to cart!");
             this.$swal.fire({
               position: "top",
-              type: "success",
+              icon: "success",
               width: 150,
               html: "Added",
               showConfirmButton: false,
@@ -258,9 +324,8 @@ export default {
             });
           })
           .catch(({ response }) => {
-            // alert("Sorry boo, an error occured while adding to cart");
             this.$swal.fire({
-              type: "info",
+              icon: "info",
               html: response.data.message
             });
           });
@@ -271,5 +336,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/styles/scss/product-view.scss";
 </style>
-

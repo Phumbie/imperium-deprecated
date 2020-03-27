@@ -2,3 +2,14 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[context.branch-deploy]
+  [context.branch-deploy.environment]
+    VUE_APP_BASE_URL = "https://altpower.herokuapp.com/v1"
+    VUE_APP_CALCULATOR_URL = "https://staging--alt-power-calculator.netlify.com"
+    VUE_APP_REQUEST_AUDIT_URL = "https://staging--alt-power-calculator.netlify.com/request-audit"
+    VUE_APP_MODE = "staging"
+    
+[context.production]
+  [context.production.environment]
+    VUE_APP_MODE = "production"

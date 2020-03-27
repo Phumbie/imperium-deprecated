@@ -1,15 +1,14 @@
 import axios from "axios";
 
-const BASE_URL = 'https://api.imperiumng.com/v1';
+const BASE_URL = process.env.VUE_APP_BASE_URL;
 const CUSTOMER_SIGNUP_URL = `${BASE_URL}/customer`;
 const CUSTOMER_LOGIN_URL = `${BASE_URL}/user/login`;
-const ALL_PRODUCTS_URL = `${BASE_URL}/product?page=`;
-const ADD_TO_CART_URL = `${BASE_URL}/cart`;
-const SINGLE_PRODUCT_URL = `${BASE_URL}/product`;
-const GET_CART_URL = `${BASE_URL}/cart`;
+const PRODUCTS_URL = `${BASE_URL}/product`;
+const CART_URL = `${BASE_URL}/cart`;
 const CART_CHECKOUT_URL = `${BASE_URL}/order/checkout`;
-const CUSTOMER_ORDER_URL = `${BASE_URL}/order/?status=placed`;
-const CUSTOMER_ORDER_BY_ID_URL = `${BASE_URL}/order`;
+const CUSTOMER_ORDER_URL = `${BASE_URL}/order`;
+const FORGET_PASSWORD_URL = `${BASE_URL}/user/reset-password`;
+const RESET_PASSWORD_URL = `${BASE_URL}/user/reset-password-confirmation`;
 
 export default {
   getHeader() {
@@ -25,27 +24,43 @@ export default {
     return axios.post(CUSTOMER_LOGIN_URL, data);
   },
   getAllProducts: page => {
-    return axios.get(`${ALL_PRODUCTS_URL}${page}`);
+    return axios.get(`${PRODUCTS_URL}?page=${page}`);
+  },
+  getAllProductsQuery_per_page: per_page => {
+    return axios.get(`${PRODUCTS_URL}?per_page=${per_page}`);
   },
   getProductBySlug: slug => {
-    return axios.get(`${SINGLE_PRODUCT_URL}/${slug}`);
+    return axios.get(`${PRODUCTS_URL}/${slug}`);
   },
   addProductToCart(pid) {
     let data = {};
-    return axios.post(`${ADD_TO_CART_URL}/${pid}`, data, {
+    return axios.post(`${CART_URL}/${pid}`, data, {
+      headers: this.getHeader()
+    });
+  },
+  getProductByCategory: (category, page) => {
+    return axios.get(`${PRODUCTS_URL}?category=${category}&page=${page}`);
+  },
+  getSimilarProducts: (category, per_page) => {
+    return axios.get(
+      `${PRODUCTS_URL}?category=${category}&per_page=${per_page}`
+    );
+  },
+  addBulkProductToCart(data) {
+    return axios.post(`${CART_URL}`, data, {
       headers: this.getHeader()
     });
   },
   getCart() {
-    return axios.get(`${GET_CART_URL}`, { headers: this.getHeader() });
+    return axios.get(`${CART_URL}`, { headers: this.getHeader() });
   },
   removeFromCart(pid) {
-    return axios.delete(`${GET_CART_URL}/${pid}`, {
+    return axios.delete(`${CART_URL}/${pid}`, {
       headers: this.getHeader()
     });
   },
   decreaseProductQuantityInCart(pid) {
-    return axios.delete(`${GET_CART_URL}/${pid}/decrease`, {
+    return axios.delete(`${CART_URL}/${pid}/decrease`, {
       headers: this.getHeader()
     });
   },
@@ -55,12 +70,20 @@ export default {
       headers: this.getHeader()
     });
   },
-  getCustomerOrder() {
-    return axios.get(`${CUSTOMER_ORDER_URL}`, { headers: this.getHeader() });
-  },
-  getCustomerOrderById(orderId) {
-    return axios.get(`${CUSTOMER_ORDER_BY_ID_URL}/${orderId}`, {
+  getCustomerOrder(page) {
+    return axios.get(`${CUSTOMER_ORDER_URL}?page=${page}`, {
       headers: this.getHeader()
     });
+  },
+  getCustomerOrderById(orderId) {
+    return axios.get(`${CUSTOMER_ORDER_URL}/${orderId}`, {
+      headers: this.getHeader()
+    });
+  },
+  forgetPassword: data => {
+    return axios.post(`${FORGET_PASSWORD_URL}`, data);
+  },
+  resetPassword: data => {
+    return axios.post(`${RESET_PASSWORD_URL}`, data);
   }
 };

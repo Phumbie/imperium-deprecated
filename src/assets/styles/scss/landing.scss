@@ -1,0 +1,194 @@
+#landing {
+  animation-name: fadeIn;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .header-text-28 {
+    font-size: 1.75rem;
+    text-align: center;
+    color: #1d1d1d;
+  }
+
+  .small-text {
+    margin-top: 1rem;
+    text-align: center;
+    font-family: HelveticaNeue;
+    font-size: 1.125rem;
+    color: #1b1b1b;
+    font-weight: 500;
+  }
+
+  .top-section,
+  .bottom-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    // height: 80vh;
+
+    .products-container {
+      margin-top: 2.25rem;
+      width: 99.9%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: solid 1px #000000;
+      border-right: none;
+      border-bottom: none;
+
+      .product-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-right: solid 1px #000000;
+        border-bottom: solid 1px black;
+        padding-top: 2.125rem;
+        cursor: pointer;
+
+        .centered-content {
+          width: 85%;
+          max-height: 44.6rem;
+
+          animation-name: fadeIn;
+          animation-iteration-count: 1;
+          animation-timing-function: ease-in-out;
+          animation-duration: 1s;
+          animation-fill-mode: forwards;
+
+          @keyframes fadeIn {
+            0% {
+              opacity: 0;
+            }
+            100% {
+              opacity: 1;
+            }
+          }
+
+          .image-container {
+            background-color: rgba(99, 155, 97, 0.2);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 28.875rem;
+            padding-bottom: 1.875rem;
+
+            img {
+              width: 70%;
+              width: 65%;
+              position: relative;
+              object-position: bottom;
+              object-fit: contain;
+            }
+          }
+
+          .product-name {
+            font-family: HelveticaNeue;
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #353535;
+            margin-top: 1.5rem;
+            margin-bottom: 0.4375rem;
+            letter-spacing: 0.003rem;
+            text-transform: capitalize;
+          }
+
+          .product-capacity {
+            font-family: HelveticaNeue;
+            font-size: 1.125rem;
+            color: #000000;
+            font-weight: 500;
+            margin-bottom: 0.4375rem;
+            letter-spacing: 0.003rem;
+            line-height: 1.4rem;
+          }
+
+          .price {
+            font-family: Gotham;
+            font-size: 1.125rem;
+            color: #000000;
+            font-weight: 500;
+            margin-bottom: 1.375rem;
+            letter-spacing: 0.003rem;
+            line-height: 1.4rem;
+          }
+        }
+      }
+    }
+
+    .product-footer {
+      width: 99.9%;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border-left: 1px solid #1d1d1d;
+
+      &__link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: HelveticaNeue;
+        font-size: 1.5rem;
+        font-weight: 500;
+        letter-spacing: 0.003rem;
+        border-right: 1px solid #1d1d1d;
+        border-bottom: 1px solid #1d1d1d;
+        text-decoration: none;
+        color: #353535;
+        padding: 1.437rem;
+        cursor: pointer;
+        transition: 0.5s ease-in-out;
+      }
+
+      &__link:hover {
+        background: #1b1b1b;
+        color: white;
+      }
+    }
+  }
+
+  .middle-section {
+    width: 100%;
+    // height: 80vh;
+    margin: 6.9375rem 0;
+
+    .header-text-28 {
+      font-family: HelveticaNeue;
+      font-weight: 500;
+      font-size: 3.4375rem;
+    }
+
+    .small-text {
+      margin-top: 0.25rem;
+      text-align: center;
+      font-family: HelveticaNeue;
+      font-size: 1.125rem;
+      color: #1b1b1b;
+      font-weight: 500;
+    }
+
+    .image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1.0625rem;
+
+      img {
+        width: 100%;
+        height: 65%;
+        position: relative;
+        object-position: center;
+        object-fit: contain;
+        padding: 1rem;
+        cursor: pointer;
+      }
+    }
+  }
+}

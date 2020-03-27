@@ -1,103 +1,141 @@
 <template>
   <div id="cart-section">
-    <div class="header-text-28">Shopping Cart</div>
-    <div class="cart-list" v-if="fetchedCart">
-      <div class="header-section">
-        <div class="text-product-details">Product details</div>
-        <div class="text-quantity">Quantity</div>
-        <div class="text-amount">Total amount</div>
+    <section class="header-section">
+      <div class="header-text-28">Shopping Cart</div>
+      <div class="header" v-if="fetchedCart || fetchedLocalStorage">
+        <div class="table-header column-one">Product details</div>
+        <div class="table-header">Quantity</div>
+        <div class="table-header">Total amount</div>
       </div>
-      <div class="cart-item" v-for="(n, index) in cartItems.length" :key="index">
-        <div class="product-img-name-section">
-          <div class="image-container">
-            <img :src="cartItems[index].product.display_image" />
+    </section>
+    <section class="cart-details-section">
+      <div v-if="fetchedCart">
+        <div
+          class="cart-item"
+          v-for="(n, index) in cartItems.length"
+          :key="index"
+        >
+          <div class="product-img">
+            <div class="image-container">
+              <img :src="cartItems[index].product.display_image" />
+            </div>
+            <div class="product-name-price">
+              <div class="product-name capitalize">
+                {{ cartItems[index].product.name }}
+              </div>
+              <div class="price">
+                ₦ {{ cartItems[index].product.price.toLocaleString() }}
+              </div>
+              <div class="cart-item-description">
+                {{ cartItems[index].product.description }}
+              </div>
+              <button
+                class="button-remove"
+                @click="removeProductFromCart(cartItems[index].product.id)"
+              >
+                Remove
+              </button>
+            </div>
           </div>
-          <div class="product-name-price-section">
-            <div class="product-name capitalize">{{ cartItems[index].product.name }}</div>
-            <div class="price">₦ {{ (cartItems[index].product.price/100).toLocaleString() }}</div>
+          <div class="quantity">
             <button
-              class="button-remove"
-              @click="removeProductFromCart(cartItems[index].product.id)"
-            >Remove</button>
+              @click="decreaseProductQuantity(cartItems[index].product.id)"
+            >
+              &#45;
+            </button>
+            <span>{{ cartItems[index].quantity }}</span>
+            <button
+              @click="increaseProductQuantity(cartItems[index].product.id)"
+            >
+              &#43;
+            </button>
           </div>
-        </div>
-        <div class="quantity-section">
-          <button
-            class="button-minus"
-            @click="decreaseProductQuantity(cartItems[index].product.id)"
-          >-</button>
-          <span class="quantity">{{ cartItems[index].quantity }}</span>
-          <button
-            class="button-plus"
-            @click="increaseProductQuantity(cartItems[index].product.id)"
-          >+</button>
-        </div>
-        <div class="amount-section">
           <div class="amount">
-            ₦ {{
-            (cartItems[index].product.price * cartItems[index]
-            .quantity/100).toLocaleString()
-            }}
+            <div>
+              ₦
+              {{
+                (
+                  cartItems[index].product.price * cartItems[index].quantity
+                ).toLocaleString()
+              }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="cart-list" v-else-if="fetchedLocalStorage">
-      <div class="header-section">
-        <div class="text-product-details">Product details</div>
-        <div class="text-quantity">Quantity</div>
-        <div class="text-amount">Total amount</div>
-      </div>
-      <div class="cart-item" v-for="(n, index) in clientArr.length" :key="index">
-        <div class="product-img-name-section">
-          <div class="image-container">
-            <img :src="clientArr[index].display_image" />
+      <div v-else-if="fetchedLocalStorage">
+        <div
+          class="cart-item"
+          v-for="(n, index) in localCartItem.length"
+          :key="index"
+        >
+          <div class="product-img">
+            <div class="image-container">
+              <img :src="localCartItem[index].display_image" />
+            </div>
+            <div class="product-name-price">
+              <div class="product-name capitalize">
+                {{ localCartItem[index].name }}
+              </div>
+              <div class="price">
+                ₦ {{ localCartItem[index].price.toLocaleString() }}
+              </div>
+              <div class="cart-item-description">
+                {{ localCartItem[index].description }}
+              </div>
+              <button
+                class="button-remove"
+                @click="removeProductFromCart(localCartItem[index].id)"
+              >
+                Remove
+              </button>
+            </div>
           </div>
-          <div class="product-name-price-section">
-            <div class="product-name">{{ clientArr[index].name }}</div>
-            <div class="price">₦ {{ (clientArr[index].price/100).toLocaleString() }}</div>
-            <button class="button-remove" @click="removeProductFromCart(clientArr[index].id)">Remove</button>
+          <div class="quantity">
+            <button @click="decreaseProductQuantity(localCartItem[index].id)">
+              -
+            </button>
+            <span>{{ localCartItem[index].quantity }}</span>
+            <button @click="increaseProductQuantity(localCartItem[index].id)">
+              +
+            </button>
           </div>
-        </div>
-        <div class="quantity-section">
-          <button class="button-minus" @click="decreaseProductQuantity(clientArr[index].id)">-</button>
-          <span class="quantity">{{ clientArr[index].quantity }}</span>
-          <button class="button-plus" @click="increaseProductQuantity(clientArr[index].id)">+</button>
-        </div>
-        <div class="amount-section">
           <div class="amount">
-            ₦ {{
-            (clientArr[index].price * clientArr[index]
-            .quantity/100).toLocaleString()
-            }}
+            <div>
+              ₦
+              {{
+                (
+                  localCartItem[index].price * localCartItem[index].quantity
+                ).toLocaleString()
+              }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <content-loader v-else>
-      <div v-if="show" class="loader"></div>
-      <span v-else>{{ contentLoaderText }}</span>
-    </content-loader>
-    <div class="shop-checkout-buttons-section" v-if="fetchedCart">
+      <content-loader v-else>
+        <div v-if="show" class="loader"></div>
+        <span v-else>{{ contentLoaderText }}</span>
+      </content-loader>
+    </section>
+    <section class="checkout-button-section" v-if="fetchedCart">
       <div class="subtotal-section">
         <span>Subtotal</span>
-        <span>₦ {{ (subtotal/100).toLocaleString() }}</span>
+        <span>₦ {{ subtotal.toLocaleString() }}</span>
       </div>
       <div class="text">Delivery and taxes are calculated at checkout</div>
       <div class="buttons">
-        <button @click="navigateTo('/')">Continue shopping</button>
+        <button @click="navigateTo('/products')">Continue shopping</button>
         <button class="bg-black" @click="checkout()">Check out</button>
       </div>
-    </div>
-    <div class="shop-checkout-buttons-section" v-else-if="fetchedLocalStorage">
+    </section>
+    <div class="checkout-button-section" v-else-if="fetchedLocalStorage">
       <div class="subtotal-section">
         <span>Subtotal</span>
-        <span>₦ {{ (subtotalArr/100).toLocaleString() }}</span>
+        <span>₦ {{ subtotalArr.toLocaleString() }}</span>
       </div>
       <div class="text">Delivery and taxes are calculated at checkout</div>
       <div class="buttons">
-        <button @click="navigateTo('/')">Continue shopping</button>
+        <button @click="navigateTo('/products')">Continue shopping</button>
         <button class="bg-black" @click="checkout()">Check out</button>
       </div>
     </div>
@@ -118,7 +156,7 @@ export default {
       fetchedCart: false,
       fetchedLocalStorage: false,
       productsList: [],
-      clientArr: [],
+      localCartItem: [],
       localCart: [],
       subtotalArr: [],
       customerCart: {},
@@ -144,7 +182,7 @@ export default {
     getCart() {
       if (!localStorage.getItem("user_details")) {
         api
-          .getAllProducts()
+          .getAllProductsQuery_per_page(100000000)
           .then(({ data }) => {
             this.productsList = data.data.result;
             JSON.parse(localStorage.getItem("product_id")).map(item => {
@@ -153,7 +191,7 @@ export default {
                   product.local_id = item.id;
                   product.quantity = item.quantity;
                   product.subtotal = item.subtotal;
-                  this.clientArr.push(product);
+                  this.localCartItem.push(product);
                 }
               });
             });
@@ -166,14 +204,22 @@ export default {
               "subtotal_arr",
               JSON.stringify(this.subtotalArr)
             );
-            localStorage.setItem("local_cart", JSON.stringify(this.clientArr));
+            localStorage.setItem(
+              "local_cart",
+              JSON.stringify(this.localCartItem)
+            );
             this.subtotalArr = this.subtotalArr.reduce((acc, value) => {
               return acc + value;
             }, 0);
             localStorage.setItem("subtotal", JSON.stringify(this.subtotalArr));
             this.checkIfLocalStorageIsEmpty();
           })
-          .catch(({ response }) => {});
+          .catch(error => {
+            this.$swal.fire({
+              icon: "info",
+              html: error.message
+            });
+          });
         return;
       }
       api
@@ -182,18 +228,12 @@ export default {
           if (data.status == "success") {
             this.customerCart = data.data;
             this.checkIfCartIsEmpty();
-            // console.log(this.customerCart);
           }
         })
-        .catch(({ response }) => {
-          let errorMessage = "Unable to fetch cart items :(";
-          if (response) {
-            errorMessage = this.response.message;
-          }
-          // alert(errorMessage);
+        .catch(error => {
           this.$swal.fire({
-            type: "info",
-            html: errorMessage
+            icon: "info",
+            html: error.message
           });
         });
     },
@@ -212,22 +252,21 @@ export default {
           }
         });
         localStorage.setItem("product_id", JSON.stringify(local_items));
-        this.clientArr = [];
+        this.localCartItem = [];
         JSON.parse(localStorage.getItem("product_id")).map(item => {
           this.productsList.map(product => {
             if (product.id === item.id) {
               product.local_id = item.id;
               product.quantity = item.quantity;
-              this.clientArr.push(product);
+              this.localCartItem.push(product);
             }
           });
         });
-        localStorage.setItem("local_cart", JSON.stringify(this.clientArr));
+        localStorage.setItem("local_cart", JSON.stringify(this.localCartItem));
         this.checkIfLocalStorageIsEmpty();
-        // alert("Successfully removed product from cart");
         this.$swal.fire({
           position: "top",
-          type: "success",
+          icon: "success",
           width: 150,
           html: "Removed",
           showConfirmButton: false,
@@ -253,10 +292,9 @@ export default {
             });
             this.customerCart = data.data;
             this.checkIfCartIsEmpty();
-            // alert("Successfully removed product from cart");
             this.$swal.fire({
               position: "top",
-              type: "success",
+              icon: "success",
               width: 150,
               html: "Removed",
               showConfirmButton: false,
@@ -266,7 +304,6 @@ export default {
           }
         })
         .catch(({ response }) => {
-          // alert("An error occurred while removing product");
           alert(response.data.message);
         });
     },
@@ -284,7 +321,7 @@ export default {
     checkIfLocalStorageIsEmpty() {
       this.fetchedLocalStorage = false;
 
-      if (this.clientArr.length === 0) {
+      if (this.localCartItem.length === 0) {
         this.show = false;
         this.contentLoaderText = "Nothing to show";
         return;
@@ -312,7 +349,9 @@ export default {
               this.subtotalArr -= item.price;
               localStorage.setItem("local_cart", JSON.stringify(localCart));
               localStorage.setItem("product_id", JSON.stringify(localQuantity));
-              this.clientArr = JSON.parse(localStorage.getItem("local_cart"));
+              this.localCartItem = JSON.parse(
+                localStorage.getItem("local_cart")
+              );
               this.$store.dispatch("decrementCartCounter");
             }
           });
@@ -339,13 +378,11 @@ export default {
           }
         })
         .catch(({ response }) => {
-          // alert(response.data.message);
           this.$swal.fire({
-            type: "info",
+            icon: "info",
             html: response.data.message
           });
         });
-      // this.$store.dispatch('decrementCartCounter');
     },
     increaseProductQuantity(productId) {
       if (!localStorage.getItem("user_details")) {
@@ -359,7 +396,7 @@ export default {
               item.id === productId
             ) {
               this.$swal.fire({
-                type: "info",
+                icon: "info",
                 html: `We have only ${item.stock.quantity_available} of this Product left`
               });
               return;
@@ -375,7 +412,9 @@ export default {
               this.subtotalArr += item.price;
               localStorage.setItem("local_cart", JSON.stringify(localCart));
               localStorage.setItem("product_id", JSON.stringify(localQuantity));
-              this.clientArr = JSON.parse(localStorage.getItem("local_cart"));
+              this.localCartItem = JSON.parse(
+                localStorage.getItem("local_cart")
+              );
               this.$store.dispatch("incrementCartCounter");
               return;
             }
@@ -402,19 +441,17 @@ export default {
           }
         })
         .catch(({ response }) => {
-          // alert(response.data.message);
           this.$swal.fire({
-            type: "info",
+            icon: "info",
             html: response.data.message
           });
         });
-      // this.$store.dispatch('incrementCartCounter');
     },
     checkout() {
+      this.fetchedCart = false;
       if (!localStorage.getItem("user_details")) {
-        // alert("You have to login or signup to check out 🙃");
         this.$swal.fire({
-          type: "info",
+          icon: "info",
           html: "You have to login or signup to check out 🙃"
         });
         this.navigateTo("/login");
@@ -424,7 +461,6 @@ export default {
         .cartCheckout()
         .then(({ data }) => {
           if (data.status == "success") {
-            // console.log(data.data);
             localStorage.setItem("user_order", JSON.stringify(data.data.order));
             this.navigateTo("/checkout");
           }
@@ -438,4 +474,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/styles/scss/cart.scss";
 </style>

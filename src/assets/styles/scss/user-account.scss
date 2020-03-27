@@ -23,6 +23,7 @@
   .account-details-section {
     display: grid;
     grid-template-rows: 0.1fr 0.1fr 1fr;
+    margin-top: 5rem;
 
     .header-text-28 {
       font-size: 1.4rem;
@@ -47,7 +48,7 @@
       grid-template-columns: 1fr 1fr;
       margin-bottom: 5rem;
       // margin-top: 0;
-      width: 99.9%;
+      width: 99.85%;
       border: solid 1px #000000;
 
       .box {
@@ -86,7 +87,7 @@
     }
 
     .products-container {
-      width: 100%;
+      width: 99.9%;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       border: solid 1px #000000;

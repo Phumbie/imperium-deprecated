@@ -7,7 +7,7 @@
 <style lang="scss">
 #content-loader {
   margin-top: 31px;
-  width: 99.9%;
+  width: 99.85%;
   border: solid 1px black;
   font-size: 20px;
   text-align: center;

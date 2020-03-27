@@ -18,12 +18,7 @@
         class="nav-item1 border-left"
         >Energy Calculator</a
       >
-      <a
-        href="https://staging--alt-power-calculator.netlify.com/request-audit"
-        target="_blank"
-        class="nav-item2"
-        >Buy Power</a
-      >
+      <a :href="requestAuditURL" target="_blank" class="nav-item2">Buy Power</a>
       <router-link to="/products" class="nav-item3">Buy Products</router-link>
       <a
         class="nav-item4"
@@ -44,6 +39,7 @@ export default {
   name: "TopNav",
   data() {
     return {
+      requestAuditURL: process.env.VUE_APP_REQUEST_AUDIT_URL,
       presentScrollPosition: ""
     };
   },

@@ -20,10 +20,7 @@
           >
         </div>
         <div class="mobile-screen">
-          <a
-            href="https://calculator.imperiumng.com/"
-            target="_blank"
-            class="info-text"
+          <a :href="calculatorURL" target="_blank" class="info-text"
             >Calculator</a
           >
         </div>
@@ -50,7 +47,12 @@
 
 <script>
 export default {
-  name: "Footer"
+  name: "Footer",
+  data() {
+    return {
+      calculatorURL: process.env.VUE_APP_CALCULATOR_URL
+    };
+  }
 };
 </script>
 

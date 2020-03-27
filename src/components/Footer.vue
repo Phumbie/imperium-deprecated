@@ -12,10 +12,7 @@
         <div class="small-header-text desktop-screen">Power as a service</div>
         <div class="small-header-text mobile-screen">PaaS</div>
         <div class="info-text desktop-screen">
-          <a
-            href="https://calculator.imperiumng.com/"
-            target="_blank"
-            class="info-text"
+          <a :href="calculatorURL" target="_blank" class="info-text"
             >Energy Calculator</a
           >
         </div>

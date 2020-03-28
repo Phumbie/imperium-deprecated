@@ -4,38 +4,9 @@
       <router-link to="/my-account" class="nav-item border-left desktop-view"
         >Account</router-link
       >
-      <div class="mobile-nav-item breadcrumb border-left mobile-view">
-        <input type="checkbox" class="toggler" />
+      <div class="mobile-nav-item breadcrumb border-left">
+        <input type="checkbox" class="toggler" ref="checkBox" @click="toggle" />
         <div class="hamburger"><div></div></div>
-        <div class="menu">
-          <!-- <div>
-            <ul>
-              <li>
-                <a href="https://www.imperiumng.com/about">About</a>
-              </li>
-              <li>
-                <a href="/">
-                  Calculator
-                </a>
-              </li>
-              <li>
-                <a :href="shopURL">
-                  Shop
-                </a>
-              </li>
-              <li>
-                <a href="https://www.imperiumng.com/faqs">
-                  Faqs
-                </a>
-              </li>
-              <li>
-                <a href="https://www.imperiumng.com/blog">
-                  Blog
-                </a>
-              </li>
-            </ul>
-          </div> -->
-        </div>
       </div>
       <router-link to="/" class="product-title">Imperium</router-link>
       <router-link to="/cart" class="nav-item border-right desktop-view"
@@ -43,15 +14,14 @@
           cartCounter === 0 ? "0" : cartCounter
         }})</router-link
       >
-      <router-link to="/cart" class="mobile-nav-item border-right mobile-view"
-        >Cart ({{ cartCounter === 0 ? "0" : cartCounter }})</router-link
+      <router-link to="/cart" class="mobile-nav-item border-right"
+        ><i class="el-icon-shopping-cart-2"></i> ({{
+          cartCounter === 0 ? "0" : cartCounter
+        }})</router-link
       >
     </section>
     <section class="bottom-section">
-      <a
-        href="https://calculator.imperiumng.com/"
-        target="_blank"
-        class="nav-item1 border-left"
+      <a :href="calculatorURL" target="_blank" class="nav-item1 border-left"
         >Energy Calculator</a
       >
       <a :href="requestAuditURL" target="_blank" class="nav-item2">Buy Power</a>
@@ -62,6 +32,21 @@
         target="_blank"
         >Blog</a
       >
+    </section>
+    <section class="mobile-bottom-section">
+      <router-link to="/my-account" class="mobile-nav-item1"
+        >Account</router-link
+      >
+      <router-link to="/products" class="mobile-nav-item2"
+        >Buy Products</router-link
+      >
+      <a href="https://www.imperiumng.com/blog" class="mobile-nav-item3">
+        Blog
+      </a>
+      <a :href="calculatorURL" class="mobile-nav-item4">
+        Energy Calculator
+      </a>
+      <a :href="requestAuditURL" class="mobile-nav-item5">Buy Power</a>
     </section>
   </div>
 </template>
@@ -76,7 +61,9 @@ export default {
   data() {
     return {
       requestAuditURL: process.env.VUE_APP_REQUEST_AUDIT_URL,
-      presentScrollPosition: ""
+      calculatorURL: process.env.VUE_APP_CALCULATOR_URL,
+      presentScrollPosition: "",
+      checkBoxStatus: false
     };
   },
   created() {
@@ -90,6 +77,7 @@ export default {
   },
   mounted() {
     this.setCartCounter();
+    this.toggle();
   },
   methods: {
     handleScroll() {
@@ -100,13 +88,29 @@ export default {
       if (topSectionTop < 1) {
         gsap.to(".bottom-section", {
           y: -height - 1,
-          duration: 0.2,
+          duration: 0.01,
           ease: "Power0.easeInOut"
         });
       } else {
         gsap.to(".bottom-section", {
           y: -1,
-          duration: 0.2,
+          duration: 0.01,
+          ease: "Power0.easeInOut"
+        });
+      }
+    },
+    toggle() {
+      if (this.$refs.checkBox.checked === true) {
+        gsap.to(".mobile-bottom-section", {
+          opacity: 1,
+          duration: 0.5,
+          ease: "Power0.easeInOut"
+        });
+      }
+      if (this.$refs.checkBox.checked === false) {
+        gsap.to(".mobile-bottom-section", {
+          opacity: 0,
+          duration: 0.5,
           ease: "Power0.easeInOut"
         });
       }
@@ -160,7 +164,6 @@ export default {
 
 <style lang="scss" scoped>
 #nav-container {
-  width: calc(100% + 1px);
   border-right: none;
   border-left: none;
   border-bottom: none;
@@ -170,37 +173,36 @@ export default {
   top: -1px;
   z-index: 10;
 
+  @media screen and (max-width: 900px) {
+    margin-bottom: -5rem;
+  }
+
   .top-section {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     border-top: solid 0.0625rem #000000;
 
+    @media screen and (max-width: 900px) {
+      grid-template-columns: 1fr 4fr 1fr;
+    }
+
     .breadcrumb {
-      position: relative;
       font-size: 14px;
-      right: 0;
-      top: 0;
       z-index: 100;
 
       .toggler {
-        position: absolute;
-        right: 2rem;
-        top: 1.2rem;
         z-index: 300;
         cursor: pointer;
-        width: 1.8rem;
-        height: 3rem;
+        width: 1.4rem;
+        height: 1.2rem;
         opacity: 0;
       }
 
       .hamburger {
         position: absolute;
-        right: 2rem;
-        top: 1.2rem;
         z-index: 200;
         cursor: pointer;
         width: 2rem;
-        height: 3.2rem;
         padding: 1px;
         display: flex;
         justify-content: center;
@@ -210,8 +212,8 @@ export default {
       // hamburger line
       .hamburger > div {
         position: relative;
-        width: 100%;
-        height: 0.2rem;
+        width: 80%;
+        height: 0.1rem;
         background-color: black;
         opacity: 0.6;
         display: flex;
@@ -223,82 +225,46 @@ export default {
       .hamburger > div:after {
         content: "";
         position: absolute;
-        top: -0.6rem;
+        top: -0.5rem;
         width: 100%;
-        height: 0.2rem;
+        height: 0.1rem;
         z-index: 200;
         background-color: black;
         opacity: 0.6;
       }
 
       .hamburger > div:after {
-        top: 0.6rem;
+        top: 0.5rem;
       }
 
-      .toggler:checked + .hamburger > div {
-        transform: rotate(135deg);
-      }
+      // .toggler:checked + .hamburger > div {
+      //   transform: rotate(135deg);
+      // }
 
-      .toggler:checked + .hamburger > div:before,
-      .toggler:checked + .hamburger > div:after {
-        top: 0;
-        transform: rotate(90deg);
-      }
-
-      .toggler:checked:hover + .hamburger > div {
-        transform: rotate(225deg);
-      }
-
-      .menu {
-        position: fixed;
-        top: 4rem;
-        right: 3rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: 3rem;
-        padding-right: 2rem;
-        // padding-left: 2rem;
-        background-color: #f5f9f5;
-        // opacity: 0;
-        visibility: hidden;
-
-        ul {
-          list-style: none;
-          li {
-            padding-top: 2rem;
-
-            a {
-              text-decoration: none;
-              color: black;
-              opacity: 0.6;
-              transition: opacity 1s;
-            }
-          }
-        }
-
-        a:hover {
-          color: black;
-          opacity: 1;
-          transition: opacity 1s;
-        }
-      }
-
-      .toggler:checked ~ .menu {
-        visibility: visible;
-      }
+      // .toggler:checked + .hamburger > div:before,
+      // .toggler:checked + .hamburger > div:after {
+      //   top: 0;
+      //   transform: rotate(90deg);
+      // }
     }
 
     .mobile-nav-item {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 15px 0;
-      text-align: center;
-      background: white;
-      color: black;
-      border-bottom: solid 0.0625rem #000000;
-      z-index: 100;
+      display: none;
+      @media screen and (max-width: 900px) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background: white;
+        color: black;
+        border-bottom: solid 0.0625rem #000000;
+        text-decoration: none;
+        z-index: 100;
+      }
+
+      .el-icon-shopping-cart-2 {
+        font-size: 1.4rem;
+      }
     }
   }
 
@@ -309,6 +275,45 @@ export default {
 
     @media screen and (max-width: 900px) {
       display: none;
+    }
+  }
+
+  .mobile-bottom-section {
+    display: none;
+
+    @media screen and (max-width: 900px) {
+      position: sticky;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border: solid 0.0625rem #000000;
+      border-top: none;
+      background: white;
+
+      .mobile-nav-item1,
+      .mobile-nav-item2,
+      .mobile-nav-item3,
+      .mobile-nav-item4,
+      .mobile-nav-item5 {
+        border-bottom: solid 0.0625rem #000000;
+        padding: 14px;
+        text-align: center;
+        text-decoration: none;
+        color: #1d1d1d;
+      }
+
+      .mobile-nav-item1 {
+        grid-column-start: 1;
+        grid-column-end: 3;
+      }
+
+      .mobile-nav-item3,
+      .mobile-nav-item5 {
+        border-left: solid 0.0625rem #000000;
+      }
+      .mobile-nav-item4,
+      .mobile-nav-item5 {
+        border-bottom: none;
+      }
     }
   }
 
@@ -326,6 +331,7 @@ export default {
 
     @media screen and (max-width: 900px) {
       border-bottom: solid 0.0625rem #000000;
+      font-size: 1.6rem;
     }
   }
 
@@ -333,7 +339,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 15px 0;
     text-align: center;
     color: black;
     border-bottom: solid 0.0625rem #000000;

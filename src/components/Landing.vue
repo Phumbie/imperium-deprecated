@@ -43,20 +43,22 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="product-footer" v-if="!loading">
-          <div
-            class="product-footer__link"
-            @click="setActiveTab('solar panel')"
-          >
-            Shop Panels
+          <div class="product-footer" v-if="!loading">
+            <div
+              class="product-footer__link"
+              @click="setActiveTab('solar panel')"
+            >
+              Shop Panels
+            </div>
           </div>
-          <div
-            to="/products"
-            class="product-footer__link"
-            @click="setActiveTab('inverter')"
-          >
-            Shop Inverters
+          <div class="product-footer footer-right" v-if="!loading">
+            <div
+              to="/products"
+              class="product-footer__link"
+              @click="setActiveTab('inverter')"
+            >
+              Shop Inverters
+            </div>
           </div>
         </div>
       </section>
@@ -117,13 +119,18 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="product-footer" v-if="!loading">
-          <div class="product-footer__link" @click="setActiveTab('battery')">
-            Shop Batteries
+          <div class="product-footer" v-if="!loading">
+            <div class="product-footer__link" @click="setActiveTab('battery')">
+              Shop Batteries
+            </div>
           </div>
-          <div class="product-footer__link" @click="setActiveTab('accessory')">
-            Accessories
+          <div class="product-footer footer-right" v-if="!loading">
+            <div
+              class="product-footer__link"
+              @click="setActiveTab('accessory')"
+            >
+              Accessories
+            </div>
           </div>
         </div>
       </section>

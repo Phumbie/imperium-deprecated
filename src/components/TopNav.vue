@@ -88,13 +88,13 @@ export default {
       if (topSectionTop < 1) {
         gsap.to(".bottom-section", {
           y: -height - 1,
-          duration: 0.01,
+          duration: 0.2,
           ease: "Power0.easeInOut"
         });
       } else {
         gsap.to(".bottom-section", {
           y: -1,
-          duration: 0.01,
+          duration: 0.2,
           ease: "Power0.easeInOut"
         });
       }
@@ -103,14 +103,14 @@ export default {
       if (this.$refs.checkBox.checked === true) {
         gsap.to(".mobile-bottom-section", {
           opacity: 1,
-          duration: 0.5,
+          duration: 0.1,
           ease: "Power0.easeInOut"
         });
       }
       if (this.$refs.checkBox.checked === false) {
         gsap.to(".mobile-bottom-section", {
           opacity: 0,
-          duration: 0.5,
+          duration: 0.1,
           ease: "Power0.easeInOut"
         });
       }

@@ -13,6 +13,10 @@
   padding-top: 200px;
   padding-bottom: 200px;
 
+  @media screen and (max-width: 900px) {
+    margin-top: 0.5rem;
+  }
+
   .loader {
     display: flex;
     border: 6px solid #f3f3f3;

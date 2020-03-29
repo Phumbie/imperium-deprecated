@@ -86,7 +86,7 @@
 
   .products-container {
     margin-top: 3.375rem;
-    width: 99.9%;
+    // width: 99.9%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     border: solid 1px #000000;
@@ -94,7 +94,12 @@
     border-bottom: none;
 
     @media screen and (max-width: 900px) {
+      grid-template-columns: repeat(2, 1fr);
       margin-top: 0.5rem;
+    }
+
+    @media screen and (max-width: 600px) {
+      grid-template-columns: 1fr;
     }
 
     .product-item {

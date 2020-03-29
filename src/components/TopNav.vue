@@ -103,7 +103,7 @@ export default {
       if (this.$refs.checkBox.checked === true) {
         gsap.to(".mobile-bottom-section", {
           opacity: 1,
-          pointerEvents: "all",
+          display: "grid",
           duration: 0.1,
           ease: "Power0.easeInOut"
         });
@@ -111,7 +111,7 @@ export default {
       if (this.$refs.checkBox.checked === false) {
         gsap.to(".mobile-bottom-section", {
           opacity: 0,
-          pointerEvents: "none",
+          display: "none",
           duration: 0.1,
           ease: "Power0.easeInOut"
         });
@@ -174,10 +174,6 @@ export default {
   margin: 38px 0;
   top: -1px;
   z-index: 10;
-
-  @media screen and (max-width: 900px) {
-    margin-bottom: -5rem;
-  }
 
   .top-section {
     display: grid;

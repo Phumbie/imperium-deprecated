@@ -6,7 +6,7 @@ import router from "./router";
 import VModal from "vue-js-modal";
 import sweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-import { Pagination, Icon } from "element-ui";
+import { Pagination, Icon, Select } from "element-ui";
 import "@/assets/styles/scss/element-ui.scss";
 import { store } from "./store";
 
@@ -14,6 +14,7 @@ Vue.use(VModal);
 Vue.use(sweetalert2);
 Vue.use(Pagination);
 Vue.use(Icon);
+Vue.use(Select);
 Vue.config.productionTip = false;
 
 new Vue({

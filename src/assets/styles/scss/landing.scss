@@ -238,6 +238,10 @@
         object-fit: contain;
         padding: 1rem;
         cursor: pointer;
+
+        @media screen and (max-width: 600px) {
+          width: 90%;
+        }
       }
     }
   }

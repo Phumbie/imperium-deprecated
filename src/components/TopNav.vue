@@ -103,6 +103,7 @@ export default {
       if (this.$refs.checkBox.checked === true) {
         gsap.to(".mobile-bottom-section", {
           opacity: 1,
+          pointerEvents: "all",
           duration: 0.1,
           ease: "Power0.easeInOut"
         });
@@ -110,6 +111,7 @@ export default {
       if (this.$refs.checkBox.checked === false) {
         gsap.to(".mobile-bottom-section", {
           opacity: 0,
+          pointerEvents: "none",
           duration: 0.1,
           ease: "Power0.easeInOut"
         });

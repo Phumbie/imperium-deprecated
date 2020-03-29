@@ -7,7 +7,6 @@
 <style lang="scss">
 #content-loader {
   margin-top: 31px;
-  width: 99.85%;
   border: solid 1px black;
   font-size: 20px;
   text-align: center;
@@ -32,12 +31,6 @@
     100% {
       transform: rotate(360deg);
     }
-  }
-}
-
-@media only screen and (min-device-width: 320px) and (max-device-width: 767px) and (-webkit-min-device-pixel-ratio: 2) {
-  #content-loader {
-    width: 99.7%;
   }
 }
 </style>

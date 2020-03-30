@@ -13,7 +13,7 @@
         <router-link tag="button" to="/forget-password">
           Forgot your password?
         </router-link>
-        <input type="submit" value="Sign in" />
+        <input type="submit" value="Login" />
         <button @click="navigateTo('/signup')">
           Create account
         </button>

@@ -35,6 +35,21 @@
           <div class="underline" v-if="activeTabID == 'bundle'"></div>
         </div>
       </div>
+      <div class="mobile-category-nav">
+        <el-select
+          v-model="activeTabID"
+          :placeholder="activeTabID"
+          @input="switchCategory"
+        >
+          <el-option
+            v-for="link in links"
+            :key="link.value"
+            :label="link.label"
+            :value="link.value"
+          >
+          </el-option>
+        </el-select>
+      </div>
     </section>
     <section class="products-container" v-if="!loading">
       <div
@@ -90,7 +105,33 @@ export default {
       loading: true,
       activeTabID: "",
       header: "all products",
-      page: 1
+      page: 1,
+      links: [
+        {
+          value: "all products",
+          label: "all products"
+        },
+        {
+          value: "solar panel",
+          label: "solar panel"
+        },
+        {
+          value: "inverter",
+          label: "inverter"
+        },
+        {
+          value: "battery",
+          label: "battery"
+        },
+        {
+          value: "accessory",
+          label: "accessory"
+        },
+        {
+          value: "bundle",
+          label: "bundle"
+        }
+      ]
     };
   },
   computed: {

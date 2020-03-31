@@ -6,7 +6,7 @@
       </div>
       <div class="product-details">
         <div class="centered-content">
-          <div class="product-name truncate-name">
+          <div class="product-name">
             {{ productDetails.name }}
           </div>
           <div class="price">₦ {{ productDetails.price.toLocaleString() }}</div>
@@ -32,7 +32,7 @@
             </div> -->
           </div>
           <div>
-            <div class="details truncate-description" v-if="activeTabID == 0">
+            <div class="details" v-if="activeTabID == 0">
               {{ productDetails.description }}
             </div>
             <!-- <div class="details" v-else-if="activeTabID == 1">

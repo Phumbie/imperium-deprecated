@@ -2,7 +2,11 @@
   <div id="user-account" v-if="loading">
     <section class="header-section">
       <div class="header-text-28">My Account</div>
-      <button class="text-edit" @click="logout()">Logout</button>
+      <ul>
+        <li>
+          <button class="text-edit" @click="logout()">Logout</button>
+        </li>
+      </ul>
     </section>
     <section class="account-details-section">
       <div class="header-text-28">Account Details</div>

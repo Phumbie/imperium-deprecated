@@ -31,6 +31,10 @@ button {
 #container-main {
   width: 90%;
   margin: 0 auto;
+
+  @media screen and (max-width: 600px) {
+    width: 98%;
+  }
 }
 
 .capitalize {
@@ -200,7 +204,6 @@ button {
 #signup-section,
 #edit-section {
   form {
-    width: 30%;
     margin: 0 auto;
 
     input {
@@ -222,7 +225,7 @@ button {
 
       button {
         margin-top: 0.2rem;
-        margin-bottom: 2rem;
+        // margin-bottom: 2rem;
         font-size: 0.8rem;
         letter-spacing: 0.03rem;
         padding: 0.1rem 1rem;
@@ -237,7 +240,7 @@ button {
 
       input[type="submit"] {
         width: 100%;
-        margin-top: 0;
+        margin-top: 2rem;
         margin-left: 0px;
         padding: 14px 36px;
         font-size: 14px;

@@ -31,7 +31,7 @@
         <div class="image-container">
           <img :src="orderItems[index].display_image" />
         </div>
-        <div>
+        <div class="details">
           <div class="product-name capitalize">
             {{ orderItems[index].name }}
           </div>

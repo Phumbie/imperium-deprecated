@@ -117,7 +117,7 @@
             </div>
             <button
               class="mobile-button-remove"
-              @click="removeProductFromCart(cartItems[index].product.id)"
+              @click="removeProductFromCart(localCartItem[index].id)"
             >
               Remove
             </button>

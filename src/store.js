@@ -14,9 +14,11 @@ export const store = new Vuex.Store({
     },
     INCREMENT_CART_COUNTER(state) {
       state.cartCounter++;
+      localStorage.setItem("cartCounter", state.cartCounter);
     },
     DECREMENT_CART_COUNTER(state) {
       state.cartCounter--;
+      localStorage.setItem("cartCounter", state.cartCounter);
     },
     SET_ACTIVE_TAB_ID(state, payload) {
       state.activeTab = payload;

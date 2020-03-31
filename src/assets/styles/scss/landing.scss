@@ -68,8 +68,10 @@
 
         .centered-content {
           width: 85%;
-          max-height: 44.6rem;
 
+          @media screen and (max-width: 900px) {
+            width: 80%;
+          }
           animation-name: fadeIn;
           animation-iteration-count: 1;
           animation-timing-function: ease-in-out;
@@ -91,15 +93,22 @@
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            height: 28.875rem;
+            height: 28rem;
             padding-bottom: 1.875rem;
+
+            @media screen and (max-width: 900px) {
+              height: 22rem;
+            }
 
             img {
               width: 70%;
-              width: 65%;
               position: relative;
               object-position: bottom;
               object-fit: contain;
+
+              @media screen and (max-width: 900px) {
+                width: 60%;
+              }
             }
           }
 

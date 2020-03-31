@@ -135,8 +135,20 @@ export default {
     flex-wrap: wrap;
     justify-content: space-between;
 
+    @media screen and (max-width: 1200px) {
+      width: 70%;
+    }
+
+    @media screen and (max-width: 900px) {
+      width: 100%;
+    }
+
     input {
       width: 49%;
+
+      @media screen and (max-width: 600px) {
+        width: 100%;
+      }
     }
 
     .address {
@@ -149,6 +161,9 @@ export default {
 
       input {
         width: 49%;
+        @media screen and (max-width: 600px) {
+          width: 100%;
+        }
       }
     }
 

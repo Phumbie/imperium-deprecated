@@ -1,7 +1,7 @@
 #user-order-history {
   .header-section {
     display: grid;
-    grid-template-rows: 1fr;
+    grid-template-rows: 1fr 1fr;
 
     .header-text-28 {
       font-size: 1.75rem;
@@ -13,18 +13,23 @@
   }
 
   .order-details-section {
-    // margin-top: 2rem;
-
     .details-container {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       margin-bottom: 8rem;
       margin-top: 3rem;
-      width: 99.85%;
       border: solid 1px #000000;
 
+      @media screen and (max-width: 1300px) {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      @media screen and (max-width: 900px) {
+        grid-template-columns: 1fr;
+      }
+
       .box {
-        padding: 2.2rem 3rem;
+        padding: 2.2rem 1rem;
 
         label {
           font-size: 1.1rem;
@@ -45,6 +50,46 @@
 
       .border-left {
         border-left: solid #000000 1px;
+
+        @media screen and (max-width: 1300px) {
+          border-top: solid #000000 1px;
+        }
+
+        @media screen and (max-width: 900px) {
+          border-left: none;
+        }
+      }
+
+      .border-left-none {
+        display: flex;
+        flex-direction: column;
+        @media screen and (max-width: 1300px) {
+          flex-direction: row;
+          justify-content: space-evenly;
+          border-left: none;
+          grid-column-start: 1;
+          grid-column-end: 3;
+        }
+
+        @media screen and (max-width: 900px) {
+          grid-column-start: 1;
+          grid-column-end: 2;
+          justify-content: space-between;
+        }
+
+        @media screen and (max-width: 340px) {
+          flex-direction: column;
+        }
+      }
+
+      .border-top-none {
+        @media screen and (max-width: 1300px) {
+          border-top: none;
+        }
+
+        @media screen and (max-width: 900px) {
+          border-top: solid #000000 1px;
+        }
       }
     }
   }
@@ -58,14 +103,37 @@
       color: #1d1d1d;
     }
 
+    ul {
+      display: flex;
+      margin: 0;
+      margin-top: 0.5rem;
+      padding: 0;
+      list-style: none;
+    }
+
+    button {
+      padding: 0;
+      font-family: HelveticaNeue;
+      font-size: 1rem;
+      background: transparent;
+      border: none;
+    }
+
     .products-container {
-      width: 99.9%;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       border: solid 1px #000000;
       margin-top: 31px;
       border-right: none;
       border-bottom: none;
+
+      @media screen and (max-width: 900px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media screen and (max-width: 600px) {
+        grid-template-columns: 1fr;
+      }
 
       .product-item {
         display: flex;
@@ -77,7 +145,7 @@
         cursor: pointer;
 
         .centered-content {
-          width: 80%;
+          width: 85%;
 
           animation-name: fadeIn;
           animation-iteration-count: 1;

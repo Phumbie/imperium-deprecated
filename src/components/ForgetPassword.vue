@@ -1,14 +1,8 @@
 <template>
   <div id="login-section">
     <form @submit.prevent="resetPassword()">
-      <div class="small-text">Reset link would be sent to your email</div>
-      <input
-        type="email"
-        placeholder="Email address"
-        class="text-field"
-        v-model="email"
-        required
-      />
+      <div class="header-text-28">Forget password?</div>
+      <input type="text" placeholder="Email address" v-model="email" required />
       <div class="buttons">
         <input type="submit" value="Submit" />
         <button @click="navigateTo('/login')">
@@ -54,12 +48,24 @@ export default {
 
 <style lang="scss" scoped>
 #login-section {
-  .small-text {
-    width: 100%;
-    margin-bottom: 0;
-  }
-
   form {
+    width: 34%;
+
+    @media screen and (max-width: 1200px) {
+      width: 40%;
+    }
+
+    @media screen and (max-width: 1024px) {
+      width: 50%;
+    }
+
+    @media screen and (max-width: 900px) {
+      width: 60%;
+    }
+
+    @media screen and (max-width: 600px) {
+      width: 100%;
+    }
     input {
       margin-bottom: 2rem;
     }

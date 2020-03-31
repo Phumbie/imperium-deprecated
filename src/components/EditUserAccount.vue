@@ -5,54 +5,22 @@
       <input
         type="text"
         placeholder="First Name"
-        class="text-field width-half"
         required
         v-model="firstName"
       />
-      <input
-        type="text"
-        placeholder="Last Name"
-        class="text-field width-half float-right"
-        required
-        v-model="lastName"
-      />
-      <input
-        type="text"
-        placeholder="Email address"
-        class="text-field width-half float-right"
-        v-model="email"
-        required
-      />
+      <input type="text" placeholder="Last Name" required v-model="lastName" />
+      <input type="text" placeholder="Email address" v-model="email" required />
 
       <input
         type="text"
         placeholder="Phone number"
-        class="text-field width-half"
         v-model="phoneNumber"
         required
       />
 
-      <input
-        type="text"
-        placeholder="Street"
-        class="text-field street-width"
-        v-model="street"
-        required
-      />
-      <input
-        type="text"
-        placeholder="LGA"
-        class="text-field width-half"
-        v-model="lga"
-        required
-      />
-      <input
-        type="text"
-        placeholder="State"
-        class="text-field width-half float-right"
-        v-model="state"
-        required
-      />
+      <input type="text" placeholder="Street" v-model="street" required />
+      <input type="text" placeholder="LGA" v-model="lga" required />
+      <input type="text" placeholder="State" v-model="state" required />
       <div class="change-password">
         <div class="small-text" @click="show = !show">
           Change Password
@@ -61,7 +29,6 @@
           <input
             type="password"
             placeholder="Old Password"
-            class="text-field width-half"
             v-model="password"
             minlength="6"
             required
@@ -69,7 +36,6 @@
           <input
             type="password"
             placeholder="New Password"
-            class="text-field width-half float-right"
             v-model="confirmPassword"
             minlength="6"
             required
@@ -141,14 +107,22 @@ export default {
     cursor: pointer;
   }
   form {
-    width: 49%;
+    width: 60%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
 
+    @media screen and (max-width: 900px) {
+      width: 100%;
+    }
+
     input {
       width: 49%;
+
+      @media screen and (max-width: 600px) {
+        width: 100%;
+      }
     }
 
     .address {
@@ -178,6 +152,10 @@ export default {
     .change-password-input {
       display: flex;
       justify-content: space-between;
+
+      @media screen and (max-width: 600px) {
+        flex-direction: column;
+      }
     }
   }
 }

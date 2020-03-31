@@ -3,6 +3,7 @@
     <section class="header-section">
       <div class="header-text-28">Order Details</div>
     </section>
+    <Modal v-show="isModalVisible" @close="closeModal" />
     <section class="order-details-section">
       <div class="details-container">
         <div class="box">
@@ -17,7 +18,7 @@
             }}
           </div>
         </div>
-        <div class="box border-left">
+        <div class="box border-left border-top-none">
           <label>Total item</label>
           <div class="info-text">
             {{ this.totalItems }}
@@ -31,24 +32,35 @@
             {{ this.placedOrder.id }}
           </div>
         </div>
-        <div class="box border-left">
-          <label>Sub-Total</label>
-          <div class="info-text">
-            ₦ {{ this.placedOrder.sub_total.toLocaleString() }}
+        <div class="box border-left border-left-none">
+          <div>
+            <label>Sub-Total</label>
+            <div class="info-text">
+              ₦ {{ this.placedOrder.sub_total.toLocaleString() }}
+            </div>
           </div>
-          <label>Delivery</label>
-          <div class="info-text">
-            ₦ {{ this.placedOrder.delivery_cost.toLocaleString() }}
+          <div>
+            <label>Delivery</label>
+            <div class="info-text">
+              ₦ {{ this.placedOrder.delivery_cost.toLocaleString() }}
+            </div>
           </div>
-          <label>Total</label>
-          <div class="info-text margin-bottom-zero ">
-            ₦ {{ this.placedOrder.total_price.toLocaleString() }}
+          <div>
+            <label>Total</label>
+            <div class="info-text margin-bottom-zero ">
+              ₦ {{ this.placedOrder.total_price.toLocaleString() }}
+            </div>
           </div>
         </div>
       </div>
     </section>
     <section class="order-item-section">
       <span class="header-text-28">Items</span>
+      <!-- <ul v-if="this.placedOrder.status === 'placed'">
+        <li>
+          <button class="text-edit" @click="showModal">Cancel Order</button>
+        </li>
+      </ul> -->
       <div class="products-container">
         <div
           class="product-item"
@@ -76,7 +88,12 @@
 </template>
 
 <script>
+import Modal from "@/components/modal.vue";
+
 export default {
+  components: {
+    Modal
+  },
   data() {
     return {
       loading: false,
@@ -85,7 +102,8 @@ export default {
       totalItems: 0,
       placedOrder: [],
       orderItems: [],
-      date: ""
+      date: "",
+      isModalVisible: false
     };
   },
   mounted() {
@@ -99,6 +117,12 @@ export default {
   methods: {
     navigateTo(page) {
       this.$router.push(page);
+    },
+    showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
     },
     viewOrder() {
       this.placedOrder = JSON.parse(localStorage.getItem("placed_order"));

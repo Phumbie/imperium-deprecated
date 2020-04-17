@@ -65,7 +65,7 @@ export default {
       confirmPassword: "",
       streetAddress: "",
       lga: "",
-      state: ""
+      state: "",
     };
   },
   methods: {
@@ -82,30 +82,30 @@ export default {
         address: {
           street: this.streetAddress,
           lga: this.lga,
-          state: this.state
+          state: this.state,
         },
         first_name: this.firstName,
         last_name: this.lastName,
         email: this.email,
         password: this.password,
-        phone_number: this.phoneNumber
+        phone_number: this.phoneNumber,
       };
 
       api
         .signupCustomer(data)
-        .then(({ data }) => {
-          if (data.status == "success") {
+        .then((response) => {
+          if (response.data.status == "success") {
             alert("signup successful");
             localStorage.setItem(
               "user_details",
-              JSON.stringify(data.data.customer)
+              JSON.stringify(response.data.data)
             );
-            localStorage.setItem("token", data.data.token);
+            localStorage.setItem("token", response.data.data.token);
             this.navigateTo("my-account");
           }
           if (JSON.parse(localStorage.getItem("product_id"))) {
             let localCart = JSON.parse(localStorage.getItem("product_id"));
-            localCart.map(item => {
+            localCart.map((item) => {
               api
                 .addProductToCart(item.id)
                 .then(({ data }) => {
@@ -121,8 +121,8 @@ export default {
         .catch(({ response }) => {
           alert(response.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
     };
   },
   methods: {
@@ -40,23 +40,23 @@ export default {
     login() {
       let data = {
         email: this.email,
-        password: this.password
+        password: this.password,
       };
 
       api
         .loginCustomer(data)
-        .then(response => {
+        .then((response) => {
           if (response.data.status == "success") {
             localStorage.setItem(
               "user_details",
-              JSON.stringify(response.data.data.customer)
+              JSON.stringify(response.data.data)
             );
             localStorage.setItem("token", response.data.data.token);
             this.navigateTo("my-account");
           }
           if (JSON.parse(localStorage.getItem("product_id")).length !== 0) {
             let localCart = JSON.parse(localStorage.getItem("product_id"));
-            localCart.map(product => {
+            localCart.map((product) => {
               product.product_id = product.id;
               delete product.subtotal;
               delete product.id;
@@ -64,7 +64,7 @@ export default {
             const payload = { products: localCart };
             api
               .addBulkProductToCart(payload)
-              .then(response => {
+              .then((response) => {
                 if (response) {
                   api
                     .getCart()
@@ -72,27 +72,27 @@ export default {
                       if (data.status == "success") {
                         let cartSize = 0;
                         let cartItems = data.data.cart.items;
-                        cartItems.forEach(item => {
+                        cartItems.forEach((item) => {
                           cartSize += item.quantity;
                         });
                         this.$store.dispatch("setCartCounter", cartSize);
                       }
                     })
-                    .catch(error => {
+                    .catch((error) => {
                       alert(error.data.data.message);
                     });
                 }
               })
-              .catch(error => {
+              .catch((error) => {
                 alert(error.data.data.message);
               });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           alert(error.data.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

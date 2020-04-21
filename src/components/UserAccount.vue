@@ -25,11 +25,13 @@
         <div class="box border-left">
           <label>Address</label>
           <div class="info-text capitalize">
-            {{ userDetails.address.street }},
+            {{ userDetails.customer.address.street }},
           </div>
-          <div class="info-text capitalize">{{ userDetails.address.lga }},</div>
+          <div class="info-text capitalize">
+            {{ userDetails.customer.address.lga }},
+          </div>
           <div class="info-text margin-bottom-zero capitalize">
-            {{ userDetails.address.state }}.
+            {{ userDetails.customer.address.state }}.
           </div>
         </div>
       </div>
@@ -99,7 +101,7 @@ import contentLoader from "@/components/contentLoader";
 export default {
   name: "UserAccount",
   components: {
-    contentLoader
+    contentLoader,
   },
   data() {
     return {
@@ -111,7 +113,7 @@ export default {
       contentLoaderText: "",
       pagination: "",
       page: 1,
-      show: true
+      show: true,
     };
   },
   mounted() {
@@ -121,7 +123,12 @@ export default {
     }
 
     this.userDetails = JSON.parse(localStorage.getItem("user_details"));
-    this.userFullName = `${this.userDetails.first_name} ${this.userDetails.last_name}`;
+    if (this.userDetails.customer === undefined) {
+      localStorage.clear();
+      this.navigateTo("login");
+      return;
+    }
+    this.userFullName = `${this.userDetails.customer.first_name} ${this.userDetails.customer.last_name}`;
     this.getOrders();
   },
   methods: {
@@ -141,7 +148,7 @@ export default {
     getOrders() {
       api
         .getCustomerOrder(this.page)
-        .then(response => {
+        .then((response) => {
           if (response.data.data.orders.result.length < 4) {
             let emptyProductSpace = 4 - response.data.data.orders.result.length;
             let emptyObject = {};
@@ -168,7 +175,17 @@ export default {
           }
         })
         .catch(({ response }) => {
-          alert(response.data.message);
+          this.$swal.fire({
+            position: "top",
+            icon: "error",
+            width: 200,
+            html: "invalid account",
+            showConfirmButton: false,
+            timer: 1000,
+            toast: true,
+          });
+          localStorage.clear();
+          this.navigateTo("login");
         });
     },
     getOrderHistoryById(orderId) {
@@ -184,8 +201,8 @@ export default {
         .catch(({ response }) => {
           alert(response.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div id="login-section">
     <form @submit.prevent="resetPassword()">
-      <div class="header-text-28">Forget password?</div>
+      <div class="header-text-28">Forgot password?</div>
       <input type="text" placeholder="Email address" v-model="email" required />
       <div class="buttons">
         <input type="submit" value="Submit" />
@@ -20,7 +20,7 @@ export default {
   name: "Login",
   data() {
     return {
-      email: ""
+      email: "",
     };
   },
   methods: {
@@ -29,20 +29,23 @@ export default {
     },
     resetPassword() {
       let data = {
-        email: this.email
+        email: this.email,
       };
 
       api
         .forgetPassword(data)
-        .then(response => {
-          alert("reset link sent");
+        .then((response) => {
+          this.$swal.fire({
+            icon: "info",
+            html: "A reset link has been sent to your email",
+          });
           this.navigateTo("/login");
         })
         .catch(({ response }) => {
           alert(response.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -95,7 +95,15 @@ export default {
         .signupCustomer(data)
         .then((response) => {
           if (response.data.status == "success") {
-            alert("signup successful");
+            this.$swal.fire({
+              position: "top",
+              icon: "success",
+              width: 150,
+              html: "Successful",
+              showConfirmButton: false,
+              timer: 1000,
+              toast: true,
+            });
             localStorage.setItem(
               "user_details",
               JSON.stringify(response.data.data)
@@ -119,7 +127,10 @@ export default {
           }
         })
         .catch(({ response }) => {
-          alert(response.data.message);
+          this.$swal.fire({
+            icon: "info",
+            html: "User already exist",
+          });
         });
     },
   },

@@ -63,7 +63,7 @@ export default {
       requestAuditURL: process.env.VUE_APP_REQUEST_AUDIT_URL,
       calculatorURL: process.env.VUE_APP_CALCULATOR_URL,
       presentScrollPosition: "",
-      checkBoxStatus: false
+      checkBoxStatus: false,
     };
   },
   created() {
@@ -73,7 +73,7 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   computed: {
-    ...mapGetters(["cartCounter"])
+    ...mapGetters(["cartCounter"]),
   },
   mounted() {
     this.setCartCounter();
@@ -89,13 +89,13 @@ export default {
         gsap.to(".bottom-section", {
           y: -height - 1,
           duration: 0.2,
-          ease: "Power0.easeInOut"
+          ease: "Power0.easeInOut",
         });
       } else {
         gsap.to(".bottom-section", {
           y: -1,
           duration: 0.2,
-          ease: "Power0.easeInOut"
+          ease: "Power0.easeInOut",
         });
       }
     },
@@ -105,7 +105,7 @@ export default {
           opacity: 1,
           display: "grid",
           duration: 0.1,
-          ease: "Power0.easeInOut"
+          ease: "Power0.easeInOut",
         });
       }
       if (this.$refs.checkBox.checked === false) {
@@ -113,7 +113,7 @@ export default {
           opacity: 0,
           display: "none",
           duration: 0.1,
-          ease: "Power0.easeInOut"
+          ease: "Power0.easeInOut",
         });
       }
     },
@@ -136,7 +136,7 @@ export default {
         JSON.parse(localStorage.getItem("product_id"))
       ) {
         let cartSize = 0;
-        JSON.parse(localStorage.getItem("product_id")).map(item => {
+        JSON.parse(localStorage.getItem("product_id")).map((item) => {
           cartSize += item.quantity;
         });
         this.$store.dispatch("setCartCounter", cartSize);
@@ -148,7 +148,7 @@ export default {
           if (data.status == "success") {
             let cartSize = 0;
             let cartItems = data.data.cart.items;
-            cartItems.forEach(item => {
+            cartItems.forEach((item) => {
               cartSize += item.quantity;
             });
             this.$store.dispatch("setCartCounter", cartSize);
@@ -156,11 +156,14 @@ export default {
         })
         .catch(({ response }) => {
           if (response) {
-            alert(response.data.message);
+            this.$swal.fire({
+              icon: "info",
+              html: "Unauthorized account",
+            });
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

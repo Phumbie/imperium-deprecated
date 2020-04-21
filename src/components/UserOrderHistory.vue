@@ -138,7 +138,7 @@ export default {
       } else {
         this.orderItems = this.placedOrder.items;
       }
-      this.userFullName = `${this.userDetails.first_name} ${this.userDetails.last_name}`;
+      this.userFullName = `${this.userDetails.customer.first_name} ${this.userDetails.customer.last_name}`;
       this.loading = true;
     },
   },

@@ -14,7 +14,7 @@
           <label for="address">Address</label>
           <div class="info-text margin-bottom-zero  capitalize">
             {{
-              `${this.userDetails.address.street}, ${this.userDetails.address.lga}, ${this.userDetails.address.state}.`
+              `${this.userDetails.customer.address.street}, ${this.userDetails.customer.address.lga}, ${this.userDetails.customer.address.state}.`
             }}
           </div>
         </div>
@@ -92,7 +92,7 @@ import Modal from "@/components/modal.vue";
 
 export default {
   components: {
-    Modal
+    Modal,
   },
   data() {
     return {
@@ -103,7 +103,7 @@ export default {
       placedOrder: [],
       orderItems: [],
       date: "",
-      isModalVisible: false
+      isModalVisible: false,
     };
   },
   mounted() {
@@ -127,7 +127,7 @@ export default {
     viewOrder() {
       this.placedOrder = JSON.parse(localStorage.getItem("placed_order"));
       this.userDetails = JSON.parse(localStorage.getItem("user_details"));
-      this.placedOrder.items.map(item => {
+      this.placedOrder.items.map((item) => {
         this.totalItems += item.quantity;
       });
       if (this.placedOrder.items.length < 4) {
@@ -140,8 +140,8 @@ export default {
       }
       this.userFullName = `${this.userDetails.first_name} ${this.userDetails.last_name}`;
       this.loading = true;
-    }
-  }
+    },
+  },
 };
 </script>
 

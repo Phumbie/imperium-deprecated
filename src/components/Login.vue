@@ -1,6 +1,6 @@
 <template>
   <div id="login-section">
-    <form @submit.prevent="login()" v-if="loading">
+    <form @submit.prevent="login()">
       <div class="header-text-28">Login</div>
       <input type="text" placeholder="Email address" v-model="email" required />
       <input
@@ -10,7 +10,10 @@
         required
       />
       <div class="buttons">
-        <input type="submit" value="Login" />
+        <!-- <input type="submit" value="Login" /> -->
+        <button class="login-btn">
+          <span>Login</span><span class="loader" v-if="!loading"></span>
+        </button>
         <router-link tag="button" to="/forget-password">
           Forgot your password?
         </router-link>
@@ -19,9 +22,6 @@
         </button>
       </div>
     </form>
-    <content-loader v-else>
-      <div class="loader"></div>
-    </content-loader>
   </div>
 </template>
 
@@ -31,9 +31,6 @@ import contentLoader from "@/components/contentLoader";
 
 export default {
   name: "Login",
-  components: {
-    contentLoader,
-  },
   data() {
     return {
       email: "",
@@ -100,7 +97,7 @@ export default {
         })
         .catch((error) => {
           this.$swal.fire({
-            icon: "info",
+            icon: "error",
             html: "Invalid account",
           });
           this.loading = true;

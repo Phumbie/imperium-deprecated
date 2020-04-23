@@ -157,7 +157,7 @@ export default {
         .catch(({ response }) => {
           if (response) {
             this.$swal.fire({
-              icon: "info",
+              icon: "error",
               html: "Unauthorized account",
             });
           }

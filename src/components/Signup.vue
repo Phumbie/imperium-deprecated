@@ -41,7 +41,10 @@
         <input type="text" placeholder="State" v-model="state" required />
       </div>
       <div class="buttons">
-        <input type="submit" value="Create account" />
+        <button class="login-btn">
+          <span>Create Account</span
+          ><span class="loader" v-if="!loading"></span>
+        </button>
         <button @click="navigateTo('/login')">
           Login
         </button>
@@ -66,6 +69,7 @@ export default {
       streetAddress: "",
       lga: "",
       state: "",
+      loading: true,
     };
   },
   methods: {
@@ -73,8 +77,12 @@ export default {
       this.$router.push(page);
     },
     signupCustomer() {
+      this.loading = false;
       if (this.password != this.confirmPassword) {
-        alert("password field doesn't match password confirmation");
+        this.$swal.fire({
+          icon: "error",
+          html: "password field doesn't match password confirmation",
+        });
         return;
       }
 
@@ -110,6 +118,7 @@ export default {
             );
             localStorage.setItem("token", response.data.data.token);
             this.navigateTo("my-account");
+            this.loading = true;
           }
           if (JSON.parse(localStorage.getItem("product_id"))) {
             let localCart = JSON.parse(localStorage.getItem("product_id"));
@@ -128,7 +137,7 @@ export default {
         })
         .catch(({ response }) => {
           this.$swal.fire({
-            icon: "info",
+            icon: "error",
             html: "User already exist",
           });
         });

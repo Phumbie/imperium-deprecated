@@ -249,7 +249,8 @@ button {
         transition: 0.5s;
       }
 
-      input[type="submit"]:hover {
+      input[type="submit"]:hover,
+      input[type="submit"]:focus {
         background: black;
         color: white;
         transition: 0.5s;

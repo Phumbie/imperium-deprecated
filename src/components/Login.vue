@@ -10,7 +10,6 @@
         required
       />
       <div class="buttons">
-        <!-- <input type="submit" value="Login" /> -->
         <button class="login-btn">
           <span>Login</span><span class="loader" v-if="!loading"></span>
         </button>

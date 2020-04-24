@@ -1,7 +1,7 @@
 <template>
   <div id="login-section">
     <form @submit.prevent="resetPassword()">
-      <div class="header-text-28">Forgot password?</div>
+      <div class="header-text-28">Your email?</div>
       <input type="text" placeholder="Email address" v-model="email" required />
       <div class="buttons">
         <input type="submit" value="Submit" />
@@ -36,7 +36,7 @@ export default {
         .forgetPassword(data)
         .then((response) => {
           this.$swal.fire({
-            icon: "info",
+            icon: "success",
             html: "A reset link has been sent to your email",
           });
           this.navigateTo("/login");

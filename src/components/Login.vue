@@ -10,13 +10,15 @@
         required
       />
       <div class="buttons">
-        <input type="submit" value="Login" />
-        <button @click="navigateTo('/signup')">
-          Create account
+        <button class="login-btn">
+          <span>Login</span><span class="loader" v-if="!loading"></span>
         </button>
         <router-link tag="button" to="/forget-password">
           Forgot your password?
         </router-link>
+        <button @click="navigateTo('/signup')">
+          Don't have an account? Create account
+        </button>
       </div>
     </form>
   </div>
@@ -24,6 +26,7 @@
 
 <script>
 import api from "@/utils/api.js";
+import contentLoader from "@/components/contentLoader";
 
 export default {
   name: "Login",
@@ -31,6 +34,7 @@ export default {
     return {
       email: "",
       password: "",
+      loading: true,
     };
   },
   methods: {
@@ -38,6 +42,7 @@ export default {
       this.$router.push(page);
     },
     login() {
+      this.loading = false;
       let data = {
         email: this.email,
         password: this.password,
@@ -53,6 +58,7 @@ export default {
             );
             localStorage.setItem("token", response.data.data.token);
             this.navigateTo("my-account");
+            this.loading = true;
           }
           if (JSON.parse(localStorage.getItem("product_id")).length !== 0) {
             let localCart = JSON.parse(localStorage.getItem("product_id"));
@@ -89,7 +95,11 @@ export default {
           }
         })
         .catch((error) => {
-          alert(error.data.data.message);
+          this.$swal.fire({
+            icon: "error",
+            html: "Invalid account",
+          });
+          this.loading = true;
         });
     },
   },

@@ -63,7 +63,7 @@ import TopNav from "@/components/TopNav";
 
 export default {
   components: {
-    TopNav
+    TopNav,
   },
   data() {
     return {
@@ -75,7 +75,9 @@ export default {
       address: "",
       user: "",
       fullName: "",
-      phone_number: JSON.parse(localStorage.getItem("user_order")).contact_phone
+      phone_number: JSON.parse(localStorage.getItem("user_order"))
+        .contact_phone,
+      store: this.$store,
     };
   },
   mounted() {
@@ -86,7 +88,7 @@ export default {
     this.orderItems = this.order.items;
     this.user = JSON.parse(localStorage.getItem("user_details"));
     this.address = `${this.order.shipping_address.street}, ${this.order.shipping_address.lga}, ${this.order.shipping_address.state}`;
-    this.fullName = `${this.user.first_name} ${this.user.last_name}`;
+    this.fullName = `${this.user.customer.first_name} ${this.user.customer.last_name}`;
     // this.phone_number = `${this.user.user.phone_number}`;
   },
   methods: {
@@ -97,30 +99,34 @@ export default {
       return JSON.parse(localStorage.getItem("user_order"));
     },
     placeOrder() {
+      let x = this;
       const order = this.getNewlyCreatedOrder();
       const handler = PaystackPop.setup({
-        // key: "pk_test_8d401b3f50e9dd566c8273a1ebc1524a2d34d3f4",
         key: "pk_test_a5e5a7ad89b8d468a6482b29dcf2acd7b09a1c18",
         email: "test@gmail.com",
         amount: Math.ceil(this.totalCost * 100),
         currency: "NGN",
         metadata: {
           custom_fields: {
-            order_id: order.id
-          }
+            order_id: order.id,
+          },
         },
         callback: function(response) {
-          this.$swal.fire({
-            icon: "info",
-            html:
-              "Order is being processed, you'll get an email shortly on the order status"
+          x.$swal.fire({
+            position: "top",
+            icon: "success",
+            width: 280,
+            html: "your order is being processed",
+            showConfirmButton: false,
+            timer: 2000,
+            toast: true,
           });
-          this.navigateTo("/products");
-        }
+          x.navigateTo("/products");
+        },
       });
       handler.openIframe();
-    }
-  }
+    },
+  },
 };
 </script>
 

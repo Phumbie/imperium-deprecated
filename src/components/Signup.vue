@@ -41,7 +41,10 @@
         <input type="text" placeholder="State" v-model="state" required />
       </div>
       <div class="buttons">
-        <input type="submit" value="Create account" />
+        <button class="login-btn">
+          <span>Create Account</span
+          ><span class="loader" v-if="!loading"></span>
+        </button>
         <button @click="navigateTo('/login')">
           Login
         </button>
@@ -65,7 +68,8 @@ export default {
       confirmPassword: "",
       streetAddress: "",
       lga: "",
-      state: ""
+      state: "",
+      loading: true,
     };
   },
   methods: {
@@ -73,8 +77,12 @@ export default {
       this.$router.push(page);
     },
     signupCustomer() {
+      this.loading = false;
       if (this.password != this.confirmPassword) {
-        alert("password field doesn't match password confirmation");
+        this.$swal.fire({
+          icon: "error",
+          html: "password field doesn't match password confirmation",
+        });
         return;
       }
 
@@ -82,30 +90,39 @@ export default {
         address: {
           street: this.streetAddress,
           lga: this.lga,
-          state: this.state
+          state: this.state,
         },
         first_name: this.firstName,
         last_name: this.lastName,
         email: this.email,
         password: this.password,
-        phone_number: this.phoneNumber
+        phone_number: this.phoneNumber,
       };
 
       api
         .signupCustomer(data)
-        .then(({ data }) => {
-          if (data.status == "success") {
-            alert("signup successful");
+        .then((response) => {
+          if (response.data.status == "success") {
+            this.$swal.fire({
+              position: "top",
+              icon: "success",
+              width: 150,
+              html: "Successful",
+              showConfirmButton: false,
+              timer: 1000,
+              toast: true,
+            });
             localStorage.setItem(
               "user_details",
-              JSON.stringify(data.data.customer)
+              JSON.stringify(response.data.data)
             );
-            localStorage.setItem("token", data.data.token);
+            localStorage.setItem("token", response.data.data.token);
             this.navigateTo("my-account");
+            this.loading = true;
           }
           if (JSON.parse(localStorage.getItem("product_id"))) {
             let localCart = JSON.parse(localStorage.getItem("product_id"));
-            localCart.map(item => {
+            localCart.map((item) => {
               api
                 .addProductToCart(item.id)
                 .then(({ data }) => {
@@ -119,10 +136,13 @@ export default {
           }
         })
         .catch(({ response }) => {
-          alert(response.data.message);
+          this.$swal.fire({
+            icon: "error",
+            html: "User already exist",
+          });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

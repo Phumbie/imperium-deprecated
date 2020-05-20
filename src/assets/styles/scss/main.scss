@@ -249,11 +249,58 @@ button {
         transition: 0.5s;
       }
 
-      input[type="submit"]:hover {
+      .login-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 2rem;
+        margin-left: 0px;
+        padding: 14px 36px;
+        font-size: 14px;
+        background: transparent;
+        border: solid 1px black;
+        transition: 0.5s;
+
+        span {
+          margin-left: 0.5rem;
+        }
+      }
+
+      .login-btn:hover,
+      .login-btn:focus {
+        text-decoration: none;
         background: black;
         color: white;
         transition: 0.5s;
         cursor: pointer;
+      }
+
+      input[type="submit"]:hover,
+      input[type="submit"]:focus {
+        background: black;
+        color: white;
+        transition: 0.5s;
+        cursor: pointer;
+      }
+
+      .loader {
+        display: flex;
+        border: 1px solid #000000;
+        border-top: 1px groove #ffffff;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
 
       button.border-none {

@@ -5,7 +5,7 @@
 
 [context.branch-deploy]
   [context.branch-deploy.environment]
-    VUE_APP_BASE_URL = "https://imperium-latest.herokuapp.com/v1"
+    VUE_APP_BASE_URL = "https://altpower-staging.herokuapp.com/v1"
     VUE_APP_CALCULATOR_URL = "https://staging--alt-power-calculator.netlify.com"
     VUE_APP_REQUEST_AUDIT_URL = "https://staging--alt-power-calculator.netlify.com/request-audit"
     VUE_APP_MODE = "staging"

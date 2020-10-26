@@ -93,10 +93,9 @@
 import { mapGetters } from "vuex";
 import api from "@/utils/api.js";
 import contentLoader from "@/components/contentLoader";
-
 export default {
   components: {
-    contentLoader
+    contentLoader,
   },
   data() {
     return {
@@ -109,33 +108,33 @@ export default {
       links: [
         {
           value: "all products",
-          label: "all products"
+          label: "all products",
         },
         {
           value: "solar panel",
-          label: "solar panel"
+          label: "solar panel",
         },
         {
           value: "inverter",
-          label: "inverter"
+          label: "inverter",
         },
         {
           value: "battery",
-          label: "battery"
+          label: "battery",
         },
         {
           value: "accessory",
-          label: "accessory"
+          label: "accessory",
         },
         {
           value: "bundle",
-          label: "bundle"
-        }
-      ]
+          label: "bundle",
+        },
+      ],
     };
   },
   computed: {
-    ...mapGetters(["activeTab"])
+    ...mapGetters(["activeTab"]),
   },
   mounted() {
     if (!JSON.parse(localStorage.getItem("active_tab"))) {
@@ -190,7 +189,7 @@ export default {
       if (this.activeTabID === "all products") {
         api
           .getAllProducts(this.page)
-          .then(response => {
+          .then((response) => {
             if (response.data.data.result.length < 4) {
               let emptyProductSpace = 4 - response.data.data.result.length;
               let emptyObject = {};
@@ -214,7 +213,7 @@ export default {
       } else {
         api
           .getProductByCategory(this.activeTabID, this.page)
-          .then(response => {
+          .then((response) => {
             if (response.data.data.result.length < 4) {
               let emptyProductSpace = 4 - response.data.data.result.length;
               let emptyObject = {};
@@ -236,8 +235,8 @@ export default {
             alert(response.data.message);
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

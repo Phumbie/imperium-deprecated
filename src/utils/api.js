@@ -9,6 +9,7 @@ const CART_CHECKOUT_URL = `${BASE_URL}/order/checkout`;
 const CUSTOMER_ORDER_URL = `${BASE_URL}/order`;
 const FORGET_PASSWORD_URL = `${BASE_URL}/user/reset-password`;
 const RESET_PASSWORD_URL = `${BASE_URL}/user/reset-password-confirmation`;
+const CONFIRM_CUSTOMER_URL = `${BASE_URL}/user/confirm`;
 
 export default {
   getHeader() {
@@ -86,4 +87,7 @@ export default {
   resetPassword: (data) => {
     return axios.post(`${RESET_PASSWORD_URL}`, data);
   },
+  confirmCustomer: (id) => {
+    return axios.get(`${CONFIRM_CUSTOMER_URL}?id=${id}`)
+  }
 };

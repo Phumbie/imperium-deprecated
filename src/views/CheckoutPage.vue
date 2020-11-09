@@ -102,7 +102,7 @@ export default {
       let x = this;
       const order = this.getNewlyCreatedOrder();
       const handler = PaystackPop.setup({
-        key: "pk_test_a5e5a7ad89b8d468a6482b29dcf2acd7b09a1c18",
+        key: process.env.VUE_APP_PS_KEY,
         email: "test@gmail.com",
         amount: Math.ceil(this.totalCost * 100),
         currency: "NGN",

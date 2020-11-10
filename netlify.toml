@@ -5,11 +5,20 @@
 
 [context.branch-deploy]
   [context.branch-deploy.environment]
-    VUE_APP_BASE_URL = "https://imperium-latest.herokuapp.com/v1"
+    VUE_APP_BASE_URL = "https://altpower-staging.herokuapp.com/v1"
     VUE_APP_CALCULATOR_URL = "https://staging--alt-power-calculator.netlify.com"
     VUE_APP_REQUEST_AUDIT_URL = "https://staging--alt-power-calculator.netlify.com/request-audit"
+    VUE_APP_PS_KEY="pk_test_a5e5a7ad89b8d468a6482b29dcf2acd7b09a1c18"
     VUE_APP_MODE = "staging"
     
+[context.deploy-preview]
+  [context.deploy-preview.environment]
+    VUE_APP_BASE_URL = "https://altpower-staging.herokuapp.com/v1"
+    VUE_APP_CALCULATOR_URL = "https://staging--alt-power-calculator.netlify.com"
+    VUE_APP_REQUEST_AUDIT_URL = "https://staging--alt-power-calculator.netlify.com/request-audit"
+    VUE_APP_PS_KEY="pk_test_a5e5a7ad89b8d468a6482b29dcf2acd7b09a1c18"
+    VUE_APP_MODE = "staging"
+
 [context.production]
   [context.production.environment]
     VUE_APP_MODE = "production"

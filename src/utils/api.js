@@ -9,33 +9,34 @@ const CART_CHECKOUT_URL = `${BASE_URL}/order/checkout`;
 const CUSTOMER_ORDER_URL = `${BASE_URL}/order`;
 const FORGET_PASSWORD_URL = `${BASE_URL}/user/reset-password`;
 const RESET_PASSWORD_URL = `${BASE_URL}/user/reset-password-confirmation`;
+const CONFIRM_CUSTOMER_URL = `${BASE_URL}/user/confirm`;
 
 export default {
   getHeader() {
     let header = {
-      Authorization: "bearer " + localStorage.getItem("token")
+      Authorization: "bearer " + localStorage.getItem("token"),
     };
     return header;
   },
-  signupCustomer: data => {
+  signupCustomer: (data) => {
     return axios.post(CUSTOMER_SIGNUP_URL, data);
   },
-  loginCustomer: data => {
+  loginCustomer: (data) => {
     return axios.post(CUSTOMER_LOGIN_URL, data);
   },
-  getAllProducts: page => {
+  getAllProducts: (page) => {
     return axios.get(`${PRODUCTS_URL}?page=${page}`);
   },
-  getAllProductsQuery_per_page: per_page => {
+  getAllProductsQuery_per_page: (per_page) => {
     return axios.get(`${PRODUCTS_URL}?per_page=${per_page}`);
   },
-  getProductBySlug: slug => {
+  getProductBySlug: (slug) => {
     return axios.get(`${PRODUCTS_URL}/${slug}`);
   },
   addProductToCart(pid) {
     let data = {};
     return axios.post(`${CART_URL}/${pid}`, data, {
-      headers: this.getHeader()
+      headers: this.getHeader(),
     });
   },
   getProductByCategory: (category, page) => {
@@ -48,7 +49,7 @@ export default {
   },
   addBulkProductToCart(data) {
     return axios.post(`${CART_URL}`, data, {
-      headers: this.getHeader()
+      headers: this.getHeader(),
     });
   },
   getCart() {
@@ -56,34 +57,37 @@ export default {
   },
   removeFromCart(pid) {
     return axios.delete(`${CART_URL}/${pid}`, {
-      headers: this.getHeader()
+      headers: this.getHeader(),
     });
   },
   decreaseProductQuantityInCart(pid) {
     return axios.delete(`${CART_URL}/${pid}/decrease`, {
-      headers: this.getHeader()
+      headers: this.getHeader(),
     });
   },
   cartCheckout() {
     let data = {};
     return axios.post(`${CART_CHECKOUT_URL}`, data, {
-      headers: this.getHeader()
+      headers: this.getHeader(),
     });
   },
   getCustomerOrder(page) {
     return axios.get(`${CUSTOMER_ORDER_URL}?page=${page}`, {
-      headers: this.getHeader()
+      headers: this.getHeader(),
     });
   },
   getCustomerOrderById(orderId) {
     return axios.get(`${CUSTOMER_ORDER_URL}/${orderId}`, {
-      headers: this.getHeader()
+      headers: this.getHeader(),
     });
   },
-  forgetPassword: data => {
+  forgetPassword: (data) => {
     return axios.post(`${FORGET_PASSWORD_URL}`, data);
   },
-  resetPassword: data => {
+  resetPassword: (data) => {
     return axios.post(`${RESET_PASSWORD_URL}`, data);
+  },
+  confirmCustomer: (id) => {
+    return axios.get(`${CONFIRM_CUSTOMER_URL}?id=${id}`)
   }
 };

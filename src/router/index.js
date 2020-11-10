@@ -13,6 +13,7 @@ import ProductView from "@/components/ProductView";
 import ShoppingCart from "@/components/ShoppingCart";
 import Landing from "@/components/Landing";
 import Login from "@/components/Login";
+import Confirm from "@/components/Confirm";
 import ForgetPassword from "@/components/ForgetPassword";
 import ResetPassword from "@/components/ResetPassword";
 import UserAccount from "@/components/UserAccount";
@@ -45,7 +46,8 @@ export default new Router({
         { path: "/my-account", component: UserAccount },
         { path: "/terms-and-condition", component: TermsAndCondition },
         { path: "/my-account/update", component: EditUserAccount },
-        { path: "/my-account/order-history", component: UserOrderHistory }
+        { path: "/my-account/order-history", component: UserOrderHistory },
+        { path: "/confirm", component: Confirm },
       ]
     },
     {

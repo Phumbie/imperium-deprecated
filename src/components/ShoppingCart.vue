@@ -157,11 +157,10 @@
 <script>
 import api from "@/utils/api.js";
 import contentLoader from "@/components/contentLoader";
-
 export default {
   name: "ShoppingCart",
   components: {
-    contentLoader
+    contentLoader,
   },
   data() {
     return {
@@ -173,7 +172,7 @@ export default {
       subtotalArr: [],
       customerCart: {},
       contentLoaderText: "",
-      show: true
+      show: true,
     };
   },
   mounted() {
@@ -185,7 +184,7 @@ export default {
     },
     subtotal: function() {
       return this.customerCart.sub_total;
-    }
+    },
   },
   methods: {
     navigateTo(page) {
@@ -197,8 +196,8 @@ export default {
           .getAllProductsQuery_per_page(100000000)
           .then(({ data }) => {
             this.productsList = data.data.result;
-            JSON.parse(localStorage.getItem("product_id")).map(item => {
-              this.productsList.map(product => {
+            JSON.parse(localStorage.getItem("product_id")).map((item) => {
+              this.productsList.map((product) => {
                 if (product.id === item.id) {
                   product.local_id = item.id;
                   product.quantity = item.quantity;
@@ -226,10 +225,10 @@ export default {
             localStorage.setItem("subtotal", JSON.stringify(this.subtotalArr));
             this.checkIfLocalStorageIsEmpty();
           })
-          .catch(error => {
+          .catch((error) => {
             this.$swal.fire({
               icon: "info",
-              html: error.message
+              html: error.message,
             });
           });
         return;
@@ -242,10 +241,10 @@ export default {
             this.checkIfCartIsEmpty();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.$swal.fire({
             icon: "info",
-            html: error.message
+            html: error.message,
           });
         });
     },
@@ -265,8 +264,8 @@ export default {
         });
         localStorage.setItem("product_id", JSON.stringify(local_items));
         this.localCartItem = [];
-        JSON.parse(localStorage.getItem("product_id")).map(item => {
-          this.productsList.map(product => {
+        JSON.parse(localStorage.getItem("product_id")).map((item) => {
+          this.productsList.map((product) => {
             if (product.id === item.id) {
               product.local_id = item.id;
               product.quantity = item.quantity;
@@ -283,7 +282,7 @@ export default {
           html: "Removed",
           showConfirmButton: false,
           timer: 1000,
-          toast: true
+          toast: true,
         });
         return;
       }
@@ -297,7 +296,7 @@ export default {
               this.$store.dispatch("setCartCounter", newQuantity);
               localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
             }
-            data.data.cart.items.map(item => {
+            data.data.cart.items.map((item) => {
               newQuantity += item.quantity;
               this.$store.dispatch("setCartCounter", newQuantity);
               localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
@@ -311,7 +310,7 @@ export default {
               html: "Removed",
               showConfirmButton: false,
               timer: 1000,
-              toast: true
+              toast: true,
             });
           }
         })
@@ -321,32 +320,28 @@ export default {
     },
     checkIfCartIsEmpty() {
       this.fetchedCart = false;
-
       if (this.cartItems.length == 0) {
         this.show = false;
         this.contentLoaderText = "Nothing to show";
         return;
       }
-
       this.fetchedCart = true;
     },
     checkIfLocalStorageIsEmpty() {
       this.fetchedLocalStorage = false;
-
       if (this.localCartItem.length === 0) {
         this.show = false;
         this.contentLoaderText = "Nothing to show";
         return;
       }
-
       this.fetchedLocalStorage = true;
     },
     decreaseProductQuantity(productId) {
       if (!localStorage.getItem("user_details")) {
         let localCart = JSON.parse(localStorage.getItem("local_cart"));
         let localQuantity = JSON.parse(localStorage.getItem("product_id"));
-        localCart.map(item => {
-          localQuantity.map(items => {
+        localCart.map((item) => {
+          localQuantity.map((items) => {
             if (item.quantity == 0) {
               return;
             }
@@ -380,7 +375,7 @@ export default {
               this.$store.dispatch("setCartCounter", newQuantity);
               localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
             }
-            data.data.cart.items.map(item => {
+            data.data.cart.items.map((item) => {
               newQuantity += item.quantity;
               this.$store.dispatch("setCartCounter", newQuantity);
               localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
@@ -392,7 +387,7 @@ export default {
         .catch(({ response }) => {
           this.$swal.fire({
             icon: "info",
-            html: response.data.message
+            html: response.data.message,
           });
         });
     },
@@ -400,8 +395,8 @@ export default {
       if (!localStorage.getItem("user_details")) {
         let localCart = JSON.parse(localStorage.getItem("local_cart"));
         let localQuantity = JSON.parse(localStorage.getItem("product_id"));
-        localCart.map(item => {
-          localQuantity.map(items => {
+        localCart.map((item) => {
+          localQuantity.map((items) => {
             if (
               item.quantity === item.stock.quantity_available &&
               items.id === productId &&
@@ -409,7 +404,7 @@ export default {
             ) {
               this.$swal.fire({
                 icon: "info",
-                html: `We have only ${item.stock.quantity_available} of this Product left`
+                html: `We have only ${item.stock.quantity_available} of this Product left`,
               });
               return;
             }
@@ -444,7 +439,7 @@ export default {
               this.$store.dispatch("setCartCounter", newQuantity);
               localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
             }
-            data.data.cart.items.map(item => {
+            data.data.cart.items.map((item) => {
               newQuantity += item.quantity;
               this.$store.dispatch("setCartCounter", newQuantity);
               localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
@@ -455,7 +450,7 @@ export default {
         .catch(({ response }) => {
           this.$swal.fire({
             icon: "info",
-            html: response.data.message
+            html: response.data.message,
           });
         });
     },
@@ -464,7 +459,7 @@ export default {
       if (!localStorage.getItem("user_details")) {
         this.$swal.fire({
           icon: "info",
-          html: "You have to login or signup to check out 🙃"
+          html: "You have to login or signup to check out 🙃",
         });
         this.navigateTo("/login");
         return;
@@ -480,8 +475,8 @@ export default {
         .catch(({ response }) => {
           alert(response.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

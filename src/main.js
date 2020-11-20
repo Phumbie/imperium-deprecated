@@ -22,8 +22,8 @@ Vue.use(Select);
 Vue.use(Option);
 Vue.config.productionTip = false;
 Vue.filter('shortenString',(value) =>{
-  if(value.length > 60){
-    return value.slice(0, 60) + '...'
+  if(value.length > 65){
+    return value.slice(0, 65) + '...'
   }else{
     return value
   }

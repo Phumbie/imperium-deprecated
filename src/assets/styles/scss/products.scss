@@ -159,9 +159,9 @@
 
         .product-name {
           font-family: HelveticaNeue;
-          font-size: 1.25rem;
+          font-size: 1.1rem;
           font-weight: 500;
-          color: #353535;
+          color: #000000;
           margin-top: 1.5rem;
           margin-bottom: 0.4375rem;
           letter-spacing: 0.003rem;
@@ -172,12 +172,13 @@
 
         .product-capacity {
           font-family: HelveticaNeue;
-          font-size: 0.95rem;
+          font-size: 1rem;
           color: #000000;
           font-weight: 500;
           margin-bottom: 0.4375rem;
           letter-spacing: 0.003rem;
           line-height: 1.4rem;
+          opacity: 0.8;
           // height: 2.5rem;
           overflow: hidden;
           // text-transform: lowercase;

@@ -38,7 +38,10 @@
     </section>
     <section class="mobile-bottom-section">
       <router-link to="/my-account" class="mobile-nav-item1"
-        >Account</router-link
+        v-if="!userDetail">Account</router-link
+      >
+      <router-link to="/my-account" class="mobile-nav-item1"
+        v-else>Hi, {{userDetail}}</router-link
       >
       <router-link to="/products" class="mobile-nav-item2"
         >Buy Products</router-link

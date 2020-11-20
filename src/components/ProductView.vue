@@ -124,8 +124,8 @@
           <div class="image-container">
             <img :src="products.display_image" />
           </div>
-          <div class="product-name truncate-name">{{ products.name }}</div>
-          <div class="product-capacity">{{ products.capacity }} KV</div>
+          <div class="product-name truncate-name">{{ products.name | shortenString | setUppercase }}</div>
+          <div class="product-capacity">{{ products.description | shortenString | setUppercase}}</div>
           <div class="price">₦ {{ products.price.toLocaleString() }}</div>
         </div>
       </div>

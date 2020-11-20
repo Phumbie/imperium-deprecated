@@ -8,6 +8,10 @@ import sweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { Pagination, Icon, Select, Option } from "element-ui";
 import "@/assets/styles/scss/element-ui.scss";
+// import SkeletonLine from "./components/Partials/skeleton/skeletonLine"
+// import SkeletonCircle from './components/Partials/skeleton/skeletonCircle'
+// import SkeletonSquare from './components/Partials/skeleton/skeletonSquare'
+// import SkeletonBody from './components/Partials/skeleton/skeletonBody'
 import { store } from "./store";
 
 Vue.use(VModal);
@@ -17,6 +21,18 @@ Vue.use(Icon);
 Vue.use(Select);
 Vue.use(Option);
 Vue.config.productionTip = false;
+Vue.filter('shortenString', function(value){
+  if(value.length > 20){
+    return value.slice(0, 30) + '...'
+  }else{
+    return value
+  }
+})
+
+// Vue.component('SkeletonLine', SkeletonLine)
+// Vue.component('SkeletonCircle', SkeletonCircle)
+// Vue.component('SkeletonSquare', SkeletonSquare)
+// Vue.component('SkeletonBody', SkeletonBody)
 
 new Vue({
   el: "#app",

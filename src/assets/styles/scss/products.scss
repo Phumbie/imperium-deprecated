@@ -132,16 +132,16 @@
         }
 
         .image-container {
-          background-color: rgba(99, 155, 97, 0.2);
+          // background-color: rgba(99, 155, 97, 0.2);
           width: 100%;
           display: flex;
           justify-content: center;
           align-items: flex-end;
-          height: 28.875rem;
+          height: 19rem;
           padding-bottom: 1.875rem;
 
           @media screen and (max-width: 900px) {
-            height: 22rem;
+            height: 10rem;
           }
 
           img {
@@ -149,6 +149,7 @@
             position: relative;
             object-position: bottom;
             object-fit: contain;
+            max-height: 100%;
 
             @media screen and (max-width: 900px) {
               width: 60%;

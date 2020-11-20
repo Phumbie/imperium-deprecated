@@ -33,7 +33,7 @@
           <a
             tag="button"
             class="button-send-mail"
-            href="mailto:Imperiumng@sterlinbankng.com"
+            href="mailto:info@imperiumng.com"
             target="_top"
           >
             Send us an email</a

@@ -9,6 +9,7 @@
           <p class="small-text">Solar Panels and Inverters</p>
         </div>
         <div class="products-container">
+          <!-- <SingleProduct  v-for="panel in panels" :key="panel.id" :product="panel" /> -->
           <div
             class="product-item"
             v-for="panel in panels"
@@ -20,12 +21,13 @@
                 <img :src="panel.display_image" />
               </div>
               <div class="product-name">{{ panel.name }}</div>
-              <div class="product-capacity">{{ panel.capacity }} KV</div>
+              <div class="product-capacity">{{ panel.description | shortenString }}</div>
               <div class="price">
                 ₦ {{ panel.price ? panel.price.toLocaleString() : "" }}
               </div>
             </div>
           </div>
+          <!-- <single-product v-for="inverter in inverters" :key="inverter.id"  :product="inverter"/> -->
           <div
             class="product-item"
             v-for="inverter in inverters"
@@ -37,7 +39,7 @@
                 <img :src="inverter.display_image" />
               </div>
               <div class="product-name">{{ inverter.name }}</div>
-              <div class="product-capacity">{{ inverter.capacity }} KV</div>
+              <div class="product-capacity">{{ inverter.description | shortenString }}</div>
               <div class="price">
                 ₦ {{ inverter.price ? inverter.price.toLocaleString() : "" }}
               </div>
@@ -96,7 +98,7 @@
                 <img :src="battery.display_image" />
               </div>
               <div class="product-name">{{ battery.name }}</div>
-              <div class="product-capacity">{{ battery.capacity }} KV</div>
+              <div class="product-capacity">{{ battery.description  | shortenString  }}</div>
               <div class="price">
                 ₦ {{ battery.price ? battery.price.toLocaleString() : "" }}
               </div>
@@ -113,7 +115,7 @@
                 <img :src="accessory.display_image" />
               </div>
               <div class="product-name">{{ accessory.name }}</div>
-              <div class="product-capacity">{{ accessory.capacity }} KV</div>
+              <div class="product-capacity">{{ accessory.description | shortenString }}</div>
               <div class="price">
                 ₦ {{ accessory.price ? accessory.price.toLocaleString() : "" }}
               </div>
@@ -148,7 +150,7 @@ import contentLoader from "@/components/contentLoader";
 
 export default {
   components: {
-    contentLoader
+    contentLoader,
   },
   data() {
     return {

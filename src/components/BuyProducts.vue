@@ -51,6 +51,7 @@
         </el-select>
       </div>
     </section>
+
     <section class="products-container" v-if="!loading">
       <div
         class="product-item"
@@ -63,7 +64,8 @@
             <img :src="product.display_image" />
           </div>
           <div class="product-name">{{ product.name }}</div>
-          <div class="product-capacity">{{ product.capacity }} KV</div>
+              <div class="product-capacity">{{ product.description  | shortenString}}</div>
+
           <div class="price">
             ₦ {{ product.price ? product.price.toLocaleString() : "" }}
           </div>

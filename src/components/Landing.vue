@@ -38,8 +38,8 @@
               <div class="image-container">
                 <img :src="inverter.display_image" />
               </div>
-              <div class="product-name">{{ inverter.name }}</div>
-              <div class="product-capacity">{{ inverter.description | shortenString }}</div>
+              <div class="product-name">{{ inverter.name | setUppercase }}</div>
+              <div class="product-capacity">{{ inverter.description | shortenString | setUppercase}}</div>
               <div class="price">
                 ₦ {{ inverter.price ? inverter.price.toLocaleString() : "" }}
               </div>
@@ -63,7 +63,9 @@
             </div>
           </div>
         </div>
+        
       </section>
+  
       <section class="middle-section">
         <div class="header-text-28 margin-bottom">
           Going Green
@@ -137,20 +139,27 @@
         </div>
       </section>
     </div>
-    <content-loader v-else>
+    <!-- <content-loader v-else>
       <div class="loader"></div>
-    </content-loader>
+    </content-loader> -->
+    <div class="top-section" v-else>
+        <div class="products-container" >
+            <skeletonLine :height="`30rem`" :width="`100%`" class="product-item" v-for="i in 4" :key="i"  style="padding: 0"/>
+        </div>
+    </div>
+    
+ 
   </div>
 </template>
 
 <script>
 import api from "@/utils/api.js";
 import shuffleArray from "@/utils/shuffleArray.js";
-import contentLoader from "@/components/contentLoader";
+// import contentLoader from "@/components/contentLoader";
 
 export default {
   components: {
-    contentLoader,
+    // contentLoader,
   },
   data() {
     return {

@@ -103,7 +103,7 @@ export default {
       const order = this.getNewlyCreatedOrder();
       const handler = PaystackPop.setup({
         key: process.env.VUE_APP_PS_KEY,
-        email: "test@gmail.com",
+        email: JSON.parse(localStorage.getItem("user_details")).customer.user.email,
         amount: Math.ceil(this.totalCost * 100),
         currency: "NGN",
         metadata: {

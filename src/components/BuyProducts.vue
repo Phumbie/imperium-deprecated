@@ -51,6 +51,7 @@
         </el-select>
       </div>
     </section>
+
     <section class="products-container" v-if="!loading">
       <div
         class="product-item"
@@ -62,17 +63,20 @@
           <div class="image-container">
             <img :src="product.display_image" />
           </div>
-          <div class="product-name">{{ product.name }}</div>
-          <div class="product-capacity">{{ product.capacity }} KV</div>
+          <div class="product-name">{{ product.name | setUppercase}}</div>
+              <div class="product-capacity"> <p>{{ product.description  | shortenString | setUppercase }}</p> </div>
+
           <div class="price">
             ₦ {{ product.price ? product.price.toLocaleString() : "" }}
           </div>
         </div>
       </div>
     </section>
-    <content-loader v-else>
-      <div class="loader"></div>
-    </content-loader>
+      <!-- <div class="loader"></div> -->
+    <div class="products-container" v-else>
+      <skeletonLine :height="`30rem`" :width="`100%`" class="product-item" v-for="i in 4" :key="i"  style="padding: 0"/>
+    </div>
+
     <div class="pagination">
       <el-pagination
         :background="false"
@@ -92,10 +96,10 @@
 <script>
 import { mapGetters } from "vuex";
 import api from "@/utils/api.js";
-import contentLoader from "@/components/contentLoader";
+// import contentLoader from "@/components/contentLoader";
 export default {
   components: {
-    contentLoader,
+    // contentLoader,
   },
   data() {
     return {
@@ -145,6 +149,7 @@ export default {
     }
     this.fetchProducts();
   },
+ 
   methods: {
     navigateTo(page) {
       if (page.split("/")[2] === "undefined") {

@@ -64,7 +64,7 @@
             <img :src="product.display_image" />
           </div>
           <div class="product-name">{{ product.name }}</div>
-              <div class="product-capacity">{{ product.description  | shortenString}}</div>
+              <div class="product-capacity"> <p>{{ product.description  | shortenString}}</p> </div>
 
           <div class="price">
             ₦ {{ product.price ? product.price.toLocaleString() : "" }}

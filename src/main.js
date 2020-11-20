@@ -23,7 +23,7 @@ Vue.use(Option);
 Vue.config.productionTip = false;
 Vue.filter('shortenString', function(value){
   if(value.length > 20){
-    return value.slice(0, 30) + '...'
+    return value.slice(0, 40) + '...'
   }else{
     return value
   }

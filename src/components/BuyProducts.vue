@@ -53,7 +53,12 @@
     </section>
 
     <section class="products-container" v-if="!loading">
-      <div
+      <single-product
+        v-for="product in productsList"
+        :key="product.id"
+        :product="product"
+      />
+      <!-- <div
         class="product-item"
         v-for="(product, index) in productsList"
         :key="index"
@@ -63,18 +68,27 @@
           <div class="image-container">
             <img :src="product.display_image" />
           </div>
-          <div class="product-name">{{ product.name | setUppercase}}</div>
-              <div class="product-capacity"> <p>{{ product.description  | shortenString | setUppercase }}</p> </div>
+          <div class="product-name">{{ product.name | setUppercase }}</div>
+          <div class="product-capacity">
+            <p>{{ product.description | shortenString | setUppercase }}</p>
+          </div>
 
           <div class="price">
             ₦ {{ product.price ? product.price.toLocaleString() : "" }}
           </div>
         </div>
-      </div>
+      </div> -->
     </section>
-      <!-- <div class="loader"></div> -->
+    <!-- <div class="loader"></div> -->
     <div class="products-container" v-else>
-      <skeletonLine :height="`30rem`" :width="`100%`" class="product-item" v-for="i in 4" :key="i"  style="padding: 0"/>
+      <skeletonLine
+        :height="`30rem`"
+        :width="`100%`"
+        class="product-item"
+        v-for="i in 4"
+        :key="i"
+        style="padding: 0"
+      />
     </div>
 
     <div class="pagination">
@@ -94,157 +108,159 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import api from "@/utils/api.js";
-// import contentLoader from "@/components/contentLoader";
-export default {
-  components: {
-    // contentLoader,
-  },
-  data() {
-    return {
-      productsList: [],
-      pagination: "",
-      loading: true,
-      activeTabID: "",
-      header: "all products",
-      page: 1,
-      links: [
-        {
-          value: "all products",
-          label: "all products",
-        },
-        {
-          value: "solar panel",
-          label: "solar panel",
-        },
-        {
-          value: "inverter",
-          label: "inverter",
-        },
-        {
-          value: "battery",
-          label: "battery",
-        },
-        {
-          value: "accessory",
-          label: "accessory",
-        },
-        {
-          value: "bundle",
-          label: "bundle",
-        },
-      ],
-    };
-  },
-  computed: {
-    ...mapGetters(["activeTab"]),
-  },
-  mounted() {
-    if (!JSON.parse(localStorage.getItem("active_tab"))) {
-      this.switchCategory(this.activeTab);
-    } else {
-      let category = JSON.parse(localStorage.getItem("active_tab"));
-      this.switchCategory(category);
-    }
-    this.fetchProducts();
-  },
- 
-  methods: {
-    navigateTo(page) {
-      if (page.split("/")[2] === "undefined") {
-        return;
-      }
-      this.$router.push(page);
+  import { mapGetters } from "vuex";
+  import api from "@/utils/api.js";
+  // import contentLoader from "@/components/contentLoader";
+  import SingleProduct from "@/components/SingleProduct/SingleProduct";
+  export default {
+    components: {
+      // contentLoader,
+      SingleProduct,
     },
-    handlePageChange(page) {
-      this.loading = true;
-      this.page = page;
-      // this.$router.push({ path: "/products", query: { page: page } });
-      this.fetchProducts();
+    data() {
+      return {
+        productsList: [],
+        pagination: "",
+        loading: true,
+        activeTabID: "",
+        header: "all products",
+        page: 1,
+        links: [
+          {
+            value: "all products",
+            label: "all products",
+          },
+          {
+            value: "solar panel",
+            label: "solar panel",
+          },
+          {
+            value: "inverter",
+            label: "inverter",
+          },
+          {
+            value: "battery",
+            label: "battery",
+          },
+          {
+            value: "accessory",
+            label: "accessory",
+          },
+          {
+            value: "bundle",
+            label: "bundle",
+          },
+        ],
+      };
     },
-    switchCategory(category) {
-      this.$store.dispatch("setActiveTabId", category);
-      this.loading = true;
-      this.activeTabID = category;
-      this.header = category;
-      switch (category) {
-        case "battery":
-          this.header = "batteries";
-          break;
-        case "inverter":
-          this.header = "inverters";
-          break;
-        case "solar panel":
-          this.header = "solar panels";
-          break;
-        case "accessory":
-          this.header = "accessories";
-          break;
-        case "bundle":
-          this.header = "complete solution";
-          break;
-      }
-      this.page = null;
-      // this.$router.push({ path: "/products", query: { category: category } });
-      this.fetchProducts();
+    computed: {
+      ...mapGetters(["activeTab"]),
     },
-    fetchProducts() {
-      this.productsList = [];
-      if (this.activeTabID === "all products") {
-        api
-          .getAllProducts(this.page)
-          .then((response) => {
-            if (response.data.data.result.length < 4) {
-              let emptyProductSpace = 4 - response.data.data.result.length;
-              let emptyObject = {};
-              let emptyProductArray = new Array(emptyProductSpace).fill(
-                emptyObject
-              );
-              this.productsList = response.data.data.result.concat(
-                emptyProductArray
-              );
-              this.pagination = response.data.data;
-              this.loading = false;
-            } else {
-              this.pagination = response.data.data;
-              this.productsList = response.data.data.result;
-              this.loading = false;
-            }
-          })
-          .catch(({ response }) => {
-            alert(response.data.message);
-          });
+    mounted() {
+      if (!JSON.parse(localStorage.getItem("active_tab"))) {
+        this.switchCategory(this.activeTab);
       } else {
-        api
-          .getProductByCategory(this.activeTabID, this.page)
-          .then((response) => {
-            if (response.data.data.result.length < 4) {
-              let emptyProductSpace = 4 - response.data.data.result.length;
-              let emptyObject = {};
-              let emptyProductArray = new Array(emptyProductSpace).fill(
-                emptyObject
-              );
-              this.pagination = response.data.data;
-              this.productsList = response.data.data.result.concat(
-                emptyProductArray
-              );
-              this.loading = false;
-            } else {
-              this.pagination = response.data.data;
-              this.productsList = response.data.data.result;
-              this.loading = false;
-            }
-          })
-          .catch(({ response }) => {
-            alert(response.data.message);
-          });
+        let category = JSON.parse(localStorage.getItem("active_tab"));
+        this.switchCategory(category);
       }
+      this.fetchProducts();
     },
-  },
-};
+
+    methods: {
+      navigateTo(page) {
+        if (page.split("/")[2] === "undefined") {
+          return;
+        }
+        this.$router.push(page);
+      },
+      handlePageChange(page) {
+        this.loading = true;
+        this.page = page;
+        // this.$router.push({ path: "/products", query: { page: page } });
+        this.fetchProducts();
+      },
+      switchCategory(category) {
+        this.$store.dispatch("setActiveTabId", category);
+        this.loading = true;
+        this.activeTabID = category;
+        this.header = category;
+        switch (category) {
+          case "battery":
+            this.header = "batteries";
+            break;
+          case "inverter":
+            this.header = "inverters";
+            break;
+          case "solar panel":
+            this.header = "solar panels";
+            break;
+          case "accessory":
+            this.header = "accessories";
+            break;
+          case "bundle":
+            this.header = "complete solution";
+            break;
+        }
+        this.page = null;
+        // this.$router.push({ path: "/products", query: { category: category } });
+        this.fetchProducts();
+      },
+      fetchProducts() {
+        this.productsList = [];
+        if (this.activeTabID === "all products") {
+          api
+            .getAllProducts(this.page)
+            .then((response) => {
+              if (response.data.data.result.length < 4) {
+                let emptyProductSpace = 4 - response.data.data.result.length;
+                let emptyObject = {};
+                let emptyProductArray = new Array(emptyProductSpace).fill(
+                  emptyObject
+                );
+                this.productsList = response.data.data.result.concat(
+                  emptyProductArray
+                );
+                this.pagination = response.data.data;
+                this.loading = false;
+              } else {
+                this.pagination = response.data.data;
+                this.productsList = response.data.data.result;
+                this.loading = false;
+              }
+            })
+            .catch(({ response }) => {
+              alert(response.data.message);
+            });
+        } else {
+          api
+            .getProductByCategory(this.activeTabID, this.page)
+            .then((response) => {
+              if (response.data.data.result.length < 4) {
+                let emptyProductSpace = 4 - response.data.data.result.length;
+                let emptyObject = {};
+                let emptyProductArray = new Array(emptyProductSpace).fill(
+                  emptyObject
+                );
+                this.pagination = response.data.data;
+                this.productsList = response.data.data.result.concat(
+                  emptyProductArray
+                );
+                this.loading = false;
+              } else {
+                this.pagination = response.data.data;
+                this.productsList = response.data.data.result;
+                this.loading = false;
+              }
+            })
+            .catch(({ response }) => {
+              alert(response.data.message);
+            });
+        }
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/scss/products.scss";
+  @import "@/assets/styles/scss/products.scss";
 </style>

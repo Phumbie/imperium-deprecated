@@ -47,7 +47,7 @@ export default new Router({
         { path: "/terms-and-condition", component: TermsAndCondition },
         { path: "/my-account/update", component: EditUserAccount },
         { path: "/my-account/order-history", component: UserOrderHistory },
-        { path: "/confirm", component: Confirm },
+        { path: "/user/confirm", component: Confirm },
       ]
     },
     {

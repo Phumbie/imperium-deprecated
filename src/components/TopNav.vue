@@ -2,7 +2,10 @@
   <div id="nav-container">
     <section class="top-section">
       <router-link to="/my-account" class="nav-item border-left desktop-view"
-        >Account</router-link
+        v-if="!userDetail">Account</router-link
+      >
+      <router-link to="/my-account" class="nav-item border-left desktop-view"
+        v-else>Hi, {{userDetail}}</router-link
       >
       <div class="mobile-nav-item breadcrumb border-left">
         <input type="checkbox" class="toggler" ref="checkBox" @click="toggle" />
@@ -35,7 +38,10 @@
     </section>
     <section class="mobile-bottom-section">
       <router-link to="/my-account" class="mobile-nav-item1"
-        >Account</router-link
+        v-if="!userDetail">Account</router-link
+      >
+      <router-link to="/my-account" class="mobile-nav-item1"
+        v-else>Hi, {{userDetail}}</router-link
       >
       <router-link to="/products" class="mobile-nav-item2"
         >Buy Products</router-link
@@ -64,6 +70,7 @@ export default {
       calculatorURL: process.env.VUE_APP_CALCULATOR_URL,
       presentScrollPosition: "",
       checkBoxStatus: false,
+      userDetail:""
     };
   },
   created() {
@@ -78,6 +85,7 @@ export default {
   mounted() {
     this.setCartCounter();
     this.toggle();
+    this.getUser()
   },
   methods: {
     handleScroll() {
@@ -163,6 +171,11 @@ export default {
           }
         });
     },
+    getUser(){
+      if(localStorage.getItem("user_details")){
+        this.userDetail = JSON.parse(localStorage.getItem("user_details")).customer.first_name
+      }
+    }
   },
 };
 </script>
@@ -261,6 +274,7 @@ export default {
         border-bottom: solid 0.0625rem #000000;
         text-decoration: none;
         z-index: 100;
+       
       }
 
       .el-icon-shopping-cart-2 {
@@ -344,6 +358,8 @@ export default {
     color: black;
     border-bottom: solid 0.0625rem #000000;
     z-index: 100;
+    text-transform: capitalize;
+
   }
 
   .border-left {

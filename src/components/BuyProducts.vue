@@ -58,6 +58,8 @@
         :key="product.id"
         :product="product"
       />
+      <div class="product-item" v-for="i in fillProducts"></div>
+
       <!-- <div
         class="product-item"
         v-for="(product, index) in productsList"
@@ -155,6 +157,11 @@
     },
     computed: {
       ...mapGetters(["activeTab"]),
+      fillProducts() {
+        if (this.productsList.length < 4) {
+          return 4 - this.productsList.length;
+        }
+      },
     },
     mounted() {
       if (!JSON.parse(localStorage.getItem("active_tab"))) {
@@ -211,22 +218,26 @@
           api
             .getAllProducts(this.page)
             .then((response) => {
-              if (response.data.data.result.length < 4) {
-                let emptyProductSpace = 4 - response.data.data.result.length;
-                let emptyObject = {};
-                let emptyProductArray = new Array(emptyProductSpace).fill(
-                  emptyObject
-                );
-                this.productsList = response.data.data.result.concat(
-                  emptyProductArray
-                );
-                this.pagination = response.data.data;
-                this.loading = false;
-              } else {
-                this.pagination = response.data.data;
-                this.productsList = response.data.data.result;
-                this.loading = false;
-              }
+              this.productsList = response.data.data.result;
+              this.pagination = response.data.data;
+              this.loading = false;
+
+              // if (response.data.data.result.length < 4) {
+              //   let emptyProductSpace = 4 - response.data.data.result.length;
+              //   let emptyObject = {};
+              //   let emptyProductArray = new Array(emptyProductSpace).fill(
+              //     emptyObject
+              //   );
+              //   this.productsList = response.data.data.result.concat(
+              //     emptyProductArray
+              //   );
+              //   this.pagination = response.data.data;
+              //   this.loading = false;
+              // } else {
+              //   this.pagination = response.data.data;
+              //   this.productsList = response.data.data.result;
+              //   this.loading = false;
+              // }
             })
             .catch(({ response }) => {
               alert(response.data.message);
@@ -235,22 +246,25 @@
           api
             .getProductByCategory(this.activeTabID, this.page)
             .then((response) => {
-              if (response.data.data.result.length < 4) {
-                let emptyProductSpace = 4 - response.data.data.result.length;
-                let emptyObject = {};
-                let emptyProductArray = new Array(emptyProductSpace).fill(
-                  emptyObject
-                );
-                this.pagination = response.data.data;
-                this.productsList = response.data.data.result.concat(
-                  emptyProductArray
-                );
-                this.loading = false;
-              } else {
-                this.pagination = response.data.data;
-                this.productsList = response.data.data.result;
-                this.loading = false;
-              }
+              this.productsList = response.data.data.result;
+              this.pagination = response.data.data;
+              this.loading = false;
+              // if (response.data.data.result.length < 4) {
+              //   let emptyProductSpace = 4 - response.data.data.result.length;
+              //   let emptyObject = {};
+              //   let emptyProductArray = new Array(emptyProductSpace).fill(
+              //     emptyObject
+              //   );
+              //   this.pagination = response.data.data;
+              //   this.productsList = response.data.data.result.concat(
+              //     emptyProductArray
+              //   );
+              //   this.loading = false;
+              // } else {
+              //   this.pagination = response.data.data;
+              //   this.productsList = response.data.data.result;
+              //   this.loading = false;
+              // }
             })
             .catch(({ response }) => {
               alert(response.data.message);

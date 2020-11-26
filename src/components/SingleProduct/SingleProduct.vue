@@ -8,12 +8,14 @@
         <div class="image-container">
           <img :src="product.display_image" />
         </div>
-        <div class="product-name">{{ product.name | setUppercase }}</div>
+        <div class="product-name" v-if="product.name">
+          {{ product.name | setUppercase }}
+        </div>
         <div class="product-capacity">
           <p>{{ product.description | shortenString | setUppercase }}</p>
         </div>
 
-        <div class="price">
+        <div class="price" v-if="product.price">
           ₦ {{ product.price ? product.price.toLocaleString() : "" }}
         </div>
       </div>
@@ -41,6 +43,7 @@
     border-bottom: solid 1px black;
     padding-top: 2.125rem;
     cursor: pointer;
+    // height: 100%;
 
     .centered-content {
       width: 85%;

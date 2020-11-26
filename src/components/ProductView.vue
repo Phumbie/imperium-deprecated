@@ -114,12 +114,13 @@
       <p>Similar Products</p>
     </div>
     <div class="products-container" v-if="fetchedProductDetails">
-      <!-- <SingleProduct
+      <SingleProduct
         v-for="product in similarProducts"
         :key="product.id"
         :product="product"
-      /> -->
-      <div
+      />
+      <div class="product-item" v-for="i in fillSimilar"></div>
+      <!-- <div
         class="product-item"
         v-for="products in similarProducts"
         :key="products.created_at"
@@ -137,7 +138,7 @@
           </div>
           <div class="price">₦ {{ products.price.toLocaleString() }}</div>
         </div>
-      </div>
+      </div> -->
     </div>
     <content-loader v-else>
       <div class="loader"></div>
@@ -149,13 +150,13 @@
   import api from "@/utils/api.js";
   import shuffleArray from "@/utils/shuffleArray.js";
   import contentLoader from "@/components/contentLoader";
-  // import SingleProduct from "@/components/SingleProduct/SingleProduct";
+  import SingleProduct from "@/components/SingleProduct/SingleProduct";
 
   export default {
     name: "ProductView",
     components: {
       contentLoader,
-      // SingleProduct,
+      SingleProduct,
     },
     data() {
       return {
@@ -182,6 +183,11 @@
       },
       totalDeposit() {
         return `₦ ${this.loanDeposit}`;
+      },
+      fillSimilar() {
+        if (this.similarProducts.length < 4) {
+          return 4 - this.similarProducts.length;
+        }
       },
     },
     methods: {
@@ -231,20 +237,26 @@
             api
               .getSimilarProducts(data.data.category, 100000)
               .then((response) => {
-                if (response.data.data.result.length < 4) {
-                  let emptyProductSpace = 4 - response.data.data.result.length;
-                  let emptyObject = {};
-                  let emptyProductArray = new Array(emptyProductSpace).fill(
-                    emptyObject
-                  );
-                  this.similarProducts = shuffleArray(
-                    response.data.data.result
-                  ).concat(emptyProductArray);
+                if (response.data.data.result.length > 4) {
+                  this.similarProducts = response.data.data.result.slice(-4);
                 } else {
-                  this.similarProducts = shuffleArray(
-                    response.data.data.result
-                  ).slice(-4);
+                  this.similarProducts = response.data.data.result;
                 }
+
+                // if (response.data.data.result.length < 4) {
+                //   let emptyProductSpace = 4 - response.data.data.result.length;
+                //   let emptyObject = {};
+                //   let emptyProductArray = new Array(emptyProductSpace).fill(
+                //     emptyObject
+                //   );
+                //   this.similarProducts = shuffleArray(
+                //     response.data.data.result
+                //   ).concat(emptyProductArray);
+                // } else {
+                //   this.similarProducts = shuffleArray(
+                //     response.data.data.result
+                //   ).slice(-4);
+                // }
               });
           })
           .catch(({ response }) => {

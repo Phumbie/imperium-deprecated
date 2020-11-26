@@ -15,28 +15,7 @@
             :product="panel"
           />
           <div class="product-item" v-for="i in panelFill" :key="i"></div>
-          <!-- <div class="product-item"></div> -->
 
-          <!-- <single-product v-for="i in 2" :key="i" /> -->
-          <!-- <div
-            class="product-item"
-            v-for="panel in panels"
-            :key="panel.id"
-            @click="navigateTo(`/product/${panel.slug}/id/${panel.id}`)"
-          >
-            <div class="centered-content" v-if="panel.price">
-              <div class="image-container">
-                <img :src="panel.display_image" />
-              </div>
-              <div class="product-name">{{ panel.name }}</div>
-              <div class="product-capacity">
-                {{ panel.description | shortenString }}
-              </div>
-              <div class="price">
-                ₦ {{ panel.price ? panel.price.toLocaleString() : "" }}
-              </div>
-            </div>
-          </div> -->
           <single-product
             v-for="inverter in inverters"
             :key="inverter.id"
@@ -96,25 +75,6 @@
 
           <div class="product-item" v-for="i in fillBatteries"></div>
 
-          <!-- <div
-            class="product-item"
-            v-for="battery in batteries"
-            :key="battery.id"
-            @click="navigateTo(`/product/${battery.slug}/id/${battery.id}`)"
-          >
-            <div class="centered-content" v-if="battery.price">
-              <div class="image-container">
-                <img :src="battery.display_image" />
-              </div>
-              <div class="product-name">{{ battery.name }}</div>
-              <div class="product-capacity">
-                {{ battery.description | shortenString }}
-              </div>
-              <div class="price">
-                ₦ {{ battery.price ? battery.price.toLocaleString() : "" }}
-              </div>
-            </div>
-          </div> -->
           <single-product
             v-for="accessory in accessories"
             :key="accessory.id"
@@ -122,25 +82,6 @@
           />
           <div class="product-item" v-for="i in fillAccessory"></div>
 
-          <!-- <div
-            class="product-item"
-            v-for="accessory in accessories"
-            :key="accessory.id"
-            @click="navigateTo(`/product/${accessory.slug}/id/${accessory.id}`)"
-          >
-            <div class="centered-content" v-if="accessory.price">
-              <div class="image-container">
-                <img :src="accessory.display_image" />
-              </div>
-              <div class="product-name">{{ accessory.name }}</div>
-              <div class="product-capacity">
-                {{ accessory.description | shortenString }}
-              </div>
-              <div class="price">
-                ₦ {{ accessory.price ? accessory.price.toLocaleString() : "" }}
-              </div>
-            </div>
-          </div> -->
           <div class="product-footer" v-if="!loading">
             <div class="product-footer__link" @click="setActiveTab('battery')">
               Shop Batteries

@@ -93,15 +93,15 @@
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            height: 18rem;
-            padding-bottom: 1.875rem;
+            height: 15rem;
+            padding-bottom: 1.8rem;
 
             @media screen and (max-width: 900px) {
               height: 10rem;
             }
 
             img {
-              width: 70%;
+              width: 60%;
               position: relative;
               object-position: bottom;
               object-fit: contain;
@@ -117,26 +117,21 @@
             font-family: HelveticaNeue;
             font-size: 1.1rem;
             font-weight: 500;
-            color: #353535;
+            color: #000000;
             margin-top: 1.5rem;
-            margin-bottom: 0.4375rem;
-            letter-spacing: 0.003rem;
-            // text-transform: capitalize;
-            // height: 3rem;
+            margin-bottom: 0.2rem;
             overflow: hidden;
           }
 
-          .product-capacity {
+          .product-description {
             font-family: HelveticaNeue;
             font-size: 0.9rem;
             color: #000000;
             font-weight: 500;
-            margin-bottom: 0.4375rem;
-            letter-spacing: 0.003rem;
+            margin-bottom: 0.5rem;
             line-height: 1.4rem;
             opacity: 0.8;
-            // text-transform: lowercase;
-            // height: 2.5rem;
+            overflow: hidden;
           }
 
           .price {
@@ -144,8 +139,7 @@
             font-size: 1.125rem;
             color: #000000;
             font-weight: 500;
-            margin-bottom: 1.375rem;
-            letter-spacing: 0.003rem;
+            margin-bottom: 1.4rem;
             line-height: 1.4rem;
           }
         }
@@ -153,13 +147,10 @@
     }
 
     .product-footer {
-      // width: calc(100% + 0.1px);
-      // width: 100%;
       display: grid;
       grid-template-columns: 1fr;
       grid-column-start: 1;
       grid-column-end: 3;
-      // border-left: 1px solid #1d1d1d;
 
       @media screen and (max-width: 900px) {
         grid-column-start: 1;

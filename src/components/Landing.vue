@@ -111,24 +111,24 @@
           </div>
           <div
             class="product-item"
-            v-for="accessory in accessories"
-            :key="accessory.id"
-            @click="navigateTo(`/product/${accessory.slug}/id/${accessory.id}`)"
+            v-for="bundle in bundles"
+            :key="bundle.id"
+            @click="navigateTo(`/product/${bundle.slug}/id/${bundle.id}`)"
           >
-            <div class="centered-content" v-if="accessory.price">
+            <div class="centered-content" v-if="bundle.price">
               <div class="image-container">
-                <img :src="accessory.display_image" />
+                <img :src="bundle.display_image" />
               </div>
               <div class="product-name">
-                {{ accessory.name | setUppercase }}
+                {{ bundle.name | setUppercase }}
               </div>
               <div class="product-description">
                 <p>
-                  {{ accessory.description | shortenString | setUppercase }}
+                  {{ bundle.description | shortenString | setUppercase }}
                 </p>
               </div>
               <div class="price">
-                ₦ {{ accessory.price ? accessory.price.toLocaleString() : "" }}
+                ₦ {{ bundle.price ? bundle.price.toLocaleString() : "" }}
               </div>
             </div>
           </div>
@@ -138,11 +138,8 @@
             </div>
           </div>
           <div class="product-footer footer-right" v-if="!loading">
-            <div
-              class="product-footer__link"
-              @click="setActiveTab('accessory')"
-            >
-              Accessories
+            <div class="product-footer__link" @click="setActiveTab('bundle')">
+              Complete Solution
             </div>
           </div>
         </div>
@@ -155,25 +152,75 @@
 </template>
 
 <script>
-import api from "@/utils/api.js";
-import shuffleArray from "@/utils/shuffleArray.js";
 import contentLoader from "@/components/contentLoader";
+
 export default {
   components: {
     contentLoader,
   },
   data() {
-    return {
-      batteries: [],
-      inverters: [],
-      panels: [],
-      accessories: [],
-      loading: true,
-      page: 1,
-    };
+    return {};
   },
-  mounted() {
-    this.fetchProducts();
+  created() {
+    this.$store.dispatch("getSimilarProducts", {
+      category: "solar panel",
+      per_page: 100000,
+    });
+    this.$store.dispatch("getSimilarProducts", {
+      category: "inverter",
+      per_page: 100000,
+    });
+    this.$store.dispatch("getSimilarProducts", {
+      category: "battery",
+      per_page: 100000,
+    });
+    this.$store.dispatch("getSimilarProducts", {
+      category: "bundle",
+      per_page: 100000,
+    });
+  },
+  mounted() {},
+  computed: {
+    batteries: {
+      get() {
+        return this.$store.state.batteries;
+      },
+      set(newValue) {
+        return this.$store.dispatch("setBatteries", newValue);
+      },
+    },
+    inverters: {
+      get() {
+        return this.$store.state.inverters;
+      },
+      set(newValue) {
+        return this.$store.dispatch("setInverters", newValue);
+      },
+    },
+    panels: {
+      get() {
+        return this.$store.state.panels;
+      },
+      set(newValue) {
+        return this.$store.dispatch("setPanels", newValue);
+      },
+    },
+    bundles: {
+      get() {
+        return this.$store.state.bundles;
+      },
+      set(newValue) {
+        return this.$store.dispatch("setBundles", newValue);
+      },
+    },
+    loading: {
+      get() {
+        return this.$store.state.loading;
+      },
+      set(newValue) {
+        return this.$store.dispatch("setLoading", newValue);
+      },
+    },
   },
   methods: {
     navigateTo(page) {
@@ -185,83 +232,6 @@ export default {
     setActiveTab(activeTabID) {
       this.$store.dispatch("setActiveTabId", activeTabID);
       this.$router.push({ path: "/products" });
-    },
-    fetchProducts() {
-      this.batteries = [];
-      this.inverters = [];
-      this.panels = [];
-      this.accessories = [];
-      api.getSimilarProducts("solar panel", 100000).then((response) => {
-        if (response.data.data.result.length < 2) {
-          let emptyProductSpace = 2 - response.data.data.result.length;
-          let emptyObject = {};
-          let emptyProductArray = new Array(emptyProductSpace).fill(
-            emptyObject
-          );
-          this.panels = shuffleArray(response.data.data.result).concat(
-            emptyProductArray
-          );
-          this.loading = false;
-        } else {
-          this.panels = shuffleArray(response.data.data.result).slice(-2);
-          this.loading = false;
-        }
-      });
-      api.getSimilarProducts("inverter", 100000).then((response) => {
-        if (response.data.data.result.length < 2) {
-          let emptyProductSpace = 2 - response.data.data.result.length;
-          let emptyObject = {};
-          let emptyProductArray = new Array(emptyProductSpace).fill(
-            emptyObject
-          );
-          this.inverters = shuffleArray(response.data.data.result).concat(
-            emptyProductArray
-          );
-          this.loading = false;
-        } else {
-          this.inverters = shuffleArray(response.data.data.result).slice(-2);
-          this.loading = false;
-        }
-      });
-      api.getSimilarProducts("battery", 100000).then((response) => {
-        if (response.data.data.result.length < 2) {
-          let emptyProductSpace = 2 - response.data.data.result.length;
-          let emptyObject = {};
-          let emptyProductArray = new Array(emptyProductSpace).fill(
-            emptyObject
-          );
-          this.batteries = shuffleArray(response.data.data.result).concat(
-            emptyProductArray
-          );
-          this.loading = false;
-        } else {
-          this.batteries = shuffleArray(response.data.data.result).slice(-2);
-          this.loading = false;
-        }
-      });
-      api
-        .getSimilarProducts("accessory", 100000)
-        .then((response) => {
-          if (response.data.data.result.length < 2) {
-            let emptyProductSpace = 2 - response.data.data.result.length;
-            let emptyObject = {};
-            let emptyProductArray = new Array(emptyProductSpace).fill(
-              emptyObject
-            );
-            this.accessories = shuffleArray(response.data.data.result).concat(
-              emptyProductArray
-            );
-            this.loading = false;
-          } else {
-            this.accessories = shuffleArray(response.data.data.result).slice(
-              -2
-            );
-            this.loading = false;
-          }
-        })
-        .catch(({ response }) => {
-          alert(response.data.message);
-        });
     },
   },
 };

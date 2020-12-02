@@ -2,6 +2,52 @@ import api from "@/utils/api.js";
 import shuffleArray from "@/utils/shuffleArray.js";
 import fillArray from "@/utils/fillArray.js";
 
+export const getAllProducts = ({ commit }, queryParams) => {
+  return new Promise((resolve, reject) => {
+    if (queryParams.category === "all products") {
+      api
+        .getAllProducts(queryParams.page)
+        .then(({ data }) => {
+          if (data.data.result.length < 4) {
+            const fill = fillArray(4, data.data.result.length);
+            const productsList = data.data.result.concat(fill);
+            commit("SET_PRODUCTLIST", productsList);
+            commit("SET_PAGINATION", data.data);
+            commit("SET_LOADING", false);
+          } else {
+            commit("SET_PRODUCTLIST", data.data.result);
+            commit("SET_PAGINATION", data.data);
+            commit("SET_LOADING", false);
+          }
+        })
+        .catch(({ data }) => {
+          alert(data.message);
+          reject({ data });
+        });
+    } else {
+      api
+        .getProductByCategory(queryParams.category, queryParams.page)
+        .then(({ data }) => {
+          if (data.data.result.length < 4) {
+            const fill = fillArray(4, data.data.result.length);
+            const productsList = data.data.result.concat(fill);
+            commit("SET_PRODUCTLIST", productsList);
+            commit("SET_PAGINATION", data.data);
+            commit("SET_LOADING", false);
+          } else {
+            commit("SET_PRODUCTLIST", data.data.result);
+            commit("SET_PAGINATION", data.data);
+            commit("SET_LOADING", false);
+          }
+        })
+        .catch(({ data }) => {
+          alert(data.message);
+          reject({ data });
+        });
+    }
+  });
+};
+
 export const getSimilarProducts = ({ commit }, queryParams) => {
   return new Promise((resolve, reject) => {
     api
@@ -71,18 +117,34 @@ export const getSimilarProducts = ({ commit }, queryParams) => {
   });
 };
 
-export const setBatteries = ({ commit }, payload) => {
-  commit("SET_BATTERIES", payload);
+export const setLoading = ({ commit }, payload) => {
+  commit("SET_LOADING", payload);
 };
-export const setInverters = ({ commit }, payload) => {
-  commit("SET_INVERTERS", payload);
-};
-export const setPanels = ({ commit }, payload) => {
-  commit("SET_PANELS", payload);
-};
+
 export const setBundles = ({ commit }, payload) => {
   commit("SET_BUNDLES", payload);
 };
-export const setLoading = ({ commit }, payload) => {
-  commit("SET_LOADING", payload);
+
+export const setBatteries = ({ commit }, payload) => {
+  commit("SET_BATTRIES", payload);
+};
+
+export const setPanels = ({ commit }, payload) => {
+  commit("SET_PANELS", payload);
+};
+
+export const setInverters = ({ commit }, payload) => {
+  commit("SET_INVERTERS", payload);
+};
+
+export const setPagination = ({ commit }, payload) => {
+  commit("SET_PAGINATION", payload);
+};
+
+export const setProductsList = ({ commit }, payload) => {
+  commit("SET_PRODUCTLIST", payload);
+};
+
+export const setPage = ({ commit }, payload) => {
+  commit("SET_PAGE", payload);
 };

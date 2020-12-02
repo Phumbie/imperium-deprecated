@@ -7,38 +7,52 @@
           <div class="category">All Products</div>
           <div
             class="underline"
-            v-if="this.activeTabID == 'all products'"
+            v-if="this.$store.state.activeTab == 'all products'"
           ></div>
         </div>
         <div class="category-link" @click="switchCategory('solar panel')">
           <div class="category">Solar Panels</div>
-          <div class="underline" v-if="activeTabID == 'solar panel'"></div>
+          <div
+            class="underline"
+            v-if="this.$store.state.activeTab == 'solar panel'"
+          ></div>
         </div>
         <div class="category-link" @click="switchCategory('inverter')">
           <div class="category">Inverters</div>
-          <div class="underline" v-if="activeTabID == 'inverter'"></div>
+          <div
+            class="underline"
+            v-if="this.$store.state.activeTab == 'inverter'"
+          ></div>
         </div>
         <div class="category-link" @click="switchCategory('battery')">
           <div class="category">Batteries</div>
-          <div class="underline" v-if="this.activeTabID == 'battery'"></div>
+          <div
+            class="underline"
+            v-if="this.$store.state.activeTab == 'battery'"
+          ></div>
         </div>
         <div class="category-link" @click="switchCategory('accessory')">
           <div class="category">Accessories</div>
-          <div class="underline" v-if="activeTabID == 'accessory'"></div>
+          <div
+            class="underline"
+            v-if="this.$store.state.activeTab == 'accessory'"
+          ></div>
         </div>
-
         <div
           class="category-link margin-right-none"
           @click="switchCategory('bundle')"
         >
           <div class="category">Complete Solution</div>
-          <div class="underline" v-if="activeTabID == 'bundle'"></div>
+          <div
+            class="underline"
+            v-if="this.$store.state.activeTab == 'bundle'"
+          ></div>
         </div>
       </div>
       <div class="mobile-category-nav">
         <el-select
-          v-model="activeTabID"
-          :placeholder="activeTabID"
+          v-model="this.$store.state.activeTab"
+          :placeholder="this.$store.state.activeTab"
           @input="switchCategory"
         >
           <el-option
@@ -53,13 +67,6 @@
     </section>
 
     <section class="products-container" v-if="!loading">
-      <!-- <single-product
-        v-for="product in productsList"
-        :key="product.id"
-        :product="product"
-      /> -->
-      <!-- <div class="product-item" v-for="i in fillProducts"></div> -->
-
       <div
         class="product-item"
         v-for="(product, index) in productsList"
@@ -81,30 +88,21 @@
         </div>
       </div>
     </section>
+
     <content-loader v-else>
       <div class="loader"></div>
     </content-loader>
-    <!-- <div class="products-container" v-else>
-      <skeletonLine
-        :height="`30rem`"
-        :width="`100%`"
-        class="product-item"
-        v-for="i in 4"
-        :key="i"
-        style="padding: 0"
-      />
-    </div> -->
 
     <div class="pagination">
       <el-pagination
         :background="false"
         @current-change="handlePageChange"
         :hide-on-single-page="true"
-        :page-size="this.pagination.per_page"
-        :current-page="this.pagination.page"
+        :page-size="pagination.per_page"
+        :current-page="pagination.page"
         :pager-count="9"
         layout="prev, pager, next"
-        :total="this.pagination.totalRecords"
+        :total="pagination.totalRecords"
       >
       </el-pagination>
     </div>
@@ -112,23 +110,15 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import api from "@/utils/api.js";
 import contentLoader from "@/components/contentLoader";
-import SingleProduct from "@/components/SingleProduct/SingleProduct";
+
 export default {
   components: {
     contentLoader,
-    SingleProduct,
   },
   data() {
     return {
-      productsList: [],
-      pagination: "",
-      loading: true,
-      activeTabID: "",
       header: "all products",
-      page: 1,
       links: [
         {
           value: "all products",
@@ -157,22 +147,47 @@ export default {
       ],
     };
   },
-  computed: {
-    ...mapGetters(["activeTab"]),
-    fillProducts() {
-      if (this.productsList.length < 4) {
-        return 4 - this.productsList.length;
-      }
-    },
-  },
-  mounted() {
+
+  created() {
     if (!JSON.parse(localStorage.getItem("active_tab"))) {
-      this.switchCategory(this.activeTab);
+      this.switchCategory(this.$store.state.activeTab);
     } else {
       let category = JSON.parse(localStorage.getItem("active_tab"));
       this.switchCategory(category);
     }
-    this.fetchProducts();
+    this.$store.dispatch("productModule/getAllProducts", {
+      page: this.$store.state.productModule.page,
+      category: this.$store.state.activeTab,
+    });
+  },
+
+  mounted() {},
+
+  computed: {
+    productsList: {
+      get() {
+        return this.$store.state.productModule.productsList;
+      },
+      set(newValue) {
+        return this.$store.dispatch("productModule/setProductsList", newValue);
+      },
+    },
+    pagination: {
+      get() {
+        return this.$store.state.productModule.pagination;
+      },
+      set(newValue) {
+        return this.$store.dispatch("productModule/setPagination", newValue);
+      },
+    },
+    loading: {
+      get() {
+        return this.$store.state.productModule.loading;
+      },
+      set(newValue) {
+        return this.$store.dispatch("productModule/setLoading", newValue);
+      },
+    },
   },
 
   methods: {
@@ -183,15 +198,17 @@ export default {
       this.$router.push(page);
     },
     handlePageChange(page) {
-      this.loading = true;
-      this.page = page;
+      this.$store.dispatch("productModule/setLoading", true);
+      this.$store.dispatch("productModule/setPage", page);
       // this.$router.push({ path: "/products", query: { page: page } });
-      this.fetchProducts();
+      this.$store.dispatch("productModule/getAllProducts", {
+        page: this.$store.state.productModule.page,
+        category: this.$store.state.activeTab,
+      });
     },
     switchCategory(category) {
+      this.$store.dispatch("productModule/setLoading", true);
       this.$store.dispatch("setActiveTabId", category);
-      this.loading = true;
-      this.activeTabID = category;
       this.header = category;
       switch (category) {
         case "battery":
@@ -210,68 +227,12 @@ export default {
           this.header = "complete solution";
           break;
       }
-      this.page = null;
+      this.$store.dispatch("productModule/setPage", null);
       // this.$router.push({ path: "/products", query: { category: category } });
-      this.fetchProducts();
-    },
-    fetchProducts() {
-      this.productsList = [];
-      if (this.activeTabID === "all products") {
-        api
-          .getAllProducts(this.page)
-          .then((response) => {
-            this.productsList = response.data.data.result;
-            this.pagination = response.data.data;
-            this.loading = false;
-
-            if (response.data.data.result.length < 4) {
-              let emptyProductSpace = 4 - response.data.data.result.length;
-              let emptyObject = {};
-              let emptyProductArray = new Array(emptyProductSpace).fill(
-                emptyObject
-              );
-              this.productsList = response.data.data.result.concat(
-                emptyProductArray
-              );
-              this.pagination = response.data.data;
-              this.loading = false;
-            } else {
-              this.pagination = response.data.data;
-              this.productsList = response.data.data.result;
-              this.loading = false;
-            }
-          })
-          .catch(({ response }) => {
-            alert(response.data.message);
-          });
-      } else {
-        api
-          .getProductByCategory(this.activeTabID, this.page)
-          .then((response) => {
-            this.productsList = response.data.data.result;
-            this.pagination = response.data.data;
-            this.loading = false;
-            if (response.data.data.result.length < 4) {
-              let emptyProductSpace = 4 - response.data.data.result.length;
-              let emptyObject = {};
-              let emptyProductArray = new Array(emptyProductSpace).fill(
-                emptyObject
-              );
-              this.pagination = response.data.data;
-              this.productsList = response.data.data.result.concat(
-                emptyProductArray
-              );
-              this.loading = false;
-            } else {
-              this.pagination = response.data.data;
-              this.productsList = response.data.data.result;
-              this.loading = false;
-            }
-          })
-          .catch(({ response }) => {
-            alert(response.data.message);
-          });
-      }
+      this.$store.dispatch("productModule/getAllProducts", {
+        page: this.$store.state.productModule.page,
+        category: this.$store.state.activeTab,
+      });
     },
   },
 };

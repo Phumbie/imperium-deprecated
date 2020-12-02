@@ -17,3 +17,15 @@ export const SET_BUNDLES = (state, payload) => {
 export const SET_LOADING = (state, payload) => {
   state.loading = payload;
 };
+
+export const SET_PRODUCTLIST = (state, payload) => {
+  state.productsList = payload;
+};
+
+export const SET_PAGINATION = (state, payload) => {
+  state.pagination = payload;
+};
+
+export const SET_PAGE = (state, payload) => {
+  state.page = payload;
+};

@@ -118,16 +118,11 @@
             margin-right: 2rem;
           }
 
-          // .nav-link {
-          // cursor: pointer;
-          // }
-
           .line-black {
             border-bottom: solid 1px #000000;
           }
         }
         .details {
-          // height: 11rem;
           font-family: Inter;
           font-size: 1.125rem;
           font-weight: normal;
@@ -169,7 +164,6 @@
           text-overflow: ellipsis;
         }
         .extra-details {
-          // height: 0rem;
           line-height: 1.8rem;
         }
       }
@@ -188,7 +182,6 @@
 
   .products-container {
     margin-top: 3.25rem;
-    // width: 99.9%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     border: solid 1px #000000;
@@ -237,23 +230,15 @@
           display: flex;
           justify-content: center;
           align-items: flex-end;
-          height: 18rem;
+          height: 15rem;
           padding-bottom: 1.875rem;
 
-          @media screen and (max-width: 900px) {
-            height: 10rem;
-          }
-
           img {
-            width: 70%;
+            width: 60%;
             position: relative;
             object-position: bottom;
             object-fit: contain;
             max-height: 100%;
-
-            @media screen and (max-width: 900px) {
-              width: 60%;
-            }
           }
         }
 
@@ -263,20 +248,19 @@
           font-weight: 500;
           color: #000000;
           margin-top: 1.5rem;
-          margin-bottom: 0.4375rem;
-          letter-spacing: 0.003rem;
-          // text-transform: capitalize;
+          margin-bottom: 0.2rem;
+          overflow: hidden;
         }
 
-        .product-capacity {
+        .product-description {
           font-family: HelveticaNeue;
           font-size: 0.9rem;
           color: #000000;
           font-weight: 500;
-          margin-bottom: 0.4375rem;
-          letter-spacing: 0.003rem;
+          margin-bottom: 0.5rem;
           line-height: 1.4rem;
           opacity: 0.8;
+          overflow: hidden;
         }
 
         .price {
@@ -284,93 +268,10 @@
           font-size: 1.125rem;
           color: #000000;
           font-weight: 500;
-          margin-bottom: 1.375rem;
-          letter-spacing: 0.003rem;
+          margin-bottom: 1.4rem;
           line-height: 1.4rem;
         }
       }
     }
   }
-
-  // .long-details {
-  //   width: 50%;
-  //   font-size: 1.1rem;
-  //   line-height: 2rem;
-  //   letter-spacing: 0.1rem;
-  // }
-
-  // .loan-calc-title {
-  //   margin-top: 6%;
-  //   font-size: 24px;
-  // }
-
-  // .loan-calc-details {
-  //   margin-top: 4.7%;
-  //   color: #7f7f7f;
-  //   width: 100%;
-  //   font-family: Helvetica;
-  //   font-size: 14px;
-  //   font-weight: normal;
-  //   font-style: normal;
-  //   font-stretch: normal;
-  //   line-height: normal;
-  //   letter-spacing: 0.43px;
-
-  //   span {
-  //     float: right;
-  //   }
-  // }
-
-  // .loan-calc-value {
-  //   color: #000000;
-  // }
-
-  // .monthly-payment {
-  //   width: 100%;
-  //   font-size: 24px;
-  //   letter-spacing: 0.58px;
-  //   text-align: center;
-
-  //   span {
-  //     float: none;
-  //     font-weight: 500;
-  //   }
-  // }
-
-  // .slider {
-  //   -webkit-appearance: none;
-  //   width: 100%;
-  //   height: 4px;
-  //   border-radius: 3px;
-  //   background: #bfbdbd;
-  //   cursor: pointer;
-  //   outline: none;
-  //   opacity: 0.33;
-  //   -webkit-transition: 0.2s;
-  //   transition: opacity 0.2s;
-  // }
-
-  // .slider::-webkit-slider-thumb {
-  //   -webkit-appearance: none;
-  //   appearance: none;
-  //   width: 18px;
-  //   height: 18px;
-  //   border-radius: 50%;
-  //   box-shadow: 0 2px 4px 0 rgba(120, 120, 120, 0.5);
-  //   background: #fffcfc;
-  //   cursor: pointer;
-  // }
-
-  // .slider::-moz-range-thumb {
-  //   width: 18px;
-  //   height: 18px;
-  //   border-radius: 50%;
-  //   box-shadow: 0 2px 4px 0 rgba(120, 120, 120, 0.5);
-  //   background: #fffcfc;
-  //   cursor: pointer;
-  // }
-
-  // .duration-margin {
-  //   margin-top: 8%;
-  // }
 }

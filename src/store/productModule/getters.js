@@ -17,3 +17,15 @@ export const bundles = (state) => {
 export const loading = (state) => {
   return state.loading;
 };
+
+export const productsList = (state) => {
+  return state.productsList;
+};
+
+export const pagination = (state) => {
+  return state.pagination;
+};
+
+export const page = (state) => {
+  return state.page;
+};

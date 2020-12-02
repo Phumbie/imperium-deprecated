@@ -181,20 +181,45 @@ export default {
   },
   mounted() {},
   computed: {
-    batteries() {
-      return this.$store.state.productModule.batteries;
+    batteries: {
+      get() {
+        return this.$store.state.productModule.batteries;
+      },
+      set(newValue) {
+        return this.$store.dispatch("productModule/setBatteries", newValue);
+      },
     },
-    inverters() {
-      return this.$store.state.productModule.inverters;
+    inverters: {
+      get() {
+        return this.$store.state.productModule.inverters;
+      },
+      set(newValue) {
+        return this.$store.dispatch("productModule/setInverters", newValue);
+      },
     },
-    panels() {
-      return this.$store.state.productModule.panels;
+    panels: {
+      get() {
+        return this.$store.state.productModule.panels;
+      },
+      set(newValue) {
+        return this.$store.dispatch("productModule/setPanels", newValue);
+      },
     },
-    bundles() {
-      return this.$store.state.productModule.bundles;
+    bundles: {
+      get() {
+        return this.$store.state.productModule.bundles;
+      },
+      set(newValue) {
+        return this.$store.dispatch("productModule/setBundles", newValue);
+      },
     },
-    loading() {
-      return this.$store.state.productModule.loading;
+    loading: {
+      get() {
+        return this.$store.state.productModule.loading;
+      },
+      set(newValue) {
+        return this.$store.dispatch("productModule/setLoading", newValue);
+      },
     },
   },
   methods: {
@@ -205,6 +230,7 @@ export default {
       this.$router.push(page);
     },
     setActiveTab(activeTabID) {
+      this.$store.dispatch("productModule/setLoading", true);
       this.$store.dispatch("setActiveTabId", activeTabID);
       this.$router.push({ path: "/products" });
     },

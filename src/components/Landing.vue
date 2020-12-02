@@ -162,64 +162,39 @@ export default {
     return {};
   },
   created() {
-    this.$store.dispatch("getSimilarProducts", {
+    this.$store.dispatch("productModule/getSimilarProducts", {
       category: "solar panel",
       per_page: 100000,
     });
-    this.$store.dispatch("getSimilarProducts", {
+    this.$store.dispatch("productModule/getSimilarProducts", {
       category: "inverter",
       per_page: 100000,
     });
-    this.$store.dispatch("getSimilarProducts", {
+    this.$store.dispatch("productModule/getSimilarProducts", {
       category: "battery",
       per_page: 100000,
     });
-    this.$store.dispatch("getSimilarProducts", {
+    this.$store.dispatch("productModule/getSimilarProducts", {
       category: "bundle",
       per_page: 100000,
     });
   },
   mounted() {},
   computed: {
-    batteries: {
-      get() {
-        return this.$store.state.batteries;
-      },
-      set(newValue) {
-        return this.$store.dispatch("setBatteries", newValue);
-      },
+    batteries() {
+      return this.$store.state.productModule.batteries;
     },
-    inverters: {
-      get() {
-        return this.$store.state.inverters;
-      },
-      set(newValue) {
-        return this.$store.dispatch("setInverters", newValue);
-      },
+    inverters() {
+      return this.$store.state.productModule.inverters;
     },
-    panels: {
-      get() {
-        return this.$store.state.panels;
-      },
-      set(newValue) {
-        return this.$store.dispatch("setPanels", newValue);
-      },
+    panels() {
+      return this.$store.state.productModule.panels;
     },
-    bundles: {
-      get() {
-        return this.$store.state.bundles;
-      },
-      set(newValue) {
-        return this.$store.dispatch("setBundles", newValue);
-      },
+    bundles() {
+      return this.$store.state.productModule.bundles;
     },
-    loading: {
-      get() {
-        return this.$store.state.loading;
-      },
-      set(newValue) {
-        return this.$store.dispatch("setLoading", newValue);
-      },
+    loading() {
+      return this.$store.state.productModule.loading;
     },
   },
   methods: {

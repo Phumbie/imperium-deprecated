@@ -3,5 +3,8 @@ export default {
   inverters: [],
   panels: [],
   bundles: [],
+  productsList: [],
+  pagination: "",
   loading: true,
+  page: 1,
 };

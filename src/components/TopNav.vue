@@ -15,14 +15,14 @@
       > -->
       <a
         href="#"
-        class="nav-item border-left desktop-view"
+        class="nav-item first-nav border-left desktop-view"
         v-if="search"
         @click="showSearch"
       >
         <p>Search</p>
       </a>
       <Search
-        class="nav-item border-left desktop-view"
+        class="nav-item first-nav border-left desktop-view"
         @toggleFocus="search = true"
         v-else
       />
@@ -386,6 +386,7 @@
         animation: fadeOut 0.5s linear; // border-right: solid 0.0625rem #000000;
       }
     }
+
     .border-left {
       border-left: solid 0.0625rem #000000;
     }
@@ -434,8 +435,11 @@
       transition: 0.5s;
       cursor: pointer;
     }
-    .nav-item {
+    .first-nav {
       padding: 0;
+    }
+    .nav-item {
+      // padding: 0;
     }
     .nav-item4:hover,
     .nav-item:hover,

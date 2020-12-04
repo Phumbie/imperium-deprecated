@@ -218,7 +218,7 @@
             overflow: hidden;
           }
 
-          .product-capacity {
+          .product-description {
             font-family: HelveticaNeue;
             font-size: 0.9rem;
             color: #000000;
@@ -243,6 +243,12 @@
           }
         }
       }
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      padding: 1rem 0;
+      margin-top: 2rem;
     }
   }
 </style>

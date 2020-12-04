@@ -45,7 +45,8 @@
     }
 
     button {
-      display: block;
+      display: flex;
+      justify-content: center;
       width: 80%;
       padding-top: 20px;
       padding-bottom: 20px;

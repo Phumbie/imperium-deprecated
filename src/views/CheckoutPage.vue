@@ -20,7 +20,10 @@
         :value="this.address"
         class="text-field capitalize"
       />
-      <button @click="placeOrder()">Place order</button>
+      <button @click="placeOrder()">Outright payment</button>
+      <button @click="payWithSpecta()">
+        Lease to own<span class="loader" v-if="loading"></span>
+      </button>
     </div>
     <div class="right-side">
       <div
@@ -58,78 +61,123 @@
 </template>
 
 <script>
-  import api from "@/utils/api.js";
-  import TopNav from "@/components/TopNav";
+import api from "@/utils/api.js";
+import TopNav from "@/components/TopNav";
 
-  export default {
-    components: {
-      TopNav,
+export default {
+  components: {
+    TopNav,
+  },
+  data() {
+    return {
+      order: {},
+      orderItems: [],
+      subtotal: 0,
+      totalCost: 0,
+      deliveryCost: 0,
+      address: "",
+      user: "",
+      fullName: "",
+      phone_number: JSON.parse(localStorage.getItem("user_order"))
+        .contact_phone,
+      store: this.$store,
+      loading: false,
+    };
+  },
+  mounted() {
+    this.order = this.getNewlyCreatedOrder();
+    this.totalCost = this.order.total_price;
+    this.subtotal = this.order.sub_total;
+    this.deliveryCost = this.order.delivery_cost;
+    this.orderItems = this.order.items;
+    this.user = JSON.parse(localStorage.getItem("user_details"));
+    this.address = `${this.order.shipping_address.street}, ${this.order.shipping_address.lga}, ${this.order.shipping_address.state}`;
+    this.fullName = `${this.user.customer.first_name} ${this.user.customer.last_name}`;
+    // this.phone_number = `${this.user.user.phone_number}`;
+  },
+  methods: {
+    navigateTo(page) {
+      this.$router.push(page);
     },
-    data() {
-      return {
-        order: {},
-        orderItems: [],
-        subtotal: 0,
-        totalCost: 0,
-        deliveryCost: 0,
-        address: "",
-        user: "",
-        fullName: "",
-        phone_number: JSON.parse(localStorage.getItem("user_order"))
-          .contact_phone,
-        store: this.$store,
+    getNewlyCreatedOrder() {
+      return JSON.parse(localStorage.getItem("user_order"));
+    },
+    payWithSpecta() {
+      this.loading = true;
+      const items = this.orderItems.map((item) => {
+        return item.name;
+      });
+      const data = {
+        callBackUrl: process.env.VUE_APP_SPECTA_CALLBACK_URL,
+        reference: this.getRandomString(20),
+        merchantId: "10",
+        description: `Purchase of ${items}`,
+        amount: Math.ceil(this.totalCost),
       };
-    },
-    mounted() {
-      this.order = this.getNewlyCreatedOrder();
-      this.totalCost = this.order.total_price;
-      this.subtotal = this.order.sub_total;
-      this.deliveryCost = this.order.delivery_cost;
-      this.orderItems = this.order.items;
-      this.user = JSON.parse(localStorage.getItem("user_details"));
-      this.address = `${this.order.shipping_address.street}, ${this.order.shipping_address.lga}, ${this.order.shipping_address.state}`;
-      this.fullName = `${this.user.customer.first_name} ${this.user.customer.last_name}`;
-      // this.phone_number = `${this.user.user.phone_number}`;
-    },
-    methods: {
-      navigateTo(page) {
-        this.$router.push(page);
-      },
-      getNewlyCreatedOrder() {
-        return JSON.parse(localStorage.getItem("user_order"));
-      },
-      placeOrder() {
-        let x = this;
-        const order = this.getNewlyCreatedOrder();
-        const handler = PaystackPop.setup({
-          key: process.env.VUE_APP_PS_KEY,
-          email: x.user.user.email,
-          amount: Math.ceil(this.totalCost * 100),
-          currency: "NGN",
-          metadata: {
-            custom_fields: {
-              order_id: order.id,
-            },
-          },
-          callback: function(response) {
-            x.$swal.fire({
-              position: "top",
-              icon: "success",
-              width: 280,
-              html: "your order is being processed",
-              showConfirmButton: false,
-              timer: 2000,
-              toast: true,
-            });
-            x.navigateTo("/products");
-          },
+      api
+        .spectaPaymentUrl(data)
+        .then(({ data }) => {
+          window.location = data.result;
+          window.open(data.result);
+          this.loading = false;
+        })
+        .catch((error) => {
+          alert(error);
         });
-        handler.openIframe();
-      },
     },
-  };
+    placeOrder() {
+      let x = this;
+      const order = this.getNewlyCreatedOrder();
+      const handler = PaystackPop.setup({
+        key: process.env.VUE_APP_PS_KEY,
+        email: x.user.user.email,
+        amount: Math.ceil(this.totalCost * 100),
+        currency: "NGN",
+        metadata: {
+          custom_fields: {
+            order_id: order.id,
+          },
+        },
+        callback: function(response) {
+          x.$swal.fire({
+            position: "top",
+            icon: "success",
+            width: 280,
+            html: "your order is being processed",
+            showConfirmButton: false,
+            timer: 2000,
+            toast: true,
+          });
+          x.navigateTo("/products");
+        },
+      });
+      handler.openIframe();
+    },
+    getRandomString(length) {
+      var randomChars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      var result = "";
+      for (var i = 0; i < length; i++) {
+        result += randomChars.charAt(
+          Math.floor(Math.random() * randomChars.length)
+        );
+      }
+      return result;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  @import "@/assets/styles/scss/checkout.scss";
+@import "@/assets/styles/scss/checkout.scss";
+.loader {
+  display: flex;
+  border: 1px solid #000000;
+  border-top: 1px groove #ffffff;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: 0.5rem;
+  animation: spin 1s linear infinite;
+}
 </style>

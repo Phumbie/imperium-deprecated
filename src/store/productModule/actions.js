@@ -19,6 +19,7 @@ export const getAllProducts = ({ commit }, queryParams) => {
             commit("SET_PAGINATION", data.data);
             commit("SET_LOADING", false);
           }
+          resolve({ data });
         })
         .catch(({ data }) => {
           alert(data.message);
@@ -39,6 +40,7 @@ export const getAllProducts = ({ commit }, queryParams) => {
             commit("SET_PAGINATION", data.data);
             commit("SET_LOADING", false);
           }
+          resolve({ data });
         })
         .catch(({ data }) => {
           alert(data.message);
@@ -80,7 +82,6 @@ export const getSimilarProducts = ({ commit }, queryParams) => {
               break;
           }
           commit("SET_LOADING", false);
-          resolve({ data });
         } else {
           switch (queryParams.category) {
             case "solar panel":
@@ -107,8 +108,8 @@ export const getSimilarProducts = ({ commit }, queryParams) => {
               break;
           }
           commit("SET_LOADING", false);
-          resolve({ data });
         }
+        resolve({ data });
       })
       .catch(({ data }) => {
         alert(data.message);

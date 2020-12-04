@@ -120,6 +120,11 @@ export default new Router({
     //   ],
     // },
     {
+      path: "/specta",
+      component: () => import("@/components/PayWithSpecta"),
+      hidden: true,
+    },
+    {
       path: "*",
       component: () => import("@/views/404"),
       hidden: true,

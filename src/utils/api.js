@@ -10,6 +10,8 @@ const CUSTOMER_ORDER_URL = `${BASE_URL}/order`;
 const FORGET_PASSWORD_URL = `${BASE_URL}/user/reset-password`;
 const RESET_PASSWORD_URL = `${BASE_URL}/user/reset-password-confirmation`;
 const CONFIRM_CUSTOMER_URL = `${BASE_URL}/user/confirm`;
+const SPECTA_PAYMENT_URL = process.env.VUE_APP_SPECTA_PAYMENT_URL;
+const SPECTA_VERIFY_PAYMENT_URL = process.env.VUE_APP_SPECTA_VERIFY_PAYMENT_URL;
 const SEARCH_PRODUCTS_URL = `${BASE_URL}/product/search/`;
 
 export default {
@@ -93,5 +95,13 @@ export default {
   },
   searchProducts: (query) => {
     return axios.get(`${SEARCH_PRODUCTS_URL}?q=${query}`);
+  },
+  spectaPaymentUrl: (data) => {
+    return axios.post(`${SPECTA_PAYMENT_URL}`, data, {
+      headers: { "x-ApiKey": `TEST_API_KEY` },
+    });
+  },
+  spectaVerifyPayment: (data) => {
+    return axios.post(`${SPECTA_VERIFY_PAYMENT_URL}`, data);
   },
 };

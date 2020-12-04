@@ -54,7 +54,7 @@
         contentLoaderText: "",
       };
     },
-    mounted() {
+    created() {
       this.$store.dispatch("searchProductModule/searchProducts", {
         query: this.$route.params.id,
         page: this.$store.state.searchProductModule.page,
@@ -63,10 +63,10 @@
     watch: {
       "$route.params.id": {
         handler: function(value) {
-          this.$store.dispatch(
-            "searchProductModule/searchProducts",
-            this.$route.params.id
-          );
+          this.$store.dispatch("searchProductModule/searchProducts", {
+            query: this.$route.params.id,
+            page: this.$store.state.searchProductModule.page,
+          });
         },
         deep: true,
         immediate: true,

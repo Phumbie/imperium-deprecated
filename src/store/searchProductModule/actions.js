@@ -8,14 +8,14 @@ export const searchProducts = ({ commit }, queryParams) => {
 
   return new Promise((resolve, reject) => {
     api
-      .searchProducts(queryParams)
+      .searchProducts(queryParams.query)
       .then(({ data }) => {
-        // console.log(data);
         if (data.data.result.length < 4) {
           const fill = fillArray(4, data.data.result.length);
           const productSearch = data.data.result.concat(fill);
           commit("SET_PRODUCT_SEARCH", productSearch);
           commit("SET_PAGINATION", data.data);
+          //   commit("SET_LOADING", false);
         }
         if (data.data.result.length == 0) {
           commit("SET_SHOW", false);

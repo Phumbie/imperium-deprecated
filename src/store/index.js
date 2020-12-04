@@ -8,6 +8,7 @@ import * as getters from "./getters";
 import * as mutations from "./mutations";
 import * as actions from "./actions";
 import productModule from "./productModule/index";
+import searchProductModule from "./searchProductModule";
 
 export default new Vuex.Store({
   state,
@@ -16,5 +17,6 @@ export default new Vuex.Store({
   actions,
   modules: {
     productModule,
+    searchProductModule,
   },
 });

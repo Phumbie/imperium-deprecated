@@ -10,6 +10,7 @@ const CUSTOMER_ORDER_URL = `${BASE_URL}/order`;
 const FORGET_PASSWORD_URL = `${BASE_URL}/user/reset-password`;
 const RESET_PASSWORD_URL = `${BASE_URL}/user/reset-password-confirmation`;
 const CONFIRM_CUSTOMER_URL = `${BASE_URL}/user/confirm`;
+const SEARCH_PRODUCTS_URL = `${BASE_URL}/product/search/`;
 
 export default {
   getHeader() {
@@ -88,6 +89,9 @@ export default {
     return axios.post(`${RESET_PASSWORD_URL}`, data);
   },
   confirmCustomer: (id) => {
-    return axios.get(`${CONFIRM_CUSTOMER_URL}?id=${id}`)
-  }
+    return axios.get(`${CONFIRM_CUSTOMER_URL}?id=${id}`);
+  },
+  searchProducts: (query) => {
+    return axios.get(`${SEARCH_PRODUCTS_URL}?q=${query}`);
+  },
 };

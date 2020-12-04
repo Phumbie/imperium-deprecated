@@ -44,13 +44,8 @@ export default {
           this.$router.push("/products");
         } else {
           this.$swal.fire({
-            position: "top",
-            icon: "success",
-            width: 280,
-            html: "your payment was not successful",
-            showConfirmButton: false,
-            timer: 2000,
-            toast: true,
+            icon: "info",
+            html: "Your payment was not successful 🙃",
           });
           this.$router.push("/checkout");
         }

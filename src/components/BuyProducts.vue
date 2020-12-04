@@ -110,134 +110,137 @@
 </template>
 
 <script>
-import contentLoader from "@/components/contentLoader";
+  import contentLoader from "@/components/contentLoader";
 
-export default {
-  components: {
-    contentLoader,
-  },
-  data() {
-    return {
-      header: "all products",
-      links: [
-        {
-          value: "all products",
-          label: "all products",
-        },
-        {
-          value: "solar panel",
-          label: "solar panel",
-        },
-        {
-          value: "inverter",
-          label: "inverter",
-        },
-        {
-          value: "battery",
-          label: "battery",
-        },
-        {
-          value: "accessory",
-          label: "accessory",
-        },
-        {
-          value: "bundle",
-          label: "bundle",
-        },
-      ],
-    };
-  },
-
-  created() {
-    if (!JSON.parse(localStorage.getItem("active_tab"))) {
-      this.switchCategory(this.$store.state.activeTab);
-    } else {
-      let category = JSON.parse(localStorage.getItem("active_tab"));
-      this.switchCategory(category);
-    }
-    this.$store.dispatch("productModule/getAllProducts", {
-      page: this.$store.state.productModule.page,
-      category: this.$store.state.activeTab,
-    });
-  },
-
-  mounted() {},
-
-  computed: {
-    productsList: {
-      get() {
-        return this.$store.state.productModule.productsList;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setProductsList", newValue);
-      },
+  export default {
+    components: {
+      contentLoader,
     },
-    pagination: {
-      get() {
-        return this.$store.state.productModule.pagination;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setPagination", newValue);
-      },
+    data() {
+      return {
+        header: "all products",
+        links: [
+          {
+            value: "all products",
+            label: "all products",
+          },
+          {
+            value: "solar panel",
+            label: "solar panel",
+          },
+          {
+            value: "inverter",
+            label: "inverter",
+          },
+          {
+            value: "battery",
+            label: "battery",
+          },
+          {
+            value: "accessory",
+            label: "accessory",
+          },
+          {
+            value: "bundle",
+            label: "bundle",
+          },
+        ],
+      };
     },
-    loading: {
-      get() {
-        return this.$store.state.productModule.loading;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setLoading", newValue);
-      },
-    },
-  },
 
-  methods: {
-    navigateTo(page) {
-      if (page.split("/")[2] === "undefined") {
-        return;
+    created() {
+      if (!JSON.parse(localStorage.getItem("active_tab"))) {
+        this.switchCategory(this.$store.state.activeTab);
+      } else {
+        let category = JSON.parse(localStorage.getItem("active_tab"));
+        this.switchCategory(category);
       }
-      this.$router.push(page);
-    },
-    handlePageChange(page) {
-      this.$store.dispatch("productModule/setLoading", true);
-      this.$store.dispatch("productModule/setPage", page);
-      // this.$router.push({ path: "/products", query: { page: page } });
       this.$store.dispatch("productModule/getAllProducts", {
         page: this.$store.state.productModule.page,
         category: this.$store.state.activeTab,
       });
     },
-    switchCategory(category) {
-      this.$store.dispatch("productModule/setLoading", true);
-      this.$store.dispatch("setActiveTabId", category);
-      this.header = category;
-      switch (category) {
-        case "battery":
-          this.header = "batteries";
-          break;
-        case "inverter":
-          this.header = "inverters";
-          break;
-        case "solar panel":
-          this.header = "solar panels";
-          break;
-        case "accessory":
-          this.header = "accessories";
-          break;
-        case "bundle":
-          this.header = "complete solution";
-          break;
-      }
-      this.$store.dispatch("productModule/setPage", null);
-      // this.$router.push({ path: "/products", query: { category: category } });
-      this.$store.dispatch("productModule/getAllProducts", {
-        page: this.$store.state.productModule.page,
-        category: this.$store.state.activeTab,
-      });
+
+    mounted() {},
+
+    computed: {
+      productsList: {
+        get() {
+          return this.$store.state.productModule.productsList;
+        },
+        set(newValue) {
+          return this.$store.dispatch(
+            "productModule/setProductsList",
+            newValue
+          );
+        },
+      },
+      pagination: {
+        get() {
+          return this.$store.state.productModule.pagination;
+        },
+        set(newValue) {
+          return this.$store.dispatch("productModule/setPagination", newValue);
+        },
+      },
+      loading: {
+        get() {
+          return this.$store.state.productModule.loading;
+        },
+        set(newValue) {
+          return this.$store.dispatch("productModule/setLoading", newValue);
+        },
+      },
     },
-  },
-};
+
+    methods: {
+      navigateTo(page) {
+        if (page.split("/")[2] === "undefined") {
+          return;
+        }
+        this.$router.push(page);
+      },
+      handlePageChange(page) {
+        this.$store.dispatch("productModule/setLoading", true);
+        this.$store.dispatch("productModule/setPage", page);
+        // this.$router.push({ path: "/products", query: { page: page } });
+        this.$store.dispatch("productModule/getAllProducts", {
+          page: this.$store.state.productModule.page,
+          category: this.$store.state.activeTab,
+        });
+      },
+      switchCategory(category) {
+        this.$store.dispatch("productModule/setLoading", true);
+        this.$store.dispatch("setActiveTabId", category);
+        this.header = category;
+        switch (category) {
+          case "battery":
+            this.header = "batteries";
+            break;
+          case "inverter":
+            this.header = "inverters";
+            break;
+          case "solar panel":
+            this.header = "solar panels";
+            break;
+          case "accessory":
+            this.header = "accessories";
+            break;
+          case "bundle":
+            this.header = "complete solution";
+            break;
+        }
+        this.$store.dispatch("productModule/setPage", null);
+        // this.$router.push({ path: "/products", query: { category: category } });
+        this.$store.dispatch("productModule/getAllProducts", {
+          page: this.$store.state.productModule.page,
+          category: this.$store.state.activeTab,
+        });
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/scss/products.scss";
+  @import "@/assets/styles/scss/products.scss";
 </style>

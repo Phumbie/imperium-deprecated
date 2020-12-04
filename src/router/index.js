@@ -28,6 +28,11 @@ export default new Router({
           hidden: true,
         },
         {
+          path: "/products/search/:id",
+          component: () => import("../views/Search"),
+          hidden: true,
+        },
+        {
           path: "paas/appliance-configuration",
           component: () => import("@/components/PaasApplianceConfiguration"),
           hidden: true,

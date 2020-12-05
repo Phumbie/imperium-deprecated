@@ -63,7 +63,8 @@ export default {
     width: 90%;
     padding: 0;
     margin: auto 1rem auto auto;
-    font-size: 1.125rem;
+    font-family: Graphik;
+    font-size: 1rem;
     animation: fadeOut 0.2s linear;
     border: none;
 

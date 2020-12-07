@@ -144,6 +144,12 @@
     z-index: 100000;
     text-align: center;
     width: 100%;
+
+    @media screen and (max-width: 600px) {
+      width: 80%;
+      margin: auto;
+      right: 10%;
+    }
     svg {
       width: 1.5rem;
       height: 1rem;

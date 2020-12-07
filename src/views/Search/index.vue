@@ -109,6 +109,13 @@ export default {
     },
   },
   methods: {
+    navigateTo(page) {
+      if (page.split("/")[2] === "undefined") {
+        return;
+      }
+      this.$router.push(page);
+    },
+
     handlePageChange(page) {
       this.$store.dispatch("searchProductModule/setLoading", true);
       this.$store.dispatch("searchProductModule/setPage", page);

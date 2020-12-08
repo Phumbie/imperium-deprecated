@@ -28,9 +28,13 @@ export default {
       this.$refs.focus.focus();
     },
     search() {
-      if (!this.searchProduct) {
+      if (
+        !this.searchProduct ||
+        this.$router.history.current.params.id === this.searchProduct
+      ) {
         return false;
       } else {
+        this.$store.dispatch("productModule/setLoading", true);
         this.$router.push(`/products/search/${this.searchProduct}`);
         this.$emit("toggleFocus");
       }

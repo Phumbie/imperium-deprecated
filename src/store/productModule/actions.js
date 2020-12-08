@@ -118,6 +118,36 @@ export const getSimilarProducts = ({ commit }, queryParams) => {
   });
 };
 
+export const searchProducts = ({ commit }, queryParams) => {
+  return new Promise((resolve, reject) => {
+    api
+      .searchProducts(queryParams.query)
+      .then(({ data }) => {
+        if (data.data.result.length === 0) {
+          commit("SET_SHOW", false);
+          resolve({ data });
+          return;
+        }
+        if (data.data.result.length < 4) {
+          const fill = fillArray(4, data.data.result.length);
+          const searchResult = data.data.result.concat(fill);
+          commit("SET_PRODUCTLIST", searchResult);
+          commit("SET_PAGINATION", data.data);
+          commit("SET_LOADING", false);
+        } else {
+          commit("SET_PRODUCTLIST", data.data.result);
+          commit("SET_PAGINATION", data.data);
+          commit("SET_LOADING", false);
+        }
+        resolve({ data });
+      })
+      .catch(({ data }) => {
+        alert(data.message);
+        reject({ data });
+      });
+  });
+};
+
 export const setLoading = ({ commit }, payload) => {
   commit("SET_LOADING", payload);
 };
@@ -148,4 +178,8 @@ export const setProductsList = ({ commit }, payload) => {
 
 export const setPage = ({ commit }, payload) => {
   commit("SET_PAGE", payload);
+};
+
+export const setShow = ({ commit }, payload) => {
+  commit("SET_SHOW", payload);
 };

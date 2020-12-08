@@ -7,4 +7,5 @@ export default {
   pagination: "",
   loading: true,
   page: 1,
+  show: true,
 };

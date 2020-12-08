@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div class="modal" @click="closeOutside" v-if="showModal">
+    <div class="modal" @click="closeOutside" v-if="displayModal">
       <div class="modal-card">
         <div class="modal-card__close">
           <svg
@@ -42,12 +42,35 @@
         // showModal: true,
       };
     },
-    mounted() {
-      document.body.style.overflow = "hidden";
+    // mounted() {
+    //   document.body.style.overflow = "hidden";
+    // },
+    // beforeDestroy() {
+    //   document.body.style.overflow = "initial";
+    // },
+    computed: {
+      displayModal() {
+        if (this.showModal === true) {
+          document.body.style.overflow = "hidden";
+
+          return true;
+        } else {
+          document.body.style.overflow = "initial";
+
+          return false;
+        }
+      },
     },
-    beforeDestroy() {
-      document.body.style.overflow = "initial";
-    },
+    // watch: {
+    //   showModal() {
+    //     console.log(this.showModal == true);
+    //     if (this.showModal) {
+    //       document.body.style.overflow = "hidden";
+    //     } else {
+    //       document.body.style.overflow = "initial";
+    //     }
+    //   },
+    // },
     methods: {
       closeOutside(event) {
         if (event.target.className === "modal") {

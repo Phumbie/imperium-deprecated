@@ -17,7 +17,7 @@
     name: "App",
     data() {
       return {
-        // show: true,
+        show: true,
         // showToast: false,
       };
     },

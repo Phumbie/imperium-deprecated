@@ -57,17 +57,15 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("searchProductModule/searchProducts", {
+    this.$store.dispatch("productModule/searchProducts", {
       query: this.$route.params.id,
-      page: this.$store.state.searchProductModule.page,
     });
   },
   watch: {
     "$route.params.id": {
       handler: function(value) {
-        this.$store.dispatch("searchProductModule/searchProducts", {
+        this.$store.dispatch("productModule/searchProducts", {
           query: this.$route.params.id,
-          page: this.$store.state.searchProductModule.page,
         });
       },
       deep: true,
@@ -82,30 +80,35 @@ export default {
   computed: {
     productList: {
       get() {
-        return this.$store.state.searchProductModule.products;
+        return this.$store.state.productModule.productsList;
+      },
+      set(newValue) {
+        return this.$store.dispatch("productModule/setProductsList", newValue);
       },
     },
     loading: {
       get() {
-        return this.$store.state.searchProductModule.loading;
+        return this.$store.state.productModule.loading;
       },
       set(newValue) {
-        return this.$store.dispatch("searchProductModule/setLoading", newValue);
+        return this.$store.dispatch("productModule/setLoading", newValue);
       },
     },
     pagination: {
       get() {
-        return this.$store.state.searchProductModule.pagination;
+        return this.$store.state.productModule.pagination;
       },
       set(newValue) {
-        return this.$store.dispatch(
-          "searchProductModule/setPagination",
-          newValue
-        );
+        return this.$store.dispatch("productModule/setPagination", newValue);
       },
     },
-    show() {
-      return this.$store.state.searchProductModule.show;
+    show: {
+      get() {
+        return this.$store.state.productModule.show;
+      },
+      set(newValue) {
+        return this.$store.dispatch("productModule/setShow", newValue);
+      },
     },
   },
   methods: {

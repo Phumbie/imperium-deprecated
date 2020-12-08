@@ -164,7 +164,7 @@
                 this.$store.dispatch("notificationModule/showToast", {
                   description: "Added to cart",
                   display: true,
-                  icon: "success",
+                  type: "success",
                 });
               } else {
                 this.$swal.fire({
@@ -204,7 +204,7 @@
             this.$store.dispatch("notificationModule/showToast", {
               description: "Added to cart",
               display: true,
-              icon: "success",
+              type: "success",
             });
           }
 
@@ -243,7 +243,7 @@
               this.$store.dispatch("notificationModule/showToast", {
                 description: "Added to cart",
                 display: true,
-                icon: "success",
+                type: "success",
               });
             })
             .catch(({ response }) => {

@@ -293,7 +293,7 @@
           this.$store.dispatch("notificationModule/showToast", {
             description: "Removed from Cart",
             display: true,
-            icon: "success",
+            type: "success",
           });
           return;
         }
@@ -332,7 +332,7 @@
               this.$store.dispatch("notificationModule/showToast", {
                 description: "Removed from Cart",
                 display: true,
-                icon: "success",
+                type: "success",
               });
             }
           })

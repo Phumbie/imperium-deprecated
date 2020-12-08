@@ -1,7 +1,8 @@
 <template>
-  <div class="toast-container">
-    <div class="toast">
-      <svg
+  <transition name="show">
+    <div class="toast-container" v-if="showToast">
+      <div class="toast">
+        <!-- <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         xmlns:svgjs="http://svgjs.com/svgjs"
@@ -120,19 +121,49 @@
             />
           </g>
         </g>
-      </svg>
-      <p>{{ description }}</p>
+      </svg> -->
+        <p
+          :class="{
+            danger: alert === 'danger',
+            warning: alert === 'warning',
+            success: alert === 'success',
+          }"
+        >
+          {{ description }}
+        </p>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 <script>
   export default {
     computed: {
       alert() {
-        return this.$store.state.notificationModule.toast.icon;
+        return this.$store.state.notificationModule.toast.type;
       },
       description() {
         return this.$store.state.notificationModule.toast.description;
+      },
+      showToast: {
+        get() {
+          return this.$store.state.notificationModule.toast.display;
+        },
+        set(newValue) {
+          return this.$store.dispatch("notificationModule/showToast", newValue);
+        },
+      },
+    },
+    watch: {
+      showToast(val) {
+        if (this.showToast === true) {
+          setTimeout(() => {
+            return this.$store.dispatch("notificationModule/showToast", {
+              description: "",
+              display: false,
+              type: "",
+            });
+          }, 3000);
+        }
       },
     },
   };
@@ -158,14 +189,40 @@
       display: flex;
       justify-content: center;
       max-width: 20rem;
-      border: 1px solid black;
-      padding: 1rem;
+      //   border: 1px solid black;
+      padding: 1.5rem 1rem;
       margin: auto;
-      color: white;
-      background-color: black;
+
+      background-color: #f4f7f2;
+      -webkit-box-shadow: -1px -1px 19px -1px rgba(177, 177, 177, 1);
+      -moz-box-shadow: -1px -1px 19px -1px rgba(177, 177, 177, 1);
+      box-shadow: -1px -1px 19px -1px rgba(177, 177, 177, 1);
+
+      & .success {
+        color: #4b8028;
+      }
+
+      & .danger {
+        color: #f44336;
+      }
+
+      & .warning {
+        color: #ffcc00;
+      }
       p {
         margin-left: 1rem;
       }
     }
+  }
+
+  .show-enter-active {
+    transition: all 0.3s ease;
+  }
+  .show-leave-active {
+    transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+  }
+  .show-enter, .show-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    transform: translateY(-100px);
+    opacity: 0;
   }
 </style>

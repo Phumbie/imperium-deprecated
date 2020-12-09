@@ -118,7 +118,7 @@
             background: transparent;
             border: 1px solid #1d1d1d;
             font-size: 1rem;
-            transition: 0.5s;
+            transition: 0.3s;
             padding: 0.2rem 0.8rem;
 
             @media screen and (max-width: 900px) {
@@ -127,8 +127,7 @@
           }
 
           .button-remove:hover {
-            background-color: #1d1d1d;
-            color: white;
+            color: #65ac4d;
           }
         }
       }
@@ -163,12 +162,11 @@
           align-items: center;
           background: transparent;
           border: none;
-          transition: 0.5s;
+          transition: 0.3s;
         }
 
         button:hover {
-          background-color: #1d1d1d;
-          color: white;
+          color: #65ac4d;
         }
       }
 

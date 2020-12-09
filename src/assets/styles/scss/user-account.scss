@@ -96,9 +96,11 @@
         }
       }
 
-      .border-left {
-        border-left: solid #000000 1px;
+      .border-right {
+        border-right: solid #000000 1px;
+      }
 
+      .border-left {
         @media screen and (max-width: 900px) {
           border-left: none;
           border-top: solid #000000 1px;

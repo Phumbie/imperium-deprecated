@@ -29,3 +29,7 @@ export const SET_PAGINATION = (state, payload) => {
 export const SET_PAGE = (state, payload) => {
   state.page = payload;
 };
+
+export const SET_SHOW = (state, payload) => {
+  state.show = payload;
+};

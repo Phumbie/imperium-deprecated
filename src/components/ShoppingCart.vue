@@ -155,75 +155,103 @@
 </template>
 
 <script>
-import api from "@/utils/api.js";
-import contentLoader from "@/components/contentLoader";
-export default {
-  name: "ShoppingCart",
-  components: {
-    contentLoader,
-  },
-  data() {
-    return {
-      fetchedCart: false,
-      fetchedLocalStorage: false,
-      productsList: [],
-      localCartItem: [],
-      localCart: [],
-      subtotalArr: [],
-      customerCart: {},
-      contentLoaderText: "",
-      show: true,
-    };
-  },
-  mounted() {
-    this.getCart();
-  },
-  computed: {
-    cartItems: function() {
-      return this.customerCart.cart.items;
+  // import { createNamespacedHelpers } from "vuex";
+  // const { mapState, mapActions } = createNamespacedHelpers(
+  //   "notificationModule"
+  // );
+
+  import { mapActions } from "vuex";
+
+  import api from "@/utils/api.js";
+  import contentLoader from "@/components/contentLoader";
+
+  export default {
+    name: "ShoppingCart",
+    components: {
+      contentLoader,
     },
-    subtotal: function() {
-      return this.customerCart.sub_total;
+    data() {
+      return {
+        fetchedCart: false,
+        fetchedLocalStorage: false,
+        productsList: [],
+        localCartItem: [],
+        localCart: [],
+        subtotalArr: [],
+        customerCart: {},
+        contentLoaderText: "",
+        show: true,
+      };
     },
-  },
-  methods: {
-    navigateTo(page) {
-      this.$router.push(page);
+    mounted() {
+      this.getCart();
     },
-    getCart() {
-      if (!localStorage.getItem("user_details")) {
-        api
-          .getAllProductsQuery_per_page(100000000)
-          .then(({ data }) => {
-            this.productsList = data.data.result;
-            JSON.parse(localStorage.getItem("product_id")).map((item) => {
-              this.productsList.map((product) => {
-                if (product.id === item.id) {
-                  product.local_id = item.id;
-                  product.quantity = item.quantity;
-                  product.subtotal = item.subtotal;
-                  this.localCartItem.push(product);
+    computed: {
+      cartItems: function() {
+        return this.customerCart.cart.items;
+      },
+      subtotal: function() {
+        return this.customerCart.sub_total;
+      },
+    },
+    methods: {
+      ...mapActions("notificationModule", ["showToast"]),
+      navigateTo(page) {
+        this.$router.push(page);
+      },
+      getCart() {
+        if (!localStorage.getItem("user_details")) {
+          api
+            .getAllProductsQuery_per_page(100000000)
+            .then(({ data }) => {
+              this.productsList = data.data.result;
+              JSON.parse(localStorage.getItem("product_id")).map((item) => {
+                this.productsList.map((product) => {
+                  if (product.id === item.id) {
+                    product.local_id = item.id;
+                    product.quantity = item.quantity;
+                    product.subtotal = item.subtotal;
+                    this.localCartItem.push(product);
+                  }
+                });
+              });
+              JSON.parse(localStorage.getItem("product_id")).map(
+                (item, index) => {
+                  this.subtotalArr.push(item.subtotal);
                 }
+              );
+              localStorage.setItem(
+                "subtotal_arr",
+                JSON.stringify(this.subtotalArr)
+              );
+              localStorage.setItem(
+                "local_cart",
+                JSON.stringify(this.localCartItem)
+              );
+              this.subtotalArr = this.subtotalArr.reduce((acc, value) => {
+                return acc + value;
+              }, 0);
+              localStorage.setItem(
+                "subtotal",
+                JSON.stringify(this.subtotalArr)
+              );
+              this.checkIfLocalStorageIsEmpty();
+            })
+            .catch((error) => {
+              this.$swal.fire({
+                icon: "info",
+                html: error.message,
               });
             });
-            JSON.parse(localStorage.getItem("product_id")).map(
-              (item, index) => {
-                this.subtotalArr.push(item.subtotal);
-              }
-            );
-            localStorage.setItem(
-              "subtotal_arr",
-              JSON.stringify(this.subtotalArr)
-            );
-            localStorage.setItem(
-              "local_cart",
-              JSON.stringify(this.localCartItem)
-            );
-            this.subtotalArr = this.subtotalArr.reduce((acc, value) => {
-              return acc + value;
-            }, 0);
-            localStorage.setItem("subtotal", JSON.stringify(this.subtotalArr));
-            this.checkIfLocalStorageIsEmpty();
+          return;
+        }
+        api
+          .getCart()
+          .then(({ data }) => {
+            if (data.status == "success") {
+              this.customerCart = data.data;
+              this.checkIfCartIsEmpty();
+            }
           })
           .catch((error) => {
             this.$swal.fire({
@@ -231,255 +259,289 @@ export default {
               html: error.message,
             });
           });
-        return;
-      }
-      api
-        .getCart()
-        .then(({ data }) => {
-          if (data.status == "success") {
-            this.customerCart = data.data;
-            this.checkIfCartIsEmpty();
-          }
-        })
-        .catch((error) => {
-          this.$swal.fire({
-            icon: "info",
-            html: error.message,
-          });
-        });
-    },
-    removeProductFromCart(productId) {
-      if (!localStorage.getItem("user_details")) {
-        let local_items = JSON.parse(localStorage.getItem("product_id"));
-        let counter = JSON.parse(localStorage.getItem("cartCounter"));
-        local_items.map((item, index) => {
-          if (item.id === productId) {
-            counter -= item.quantity;
-            item.quantity = 0;
-            this.subtotalArr -= item.subtotal;
-            local_items.splice(index, 1);
-            this.$store.dispatch("setCartCounter", counter);
-            localStorage.setItem("cartCounter", JSON.stringify(counter));
-          }
-        });
-        localStorage.setItem("product_id", JSON.stringify(local_items));
-        this.localCartItem = [];
-        JSON.parse(localStorage.getItem("product_id")).map((item) => {
-          this.productsList.map((product) => {
-            if (product.id === item.id) {
-              product.local_id = item.id;
-              product.quantity = item.quantity;
-              this.localCartItem.push(product);
+      },
+      removeProductFromCart(productId) {
+        if (!localStorage.getItem("user_details")) {
+          let local_items = JSON.parse(localStorage.getItem("product_id"));
+          let counter = JSON.parse(localStorage.getItem("cartCounter"));
+          local_items.map((item, index) => {
+            if (item.id === productId) {
+              counter -= item.quantity;
+              item.quantity = 0;
+              this.subtotalArr -= item.subtotal;
+              local_items.splice(index, 1);
+              this.$store.dispatch("setCartCounter", counter);
+              localStorage.setItem("cartCounter", JSON.stringify(counter));
             }
           });
-        });
-        localStorage.setItem("local_cart", JSON.stringify(this.localCartItem));
-        this.checkIfLocalStorageIsEmpty();
-        this.$swal.fire({
-          position: "top",
-          icon: "success",
-          width: 150,
-          html: "Removed",
-          showConfirmButton: false,
-          timer: 1000,
-          toast: true,
-        });
-        return;
-      }
-      api
-        .removeFromCart(productId)
-        .then(({ data }) => {
-          if (data.status == "success") {
-            let newQuantity = 0;
-            if (data.data.cart.items.length === 0) {
-              newQuantity = 0;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
-            }
-            data.data.cart.items.map((item) => {
-              newQuantity += item.quantity;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
+          localStorage.setItem("product_id", JSON.stringify(local_items));
+          this.localCartItem = [];
+          JSON.parse(localStorage.getItem("product_id")).map((item) => {
+            this.productsList.map((product) => {
+              if (product.id === item.id) {
+                product.local_id = item.id;
+                product.quantity = item.quantity;
+                this.localCartItem.push(product);
+              }
             });
-            this.customerCart = data.data;
-            this.checkIfCartIsEmpty();
-            this.$swal.fire({
-              position: "top",
-              icon: "success",
-              width: 150,
-              html: "Removed",
-              showConfirmButton: false,
-              timer: 1000,
-              toast: true,
-            });
-          }
-        })
-        .catch(({ response }) => {
-          alert(response.data.message);
-        });
-    },
-    checkIfCartIsEmpty() {
-      this.fetchedCart = false;
-      if (this.cartItems.length == 0) {
-        this.show = false;
-        this.contentLoaderText = "Nothing to show";
-        return;
-      }
-      this.fetchedCart = true;
-    },
-    checkIfLocalStorageIsEmpty() {
-      this.fetchedLocalStorage = false;
-      if (this.localCartItem.length === 0) {
-        this.show = false;
-        this.contentLoaderText = "Nothing to show";
-        return;
-      }
-      this.fetchedLocalStorage = true;
-    },
-    decreaseProductQuantity(productId) {
-      if (!localStorage.getItem("user_details")) {
-        let localCart = JSON.parse(localStorage.getItem("local_cart"));
-        let localQuantity = JSON.parse(localStorage.getItem("product_id"));
-        localCart.map((item) => {
-          localQuantity.map((items) => {
-            if (item.quantity == 0) {
-              return;
-            }
-            if (
-              item.id === productId &&
-              items.id === productId &&
-              item.quantity !== 0
-            ) {
-              item.quantity = item.quantity -= 1;
-              items.quantity = items.quantity -= 1;
-              items.subtotal -= item.price;
-              this.subtotalArr -= item.price;
-              localStorage.setItem("local_cart", JSON.stringify(localCart));
-              localStorage.setItem("product_id", JSON.stringify(localQuantity));
-              this.localCartItem = JSON.parse(
-                localStorage.getItem("local_cart")
-              );
-              this.$store.dispatch("decrementCartCounter");
-            }
           });
-        });
-        return;
-      }
-      api
-        .decreaseProductQuantityInCart(productId)
-        .then(({ data }) => {
-          if (data.status == "success") {
-            let newQuantity = 0;
-            if (data.data.cart.items.length === 0) {
-              newQuantity = 0;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
-            }
-            data.data.cart.items.map((item) => {
-              newQuantity += item.quantity;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
-            });
-            this.customerCart = data.data;
-            this.checkIfCartIsEmpty();
-          }
-        })
-        .catch(({ response }) => {
-          this.$swal.fire({
-            icon: "info",
-            html: response.data.message,
+          localStorage.setItem(
+            "local_cart",
+            JSON.stringify(this.localCartItem)
+          );
+          this.checkIfLocalStorageIsEmpty();
+          // this.$swal.fire({
+          //   position: "top",
+          //   icon: "success",
+          //   width: 150,
+          //   html: "Removed",
+          //   showConfirmButton: false,
+          //   timer: 1000,
+          //   toast: true,
+          // });
+          // this.$store.dispatch("notificationModule/showToast", {
+          //   description: "Removed from Cart",
+          //   display: true,
+          //   type: "success",
+          // });
+          this.showToast({
+            description: "Removed from Cart",
+            display: true,
+            type: "success",
           });
-        });
-    },
-    increaseProductQuantity(productId) {
-      if (!localStorage.getItem("user_details")) {
-        let localCart = JSON.parse(localStorage.getItem("local_cart"));
-        let localQuantity = JSON.parse(localStorage.getItem("product_id"));
-        localCart.map((item) => {
-          localQuantity.map((items) => {
-            if (
-              item.quantity === item.stock.quantity_available &&
-              items.id === productId &&
-              item.id === productId
-            ) {
-              this.$swal.fire({
-                icon: "info",
-                html: `We have only ${item.stock.quantity_available} of this Product left`,
+          return;
+        }
+        api
+          .removeFromCart(productId)
+          .then(({ data }) => {
+            if (data.status == "success") {
+              let newQuantity = 0;
+              if (data.data.cart.items.length === 0) {
+                newQuantity = 0;
+                this.$store.dispatch("setCartCounter", newQuantity);
+                localStorage.setItem(
+                  "cartCounter",
+                  JSON.stringify(newQuantity)
+                );
+              }
+              data.data.cart.items.map((item) => {
+                newQuantity += item.quantity;
+                this.$store.dispatch("setCartCounter", newQuantity);
+                localStorage.setItem(
+                  "cartCounter",
+                  JSON.stringify(newQuantity)
+                );
               });
-              return;
+              this.customerCart = data.data;
+              this.checkIfCartIsEmpty();
+              // this.$swal.fire({
+              //   position: "top",
+              //   icon: "success",
+              //   width: 150,
+              //   html: "Removed",
+              //   showConfirmButton: false,
+              //   timer: 1000,
+              //   toast: true,
+              // });
+              // this.$store.dispatch("notificationModule/showToast", {
+              //   description: "Removed from Cart",
+              //   display: true,
+              //   type: "success",
+              // });
+              this.showToast({
+                description: "Removed from Cart",
+                display: true,
+                type: "success",
+              });
             }
-            if (
-              item.id === productId &&
-              items.id === productId &&
-              item.quantity !== item.stock.quantity_available
-            ) {
-              item.quantity = item.quantity += 1;
-              items.quantity = items.quantity += 1;
-              items.subtotal += item.price;
-              this.subtotalArr += item.price;
-              localStorage.setItem("local_cart", JSON.stringify(localCart));
-              localStorage.setItem("product_id", JSON.stringify(localQuantity));
-              this.localCartItem = JSON.parse(
-                localStorage.getItem("local_cart")
-              );
-              this.$store.dispatch("incrementCartCounter");
-              return;
-            }
+          })
+          .catch(({ response }) => {
+            alert(response.data.message);
           });
-        });
-        return;
-      }
-      api
-        .addProductToCart(productId)
-        .then(({ data }) => {
-          if (data.status == "success") {
-            let newQuantity = 0;
-            if (data.data.cart.items.length === 0) {
-              newQuantity = 0;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
-            }
-            data.data.cart.items.map((item) => {
-              newQuantity += item.quantity;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
+      },
+      checkIfCartIsEmpty() {
+        this.fetchedCart = false;
+        if (this.cartItems.length == 0) {
+          this.show = false;
+          this.contentLoaderText = "Nothing to show";
+          return;
+        }
+        this.fetchedCart = true;
+      },
+      checkIfLocalStorageIsEmpty() {
+        this.fetchedLocalStorage = false;
+        if (this.localCartItem.length === 0) {
+          this.show = false;
+          this.contentLoaderText = "Nothing to show";
+          return;
+        }
+        this.fetchedLocalStorage = true;
+      },
+      decreaseProductQuantity(productId) {
+        if (!localStorage.getItem("user_details")) {
+          let localCart = JSON.parse(localStorage.getItem("local_cart"));
+          let localQuantity = JSON.parse(localStorage.getItem("product_id"));
+          localCart.map((item) => {
+            localQuantity.map((items) => {
+              if (item.quantity == 0) {
+                return;
+              }
+              if (
+                item.id === productId &&
+                items.id === productId &&
+                item.quantity !== 0
+              ) {
+                item.quantity = item.quantity -= 1;
+                items.quantity = items.quantity -= 1;
+                items.subtotal -= item.price;
+                this.subtotalArr -= item.price;
+                localStorage.setItem("local_cart", JSON.stringify(localCart));
+                localStorage.setItem(
+                  "product_id",
+                  JSON.stringify(localQuantity)
+                );
+                this.localCartItem = JSON.parse(
+                  localStorage.getItem("local_cart")
+                );
+                this.$store.dispatch("decrementCartCounter");
+              }
             });
-            this.customerCart = data.data;
-          }
-        })
-        .catch(({ response }) => {
+          });
+          return;
+        }
+        api
+          .decreaseProductQuantityInCart(productId)
+          .then(({ data }) => {
+            if (data.status == "success") {
+              let newQuantity = 0;
+              if (data.data.cart.items.length === 0) {
+                newQuantity = 0;
+                this.$store.dispatch("setCartCounter", newQuantity);
+                localStorage.setItem(
+                  "cartCounter",
+                  JSON.stringify(newQuantity)
+                );
+              }
+              data.data.cart.items.map((item) => {
+                newQuantity += item.quantity;
+                this.$store.dispatch("setCartCounter", newQuantity);
+                localStorage.setItem(
+                  "cartCounter",
+                  JSON.stringify(newQuantity)
+                );
+              });
+              this.customerCart = data.data;
+              this.checkIfCartIsEmpty();
+            }
+          })
+          .catch(({ response }) => {
+            this.$swal.fire({
+              icon: "info",
+              html: response.data.message,
+            });
+          });
+      },
+      increaseProductQuantity(productId) {
+        if (!localStorage.getItem("user_details")) {
+          let localCart = JSON.parse(localStorage.getItem("local_cart"));
+          let localQuantity = JSON.parse(localStorage.getItem("product_id"));
+          localCart.map((item) => {
+            localQuantity.map((items) => {
+              if (
+                item.quantity === item.stock.quantity_available &&
+                items.id === productId &&
+                item.id === productId
+              ) {
+                this.$swal.fire({
+                  icon: "info",
+                  html: `We have only ${item.stock.quantity_available} of this Product left`,
+                });
+                return;
+              }
+              if (
+                item.id === productId &&
+                items.id === productId &&
+                item.quantity !== item.stock.quantity_available
+              ) {
+                item.quantity = item.quantity += 1;
+                items.quantity = items.quantity += 1;
+                items.subtotal += item.price;
+                this.subtotalArr += item.price;
+                localStorage.setItem("local_cart", JSON.stringify(localCart));
+                localStorage.setItem(
+                  "product_id",
+                  JSON.stringify(localQuantity)
+                );
+                this.localCartItem = JSON.parse(
+                  localStorage.getItem("local_cart")
+                );
+                this.$store.dispatch("incrementCartCounter");
+                return;
+              }
+            });
+          });
+          return;
+        }
+        api
+          .addProductToCart(productId)
+          .then(({ data }) => {
+            if (data.status == "success") {
+              let newQuantity = 0;
+              if (data.data.cart.items.length === 0) {
+                newQuantity = 0;
+                this.$store.dispatch("setCartCounter", newQuantity);
+                localStorage.setItem(
+                  "cartCounter",
+                  JSON.stringify(newQuantity)
+                );
+              }
+              data.data.cart.items.map((item) => {
+                newQuantity += item.quantity;
+                this.$store.dispatch("setCartCounter", newQuantity);
+                localStorage.setItem(
+                  "cartCounter",
+                  JSON.stringify(newQuantity)
+                );
+              });
+              this.customerCart = data.data;
+            }
+          })
+          .catch(({ response }) => {
+            this.$swal.fire({
+              icon: "info",
+              html: response.data.message,
+            });
+          });
+      },
+      checkout() {
+        this.fetchedCart = false;
+        if (!localStorage.getItem("user_details")) {
           this.$swal.fire({
             icon: "info",
-            html: response.data.message,
+            html: "You have to login or signup to check out 🙃",
           });
-        });
+          this.navigateTo("/login");
+          return;
+        }
+        api
+          .cartCheckout()
+          .then(({ data }) => {
+            if (data.status == "success") {
+              localStorage.setItem(
+                "user_order",
+                JSON.stringify(data.data.order)
+              );
+              this.navigateTo("/checkout");
+            }
+          })
+          .catch(({ response }) => {
+            alert(response.data.message);
+          });
+      },
     },
-    checkout() {
-      this.fetchedCart = false;
-      if (!localStorage.getItem("user_details")) {
-        this.$swal.fire({
-          icon: "info",
-          html: "You have to login or signup to check out 🙃",
-        });
-        this.navigateTo("/login");
-        return;
-      }
-      api
-        .cartCheckout()
-        .then(({ data }) => {
-          if (data.status == "success") {
-            localStorage.setItem("user_order", JSON.stringify(data.data.order));
-            this.navigateTo("/checkout");
-          }
-        })
-        .catch(({ response }) => {
-          alert(response.data.message);
-        });
-    },
-  },
-};
+  };
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/scss/cart.scss";
+  @import "@/assets/styles/scss/cart.scss";
 </style>

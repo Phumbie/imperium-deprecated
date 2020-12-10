@@ -66,175 +66,215 @@
 </template>
 
 <script>
-import api from "@/utils/api.js";
-import shuffleArray from "@/utils/shuffleArray.js";
-import contentLoader from "@/components/contentLoader";
-import SingleProduct from "@/components/SingleProduct/SingleProduct";
+  import { mapActions } from "vuex";
+  import api from "@/utils/api.js";
+  import shuffleArray from "@/utils/shuffleArray.js";
+  import contentLoader from "@/components/contentLoader";
+  import Product from "@/components/Product/ProductContainer/ProductContainer";
 
-export default {
-  name: "ProductView",
-  components: {
-    contentLoader,
-    SingleProduct,
-  },
-  data() {
-    return {
-      productSlug: "",
-      productId: "",
-      productDetails: {},
-      similarProducts: [],
-      fetchedProductDetails: false,
-    };
-  },
-  mounted() {
-    this.getProductDetails();
-  },
-  methods: {
-    navigateTo(page) {
-      if (
-        page.split("/")[2] === "undefined" ||
-        page === this.$router.currentRoute.fullPath
-      ) {
-        return;
-      }
-      this.$router.push(page);
+  export default {
+    name: "ProductView",
+    components: {
+      contentLoader,
+      Product,
+    },
+    data() {
+      return {
+        productSlug: "",
+        productId: "",
+        productDetails: {},
+        similarProducts: [],
+        fetchedProductDetails: false,
+      };
+    },
+    mounted() {
       this.getProductDetails();
     },
-
-    getProductDetails() {
-      (this.fetchedProductDetails = false),
-        (this.productSlug = this.$route.params.slug);
-      api
-        .getProductBySlug(this.productSlug)
-        .then(({ data }) => {
-          this.productDetails = data.data;
-          this.fetchedProductDetails = true;
-          api
-            .getSimilarProducts(data.data.category, 100000)
-            .then((response) => {
-              if (response.data.data.result.length > 4) {
-                this.similarProducts = response.data.data.result.slice(-4);
-              } else {
-                this.similarProducts = response.data.data.result;
-              }
-
-              if (response.data.data.result.length < 4) {
-                let emptyProductSpace = 4 - response.data.data.result.length;
-                let emptyObject = {};
-                let emptyProductArray = new Array(emptyProductSpace).fill(
-                  emptyObject
-                );
-                this.similarProducts = shuffleArray(
-                  response.data.data.result
-                ).concat(emptyProductArray);
-              } else {
-                this.similarProducts = shuffleArray(
-                  response.data.data.result
-                ).slice(-4);
-              }
-            });
-        })
-        .catch(({ response }) => {
-          alert(response.data.message);
-        });
-    },
-    addProductToCart() {
-      this.productId = this.$route.params.id;
-      if (!localStorage.getItem("user_details")) {
-        let mathcingProducts = false;
-        let localDetails = JSON.parse(localStorage.getItem("product_id"));
-        localDetails.map((items) => {
-          if (items.id == this.productId) {
-            if (items.quantity < this.productDetails.stock.quantity_available) {
-              items.quantity += 1;
-              items.subtotal += this.productDetails.price;
-              mathcingProducts = true;
-              this.$store.dispatch("incrementCartCounter");
-              this.$swal.fire({
-                position: "top",
-                icon: "success",
-                width: 150,
-                html: "Added",
-                showConfirmButton: false,
-                timer: 1000,
-                toast: true,
-              });
-            } else {
-              this.$swal.fire({
-                type: "info",
-                html: `We have only ${this.productDetails.stock.quantity_available} of this Product left`,
-              });
-              mathcingProducts = true;
-            }
-            return;
-          }
-        });
-
-        if (!mathcingProducts) {
-          if (this.productDetails.stock.quantity_available === 0) {
-            this.$swal.fire({
-              type: "info",
-              html: "Product is not available",
-            });
-            return;
-          }
-          let productDetails = {
-            id: this.productId,
-            quantity: 1,
-            subtotal: this.productDetails.price,
-          };
-          localDetails.push(productDetails);
-          this.$store.dispatch("incrementCartCounter");
-          this.$swal.fire({
-            position: "top",
-            icon: "success",
-            width: 150,
-            html: "Added",
-            showConfirmButton: false,
-            timer: 1000,
-            toast: true,
-          });
+    methods: {
+      ...mapActions("notificationModule", ["showToast"]),
+      navigateTo(page) {
+        if (
+          page.split("/")[2] === "undefined" ||
+          page === this.$router.currentRoute.fullPath
+        ) {
+          return;
         }
+        this.$router.push(page);
+        this.getProductDetails();
+      },
 
-        localStorage.setItem("product_id", JSON.stringify(localDetails));
-        // alert("Successfully added product to cart!");
-      } else {
+      getProductDetails() {
+        (this.fetchedProductDetails = false),
+          (this.productSlug = this.$route.params.slug);
         api
-          .addProductToCart(this.productId)
+          .getProductBySlug(this.productSlug)
           .then(({ data }) => {
-            let newQuantity = 0;
-            if (data.data.cart.items.length === 0) {
-              newQuantity = 0;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
-            }
-            data.data.cart.items.map((item) => {
-              newQuantity += item.quantity;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
-            });
-            this.$swal.fire({
-              position: "top",
-              icon: "success",
-              width: 150,
-              html: "Added",
-              showConfirmButton: false,
-              timer: 1000,
-              toast: true,
-            });
+            this.productDetails = data.data;
+            this.fetchedProductDetails = true;
+            api
+              .getSimilarProducts(data.data.category, 100000)
+              .then((response) => {
+                if (response.data.data.result.length > 4) {
+                  this.similarProducts = response.data.data.result.slice(-4);
+                } else {
+                  this.similarProducts = response.data.data.result;
+                }
+
+                if (response.data.data.result.length < 4) {
+                  let emptyProductSpace = 4 - response.data.data.result.length;
+                  let emptyObject = {};
+                  let emptyProductArray = new Array(emptyProductSpace).fill(
+                    emptyObject
+                  );
+                  this.similarProducts = shuffleArray(
+                    response.data.data.result
+                  ).concat(emptyProductArray);
+                } else {
+                  this.similarProducts = shuffleArray(
+                    response.data.data.result
+                  ).slice(-4);
+                }
+              });
           })
           .catch(({ response }) => {
-            this.$swal.fire({
-              icon: "info",
-              html: response.data.message,
-            });
+            alert(response.data.message);
           });
-      }
+      },
+      addProductToCart() {
+        this.productId = this.$route.params.id;
+        if (!localStorage.getItem("user_details")) {
+          let mathcingProducts = false;
+          let localDetails = JSON.parse(localStorage.getItem("product_id"));
+          localDetails.map((items) => {
+            if (items.id == this.productId) {
+              if (
+                items.quantity < this.productDetails.stock.quantity_available
+              ) {
+                items.quantity += 1;
+                items.subtotal += this.productDetails.price;
+                mathcingProducts = true;
+                this.$store.dispatch("incrementCartCounter");
+                // this.$swal.fire({
+                //   position: "top",
+                //   icon: "success",
+                //   width: 150,
+                //   html: "Added",
+                //   showConfirmButton: false,
+                //   timer: 1000,
+                //   toast: true,
+                // });
+                // this.$store.dispatch("notificationModule/showToast", {
+                //   description: "Added to cart",
+                //   display: true,
+                //   type: "success",
+                // });
+                this.showToast({
+                  description: "Added to cart",
+                  display: true,
+                  type: "success",
+                });
+              } else {
+                this.$swal.fire({
+                  type: "info",
+                  html: `We have only ${this.productDetails.stock.quantity_available} of this Product left`,
+                });
+                mathcingProducts = true;
+              }
+              return;
+            }
+          });
+
+          if (!mathcingProducts) {
+            if (this.productDetails.stock.quantity_available === 0) {
+              this.$swal.fire({
+                type: "info",
+                html: "Product is not available",
+              });
+              return;
+            }
+            let productDetails = {
+              id: this.productId,
+              quantity: 1,
+              subtotal: this.productDetails.price,
+            };
+            localDetails.push(productDetails);
+            this.$store.dispatch("incrementCartCounter");
+            // this.$swal.fire({
+            //   position: "top",
+            //   icon: "success",
+            //   width: 150,
+            //   html: "Added",
+            //   showConfirmButton: false,
+            //   timer: 1000,
+            //   toast: true,
+            // });
+            // this.$store.dispatch("notificationModule/showToast", {
+            //   description: "Added to cart",
+            //   display: true,
+            //   type: "success",
+            // });
+            this.showToast({
+              description: "Added to cart",
+              display: true,
+              type: "success",
+            });
+          }
+
+          localStorage.setItem("product_id", JSON.stringify(localDetails));
+          // alert("Successfully added product to cart!");
+        } else {
+          api
+            .addProductToCart(this.productId)
+            .then(({ data }) => {
+              let newQuantity = 0;
+              if (data.data.cart.items.length === 0) {
+                newQuantity = 0;
+                this.$store.dispatch("setCartCounter", newQuantity);
+                localStorage.setItem(
+                  "cartCounter",
+                  JSON.stringify(newQuantity)
+                );
+              }
+              data.data.cart.items.map((item) => {
+                newQuantity += item.quantity;
+                this.$store.dispatch("setCartCounter", newQuantity);
+                localStorage.setItem(
+                  "cartCounter",
+                  JSON.stringify(newQuantity)
+                );
+              });
+              // this.$swal.fire({
+              //   position: "top",
+              //   icon: "success",
+              //   width: 150,
+              //   html: "Added",
+              //   showConfirmButton: false,
+              //   timer: 1000,
+              //   toast: true,
+              // });
+              // this.$store.dispatch("notificationModule/showToast", {
+              //   description: "Added to cart",
+              //   display: true,
+              //   type: "success",
+              // });
+              this.showToast({
+                description: "Added to cart",
+                display: true,
+                type: "success",
+              });
+            })
+            .catch(({ response }) => {
+              this.$swal.fire({
+                icon: "info",
+                html: response.data.message,
+              });
+            });
+        }
+      },
     },
-  },
-};
+  };
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/scss/product-view.scss";
+  @import "@/assets/styles/scss/product-view.scss";
 </style>

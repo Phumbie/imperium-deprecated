@@ -136,91 +136,89 @@
   </transition>
 </template>
 <script>
-  import { createNamespacedHelpers } from "vuex";
-  const { mapState, mapActions } = createNamespacedHelpers(
-    "notificationModule"
-  );
-  export default {
-    computed: {
-      ...mapState({
-        alert: (state) => state.toast.type,
-        description: (state) => state.toast.description,
-        display: (state) => state.toast.display,
-      }),
+import { createNamespacedHelpers } from "vuex";
+const { mapState, mapActions } = createNamespacedHelpers("notificationModule");
+export default {
+  computed: {
+    ...mapState({
+      alert: (state) => state.toast.type,
+      description: (state) => state.toast.description,
+      display: (state) => state.toast.display,
+    }),
+  },
+  watch: {
+    display(val) {
+      if (val === true) {
+        setTimeout(() => {
+          this.showToast({
+            description: "",
+            display: false,
+            type: "",
+          });
+        }, 3000);
+      }
     },
-    watch: {
-      display(val) {
-        if (val === true) {
-          setTimeout(() => {
-            this.showToast({
-              description: "",
-              display: false,
-              type: "",
-            });
-          }, 3000);
-        }
-      },
-    },
-    methods: {
-      ...mapActions(["showToast"]),
-    },
-  };
+  },
+  methods: {
+    ...mapActions(["showToast"]),
+  },
+};
 </script>
 <style lang="scss" scoped>
-  .toast-container {
-    position: fixed;
-    top: 2rem;
-    z-index: 100000;
-    text-align: center;
-    width: 100%;
+.toast-container {
+  position: fixed;
+  top: 2rem;
+  z-index: 100000;
+  text-align: center;
+  width: 100%;
 
-    @media screen and (max-width: 600px) {
-      width: 80%;
-      margin: auto;
-      right: 10%;
+  @media screen and (max-width: 600px) {
+    width: 80%;
+    margin: auto;
+    right: 10%;
+  }
+  svg {
+    width: 1.5rem;
+    height: 1rem;
+  }
+  .toast {
+    display: flex;
+    justify-content: center;
+    max-width: 20rem;
+    //   border: 1px solid black;
+    padding: 1.3rem 1rem;
+    margin: auto;
+    color: #f4f7f2;
+    background-color: black;
+    //   -webkit-box-shadow: -1px -1px 19px -1px rgba(177, 177, 177, 1);
+    //   -moz-box-shadow: -1px -1px 19px -1px rgba(177, 177, 177, 1);
+    //   box-shadow: -1px -1px 19px -1px rgba(177, 177, 177, 1);
+
+    //   & .success {
+    //     color: #4b8028;
+    //   }
+
+    //   & .danger {
+    //     color: #f44336;
+    //   }
+
+    //   & .warning {
+    //     color: #ffcc00;
+    //   }
+    p {
+      margin-left: 1rem;
     }
-    svg {
-      width: 1.5rem;
-      height: 1rem;
-    }
-    .toast {
-      display: flex;
-      justify-content: center;
-      max-width: 20rem;
-      //   border: 1px solid black;
-      padding: 1.3rem 1rem;
-      margin: auto;
-      color: #f4f7f2;
-      background-color: black;
-      //   -webkit-box-shadow: -1px -1px 19px -1px rgba(177, 177, 177, 1);
-      //   -moz-box-shadow: -1px -1px 19px -1px rgba(177, 177, 177, 1);
-      //   box-shadow: -1px -1px 19px -1px rgba(177, 177, 177, 1);
-
-      //   & .success {
-      //     color: #4b8028;
-      //   }
-
-      //   & .danger {
-      //     color: #f44336;
-      //   }
-
-      //   & .warning {
-      //     color: #ffcc00;
-      //   }
-      p {
-        margin-left: 1rem;
-      }
-    }
   }
+}
 
-  .show-enter-active {
-    transition: all 0.3s ease;
-  }
-  .show-leave-active {
-    transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
-  }
-  .show-enter, .show-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    transform: translateY(-100px);
-    opacity: 0;
-  }
+.show-enter-active {
+  transition: all 0.3s ease;
+}
+.show-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.show-enter, .show-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  transform: translateY(-100px);
+  opacity: 0;
+}
 </style>

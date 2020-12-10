@@ -1,32 +1,35 @@
 <template>
   <transition name="fade">
-    <div class="modal" @click="closeOutside" v-if="displayModal">
+    <div class="modal" v-if="display">
       <div class="modal-card">
         <div class="modal-card__close">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            version="1.1"
-            id="Capa_1"
-            x="0px"
-            y="0px"
-            viewBox="0 0 512.001 512.001"
-            style="enable-background:new 0 0 512.001 512.001;"
-            xml:space="preserve"
+          <img
+            src="@/assets/images/close.svg"
+            alt="close icon"
             @click="closeModal"
-          >
-            <g>
-              <path
-                d="M284.286,256.002L506.143,34.144c7.811-7.811,7.811-20.475,0-28.285c-7.811-7.81-20.475-7.811-28.285,0L256,227.717    L34.143,5.859c-7.811-7.811-20.475-7.811-28.285,0c-7.81,7.811-7.811,20.475,0,28.285l221.857,221.857L5.858,477.859    c-7.811,7.811-7.811,20.475,0,28.285c3.905,3.905,9.024,5.857,14.143,5.857c5.119,0,10.237-1.952,14.143-5.857L256,284.287    l221.857,221.857c3.905,3.905,9.024,5.857,14.143,5.857s10.237-1.952,14.143-5.857c7.811-7.811,7.811-20.475,0-28.285    L284.286,256.002z"
-              />
-            </g>
-          </svg>
+          />
         </div>
-        <slot />
-        <div class="modal-button">
-          <button class="okay" @click="closeModal">
-            OK
-          </button>
+        <div class="modal-card__content">
+          <div class="icons">
+            <img
+              v-show="alert == 'success'"
+              src="@/assets/images/success.svg"
+              alt="success icon"
+            />
+            <img
+              v-show="alert == 'error'"
+              src="@/assets/images/error.svg"
+              alt="error icon"
+            />
+            <img
+              v-show="alert == 'info'"
+              src="@/assets/images/info.svg"
+              alt="info icon"
+            />
+          </div>
+          <p>
+            {{ description }}
+          </p>
         </div>
       </div>
     </div>
@@ -34,104 +37,101 @@
 </template>
 
 <script>
-  export default {
-    props: ["showModal"],
+import { mapState, mapActions } from "vuex";
 
-    data() {
-      return {
-        // showModal: true,
-      };
-    },
-    // mounted() {
-    //   document.body.style.overflow = "hidden";
-    // },
-    // beforeDestroy() {
-    //   document.body.style.overflow = "initial";
-    // },
-    computed: {
-      displayModal() {
-        if (this.showModal === true) {
-          document.body.style.overflow = "hidden";
-          return true;
-        } else {
-          document.body.style.overflow = "initial";
-          return false;
-        }
-      },
-    },
-    methods: {
-      closeOutside(event) {
-        if (event.target.className === "modal") {
-          //   this.$store.commit("SHOW_MODAL", false);
-          this.closeModal();
-        }
-      },
-      closeModal() {
-        this.$emit("closeModal");
-        // this.showModal = false;
-      },
+export default {
+  name: "Modal",
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState("notificationModule", {
+      alert: (state) => state.modal.type,
+      description: (state) => state.modal.description,
+      display: (state) => state.modal.display,
+    }),
+  },
 
-      //   displayModal(){
-      //   }
+  methods: {
+    ...mapActions("notificationModule", ["showModal"]),
+    closeModal() {
+      this.showModal({
+        description: "",
+        display: false,
+        type: "",
+      });
     },
-  };
+  },
+};
 </script>
 <style lang="scss" scoped>
-  .modal {
+.modal {
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  z-index: 1000;
+
+  .modal-card {
     position: fixed;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(128, 128, 128, 0.5);
-    top: 0;
-    z-index: 100000;
-    display: grid;
-    place-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 20rem;
+    padding: 1rem;
+    background-color: #ffffff;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 
-    .modal-card {
-      //   border: 1.5px solid black;
-      padding: 1rem;
-      background-color: #f4f7f2;
-      max-width: 80%;
-      max-height: 25rem;
-      min-height: 10rem;
-      -webkit-box-shadow: -1px -1px 19px -1px rgba(177, 177, 177, 1);
-      -moz-box-shadow: -1px -1px 19px -1px rgba(177, 177, 177, 1);
-      box-shadow: -1px -1px 19px -1px rgba(177, 177, 177, 1);
+    @media screen and (max-width: 600px) {
+      min-width: 80%;
+    }
 
-      @media screen and (min-width: 768px) {
-        // min-height: 20rem;
-        max-width: 25rem;
-        min-width: 25rem;
+    &__close {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      display: flex;
+      justify-content: flex-end;
+
+      img {
+        cursor: pointer;
       }
-      .modal-card__close {
+    }
+
+    &__content {
+      display: flex;
+      margin: 1rem auto 1rem auto;
+
+      .icons {
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
 
-        svg {
-          width: 10px;
-          cursor: pointer;
+        img {
+          width: 3rem;
         }
       }
 
-      .modal-button {
-        text-align: center;
-        button {
-          min-width: 5rem;
-          padding: 0.5rem;
-          outline: none;
-          border: none;
-          color: white;
-          background-color: #65ac4d;
-        }
-        // min-width: 5rem;
+      p {
+        max-width: 15rem;
+        color: #000000;
+        font-family: Graphik;
+        font-size: 1.2rem;
+        line-height: 1.6rem;
+        // text-align: center;
+        margin: auto;
       }
     }
   }
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.5s;
-  }
-  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
-  }
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s cubic-bezier(0.45, 0.25, 0.6, 0.95);
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>

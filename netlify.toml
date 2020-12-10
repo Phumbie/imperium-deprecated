@@ -9,9 +9,6 @@
     VUE_APP_CALCULATOR_URL = "https://staging--alt-power-calculator.netlify.com"
     VUE_APP_REQUEST_AUDIT_URL = "https://staging--alt-power-calculator.netlify.com/request-audit"
     VUE_APP_PS_KEY="pk_test_a5e5a7ad89b8d468a6482b29dcf2acd7b09a1c18"
-    VUE_APP_SPECTA_PAYMENT_URL="https://spectapay.sterlingapps.p.azurewebsites.net/api/Purchase/CreatePaymentUrl"
-    VUE_APP_SPECTA_VERIFY_PAYMENT_URL="https://spectapay.sterlingapps.p.azurewebsites.net/api/Purchase/VerifyPurchase"
-    VUE_APP_SPECTA_CALLBACK_URL="https://dev--alt-power-shop.netlify.app/specta"
     VUE_APP_MODE = "staging"
     
 [context.deploy-preview]
@@ -20,9 +17,6 @@
     VUE_APP_CALCULATOR_URL = "https://staging--alt-power-calculator.netlify.com"
     VUE_APP_REQUEST_AUDIT_URL = "https://staging--alt-power-calculator.netlify.com/request-audit"
     VUE_APP_PS_KEY="pk_test_a5e5a7ad89b8d468a6482b29dcf2acd7b09a1c18"
-    VUE_APP_SPECTA_PAYMENT_URL="https://spectapay.sterlingapps.p.azurewebsites.net/api/Purchase/CreatePaymentUrl"
-    VUE_APP_SPECTA_VERIFY_PAYMENT_URL="https://spectapay.sterlingapps.p.azurewebsites.net/api/Purchase/VerifyPurchase"
-    VUE_APP_SPECTA_CALLBACK_URL="https://dev--alt-power-shop.netlify.app/specta"
     VUE_APP_MODE = "staging"
 
 [context.production]

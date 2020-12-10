@@ -66,6 +66,7 @@
 </template>
 
 <script>
+  import { mapActions } from "vuex";
   import api from "@/utils/api.js";
   import shuffleArray from "@/utils/shuffleArray.js";
   import contentLoader from "@/components/contentLoader";
@@ -90,6 +91,7 @@
       this.getProductDetails();
     },
     methods: {
+      ...mapActions("notificationModule", ["showToast"]),
       navigateTo(page) {
         if (
           page.split("/")[2] === "undefined" ||
@@ -161,7 +163,12 @@
                 //   timer: 1000,
                 //   toast: true,
                 // });
-                this.$store.dispatch("notificationModule/showToast", {
+                // this.$store.dispatch("notificationModule/showToast", {
+                //   description: "Added to cart",
+                //   display: true,
+                //   type: "success",
+                // });
+                this.showToast({
                   description: "Added to cart",
                   display: true,
                   type: "success",
@@ -201,7 +208,12 @@
             //   timer: 1000,
             //   toast: true,
             // });
-            this.$store.dispatch("notificationModule/showToast", {
+            // this.$store.dispatch("notificationModule/showToast", {
+            //   description: "Added to cart",
+            //   display: true,
+            //   type: "success",
+            // });
+            this.showToast({
               description: "Added to cart",
               display: true,
               type: "success",
@@ -240,7 +252,12 @@
               //   timer: 1000,
               //   toast: true,
               // });
-              this.$store.dispatch("notificationModule/showToast", {
+              // this.$store.dispatch("notificationModule/showToast", {
+              //   description: "Added to cart",
+              //   display: true,
+              //   type: "success",
+              // });
+              this.showToast({
                 description: "Added to cart",
                 display: true,
                 type: "success",

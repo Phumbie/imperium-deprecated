@@ -155,8 +155,16 @@
 </template>
 
 <script>
+  // import { createNamespacedHelpers } from "vuex";
+  // const { mapState, mapActions } = createNamespacedHelpers(
+  //   "notificationModule"
+  // );
+
+  import { mapActions } from "vuex";
+
   import api from "@/utils/api.js";
   import contentLoader from "@/components/contentLoader";
+
   export default {
     name: "ShoppingCart",
     components: {
@@ -187,6 +195,7 @@
       },
     },
     methods: {
+      ...mapActions("notificationModule", ["showToast"]),
       navigateTo(page) {
         this.$router.push(page);
       },
@@ -290,7 +299,12 @@
           //   timer: 1000,
           //   toast: true,
           // });
-          this.$store.dispatch("notificationModule/showToast", {
+          // this.$store.dispatch("notificationModule/showToast", {
+          //   description: "Removed from Cart",
+          //   display: true,
+          //   type: "success",
+          // });
+          this.showToast({
             description: "Removed from Cart",
             display: true,
             type: "success",
@@ -329,7 +343,12 @@
               //   timer: 1000,
               //   toast: true,
               // });
-              this.$store.dispatch("notificationModule/showToast", {
+              // this.$store.dispatch("notificationModule/showToast", {
+              //   description: "Removed from Cart",
+              //   display: true,
+              //   type: "success",
+              // });
+              this.showToast({
                 description: "Removed from Cart",
                 display: true,
                 type: "success",

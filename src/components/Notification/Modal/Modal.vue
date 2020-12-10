@@ -52,25 +52,13 @@
       displayModal() {
         if (this.showModal === true) {
           document.body.style.overflow = "hidden";
-
           return true;
         } else {
           document.body.style.overflow = "initial";
-
           return false;
         }
       },
     },
-    // watch: {
-    //   showModal() {
-    //     console.log(this.showModal == true);
-    //     if (this.showModal) {
-    //       document.body.style.overflow = "hidden";
-    //     } else {
-    //       document.body.style.overflow = "initial";
-    //     }
-    //   },
-    // },
     methods: {
       closeOutside(event) {
         if (event.target.className === "modal") {

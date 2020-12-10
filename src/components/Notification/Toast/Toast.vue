@@ -17,13 +17,7 @@
           src="@/assets/images/info.svg"
           alt="info icon"
         />
-        <p
-          :class="{
-            error: alert === 'error',
-            info: alert === 'info',
-            success: alert === 'success',
-          }"
-        >
+        <p>
           {{ description }}
         </p>
       </div>
@@ -93,18 +87,6 @@ export default {
       font-family: Graphik;
       font-size: 1.1rem;
       margin-left: 0.3rem;
-    }
-
-    .success {
-      color: #28a745;
-    }
-
-    .error {
-      color: #dc3545;
-    }
-
-    .info {
-      color: #17a2b8;
     }
   }
 }

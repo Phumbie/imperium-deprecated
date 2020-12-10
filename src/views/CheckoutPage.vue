@@ -108,18 +108,14 @@ export default {
         return item.name;
       });
       const data = {
-        callBackUrl: process.env.VUE_APP_SPECTA_CALLBACK_URL,
-        reference: this.getRandomString(20),
-        merchantId: "10",
+        reference: this.getRandomString(10) + this.order.id,
         description: `Purchase of ${items}`,
         amount: Math.ceil(this.totalCost),
       };
       api
         .spectaPaymentUrl(data)
         .then(({ data }) => {
-          window.location = data.result;
-          window.open(data.result);
-          this.loading = false;
+          window.location = data.data;
         })
         .catch((error) => {
           alert(error);
@@ -127,7 +123,6 @@ export default {
     },
     placeOrder() {
       let x = this;
-      const order = this.getNewlyCreatedOrder();
       const handler = PaystackPop.setup({
         key: process.env.VUE_APP_PS_KEY,
         email: x.user.user.email,
@@ -135,7 +130,7 @@ export default {
         currency: "NGN",
         metadata: {
           custom_fields: {
-            order_id: order.id,
+            order_id: this.order.id,
           },
         },
         callback: function(response) {
@@ -154,10 +149,10 @@ export default {
       handler.openIframe();
     },
     getRandomString(length) {
-      var randomChars =
+      let randomChars =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      var result = "";
-      for (var i = 0; i < length; i++) {
+      let result = "";
+      for (let i = 0; i < length; i++) {
         result += randomChars.charAt(
           Math.floor(Math.random() * randomChars.length)
         );

@@ -132,6 +132,7 @@ export default {
   transition: all 0.3s cubic-bezier(0.45, 0.25, 0.6, 0.95);
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  transform: translate(0%, -10px);
   opacity: 0;
 }
 </style>

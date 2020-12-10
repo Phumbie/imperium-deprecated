@@ -30,24 +30,33 @@ export default {
     };
     api
       .spectaVerifyPayment(data)
-      .then((data) => {
-        if (data.data.result.message === "Completed") {
-          this.$swal.fire({
-            position: "top",
-            icon: "success",
-            width: 280,
-            html: "your order is being processed",
-            showConfirmButton: false,
-            timer: 2000,
-            toast: true,
-          });
-          this.$router.push("/products");
-        } else {
-          this.$swal.fire({
-            icon: "info",
-            html: "Your payment was not successful 🙃",
-          });
-          this.$router.push("/checkout");
+      .then(({ data }) => {
+        const {
+          result: { message },
+        } = data.data;
+        switch (message) {
+          case "Completed":
+            this.$swal.fire({
+              position: "top",
+              icon: "success",
+              width: 280,
+              html: "your order is being processed",
+              showConfirmButton: false,
+              timer: 2000,
+              toast: true,
+            });
+            this.$router.push("/products");
+            break;
+          case "Failed":
+            this.$swal.fire({
+              icon: "info",
+              html: "Your payment was not successful 🙃",
+            });
+            this.$router.push("/checkout");
+            break;
+
+          default:
+            break;
         }
       })
       .catch((error) => {

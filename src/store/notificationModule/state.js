@@ -4,4 +4,9 @@ export default {
     display: false,
     type: "",
   },
+  modal: {
+    description: "",
+    display: false,
+    type: "",
+  },
 };

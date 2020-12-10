@@ -3,19 +3,19 @@
     <div class="toast-container" v-if="display">
       <div class="toast">
         <img
-          v-if="alert == 'success'"
+          v-show="alert == 'success'"
           src="@/assets/images/success.svg"
           alt="success icon"
         />
         <img
-          v-if="alert == 'error'"
+          v-show="alert == 'error'"
           src="@/assets/images/error.svg"
-          alt="success icon"
+          alt="error icon"
         />
         <img
-          v-if="alert == 'info'"
+          v-show="alert == 'info'"
           src="@/assets/images/info.svg"
-          alt="success icon"
+          alt="info icon"
         />
         <p
           :class="{
@@ -34,6 +34,7 @@
 import { mapState, mapActions } from "vuex";
 
 export default {
+  name: "Toast",
   computed: {
     ...mapState("notificationModule", {
       alert: (state) => state.toast.type,
@@ -89,6 +90,7 @@ export default {
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 
     p {
+      font-family: Graphik;
       font-size: 1.1rem;
       margin-left: 0.3rem;
     }

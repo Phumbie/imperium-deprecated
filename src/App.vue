@@ -9,21 +9,15 @@
 </template>
 
 <script>
-  import Toast from "@/components/Notification/Toast/Toast";
-  export default {
-    components: {
-      Toast,
-    },
-    name: "App",
-    data() {
-      return {
-        show: true,
-        // showToast: false,
-      };
-    },
-  };
+import Toast from "@/components/Notification/Toast/Toast";
+export default {
+  name: "App",
+  components: {
+    Toast,
+  },
+};
 </script>
 
 <style lang="scss">
-  @import "@/assets/styles/scss/main.scss";
+@import "@/assets/styles/scss/main.scss";
 </style>

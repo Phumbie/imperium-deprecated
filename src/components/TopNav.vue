@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import api from "@/utils/api.js";
 import gsap from "@/utils/gsap.js";
 import Search from "@/components/Search/Search";
@@ -91,6 +91,7 @@ export default {
     this.getUser();
   },
   methods: {
+    ...mapActions("notificationModule", ["showModal"]),
     showSearch() {
       this.search = !this.search;
     },
@@ -156,10 +157,14 @@ export default {
         })
         .catch(({ response }) => {
           if (response) {
-            this.$swal.fire({
-              icon: "error",
-              html: "Unauthorized account",
+            this.showModal({
+              description: "Unauthorized account.",
+              display: true,
+              type: "error",
             });
+            localStorage.clear();
+            this.setCartCounter();
+            this.$router.push("/products");
           }
         });
     },

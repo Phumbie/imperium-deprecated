@@ -229,10 +229,7 @@ export default {
             this.checkIfLocalStorageIsEmpty();
           })
           .catch((error) => {
-            this.$swal.fire({
-              icon: "info",
-              html: error.message,
-            });
+            alert(error.message);
           });
         return;
       }
@@ -245,10 +242,7 @@ export default {
           }
         })
         .catch((error) => {
-          this.$swal.fire({
-            icon: "info",
-            html: error.message,
-          });
+          alert(error.message);
         });
     },
     removeProductFromCart(productId) {
@@ -380,10 +374,7 @@ export default {
           }
         })
         .catch(({ response }) => {
-          this.$swal.fire({
-            icon: "info",
-            html: response.data.message,
-          });
+          alert(response.data.message);
         });
     },
     increaseProductQuantity(productId) {
@@ -397,9 +388,10 @@ export default {
               items.id === productId &&
               item.id === productId
             ) {
-              this.$swal.fire({
-                icon: "info",
-                html: `We have only ${item.stock.quantity_available} of this Product left`,
+              this.showModal({
+                description: `We have only ${item.stock.quantity_available} of this Product left.`,
+                display: true,
+                type: "error",
               });
               return;
             }
@@ -443,10 +435,7 @@ export default {
           }
         })
         .catch(({ response }) => {
-          this.$swal.fire({
-            icon: "info",
-            html: response.data.message,
-          });
+          alert(response.data.message);
         });
     },
     checkout() {

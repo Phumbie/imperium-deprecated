@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import api from "@/utils/api.js";
 import contentLoader from "@/components/contentLoader";
 
@@ -38,6 +39,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions("notificationModule", ["showModal"]),
     navigateTo(page) {
       this.$router.push(page);
     },
@@ -95,9 +97,10 @@ export default {
           }
         })
         .catch((error) => {
-          this.$swal.fire({
-            icon: "error",
-            html: "Invalid account",
+          this.showModaly({
+            description: "Invalid account.",
+            display: true,
+            type: "error",
           });
           this.loading = true;
         });

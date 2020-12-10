@@ -187,7 +187,7 @@ export default {
   .top-section {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
-    border-top: solid 0.0625rem #000000;
+    border-top: solid 1px #000000;
     @media screen and (max-width: 900px) {
       grid-template-columns: 1fr 4fr 1fr;
     }
@@ -255,7 +255,7 @@ export default {
         text-align: center;
         background: white;
         color: black;
-        border-bottom: solid 0.0625rem #000000;
+        border-bottom: solid 1px #000000;
         text-decoration: none;
         z-index: 100;
       }
@@ -276,7 +276,7 @@ export default {
     display: none;
     @media screen and (max-width: 900px) {
       grid-template-columns: repeat(2, 1fr);
-      border: solid 0.0625rem #000000;
+      border: solid 1px #000000;
       border-top: none;
       background: white;
 
@@ -285,7 +285,7 @@ export default {
       .mobile-nav-item3,
       .mobile-nav-item4,
       .mobile-nav-item5 {
-        border-bottom: solid 0.0625rem #000000;
+        border-bottom: solid 1px #000000;
         padding: 14px;
         text-align: center;
         text-decoration: none;
@@ -297,7 +297,7 @@ export default {
       }
       .mobile-nav-item3,
       .mobile-nav-item5 {
-        border-left: solid 0.0625rem #000000;
+        border-left: solid 1px #000000;
       }
       .mobile-nav-item4,
       .mobile-nav-item5 {
@@ -308,8 +308,8 @@ export default {
 
   .title-container {
     background: #ffffff;
-    border-right: solid 0.0625rem #000000;
-    border-left: solid 0.0625rem #000000;
+    border-right: solid 1px #000000;
+    border-left: solid 1px #000000;
 
     .product-title {
       display: flex;
@@ -327,7 +327,7 @@ export default {
       color: #1d1d1d;
 
       @media screen and (max-width: 900px) {
-        border-bottom: solid 0.0625rem #000000;
+        border-bottom: solid 1px #000000;
         font-size: 1.6rem;
       }
     }
@@ -338,7 +338,7 @@ export default {
     justify-content: center;
     text-align: center;
     color: black;
-    border-bottom: solid 0.0625rem #000000;
+    border-bottom: solid 1px #000000;
     z-index: 100;
     text-transform: capitalize;
 
@@ -348,10 +348,10 @@ export default {
   }
 
   .border-left {
-    border-left: solid 0.0625rem #000000;
+    border-left: solid 1px #000000;
   }
   .border-right {
-    border-right: solid 0.0625rem #000000;
+    border-right: solid 1px #000000;
   }
   .nav-item1,
   .nav-item2,
@@ -362,22 +362,22 @@ export default {
     justify-content: center;
     text-align: center;
     color: black;
-    border-bottom: solid 0.0625rem #000000;
+    border-bottom: solid 1px #000000;
   }
   .nav-item1,
   .nav-item2 {
-    border-left: solid 0.0625rem #000000;
+    border-left: solid 1px #000000;
   }
   .nav-item2 {
-    border-right: solid 0.0625rem #000000;
+    border-right: solid 1px #000000;
   }
   .nav-item3,
   .nav-item4 {
-    border-right: solid 0.0625rem #000000;
+    border-right: solid 1px #000000;
   }
   .nav-item2,
   .nav-item3 {
-    border-top: solid 0.0625rem #000000;
+    border-top: solid 1px #000000;
   }
   .nav-item,
   .nav-item1,

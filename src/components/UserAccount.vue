@@ -14,7 +14,7 @@
         <router-link to="my-account/update" class="edit">Edit</router-link>
       </span>
       <div class="details-container">
-        <div class="box">
+        <div class="box border-right">
           <label>Personal Details</label>
           <div class="info-text capitalize">{{ userFullName }}</div>
           <div class="info-text">{{ userDetails.user.email }}</div>

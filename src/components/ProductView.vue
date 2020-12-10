@@ -89,7 +89,7 @@ export default {
     this.getProductDetails();
   },
   methods: {
-    ...mapActions("notificationModule", ["showToast"]),
+    ...mapActions("notificationModule", ["showToast", "showModal"]),
     navigateTo(page) {
       if (
         page.split("/")[2] === "undefined" ||
@@ -108,6 +108,7 @@ export default {
         .then(({ data }) => {
           this.productDetails = data.data;
           this.fetchedProductDetails = true;
+
           api
             .getSimilarProducts(data.data.category, 100000)
             .then((response) => {
@@ -134,6 +135,7 @@ export default {
         })
         .catch(({ response }) => {
           alert(response.data.message);
+          this.$router.push("/products");
         });
     },
     addProductToCart() {
@@ -154,9 +156,10 @@ export default {
                 type: "success",
               });
             } else {
-              this.$swal.fire({
-                type: "info",
-                html: `We have only ${this.productDetails.stock.quantity_available} of this Product left`,
+              this.showModal({
+                description: `We have only ${this.productDetails.stock.quantity_available} of this Product left.`,
+                display: true,
+                type: "error",
               });
               mathcingProducts = true;
             }
@@ -165,9 +168,10 @@ export default {
         });
         if (!mathcingProducts) {
           if (this.productDetails.stock.quantity_available === 0) {
-            this.$swal.fire({
-              type: "info",
-              html: "Product is not available",
+            this.showModal({
+              description: `Product is not available.`,
+              display: true,
+              type: "error",
             });
             return;
           }
@@ -207,10 +211,8 @@ export default {
             });
           })
           .catch(({ response }) => {
-            this.$swal.fire({
-              icon: "info",
-              html: response.data.message,
-            });
+            alert(response.data.message);
+            this.$router.push("/products");
           });
       }
     },

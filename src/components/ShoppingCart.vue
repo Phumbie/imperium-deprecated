@@ -442,7 +442,7 @@ export default {
       this.fetchedCart = false;
       if (!localStorage.getItem("user_details")) {
         this.showModal({
-          description: "You have to login or signup to check out 🙃",
+          description: "You have to login or signup to checkout 🙃",
           display: true,
           type: "info",
         });

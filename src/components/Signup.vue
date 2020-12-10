@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import api from "@/utils/api.js";
 
 export default {
@@ -73,15 +74,17 @@ export default {
     };
   },
   methods: {
+    ...mapActions("notificationModule", ["showToast", "showModal"]),
     navigateTo(page) {
       this.$router.push(page);
     },
     signupCustomer() {
       this.loading = false;
       if (this.password != this.confirmPassword) {
-        this.$swal.fire({
-          icon: "error",
-          html: "password field doesn't match password confirmation",
+        this.showModal({
+          description: "Password field does not match password confirmation",
+          display: true,
+          type: "error",
         });
         return;
       }
@@ -103,14 +106,10 @@ export default {
         .signupCustomer(data)
         .then((response) => {
           if (response.data.status == "success") {
-            this.$swal.fire({
-              position: "top",
-              icon: "success",
-              width: 150,
-              html: "Successful",
-              showConfirmButton: false,
-              timer: 1000,
-              toast: true,
+            this.showToast({
+              description: "Successful",
+              display: true,
+              type: "success",
             });
             localStorage.setItem(
               "user_details",
@@ -127,7 +126,11 @@ export default {
                 .addProductToCart(item.id)
                 .then(({ data }) => {
                   this.$store.dispatch("incrementCartCounter");
-                  alert("Successfully added product to cart!");
+                  this.showToast({
+                    description: "Added to cart",
+                    display: true,
+                    type: "success",
+                  });
                 })
                 .catch(({ response }) => {
                   alert(response.data.message);
@@ -136,10 +139,12 @@ export default {
           }
         })
         .catch(({ response }) => {
-          this.$swal.fire({
-            icon: "error",
-            html: "User already exist",
+          this.showModal({
+            description: "User already exist",
+            display: true,
+            type: "error",
           });
+          this.navigateTo("login");
         });
     },
   },

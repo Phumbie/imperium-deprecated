@@ -339,6 +339,7 @@ export default {
               items.id === productId &&
               item.quantity !== 0
             ) {
+              console.log("im here");
               item.quantity = item.quantity -= 1;
               items.quantity = items.quantity -= 1;
               items.subtotal -= item.price;
@@ -349,6 +350,9 @@ export default {
                 localStorage.getItem("local_cart")
               );
               this.$store.dispatch("decrementCartCounter");
+            }
+            if (this.$store.state.cartCounter === 0) {
+              this.removeProductFromCart(productId);
             }
           });
         });
@@ -435,7 +439,11 @@ export default {
           }
         })
         .catch(({ response }) => {
-          alert(response.data.message);
+          this.showModal({
+            description: response.data.message,
+            display: true,
+            type: "error",
+          });
         });
     },
     checkout() {

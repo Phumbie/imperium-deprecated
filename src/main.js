@@ -4,7 +4,7 @@ import Vue from "vue";
 import App from "./App";
 import router from "./router";
 import { Pagination, Icon, Select, Option } from "element-ui";
-import "@/assets/styles/scss/element-ui.scss";
+import "element-ui/lib/theme-chalk/index.css";
 import store from "./store";
 
 Vue.use(Pagination);

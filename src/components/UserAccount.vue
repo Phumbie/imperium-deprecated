@@ -95,6 +95,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import api from "@/utils/api.js";
 import contentLoader from "@/components/contentLoader";
 
@@ -132,6 +133,7 @@ export default {
     this.getOrders();
   },
   methods: {
+    ...mapActions("notificationModule", ["showToast"]),
     logout() {
       localStorage.clear();
       this.navigateTo("login");
@@ -175,14 +177,10 @@ export default {
           }
         })
         .catch(({ response }) => {
-          this.$swal.fire({
-            position: "top",
-            icon: "error",
-            width: 200,
-            html: "invalid account",
-            showConfirmButton: false,
-            timer: 1000,
-            toast: true,
+          this.showToast({
+            description: "Invalid account",
+            display: true,
+            type: "error",
           });
           localStorage.clear();
           this.navigateTo("login");

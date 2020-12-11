@@ -66,16 +66,15 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import api from "@/utils/api.js";
 import shuffleArray from "@/utils/shuffleArray.js";
 import contentLoader from "@/components/contentLoader";
-import SingleProduct from "@/components/SingleProduct/SingleProduct";
 
 export default {
   name: "ProductView",
   components: {
     contentLoader,
-    SingleProduct,
   },
   data() {
     return {
@@ -90,6 +89,7 @@ export default {
     this.getProductDetails();
   },
   methods: {
+    ...mapActions("notificationModule", ["showToast", "showModal"]),
     navigateTo(page) {
       if (
         page.split("/")[2] === "undefined" ||
@@ -100,7 +100,6 @@ export default {
       this.$router.push(page);
       this.getProductDetails();
     },
-
     getProductDetails() {
       (this.fetchedProductDetails = false),
         (this.productSlug = this.$route.params.slug);
@@ -109,6 +108,7 @@ export default {
         .then(({ data }) => {
           this.productDetails = data.data;
           this.fetchedProductDetails = true;
+
           api
             .getSimilarProducts(data.data.category, 100000)
             .then((response) => {
@@ -117,7 +117,6 @@ export default {
               } else {
                 this.similarProducts = response.data.data.result;
               }
-
               if (response.data.data.result.length < 4) {
                 let emptyProductSpace = 4 - response.data.data.result.length;
                 let emptyObject = {};
@@ -136,6 +135,7 @@ export default {
         })
         .catch(({ response }) => {
           alert(response.data.message);
+          this.$router.push("/products");
         });
     },
     addProductToCart() {
@@ -150,31 +150,28 @@ export default {
               items.subtotal += this.productDetails.price;
               mathcingProducts = true;
               this.$store.dispatch("incrementCartCounter");
-              this.$swal.fire({
-                position: "top",
-                icon: "success",
-                width: 150,
-                html: "Added",
-                showConfirmButton: false,
-                timer: 1000,
-                toast: true,
+              this.showToast({
+                description: "Added to cart",
+                display: true,
+                type: "success",
               });
             } else {
-              this.$swal.fire({
-                type: "info",
-                html: `We have only ${this.productDetails.stock.quantity_available} of this Product left`,
+              this.showModal({
+                description: `We have only ${this.productDetails.stock.quantity_available} of this Product left.`,
+                display: true,
+                type: "error",
               });
               mathcingProducts = true;
             }
             return;
           }
         });
-
         if (!mathcingProducts) {
           if (this.productDetails.stock.quantity_available === 0) {
-            this.$swal.fire({
-              type: "info",
-              html: "Product is not available",
+            this.showModal({
+              description: `Product is not available.`,
+              display: true,
+              type: "error",
             });
             return;
           }
@@ -185,19 +182,13 @@ export default {
           };
           localDetails.push(productDetails);
           this.$store.dispatch("incrementCartCounter");
-          this.$swal.fire({
-            position: "top",
-            icon: "success",
-            width: 150,
-            html: "Added",
-            showConfirmButton: false,
-            timer: 1000,
-            toast: true,
+          this.showToast({
+            description: "Added to cart",
+            display: true,
+            type: "success",
           });
         }
-
         localStorage.setItem("product_id", JSON.stringify(localDetails));
-        // alert("Successfully added product to cart!");
       } else {
         api
           .addProductToCart(this.productId)
@@ -213,21 +204,15 @@ export default {
               this.$store.dispatch("setCartCounter", newQuantity);
               localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
             });
-            this.$swal.fire({
-              position: "top",
-              icon: "success",
-              width: 150,
-              html: "Added",
-              showConfirmButton: false,
-              timer: 1000,
-              toast: true,
+            this.showToast({
+              description: "Added to cart",
+              display: true,
+              type: "success",
             });
           })
           .catch(({ response }) => {
-            this.$swal.fire({
-              icon: "info",
-              html: response.data.message,
-            });
+            alert(response.data.message);
+            this.$router.push("/products");
           });
       }
     },

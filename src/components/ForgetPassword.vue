@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import api from "@/utils/api.js";
 
 export default {
@@ -24,6 +25,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions("notificationModule", ["showToast", "showModal"]),
     navigateTo(page) {
       this.$router.push(page);
     },
@@ -35,14 +37,19 @@ export default {
       api
         .forgetPassword(data)
         .then((response) => {
-          this.$swal.fire({
-            icon: "success",
-            html: "A reset link has been sent to your email",
+          this.showModal({
+            description: "A reset link has been sent to your email.",
+            display: true,
+            type: "success",
           });
           this.navigateTo("/login");
         })
         .catch(({ response }) => {
-          alert(response.data.message);
+          this.showToast({
+            description: response.data.message,
+            display: true,
+            type: "error",
+          });
         });
     },
   },

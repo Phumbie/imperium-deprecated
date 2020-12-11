@@ -339,7 +339,6 @@ export default {
               items.id === productId &&
               item.quantity !== 0
             ) {
-              console.log("im here");
               item.quantity = item.quantity -= 1;
               items.quantity = items.quantity -= 1;
               items.subtotal -= item.price;

@@ -40,7 +40,7 @@
               <button
                 @click="decreaseProductQuantity(cartItems[index].product.id)"
               >
-                &#45;
+                &#8722;
               </button>
               <span>{{ cartItems[index].quantity }}</span>
               <button
@@ -98,11 +98,11 @@
             </div>
             <div class="quantity">
               <button @click="decreaseProductQuantity(localCartItem[index].id)">
-                -
+                &#8722;
               </button>
               <span>{{ localCartItem[index].quantity }}</span>
               <button @click="increaseProductQuantity(localCartItem[index].id)">
-                +
+                &#43;
               </button>
             </div>
             <div class="amount">

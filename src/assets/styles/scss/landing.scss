@@ -181,12 +181,11 @@
         color: #353535;
         padding: 1.437rem;
         cursor: pointer;
-        transition: 0.5s ease-in-out;
+        transition: 0.3s ease-in-out;
       }
 
       &__link:hover {
-        background: #1b1b1b;
-        color: white;
+        color: #65ac4d;
       }
     }
 

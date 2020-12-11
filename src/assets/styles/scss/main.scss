@@ -257,7 +257,7 @@ button {
         margin-top: 2rem;
         margin-left: 0px;
         padding: 14px 36px;
-        font-size: 14px;
+        font-size: 16px;
         background: transparent;
         border: solid 1px black;
         transition: 0.5s;
@@ -270,17 +270,19 @@ button {
       .login-btn:hover,
       .login-btn:focus {
         text-decoration: none;
-        background: black;
-        color: white;
-        transition: 0.5s;
+        color: #65ac4d;
+        transition: 0.3s;
         cursor: pointer;
+      }
+
+      input[type="submit"] {
+        font-size: 16px;
       }
 
       input[type="submit"]:hover,
       input[type="submit"]:focus {
-        background: black;
-        color: white;
-        transition: 0.5s;
+        color: #65ac4d;
+        transition: 0.3s;
         cursor: pointer;
       }
 

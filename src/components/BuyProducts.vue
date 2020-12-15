@@ -50,19 +50,19 @@
         </div>
       </div>
       <div class="mobile-category-nav">
-        <el-select
-          v-model="this.$store.state.activeTab"
-          :placeholder="this.$store.state.activeTab"
-          @input="switchCategory"
+        <select
+          name="activeTab"
+          id="active-tab"
+          v-model="activeTab"
+          @input="setCategory"
         >
-          <el-option
+          <option
             v-for="link in links"
             :key="link.value"
             :label="link.label"
             :value="link.value"
-          >
-          </el-option>
-        </el-select>
+          ></option>
+        </select>
       </div>
     </section>
 
@@ -94,27 +94,25 @@
     </content-loader>
 
     <div class="pagination">
-      <el-pagination
-        :background="false"
-        @current-change="handlePageChange"
-        :hide-on-single-page="true"
-        :page-size="pagination.per_page"
-        :current-page="pagination.page"
-        :pager-count="9"
-        layout="prev, pager, next"
-        :total="pagination.totalRecords"
-      >
-      </el-pagination>
+      <BackendPagination
+        @pageChange="handlePageChange"
+        :totalRecord="pagination.totalRecords"
+        :currentPage="pagination.page"
+        :perPage="pagination.per_page"
+        :loading="loading"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import contentLoader from "@/components/contentLoader";
+import BackendPagination from "@/components/Pagination/BackendPagination";
 
 export default {
   components: {
     contentLoader,
+    BackendPagination,
   },
   data() {
     return {
@@ -122,27 +120,27 @@ export default {
       links: [
         {
           value: "all products",
-          label: "all products",
+          label: "All Products",
         },
         {
           value: "solar panel",
-          label: "solar panel",
+          label: "Solar Panel",
         },
         {
           value: "inverter",
-          label: "inverter",
+          label: "Inverter",
         },
         {
           value: "battery",
-          label: "battery",
+          label: "Battery",
         },
         {
           value: "accessory",
-          label: "accessory",
+          label: "Accessory",
         },
         {
           value: "bundle",
-          label: "bundle",
+          label: "Complete Solution",
         },
       ],
     };
@@ -155,10 +153,6 @@ export default {
       let category = JSON.parse(localStorage.getItem("active_tab"));
       this.switchCategory(category);
     }
-    this.$store.dispatch("productModule/getAllProducts", {
-      page: this.$store.state.productModule.page,
-      category: this.$store.state.activeTab,
-    });
   },
 
   mounted() {},
@@ -186,6 +180,14 @@ export default {
       },
       set(newValue) {
         return this.$store.dispatch("productModule/setLoading", newValue);
+      },
+    },
+    activeTab: {
+      get() {
+        return this.$store.state.activeTab;
+      },
+      set(newValue) {
+        return this.$store.dispatch("setActiveTabId", newValue);
       },
     },
   },
@@ -233,6 +235,12 @@ export default {
         page: this.$store.state.productModule.page,
         category: this.$store.state.activeTab,
       });
+    },
+    setCategory() {
+      const category =
+        event.target.options[event.target.options.selectedIndex].attributes[2]
+          .value;
+      this.switchCategory(category);
     },
   },
 };

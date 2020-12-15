@@ -78,13 +78,26 @@
 
     .mobile-category-nav {
       display: none;
+      position: relative;
 
       @media screen and (max-width: 900px) {
         width: 34%;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 3.375rem;
+        margin-top: 5rem;
+      }
+
+      select {
+        position: absolute;
+        top: -2rem;
+        left: 0;
+        font-family: "Graphik";
+        font-size: 0.9rem;
+        background: transparent;
+        border: 1px solid #000000;
+        padding: 0.5rem;
+        outline: none;
       }
     }
   }

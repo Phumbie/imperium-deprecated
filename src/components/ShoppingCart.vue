@@ -350,6 +350,9 @@ export default {
               );
               this.$store.dispatch("decrementCartCounter");
             }
+            if (this.$store.state.cartCounter === 0) {
+              this.removeProductFromCart(productId);
+            }
           });
         });
         return;
@@ -435,7 +438,11 @@ export default {
           }
         })
         .catch(({ response }) => {
-          alert(response.data.message);
+          this.showModal({
+            description: response.data.message,
+            display: true,
+            type: "error",
+          });
         });
     },
     checkout() {

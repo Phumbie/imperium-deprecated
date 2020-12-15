@@ -134,7 +134,11 @@ export default {
             });
         })
         .catch(({ response }) => {
-          alert(response.data.message);
+          this.showModal({
+            description: response.data.message,
+            display: true,
+            type: "error",
+          });
           this.$router.push("/products");
         });
     },
@@ -211,8 +215,11 @@ export default {
             });
           })
           .catch(({ response }) => {
-            alert(response.data.message);
-            this.$router.push("/products");
+            this.showModal({
+              description: response.data.message,
+              display: true,
+              type: "error",
+            });
           });
       }
     },

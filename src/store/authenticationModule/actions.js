@@ -3,58 +3,64 @@ import router from "../../router";
 import storage from "@/utils/storage.js";
 
 export const registerCustomer = ({ commit, dispatch }, payload) => {
-  commit("SET_LOADING", true, { root: true });
-  api
-    .signupCustomer(payload)
-    .then((response) => {
-      if (response.data.status == "success") {
+  return new Promise((resolve, reject) => {
+    commit("SET_LOADING", true, { root: true });
+    api
+      .signupCustomer(payload)
+      .then(({ data }) => {
+        if (data.status == "success") {
+          dispatch(
+            "notificationModule/showToast",
+            {
+              description: "Successful",
+              display: true,
+              type: "success",
+            },
+            { root: true }
+          );
+          storage.setUser(data.data);
+          storage.setToken(data.data.token);
+          router.push("/my-account");
+          commit("SET_LOADING", false, { root: true });
+        }
+        if (JSON.parse(localStorage.getItem("product_id"))) {
+          let localCart = JSON.parse(localStorage.getItem("product_id"));
+          localCart.map((item) => {
+            api
+              .addProductToCart(item.id)
+              .then(({ data }) => {
+                dispatch(
+                  "incrementCartCounter",
+                  {
+                    description: "Added to cart",
+                    display: true,
+                    type: "success",
+                  },
+                  { root: true }
+                );
+                resolve({ data });
+              })
+              .catch(({ data }) => {
+                alert(data.message);
+                reject({ data });
+              });
+          });
+        }
+        resolve({ data });
+      })
+      .catch(({ data }) => {
+        commit("SET_LOADING", false, { root: true });
         dispatch(
-          "notificationModule/showToast",
+          "notificationModule/showModal",
           {
-            description: "Successful",
+            description: "User already exist",
             display: true,
-            type: "success",
+            type: "error",
           },
           { root: true }
         );
-        storage.setUser(response.data.data);
-        storage.setToken(response.data.data.token);
-        router.push("/my-account");
-        commit("SET_LOADING", false, { root: true });
-      }
-      if (JSON.parse(localStorage.getItem("product_id"))) {
-        let localCart = JSON.parse(localStorage.getItem("product_id"));
-        localCart.map((item) => {
-          api
-            .addProductToCart(item.id)
-            .then(({ data }) => {
-              dispatch(
-                "incrementCartCounter",
-                {
-                  description: "Added to cart",
-                  display: true,
-                  type: "success",
-                },
-                { root: true }
-              );
-            })
-            .catch(({ response }) => {
-              alert(response.data.message);
-            });
-        });
-      }
-    })
-    .catch(({ response }) => {
-      commit("SET_LOADING", false, { root: true });
-      dispatch(
-        "notificationModule/showModal",
-        {
-          description: "User already exist",
-          display: true,
-          type: "error",
-        },
-        { root: true }
-      );
-      router.push("/login");
-    });
+        router.push("/login");
+        reject({ data });
+      });
+  });
 };

@@ -116,34 +116,29 @@
         this.$router.push(page);
       },
       signupCustomer() {
-        if (this.details.phone_number.match(/(234|0)[7-9][0-1][0-9]{8}/)) {
-          return;
-        } else {
+        if (!this.details.phone_number.match(/(234|0)[7-9][0-1][0-9]{8}/)) {
           this.showModal({
             description: "Phone number does not meet required pattern",
             display: true,
             type: "error",
           });
-        }
-        if (this.details.phone_number.length !== 11) {
+        } else if (this.details.phone_number.length !== 11) {
           this.showModal({
             description: "Phone Number must be 11 digits",
             display: true,
             type: "error",
           });
-          return false;
-        } else {
           return;
-        }
-        if (this.details.password !== this.confirmPassword) {
+        } else if (this.details.password !== this.confirmPassword) {
           this.showModal({
             description: "Password field does not match password confirmation",
             display: true,
             type: "error",
           });
           return;
+        } else {
+          this.registerCustomer(this.details);
         }
-        this.registerCustomer(this.details);
       },
     },
   };

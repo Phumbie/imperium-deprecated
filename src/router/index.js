@@ -90,7 +90,7 @@ export default new Router({
         },
         {
           path: "signup",
-          component: () => import("@/components/Signup"),
+          component: () => import("@/views/Signup"),
           hidden: true,
         },
         {

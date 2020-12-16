@@ -6,20 +6,30 @@
         type="text"
         placeholder="First name"
         required
-        v-model="firstName"
+        v-model="details.first_name"
       />
-      <input type="text" placeholder="Last name" v-model="lastName" required />
-      <input type="text" placeholder="Email address" v-model="email" required />
+      <input
+        type="text"
+        placeholder="Last name"
+        v-model="details.last_name"
+        required
+      />
+      <input
+        type="text"
+        placeholder="Email address"
+        v-model="details.email"
+        required
+      />
       <input
         type="tel"
         placeholder="Phone number"
-        v-model="phoneNumber"
+        v-model="details.phone_number"
         required
       />
       <input
         type="password"
         placeholder="Password"
-        v-model="password"
+        v-model="details.password"
         minlength="6"
         required
       />
@@ -34,16 +44,25 @@
         <input
           type="text"
           placeholder="Street"
-          v-model="streetAddress"
+          v-model="details.address.street"
           required
         />
-        <input type="text" placeholder="LGA" v-model="lga" required />
-        <input type="text" placeholder="State" v-model="state" required />
+        <input
+          type="text"
+          placeholder="LGA"
+          v-model="details.address.lga"
+          required
+        />
+        <input
+          type="text"
+          placeholder="State"
+          v-model="details.address.state"
+          required
+        />
       </div>
       <div class="buttons">
         <button class="login-btn">
-          <span>Create Account</span
-          ><span class="loader" v-if="!loading"></span>
+          <span>Create Account</span><span class="loader" v-if="loading"></span>
         </button>
         <button @click="navigateTo('/login')">
           Login
@@ -54,147 +73,126 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import api from "@/utils/api.js";
+  import { mapActions, mapState } from "vuex";
+  import api from "@/utils/api.js";
 
-export default {
-  name: "Signup",
-  data() {
-    return {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-      password: "",
-      confirmPassword: "",
-      streetAddress: "",
-      lga: "",
-      state: "",
-      loading: true,
-    };
-  },
-  methods: {
-    ...mapActions("notificationModule", ["showToast", "showModal"]),
-    navigateTo(page) {
-      this.$router.push(page);
-    },
-    signupCustomer() {
-      this.loading = false;
-      if (this.password != this.confirmPassword) {
-        this.showModal({
-          description: "Password field does not match password confirmation",
-          display: true,
-          type: "error",
-        });
-        return;
-      }
-
-      let data = {
-        address: {
-          street: this.streetAddress,
-          lga: this.lga,
-          state: this.state,
+  export default {
+    name: "Signup",
+    data() {
+      return {
+        details: {
+          first_name: "",
+          last_name: "",
+          email: "",
+          password: "",
+          phone_number: "",
+          address: {
+            street: "",
+            lga: "",
+            state: "",
+          },
         },
-        first_name: this.firstName,
-        last_name: this.lastName,
-        email: this.email,
-        password: this.password,
-        phone_number: this.phoneNumber,
+        firstName: "",
+        lastName: "",
+        email: "",
+        phoneNumber: "",
+        password: "",
+        confirmPassword: "",
+        streetAddress: "",
+        lga: "",
+        state: "",
       };
-
-      api
-        .signupCustomer(data)
-        .then((response) => {
-          if (response.data.status == "success") {
-            this.showToast({
-              description: "Successful",
-              display: true,
-              type: "success",
-            });
-            localStorage.setItem(
-              "user_details",
-              JSON.stringify(response.data.data)
-            );
-            localStorage.setItem("token", response.data.data.token);
-            this.navigateTo("my-account");
-            this.loading = true;
-          }
-          if (JSON.parse(localStorage.getItem("product_id"))) {
-            let localCart = JSON.parse(localStorage.getItem("product_id"));
-            localCart.map((item) => {
-              api
-                .addProductToCart(item.id)
-                .then(({ data }) => {
-                  this.$store.dispatch("incrementCartCounter");
-                  this.showToast({
-                    description: "Added to cart",
-                    display: true,
-                    type: "success",
-                  });
-                })
-                .catch(({ response }) => {
-                  alert(response.data.message);
-                });
-            });
-          }
-        })
-        .catch(({ response }) => {
+    },
+    computed: {
+      ...mapState({
+        loading: (state) => state.loading,
+      }),
+    },
+    methods: {
+      ...mapActions("notificationModule", ["showToast", "showModal"]),
+      ...mapActions("authenticationModule", ["registerCustomer"]),
+      ...mapActions(["setLoading"]),
+      navigateTo(page) {
+        this.$router.push(page);
+      },
+      signupCustomer() {
+        if (this.details.phone_number.match(/(234|0)[7-9][0-1][0-9]{8}/)) {
+          return;
+        } else {
           this.showModal({
-            description: "User already exist",
+            description: "Phone number does not meet required pattern",
             display: true,
             type: "error",
           });
-          this.navigateTo("login");
-        });
+        }
+        if (this.details.phone_number.length !== 11) {
+          this.showModal({
+            description: "Phone Number must be 11 digits",
+            display: true,
+            type: "error",
+          });
+          return false;
+        } else {
+          return;
+        }
+        if (this.details.password !== this.confirmPassword) {
+          this.showModal({
+            description: "Password field does not match password confirmation",
+            display: true,
+            type: "error",
+          });
+          return;
+        }
+        this.registerCustomer(this.details);
+      },
     },
-  },
-};
+  };
 </script>
 
 <style lang="scss" scoped>
-#signup-section {
-  form {
-    width: 49%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-
-    @media screen and (max-width: 1200px) {
-      width: 70%;
-    }
-
-    @media screen and (max-width: 900px) {
-      width: 100%;
-    }
-
-    input {
+  #signup-section {
+    form {
       width: 49%;
-
-      @media screen and (max-width: 600px) {
-        width: 100%;
-      }
-    }
-
-    .address {
-      width: 100%;
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: space-between;
-      margin-bottom: 3rem;
+
+      @media screen and (max-width: 1200px) {
+        width: 70%;
+      }
+
+      @media screen and (max-width: 900px) {
+        width: 100%;
+      }
 
       input {
         width: 49%;
+
         @media screen and (max-width: 600px) {
           width: 100%;
         }
       }
-    }
 
-    input[placeholder="Street"] {
-      width: 100%;
+      .address {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 3rem;
+
+        input {
+          width: 49%;
+          @media screen and (max-width: 600px) {
+            width: 100%;
+          }
+        }
+      }
+
+      input[placeholder="Street"] {
+        width: 100%;
+      }
     }
   }
-}
 </style>

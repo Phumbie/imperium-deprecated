@@ -82,6 +82,12 @@ export default {
       search: true,
     };
   },
+  created() {
+    window.addEventListener("scroll", this.topNavAnimation);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.topNavAnimation);
+  },
   computed: {
     ...mapGetters(["cartCounter"]),
   },
@@ -105,12 +111,19 @@ export default {
       const topSectionTop = topSection.getBoundingClientRect().top;
       const topSectionBottom = topSection.getBoundingClientRect().bottom;
       const height = topSectionBottom - topSectionTop;
-      gsap.topNavAnimation(
-        ".bottom-section",
-        ".top-section",
-        "top",
-        -height + 1
-      );
+      if (topSectionTop < 1) {
+        gsap.gsapClass().to(".bottom-section", {
+          y: -height - 0.5,
+          duration: 0.2,
+          ease: "Power0.easeInOut",
+        });
+      } else {
+        gsap.gsapClass().to(".bottom-section", {
+          y: -1,
+          duration: 0.2,
+          ease: "Power0.easeInOut",
+        });
+      }
     },
     toggle() {
       if (this.$refs.checkBox.checked === true) {
@@ -373,8 +386,8 @@ export default {
   .nav-item2 {
     border-left: solid 1px #000000;
   }
-  .nav-item2 {
-    border-right: solid 1px #000000;
+  .nav-item3 {
+    border-left: solid 1px #000000;
   }
   .nav-item3,
   .nav-item4 {

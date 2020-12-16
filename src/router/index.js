@@ -95,7 +95,7 @@ export default new Router({
         },
         {
           path: "forget-password",
-          component: () => import("@/components/ForgetPassword"),
+          component: () => import("@/components/Accounts/ForgetPassword"),
           hidden: true,
         },
         {

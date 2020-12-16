@@ -92,6 +92,7 @@
             state: "",
           },
         },
+        confirmPassword: "",
       };
     },
     computed: {

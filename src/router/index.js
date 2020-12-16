@@ -85,7 +85,7 @@ export default new Router({
       children: [
         {
           path: "login",
-          component: () => import("@/components/Login"),
+          component: () => import("@/views/Login"),
           hidden: true,
         },
         {

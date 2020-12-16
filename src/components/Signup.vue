@@ -92,15 +92,6 @@
             state: "",
           },
         },
-        firstName: "",
-        lastName: "",
-        email: "",
-        phoneNumber: "",
-        password: "",
-        confirmPassword: "",
-        streetAddress: "",
-        lga: "",
-        state: "",
       };
     },
     computed: {
@@ -109,8 +100,8 @@
       }),
     },
     methods: {
-      ...mapActions("notificationModule", ["showToast", "showModal"]),
-      ...mapActions("authenticationModule", ["registerCustomer"]),
+      ...mapActions("notificationModule", ["showModal"]),
+      ...mapActions("accountModule", ["registerCustomer"]),
       ...mapActions(["setLoading"]),
       navigateTo(page) {
         this.$router.push(page);

@@ -24,6 +24,9 @@
         type="tel"
         placeholder="Phone number"
         v-model="details.phone_number"
+        @keypress="isNumber($event)"
+        pattern="[0-9]*"
+        inputmode="numeric"
         required
       />
       <input
@@ -130,6 +133,20 @@
           return;
         } else {
           this.registerCustomer(this.details);
+        }
+      },
+      isNumber(evt) {
+        evt = evt ? evt : window.event;
+        var charCode = evt.which ? evt.which : evt.keyCode;
+        if (
+          (charCode > 31 &&
+            (charCode < 48 || charCode > 57) &&
+            charCode !== 46) ||
+          this.amount > 1000000
+        ) {
+          evt.preventDefault();
+        } else {
+          return true;
         }
       },
     },

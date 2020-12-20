@@ -40,9 +40,12 @@
         placeholder="Phone number"
         v-model="details.phone_number"
         @blur="validateInput"
+        @keypress="isNumber($event)"
         :class="{
           invalid: formValidation.phone_number === true,
         }"
+        pattern="[0-9]*"
+        inputmode="numeric"
         required
       />
       <input
@@ -137,6 +140,20 @@ export default {
           "accountModule/setConfirmPassword",
           newValue
         );
+      },
+      isNumber(evt) {
+        evt = evt ? evt : window.event;
+        var charCode = evt.which ? evt.which : evt.keyCode;
+        if (
+          (charCode > 31 &&
+            (charCode < 48 || charCode > 57) &&
+            charCode !== 46) ||
+          this.amount > 1000000
+        ) {
+          evt.preventDefault();
+        } else {
+          return true;
+        }
       },
     },
   },
@@ -250,6 +267,20 @@ export default {
 
         default:
           break;
+      }
+    },
+    isNumber(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+      if (
+        (charCode > 31 &&
+          (charCode < 48 || charCode > 57) &&
+          charCode !== 46) ||
+        this.amount > 1000000
+      ) {
+        evt.preventDefault();
+      } else {
+        return true;
       }
     },
   },

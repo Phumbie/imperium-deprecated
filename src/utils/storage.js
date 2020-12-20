@@ -1,8 +1,11 @@
 export default {
   setUser(data) {
-    localStorage.setItem("user_details", JSON.stringify(data));
+    return localStorage.setItem("user_details", JSON.stringify(data));
   },
   setToken(data) {
-    localStorage.setItem("token", data);
+    return localStorage.setItem("token", data);
+  },
+  getStorageCart() {
+    return JSON.parse(localStorage.getItem("product_id"));
   },
 };

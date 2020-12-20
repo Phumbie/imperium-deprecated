@@ -2,7 +2,7 @@ import api from "@/utils/api.js";
 import router from "../../router";
 import storage from "@/utils/storage.js";
 
-export const registerCustomer = ({ commit, dispatch }, payload) => {
+export const signupCustomer = ({ commit, dispatch }, payload) => {
   return new Promise((resolve, reject) => {
     commit("SET_LOADING", true, { root: true });
     api
@@ -12,7 +12,7 @@ export const registerCustomer = ({ commit, dispatch }, payload) => {
           dispatch(
             "notificationModule/showToast",
             {
-              description: "Successful",
+              description: "Welcome to imperium",
               display: true,
               type: "success",
             },
@@ -20,31 +20,80 @@ export const registerCustomer = ({ commit, dispatch }, payload) => {
           );
           storage.setUser(data.data);
           storage.setToken(data.data.token);
-          router.push("/my-account");
-          commit("SET_LOADING", false, { root: true });
         }
-        if (JSON.parse(localStorage.getItem("product_id"))) {
-          let localCart = JSON.parse(localStorage.getItem("product_id"));
-          localCart.map((item) => {
-            api
-              .addProductToCart(item.id)
-              .then(({ data }) => {
-                dispatch(
-                  "incrementCartCounter",
-                  {
-                    description: "Added to cart",
-                    display: true,
-                    type: "success",
-                  },
-                  { root: true }
-                );
-                resolve({ data });
-              })
-              .catch(({ data }) => {
-                alert(data.message);
-                reject({ data });
-              });
+        if (storage.getStorageCart().length !== 0) {
+          let localCart = storage.getStorageCart();
+          localCart.map((product) => {
+            product.product_id = product.id;
+            delete product.subtotal;
+            delete product.id;
           });
+          const payload = { products: localCart };
+          api
+            .addBulkProductToCart(payload)
+            .then((response) => {
+              if (response) {
+                api
+                  .getCart()
+                  .then(({ data }) => {
+                    if (data.status == "success") {
+                      let cartSize = 0;
+                      let cartItems = data.data.cart.items;
+                      cartItems.forEach((item) => {
+                        cartSize += item.quantity;
+                      });
+                      commit("SET_CART_COUNTER", cartSize, {
+                        root: true,
+                      });
+                    }
+                    resolve({ data });
+                  })
+                  .catch((error) => {
+                    alert(error.data.data.message);
+                    reject(error);
+                  });
+              }
+              router.push("/cart");
+              commit("CLEAR_SIGNUP_DETAILS", {
+                signupDetails: {
+                  first_name: "",
+                  last_name: "",
+                  email: "",
+                  password: "",
+                  phone_number: "",
+                  address: {
+                    street: "",
+                    lga: "",
+                    state: "",
+                  },
+                },
+                confirmPassword: "",
+              });
+              commit("SET_LOADING", false, { root: true });
+              resolve(response);
+            })
+            .catch((error) => {
+              alert(error.data.data.message);
+              reject(error);
+            });
+        } else {
+          router.push("/my-account");
+          commit("CLEAR_SIGNUP_DETAILS", {
+            signupDetails: {
+              first_name: "",
+              last_name: "",
+              email: "",
+              password: "",
+              phone_number: "",
+              address: {
+                street: "",
+                lga: "",
+                state: "",
+              },
+            },
+            confirmPassword: "",
+          });
+          commit("SET_LOADING", false, { root: true });
         }
         resolve({ data });
       })
@@ -65,7 +114,7 @@ export const registerCustomer = ({ commit, dispatch }, payload) => {
   });
 };
 
-export const loginCustomer = ({ commit, dispatch }, payload) => {
+export const loginCustomer = ({ commit }, payload) => {
   return new Promise((resolve, reject) => {
     commit("SET_LOADING", true, { root: true });
     api
@@ -75,12 +124,10 @@ export const loginCustomer = ({ commit, dispatch }, payload) => {
 
         if (data.status == "success") {
           storage.setUser(data.data);
+          storage.setToken(data.data.token);
         }
-        storage.setToken(data.data.token);
-        router.push("/my-account");
-        commit("SET_LOADING", false, { root: true });
-        if (JSON.parse(localStorage.getItem("product_id")).length !== 0) {
-          let localCart = JSON.parse(localStorage.getItem("product_id"));
+        if (storage.getStorageCart().length !== 0) {
+          let localCart = storage.getStorageCart();
           localCart.map((product) => {
             product.product_id = product.id;
             delete product.subtotal;
@@ -100,26 +147,61 @@ export const loginCustomer = ({ commit, dispatch }, payload) => {
                       cartItems.forEach((item) => {
                         cartSize += item.quantity;
                       });
-                      dispatch("setCartCounter", cartSize, { root: true });
+                      commit("SET_CART_COUNTER", cartSize, { root: true });
                     }
+                    resolve({ data });
                   })
                   .catch((error) => {
                     alert(error.data.data.message);
+                    reject(error);
                   });
               }
+              router.push("/cart");
+              commit("CLEAR_LOGIN_DETAILS", {
+                loginDetails: {
+                  email: "",
+                  password: "",
+                },
+              });
+              commit("SET_LOADING", false, { root: true });
+              resolve(response);
             })
             .catch((error) => {
               alert(error.data.data.message);
+              reject(error);
             });
+        } else {
+          router.push("/my-account");
+          commit("CLEAR_LOGIN_DETAILS", {
+            loginDetails: {
+              email: "",
+              password: "",
+            },
+          });
+          commit("SET_LOADING", false, { root: true });
         }
+        resolve({ data });
       })
       .catch((error) => {
         commit("SET_LOADING", false, { root: true });
-        dispatch("notificationModule/showModal", {
-          description: "Invalid account.",
-          display: true,
-          type: "error",
-        });
+        commit(
+          "notificationModule/SHOW_MODAL",
+          {
+            description: `Invalid account. ${error}`,
+            display: true,
+            type: "error",
+          },
+          { root: true }
+        );
+        reject(error);
       });
   });
+};
+
+export const validate = ({ commit }, payload) => {
+  commit("VALIDATE_INPUT", payload);
+};
+
+export const setConfirmPassword = ({ commit }, payload) => {
+  commit("SET_CONFIRM_PASSWORD", payload);
 };

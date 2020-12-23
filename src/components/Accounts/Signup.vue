@@ -14,7 +14,9 @@
           }"
           required
         />
-        <span v-if="formValidation.first_name">Please input first name</span>
+        <transition name="fade">
+          <span v-if="formValidation.first_name">Please input first name</span>
+        </transition>
       </div>
       <div class="inputContainer">
         <input
@@ -28,7 +30,9 @@
           }"
           required
         />
-        <span v-if="formValidation.last_name">Please Input last name</span>
+        <transition name="fade">
+          <span v-if="formValidation.last_name">Please Input last name</span>
+        </transition>
       </div>
       <div class="inputContainer">
         <input
@@ -42,15 +46,19 @@
           }"
           required
         />
-        <span v-if="formValidation.email"
-          >Please enter a valid email address</span
-        >
+
+        <transition name="fade">
+          <span v-if="formValidation.email"
+            >Please enter a valid email address</span
+          >
+        </transition>
       </div>
       <div class="inputContainer">
         <input
           type="tel"
           placeholder="Phone number"
           v-model="details.phone_number"
+          @input="validateInput"
           @blur="validateInput"
           @keypress="isNumber($event)"
           :class="{
@@ -60,15 +68,18 @@
           inputmode="numeric"
           required
         />
-        <span v-if="formValidation.phone_number"
-          >Please input a valid phone number</span
-        >
+        <transition name="fade">
+          <span v-if="formValidation.phone_number"
+            >Please input a valid phone number</span
+          >
+        </transition>
       </div>
       <div class="inputContainer">
         <input
           type="password"
           placeholder="Password"
           v-model="details.password"
+          @input="validateInput"
           @blur="validateInput"
           :class="{
             invalid: formValidation.password === true,
@@ -76,15 +87,18 @@
           minlength="6"
           required
         />
-        <span v-if="formValidation.password"
-          >Password must be at least 6 characters</span
-        >
+        <transition name="fade">
+          <span v-if="formValidation.password"
+            >Password must be at least 6 characters</span
+          >
+        </transition>
       </div>
       <div class="inputContainer">
         <input
           type="password"
           placeholder="Confirm password"
           v-model="confirmPassword"
+          @input="validateInput"
           @blur="validateInput"
           :class="{
             invalid: formValidation.confirmPassword === true,
@@ -94,7 +108,11 @@
           required
           :disabled="details.password.length < 6"
         />
-        <span v-if="formValidation.confirmPassword">Passwords don't match</span>
+        <transition name="fade">
+          <span v-if="formValidation.confirmPassword"
+            >Passwords don't match</span
+          >
+        </transition>
       </div>
 
       <div class="address">
@@ -102,6 +120,7 @@
           type="text"
           placeholder="Street"
           v-model="details.address.street"
+          @input="validateInput"
           @blur="validateInput"
           :class="{
             invalid: formValidation.address.street === true,
@@ -109,23 +128,28 @@
           required
         />
         <div class="inputContainer street">
-          <span v-if="formValidation.address.street"
-            >Enter a valid street address</span
-          >
+          <transition name="fade">
+            <span v-if="formValidation.address.street"
+              >Enter a valid street address</span
+            >
+          </transition>
         </div>
         <div class="inputContainer">
           <input
             type="text"
             placeholder="LGA"
             v-model="details.address.lga"
+            @input="validateInput"
             @blur="validateInput"
             :class="{
               invalid: formValidation.address.lga === true,
             }"
             required
           />
-          <span v-if="formValidation.address.lga"
-            >Input field cannot be empty</span
+          <transition name="fade">
+            <span v-if="formValidation.address.lga"
+              >Input field cannot be empty</span
+            ></transition
           >
         </div>
         <div class="inputContainer">
@@ -133,14 +157,17 @@
             type="text"
             placeholder="State"
             v-model="details.address.state"
+            @input="validateInput"
             @blur="validateInput"
             :class="{
               invalid: formValidation.address.state === true,
             }"
             required
           />
-          <span v-if="formValidation.address.state"
-            >Input field cannot be empty</span
+          <transition name="fade">
+            <span v-if="formValidation.address.state"
+              >Input field cannot be empty</span
+            ></transition
           >
         </div>
       </div>
@@ -378,12 +405,28 @@
     }
   }
 
-  @keyframes slideError {
-    0% {
-      transform: translateY(-100%);
-    }
-    100% {
-      transform: translateY(0);
-    }
+  // @keyframes slideError {
+  //   0% {
+  //     transform: translateY(-100%);
+  //   }
+  //   100% {
+  //     transform: translateY(0);
+  //   }
+  // }
+
+  // .show-enter,
+  // .show-leave-to {
+  //   transform: translate(-50%, -30px);
+  //   opacity: 0;
+  // }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: all 0.3s cubic-bezier(0.45, 0.25, 0.6, 0.95);
+    transform: translateY(-100%);
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    transform: translate(0);
+    opacity: 0;
   }
 </style>

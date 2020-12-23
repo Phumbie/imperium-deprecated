@@ -2,76 +2,101 @@
   <div id="signup-section">
     <div class="header-text-28">Signup</div>
     <form @submit.prevent="signup()">
-      <input
-        type="text"
-        placeholder="First name"
-        v-model="details.first_name"
-        @input="validateInput"
-        @blur="validateInput"
-        :class="{
-          invalid: formValidation.first_name === true,
-        }"
-        required
-      />
-      <input
-        type="text"
-        placeholder="Last name"
-        v-model="details.last_name"
-        @input="validateInput"
-        @blur="validateInput"
-        :class="{
-          invalid: formValidation.last_name === true,
-        }"
-        required
-      />
-      <input
-        type="email"
-        placeholder="Email address"
-        v-model="details.email"
-        @input="validateInput"
-        @blur="validateInput"
-        :class="{
-          invalid: formValidation.email === true,
-        }"
-        required
-      />
-      <input
-        type="tel"
-        placeholder="Phone number"
-        v-model="details.phone_number"
-        @blur="validateInput"
-        @keypress="isNumber($event)"
-        :class="{
-          invalid: formValidation.phone_number === true,
-        }"
-        pattern="[0-9]*"
-        inputmode="numeric"
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        v-model="details.password"
-        @blur="validateInput"
-        :class="{
-          invalid: formValidation.password === true,
-        }"
-        minlength="6"
-        required
-      />
-      <input
-        type="password"
-        placeholder="Confirm password"
-        v-model="confirmPassword"
-        @blur="validateInput"
-        :class="{
-          invalid: formValidation.confirmPassword === true,
-          disabled: details.password.length < 6,
-        }"
-        minlength="6"
-        required
-        :disabled="details.password.length < 6"
-      />
+      <div class="inputContainer">
+        <input
+          type="text"
+          placeholder="First name"
+          v-model="details.first_name"
+          @input="validateInput"
+          @blur="validateInput"
+          :class="{
+            invalid: formValidation.first_name === true,
+          }"
+          required
+        />
+        <span v-if="formValidation.first_name">Please input first name</span>
+      </div>
+      <div class="inputContainer">
+        <input
+          type="text"
+          placeholder="Last name"
+          v-model="details.last_name"
+          @input="validateInput"
+          @blur="validateInput"
+          :class="{
+            invalid: formValidation.last_name === true,
+          }"
+          required
+        />
+        <span v-if="formValidation.last_name">Please Input last name</span>
+      </div>
+      <div class="inputContainer">
+        <input
+          type="email"
+          placeholder="Email address"
+          v-model="details.email"
+          @input="validateInput"
+          @blur="validateInput"
+          :class="{
+            invalid: formValidation.email === true,
+          }"
+          required
+        />
+        <span v-if="formValidation.email"
+          >Please enter a valid email address</span
+        >
+      </div>
+      <div class="inputContainer">
+        <input
+          type="tel"
+          placeholder="Phone number"
+          v-model="details.phone_number"
+          @blur="validateInput"
+          @keypress="isNumber($event)"
+          :class="{
+            invalid: formValidation.phone_number === true,
+          }"
+          pattern="[0-9]*"
+          inputmode="numeric"
+          required
+        />
+        <span v-if="formValidation.phone_number"
+          >Please input a valid phone number</span
+        >
+      </div>
+      <div class="inputContainer">
+        <input
+          type="password"
+          placeholder="Password"
+          v-model="details.password"
+          @blur="validateInput"
+          :class="{
+            invalid: formValidation.password === true,
+          }"
+          minlength="6"
+          required
+        />
+        <span v-if="formValidation.password"
+          >Password must be at least 6 characters</span
+        >
+      </div>
+      <div class="inputContainer">
+        <input
+          type="password"
+          placeholder="Confirm password"
+          v-model="confirmPassword"
+          @blur="validateInput"
+          :class="{
+            invalid: formValidation.confirmPassword === true,
+            disabled: details.password.length < 6,
+          }"
+          minlength="6"
+          required
+          :disabled="details.password.length < 6"
+        />
+        <span v-if="formValidation.confirmPassword">Passwords don't match</span>
+      </div>
+
       <div class="address">
         <input
           type="text"
@@ -83,26 +108,41 @@
           }"
           required
         />
-        <input
-          type="text"
-          placeholder="LGA"
-          v-model="details.address.lga"
-          @blur="validateInput"
-          :class="{
-            invalid: formValidation.address.lga === true,
-          }"
-          required
-        />
-        <input
-          type="text"
-          placeholder="State"
-          v-model="details.address.state"
-          @blur="validateInput"
-          :class="{
-            invalid: formValidation.address.state === true,
-          }"
-          required
-        />
+        <div class="inputContainer street">
+          <span v-if="formValidation.address.street"
+            >Enter a valid street address</span
+          >
+        </div>
+        <div class="inputContainer">
+          <input
+            type="text"
+            placeholder="LGA"
+            v-model="details.address.lga"
+            @blur="validateInput"
+            :class="{
+              invalid: formValidation.address.lga === true,
+            }"
+            required
+          />
+          <span v-if="formValidation.address.lga"
+            >Input field cannot be empty</span
+          >
+        </div>
+        <div class="inputContainer">
+          <input
+            type="text"
+            placeholder="State"
+            v-model="details.address.state"
+            @blur="validateInput"
+            :class="{
+              invalid: formValidation.address.state === true,
+            }"
+            required
+          />
+          <span v-if="formValidation.address.state"
+            >Input field cannot be empty</span
+          >
+        </div>
       </div>
       <div class="buttons">
         <button class="login-btn">
@@ -185,7 +225,9 @@
           case "Email address":
             if (
               this.details.email.length === 0 ||
-              this.details.email.indexOf(" ") >= 0
+              !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+                this.details.email
+              )
             ) {
               this.validate({ field: field, invalid: true });
             } else {
@@ -284,12 +326,29 @@
       @media screen and (max-width: 900px) {
         width: 100%;
       }
-      input {
+
+      .inputContainer {
+        &.street {
+          width: 100%;
+        }
+
+        span {
+          color: red;
+          font-size: 0.7rem;
+          transition: all 0.5s linear;
+          animation: slideError 0.5s linear;
+        }
         width: 49%;
         @media screen and (max-width: 600px) {
           width: 100%;
         }
       }
+      // input {
+      //   width: 49%;
+      //   @media screen and (max-width: 600px) {
+      //     width: 100%;
+      //   }
+      // }
       .address {
         width: 100%;
         display: flex;
@@ -297,12 +356,12 @@
         flex-wrap: wrap;
         justify-content: space-between;
         margin-bottom: 3rem;
-        input {
-          width: 49%;
-          @media screen and (max-width: 600px) {
-            width: 100%;
-          }
-        }
+        // input {
+        //   width: 49%;
+        //   @media screen and (max-width: 600px) {
+        //     width: 100%;
+        //   }
+        // }
       }
       input[placeholder="Street"] {
         width: 100%;
@@ -316,6 +375,15 @@
           color: rgba(0, 0, 0, 0.2);
         }
       }
+    }
+  }
+
+  @keyframes slideError {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(0);
     }
   }
 </style>

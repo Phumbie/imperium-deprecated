@@ -15,7 +15,6 @@ export const VALIDATE_INPUT = (state, payload) => {
   switch (payload.field) {
     case "First name":
       state.formValidation.first_name = payload.invalid;
-      state.error.first_name = payload.message;
       break;
     case "Last name":
       state.formValidation.last_name = payload.invalid;

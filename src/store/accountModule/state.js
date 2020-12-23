@@ -15,18 +15,6 @@ export default {
       state: "",
     },
   },
-  error: {
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
-    phone_number: "",
-    address: {
-      street: "",
-      lga: "",
-      state: "",
-    },
-  },
   confirmPassword: "",
   formValidation: {
     first_name: false,

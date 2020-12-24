@@ -7,7 +7,6 @@
           type="text"
           placeholder="First name"
           v-model="details.first_name"
-          @focus="resetInputValidation"
           @input="validateInput"
           @blur="validateInput"
           :class="{
@@ -26,7 +25,6 @@
           type="text"
           placeholder="Last name"
           v-model="details.last_name"
-          @focus="resetInputValidation"
           @input="validateInput"
           @blur="validateInput"
           :class="{

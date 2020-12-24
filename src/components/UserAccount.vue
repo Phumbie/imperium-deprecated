@@ -72,17 +72,12 @@
       <span>{{ contentLoaderText }}</span>
     </content-loader>
     <div class="pagination">
-      <el-pagination
-        :background="false"
-        @current-change="handlePageChange"
-        :hide-on-single-page="true"
-        :page-size="this.pagination.per_page"
-        :current-page="this.pagination.page"
-        :pager-count="9"
-        layout="prev, pager, next"
-        :total="this.pagination.totalRecords"
-      >
-      </el-pagination>
+      <BackendPagination
+        @pageChange="handlePageChange"
+        :totalRecord="pagination.totalRecords"
+        :currentPage="pagination.page"
+        :perPage="pagination.per_page"
+      />
     </div>
     <!-- <span class="section-title">Power As A Service</span>
     <div class="paas-active-plan-container">
@@ -98,11 +93,13 @@
 import { mapActions } from "vuex";
 import api from "@/utils/api.js";
 import contentLoader from "@/components/contentLoader";
+import BackendPagination from "@/components/Pagination/BackendPagination";
 
 export default {
   name: "UserAccount",
   components: {
     contentLoader,
+    BackendPagination,
   },
   data() {
     return {

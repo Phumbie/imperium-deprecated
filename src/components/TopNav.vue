@@ -25,8 +25,8 @@
           cartCounter === 0 ? "0" : cartCounter
         }})</router-link
       >
-      <router-link to="/cart" class="mobile-nav-item border-right"
-        ><i class="el-icon-shopping-cart-2"></i> ({{
+      <router-link to="/cart" class="mobile-nav-item border-right">
+        <img src="@/assets/images/shopping-cart.svg" alt="" />({{
           cartCounter === 0 ? "0" : cartCounter
         }})</router-link
       >
@@ -276,9 +276,6 @@ export default {
         border-bottom: solid 1px #000000;
         text-decoration: none;
         z-index: 100;
-      }
-      .el-icon-shopping-cart-2 {
-        font-size: 1.4rem;
       }
     }
   }

@@ -15,7 +15,9 @@
           required
         />
         <transition name="fade">
-          <span v-if="formValidation.first_name">Please input first name</span>
+          <span v-if="formValidation.first_name"
+            >Field can't be empty or have space</span
+          >
         </transition>
       </div>
       <div class="inputContainer">
@@ -31,7 +33,9 @@
           required
         />
         <transition name="fade">
-          <span v-if="formValidation.last_name">Please Input last name</span>
+          <span v-if="formValidation.last_name"
+            >Field can't be empty or have space</span
+          >
         </transition>
       </div>
       <div class="inputContainer">
@@ -39,7 +43,6 @@
           type="email"
           placeholder="Email address"
           v-model="details.email"
-          @input="validateInput"
           @blur="validateInput"
           :class="{
             invalid: formValidation.email === true,
@@ -58,7 +61,6 @@
           type="tel"
           placeholder="Phone number"
           v-model="details.phone_number"
-          @input="validateInput"
           @blur="validateInput"
           @keypress="isNumber($event)"
           :class="{
@@ -70,7 +72,7 @@
         />
         <transition name="fade">
           <span v-if="formValidation.phone_number"
-            >Please input a valid phone number</span
+            >Please enter a valid phone number</span
           >
         </transition>
       </div>
@@ -79,7 +81,6 @@
           type="password"
           placeholder="Password"
           v-model="details.password"
-          @input="validateInput"
           @blur="validateInput"
           :class="{
             invalid: formValidation.password === true,
@@ -98,7 +99,6 @@
           type="password"
           placeholder="Confirm password"
           v-model="confirmPassword"
-          @input="validateInput"
           @blur="validateInput"
           :class="{
             invalid: formValidation.confirmPassword === true,
@@ -120,7 +120,6 @@
           type="text"
           placeholder="Street"
           v-model="details.address.street"
-          @input="validateInput"
           @blur="validateInput"
           :class="{
             invalid: formValidation.address.street === true,
@@ -130,7 +129,7 @@
         <div class="inputContainer street">
           <transition name="fade">
             <span v-if="formValidation.address.street"
-              >Enter a valid street address</span
+              >Field can't be empty</span
             >
           </transition>
         </div>
@@ -139,7 +138,6 @@
             type="text"
             placeholder="LGA"
             v-model="details.address.lga"
-            @input="validateInput"
             @blur="validateInput"
             :class="{
               invalid: formValidation.address.lga === true,
@@ -148,7 +146,7 @@
           />
           <transition name="fade">
             <span v-if="formValidation.address.lga"
-              >Input field cannot be empty</span
+              >Field can't be empty</span
             ></transition
           >
         </div>
@@ -157,7 +155,6 @@
             type="text"
             placeholder="State"
             v-model="details.address.state"
-            @input="validateInput"
             @blur="validateInput"
             :class="{
               invalid: formValidation.address.state === true,
@@ -166,7 +163,7 @@
           />
           <transition name="fade">
             <span v-if="formValidation.address.state"
-              >Input field cannot be empty</span
+              >Field can't be empty</span
             ></transition
           >
         </div>
@@ -184,249 +181,221 @@
 </template>
 
 <script>
-  import { mapActions, mapState } from "vuex";
-  import api from "@/utils/api.js";
-  export default {
-    name: "Signup",
-    data() {
-      return {};
-    },
-    computed: {
-      ...mapState({
-        loading: (state) => state.loading,
-        details: (state) => state.accountModule.signipDetails,
-        formValidation: (state) => state.accountModule.formValidation,
-      }),
-      confirmPassword: {
-        get() {
-          return this.$store.state.accountModule.confirmPassword;
-        },
-        set(newValue) {
-          return this.$store.dispatch(
-            "accountModule/setConfirmPassword",
-            newValue
-          );
-        },
+import { mapActions, mapState } from "vuex";
+import api from "@/utils/api.js";
+export default {
+  name: "Signup",
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState({
+      loading: (state) => state.loading,
+      details: (state) => state.accountModule.signipDetails,
+      formValidation: (state) => state.accountModule.formValidation,
+    }),
+    confirmPassword: {
+      get() {
+        return this.$store.state.accountModule.confirmPassword;
+      },
+      set(newValue) {
+        return this.$store.dispatch(
+          "accountModule/setConfirmPassword",
+          newValue
+        );
       },
     },
-    methods: {
-      ...mapActions("notificationModule", ["showModal"]),
-      ...mapActions("accountModule", ["signupCustomer", "validate"]),
-      navigateTo(page) {
-        this.$router.push(page);
-      },
-      signup() {
-        if (Object.values(this.formValidation).includes(true)) {
-          this.showModal({
-            description: "invalid input detected, please fill form correctly.",
-            display: true,
-            type: "error",
-          });
-        } else {
-          this.signupCustomer(this.details);
-        }
-      },
-      validateInput() {
-        let field = event.target.attributes.placeholder.value;
-        switch (field) {
-          case "First name":
-            if (
-              this.details.first_name.length === 0 ||
-              this.details.first_name.indexOf(" ") >= 0
-            ) {
-              this.validate({ field: field, invalid: true });
-            } else {
-              this.validate({ field: field, invalid: false });
-            }
-            break;
-          case "Last name":
-            if (
-              this.details.last_name.length === 0 ||
-              this.details.last_name.indexOf(" ") >= 0
-            ) {
-              this.validate({ field: field, invalid: true });
-            } else {
-              this.validate({ field: field, invalid: false });
-            }
-            break;
-          case "Email address":
-            if (
-              this.details.email.length === 0 ||
-              !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
-                this.details.email
-              )
-            ) {
-              this.validate({ field: field, invalid: true });
-            } else {
-              this.validate({ field: field, invalid: false });
-            }
-            break;
-          case "Phone number":
-            if (
-              this.details.phone_number.length === 0 ||
-              !this.details.phone_number.match(/0[7-9][0-1]\d{8}(?!.)/)
-            ) {
-              this.validate({ field: field, invalid: true });
-            } else {
-              this.validate({ field: field, invalid: false });
-            }
-            break;
-          case "Password":
-            if (this.details.password.length < 6) {
-              this.validate({ field: field, invalid: true });
-            } else {
-              this.validate({ field: field, invalid: false });
-            }
-            break;
-          case "Confirm password":
-            if (
-              this.confirmPassword.length < 6 ||
-              this.confirmPassword !== this.details.password
-            ) {
-              this.validate({ field: field, invalid: true });
-            } else {
-              this.validate({ field: field, invalid: false });
-            }
-            break;
-          case "Street":
-            if (
-              this.details.address.street.length === 0 ||
-              !this.details.address.street.trim()
-            ) {
-              this.validate({ field: field, invalid: true });
-            } else {
-              this.validate({ field: field, invalid: false });
-            }
-            break;
-          case "LGA":
-            if (
-              this.details.address.lga.length === 0 ||
-              !this.details.address.lga.trim()
-            ) {
-              this.validate({ field: field, invalid: true });
-            } else {
-              this.validate({ field: field, invalid: false });
-            }
-            break;
-          case "State":
-            if (
-              this.details.address.state.length === 0 ||
-              !this.details.address.state.trim()
-            ) {
-              this.validate({ field: field, invalid: true });
-            } else {
-              this.validate({ field: field, invalid: false });
-            }
-            break;
-          default:
-            break;
-        }
-      },
-      isNumber(evt) {
-        evt = evt ? evt : window.event;
-        var charCode = evt.which ? evt.which : evt.keyCode;
-        if (
-          charCode > 31 &&
-          (charCode < 48 || charCode > 57) &&
-          charCode !== 46
-        ) {
-          evt.preventDefault();
-        } else {
-          return true;
-        }
-      },
+  },
+  methods: {
+    ...mapActions("notificationModule", ["showModal"]),
+    ...mapActions("accountModule", ["signupCustomer", "validate"]),
+    navigateTo(page) {
+      this.$router.push(page);
     },
-  };
+    signup() {
+      if (Object.values(this.formValidation).includes(true)) {
+        this.showModal({
+          description: "invalid input detected, please fill form correctly.",
+          display: true,
+          type: "error",
+        });
+      } else {
+        this.signupCustomer(this.details);
+      }
+    },
+    validateInput() {
+      let field = event.target.attributes.placeholder.value;
+      switch (field) {
+        case "First name":
+          if (
+            this.details.first_name.length === 0 ||
+            this.details.first_name.indexOf(" ") >= 0
+          ) {
+            this.validate({ field: field, invalid: true });
+          } else {
+            this.validate({ field: field, invalid: false });
+          }
+          break;
+        case "Last name":
+          if (
+            this.details.last_name.length === 0 ||
+            this.details.last_name.indexOf(" ") >= 0
+          ) {
+            this.validate({ field: field, invalid: true });
+          } else {
+            this.validate({ field: field, invalid: false });
+          }
+          break;
+        case "Email address":
+          if (
+            this.details.email.length === 0 ||
+            !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+              this.details.email
+            )
+          ) {
+            this.validate({ field: field, invalid: true });
+          } else {
+            this.validate({ field: field, invalid: false });
+          }
+          break;
+        case "Phone number":
+          if (
+            this.details.phone_number.length === 0 ||
+            !this.details.phone_number.match(/0[7-9][0-1]\d{8}(?!.)/)
+          ) {
+            this.validate({ field: field, invalid: true });
+          } else {
+            this.validate({ field: field, invalid: false });
+          }
+          break;
+        case "Password":
+          if (this.details.password.length < 6) {
+            this.validate({ field: field, invalid: true });
+          } else {
+            this.validate({ field: field, invalid: false });
+          }
+          break;
+        case "Confirm password":
+          if (
+            this.confirmPassword.length < 6 ||
+            this.confirmPassword !== this.details.password
+          ) {
+            this.validate({ field: field, invalid: true });
+          } else {
+            this.validate({ field: field, invalid: false });
+          }
+          break;
+        case "Street":
+          if (
+            this.details.address.street.length === 0 ||
+            !this.details.address.street.trim()
+          ) {
+            this.validate({ field: field, invalid: true });
+          } else {
+            this.validate({ field: field, invalid: false });
+          }
+          break;
+        case "LGA":
+          if (
+            this.details.address.lga.length === 0 ||
+            !this.details.address.lga.trim()
+          ) {
+            this.validate({ field: field, invalid: true });
+          } else {
+            this.validate({ field: field, invalid: false });
+          }
+          break;
+        case "State":
+          if (
+            this.details.address.state.length === 0 ||
+            !this.details.address.state.trim()
+          ) {
+            this.validate({ field: field, invalid: true });
+          } else {
+            this.validate({ field: field, invalid: false });
+          }
+          break;
+        default:
+          break;
+      }
+    },
+    isNumber(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+      if (
+        charCode > 31 &&
+        (charCode < 48 || charCode > 57) &&
+        charCode !== 46
+      ) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  #signup-section {
-    form {
+#signup-section {
+  form {
+    width: 49%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    @media screen and (max-width: 1200px) {
+      width: 70%;
+    }
+    @media screen and (max-width: 900px) {
+      width: 100%;
+    }
+
+    .inputContainer {
+      &.street {
+        width: 100%;
+      }
+
+      span {
+        color: #dc3545;
+        font-size: 0.7rem;
+        transition: all 0.5s linear;
+        animation: slideError 0.5s linear;
+      }
       width: 49%;
+      @media screen and (max-width: 600px) {
+        width: 100%;
+      }
+    }
+
+    .address {
+      width: 100%;
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: space-between;
-      @media screen and (max-width: 1200px) {
-        width: 70%;
-      }
-      @media screen and (max-width: 900px) {
-        width: 100%;
-      }
-
-      .inputContainer {
-        &.street {
-          width: 100%;
-        }
-
-        span {
-          color: red;
-          font-size: 0.7rem;
-          transition: all 0.5s linear;
-          animation: slideError 0.5s linear;
-        }
-        width: 49%;
-        @media screen and (max-width: 600px) {
-          width: 100%;
-        }
-      }
-      // input {
-      //   width: 49%;
-      //   @media screen and (max-width: 600px) {
-      //     width: 100%;
-      //   }
-      // }
-      .address {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin-bottom: 3rem;
-        // input {
-        //   width: 49%;
-        //   @media screen and (max-width: 600px) {
-        //     width: 100%;
-        //   }
-        // }
-      }
-      input[placeholder="Street"] {
-        width: 100%;
-      }
-      .invalid {
-        border: 1px solid #dc3545;
-      }
-      .disabled {
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        &::placeholder {
-          color: rgba(0, 0, 0, 0.2);
-        }
+      margin-bottom: 3rem;
+    }
+    input[placeholder="Street"] {
+      width: 100%;
+    }
+    .invalid {
+      border: 1px solid #dc3545;
+    }
+    .disabled {
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      &::placeholder {
+        color: rgba(0, 0, 0, 0.2);
       }
     }
   }
+}
 
-  // @keyframes slideError {
-  //   0% {
-  //     transform: translateY(-100%);
-  //   }
-  //   100% {
-  //     transform: translateY(0);
-  //   }
-  // }
-
-  // .show-enter,
-  // .show-leave-to {
-  //   transform: translate(-50%, -30px);
-  //   opacity: 0;
-  // }
-
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: all 0.3s cubic-bezier(0.45, 0.25, 0.6, 0.95);
-    transform: translateY(-100%);
-  }
-  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    transform: translate(0);
-    opacity: 0;
-  }
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s cubic-bezier(0.45, 0.25, 0.6, 0.95);
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>

@@ -7,6 +7,7 @@
           type="text"
           placeholder="First name"
           v-model="details.first_name"
+          @focus="resetInputValidation"
           @input="validateInput"
           @blur="validateInput"
           :class="{
@@ -25,6 +26,7 @@
           type="text"
           placeholder="Last name"
           v-model="details.last_name"
+          @focus="resetInputValidation"
           @input="validateInput"
           @blur="validateInput"
           :class="{
@@ -43,6 +45,7 @@
           type="email"
           placeholder="Email address"
           v-model="details.email"
+          @focus="resetInputValidation"
           @blur="validateInput"
           :class="{
             invalid: formValidation.email === true,
@@ -61,6 +64,7 @@
           type="tel"
           placeholder="Phone number"
           v-model="details.phone_number"
+          @focus="resetInputValidation"
           @blur="validateInput"
           @keypress="isNumber($event)"
           :class="{
@@ -81,6 +85,7 @@
           type="password"
           placeholder="Password"
           v-model="details.password"
+          @focus="resetInputValidation"
           @blur="validateInput"
           :class="{
             invalid: formValidation.password === true,
@@ -99,6 +104,7 @@
           type="password"
           placeholder="Confirm password"
           v-model="confirmPassword"
+          @focus="resetInputValidation"
           @blur="validateInput"
           :class="{
             invalid: formValidation.confirmPassword === true,
@@ -120,6 +126,7 @@
           type="text"
           placeholder="Street"
           v-model="details.address.street"
+          @focus="resetInputValidation"
           @blur="validateInput"
           :class="{
             invalid: formValidation.address.street === true,
@@ -138,6 +145,7 @@
             type="text"
             placeholder="LGA"
             v-model="details.address.lga"
+            @focus="resetInputValidation"
             @blur="validateInput"
             :class="{
               invalid: formValidation.address.lga === true,
@@ -155,6 +163,7 @@
             type="text"
             placeholder="State"
             v-model="details.address.state"
+            @focus="resetInputValidation"
             @blur="validateInput"
             :class="{
               invalid: formValidation.address.state === true,
@@ -222,6 +231,10 @@ export default {
       } else {
         this.signupCustomer(this.details);
       }
+    },
+    resetInputValidation() {
+      let field = event.target.attributes.placeholder.value;
+      this.validate({ field: field, invalid: false });
     },
     validateInput() {
       let field = event.target.attributes.placeholder.value;

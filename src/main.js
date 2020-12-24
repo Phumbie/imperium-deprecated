@@ -3,14 +3,7 @@
 import Vue from "vue";
 import App from "./App";
 import router from "./router";
-import { Pagination, Icon, Select, Option } from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
 import store from "./store";
-
-Vue.use(Pagination);
-Vue.use(Icon);
-Vue.use(Select);
-Vue.use(Option);
 
 Vue.config.productionTip = false;
 Vue.filter("shortenString", (value) => {

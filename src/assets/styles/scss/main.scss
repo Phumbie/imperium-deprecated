@@ -46,7 +46,6 @@ button {
 #signup-section,
 #paas-sub,
 #edit-section {
-  padding-top: 5rem;
   padding-bottom: 7rem;
   display: flex;
   flex-direction: column;
@@ -288,8 +287,8 @@ button {
 
       .loader {
         display: flex;
-        border: 1px solid #000000;
-        border-top: 1px groove #ffffff;
+        border: 2px solid #65ac4d;
+        border-top: 2px solid rgba(101, 172, 77, 0.3);
         border-radius: 50%;
         width: 10px;
         height: 10px;

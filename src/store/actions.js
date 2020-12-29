@@ -13,3 +13,7 @@ export const decrementCartCounter = ({ commit }) => {
 export const setActiveTabId = ({ commit }, payload) => {
   commit("SET_ACTIVE_TAB_ID", payload);
 };
+
+export const setLoading = ({ commit }, payload) => {
+  commit("SET_LOADING", payload);
+};

@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div class="modal" v-if="display">
+    <div class="modal" v-if="display" @click="clickTarget">
       <div class="modal-card">
         <div class="modal-card__close">
           <img
@@ -60,6 +60,11 @@ export default {
         display: false,
         type: "",
       });
+    },
+    clickTarget() {
+      if (event.target.className === "modal") {
+        this.closeModal();
+      }
     },
   },
 };

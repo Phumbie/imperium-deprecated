@@ -1,24 +1,32 @@
 <template>
   <div id="nav-container">
-    <section class="top-section">
-      <router-link to="/my-account" class="nav-item border-left desktop-view"
-        v-if="!userDetail">Account</router-link
+    <section class="top-section" ref="topSection">
+      <p
+        class="nav-item border-left desktop-view"
+        v-if="search"
+        @click="showSearch"
       >
-      <router-link to="/my-account" class="nav-item border-left desktop-view"
-        v-else>Hi, {{userDetail}}</router-link
-      >
+        Search
+      </p>
+      <Search
+        class="nav-item border-left desktop-view"
+        @toggleFocus="search = !search"
+        v-else
+      />
       <div class="mobile-nav-item breadcrumb border-left">
         <input type="checkbox" class="toggler" ref="checkBox" @click="toggle" />
         <div class="hamburger"><div></div></div>
       </div>
-      <router-link to="/" class="product-title">Imperium</router-link>
+      <div class="title-container">
+        <router-link to="/" class="product-title">Imperium</router-link>
+      </div>
       <router-link to="/cart" class="nav-item border-right desktop-view"
         >Shopping cart ({{
           cartCounter === 0 ? "0" : cartCounter
         }})</router-link
       >
-      <router-link to="/cart" class="mobile-nav-item border-right"
-        ><i class="el-icon-shopping-cart-2"></i> ({{
+      <router-link to="/cart" class="mobile-nav-item border-right">
+        <img src="@/assets/images/shopping-cart.svg" alt="" />({{
           cartCounter === 0 ? "0" : cartCounter
         }})</router-link
       >
@@ -27,80 +35,90 @@
       <a :href="calculatorURL" target="_blank" class="nav-item1 border-left"
         >Energy Calculator</a
       >
-      <a :href="requestAuditURL" target="_blank" class="nav-item2">Buy Power</a>
-      <router-link to="/products" class="nav-item3">Buy Products</router-link>
-      <a
-        class="nav-item4"
-        href="https://www.imperiumng.com/blog"
-        target="_blank"
-        >Blog</a
+      <router-link to="/my-account" class="nav-item2" v-if="!userDetail"
+        >Account</router-link
       >
+      <router-link to="/my-account" class="nav-item2" v-else
+        >Hi, {{ userDetail | setUppercase }}</router-link
+      >
+      <router-link to="/products" class="nav-item3">Buy Products</router-link>
+      <a :href="requestAuditURL" target="_blank" class="nav-item4">Buy Power</a>
     </section>
     <section class="mobile-bottom-section">
-      <router-link to="/my-account" class="mobile-nav-item1"
-        v-if="!userDetail">Account</router-link
+      <p class="mobile-nav-item1" v-if="search" @click="showSearch">Search</p>
+      <Search class="mobile-nav-item1" @toggleFocus="closeNav" v-else />
+      <router-link to="/my-account" class="mobile-nav-item2" v-if="!userDetail"
+        >Account</router-link
       >
-      <router-link to="/my-account" class="mobile-nav-item1"
-        v-else>Hi, {{userDetail}}</router-link
+      <router-link to="/my-account" class="mobile-nav-item2" v-else
+        >Hi, {{ userDetail | setUppercase }}</router-link
       >
-      <router-link to="/products" class="mobile-nav-item2"
-        >Buy Products</router-link
-      >
-      <a href="https://www.imperiumng.com/blog" class="mobile-nav-item3">
-        Blog
-      </a>
-      <a :href="calculatorURL" class="mobile-nav-item4">
+      <a :href="calculatorURL" class="mobile-nav-item3">
         Energy Calculator
       </a>
+      <router-link to="/products" class="mobile-nav-item4"
+        >Buy Products</router-link
+      >
       <a :href="requestAuditURL" class="mobile-nav-item5">Buy Power</a>
     </section>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { gsap } from "gsap";
+import { mapActions, mapGetters } from "vuex";
 import api from "@/utils/api.js";
-
+import gsap from "@/utils/gsap.js";
+import Search from "@/components/Search/Search";
 export default {
   name: "TopNav",
+  components: { Search },
   data() {
     return {
       requestAuditURL: process.env.VUE_APP_REQUEST_AUDIT_URL,
       calculatorURL: process.env.VUE_APP_CALCULATOR_URL,
       presentScrollPosition: "",
       checkBoxStatus: false,
-      userDetail:""
+      userDetail: "",
+      search: true,
     };
   },
   created() {
-    window.addEventListener("scroll", this.handleScroll);
+    window.addEventListener("scroll", this.topNavAnimation);
   },
   destroyed() {
-    window.removeEventListener("scroll", this.handleScroll);
+    window.removeEventListener("scroll", this.topNavAnimation);
   },
   computed: {
     ...mapGetters(["cartCounter"]),
   },
   mounted() {
+    this.topNavAnimation();
     this.setCartCounter();
-    this.toggle();
-    this.getUser()
+    this.getUser();
   },
   methods: {
-    handleScroll() {
-      const topSection = document.querySelector(".top-section");
+    ...mapActions("notificationModule", ["showModal"]),
+    showSearch() {
+      this.search = !this.search;
+    },
+    closeNav() {
+      this.search = !this.search;
+      this.$refs.checkBox.checked = false;
+      this.toggle();
+    },
+    topNavAnimation() {
+      const topSection = this.$refs.topSection;
       const topSectionTop = topSection.getBoundingClientRect().top;
       const topSectionBottom = topSection.getBoundingClientRect().bottom;
       const height = topSectionBottom - topSectionTop;
       if (topSectionTop < 1) {
-        gsap.to(".bottom-section", {
-          y: -height - 1,
+        gsap.gsapClass().to(".bottom-section", {
+          y: -height - 0.5,
           duration: 0.2,
           ease: "Power0.easeInOut",
         });
       } else {
-        gsap.to(".bottom-section", {
+        gsap.gsapClass().to(".bottom-section", {
           y: -1,
           duration: 0.2,
           ease: "Power0.easeInOut",
@@ -109,20 +127,9 @@ export default {
     },
     toggle() {
       if (this.$refs.checkBox.checked === true) {
-        gsap.to(".mobile-bottom-section", {
-          opacity: 1,
-          display: "grid",
-          duration: 0.1,
-          ease: "Power0.easeInOut",
-        });
-      }
-      if (this.$refs.checkBox.checked === false) {
-        gsap.to(".mobile-bottom-section", {
-          opacity: 0,
-          display: "none",
-          duration: 0.1,
-          ease: "Power0.easeInOut",
-        });
+        gsap.toggleAnimation(".mobile-bottom-section", "grid", 1, 0.3);
+      } else {
+        gsap.toggleAnimation(".mobile-bottom-section", "none", 0, 0.1);
       }
     },
     setCartCounter() {
@@ -135,7 +142,6 @@ export default {
         let cartSize = 0;
         localStorage.setItem("product_id", JSON.stringify(details));
         localStorage.setItem("local_cart", JSON.stringify(localCart));
-
         this.$store.dispatch("setCartCounter", cartSize);
         return;
       }
@@ -164,18 +170,24 @@ export default {
         })
         .catch(({ response }) => {
           if (response) {
-            this.$swal.fire({
-              icon: "error",
-              html: "Unauthorized account",
+            this.showModal({
+              description: "Unauthorized account.",
+              display: true,
+              type: "error",
             });
+            localStorage.clear();
+            this.setCartCounter();
+            this.$router.push("/products");
           }
         });
     },
-    getUser(){
-      if(localStorage.getItem("user_details")){
-        this.userDetail = JSON.parse(localStorage.getItem("user_details")).customer.first_name
+    getUser() {
+      if (localStorage.getItem("user_details")) {
+        this.userDetail = JSON.parse(
+          localStorage.getItem("user_details")
+        ).customer.first_name;
       }
-    }
+    },
   },
 };
 </script>
@@ -190,20 +202,16 @@ export default {
   margin: 38px 0;
   top: -1px;
   z-index: 10;
-
   .top-section {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
-    border-top: solid 0.0625rem #000000;
-
+    border-top: solid 1px #000000;
     @media screen and (max-width: 900px) {
       grid-template-columns: 1fr 4fr 1fr;
     }
-
     .breadcrumb {
       font-size: 14px;
       z-index: 100;
-
       .toggler {
         z-index: 300;
         cursor: pointer;
@@ -211,7 +219,6 @@ export default {
         height: 1.2rem;
         opacity: 0;
       }
-
       .hamburger {
         position: absolute;
         z-index: 200;
@@ -222,7 +229,6 @@ export default {
         justify-content: center;
         align-items: center;
       }
-
       // hamburger line
       .hamburger > div {
         position: relative;
@@ -246,22 +252,18 @@ export default {
         background-color: black;
         opacity: 0.6;
       }
-
       .hamburger > div:after {
         top: 0.5rem;
       }
-
-      // .toggler:checked + .hamburger > div {
-      //   transform: rotate(135deg);
-      // }
-
-      // .toggler:checked + .hamburger > div:before,
-      // .toggler:checked + .hamburger > div:after {
-      //   top: 0;
-      //   transform: rotate(90deg);
-      // }
+      .toggler:checked + .hamburger > div {
+        transform: rotate(135deg);
+      }
+      .toggler:checked + .hamburger > div:before,
+      .toggler:checked + .hamburger > div:after {
+        top: 0;
+        transform: rotate(90deg);
+      }
     }
-
     .mobile-nav-item {
       display: none;
       @media screen and (max-width: 900px) {
@@ -271,36 +273,25 @@ export default {
         text-align: center;
         background: white;
         color: black;
-        border-bottom: solid 0.0625rem #000000;
+        border-bottom: solid 1px #000000;
         text-decoration: none;
         z-index: 100;
-       
-      }
-
-      .el-icon-shopping-cart-2 {
-        font-size: 1.4rem;
       }
     }
   }
-
   .bottom-section {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     border-top: none;
-
     @media screen and (max-width: 900px) {
       display: none;
     }
   }
-
   .mobile-bottom-section {
     display: none;
-
     @media screen and (max-width: 900px) {
-      position: sticky;
-      display: grid;
       grid-template-columns: repeat(2, 1fr);
-      border: solid 0.0625rem #000000;
+      border: solid 1px #000000;
       border-top: none;
       background: white;
 
@@ -309,21 +300,19 @@ export default {
       .mobile-nav-item3,
       .mobile-nav-item4,
       .mobile-nav-item5 {
-        border-bottom: solid 0.0625rem #000000;
+        border-bottom: solid 1px #000000;
         padding: 14px;
         text-align: center;
         text-decoration: none;
         color: #1d1d1d;
       }
-
       .mobile-nav-item1 {
         grid-column-start: 1;
         grid-column-end: 3;
       }
-
       .mobile-nav-item3,
       .mobile-nav-item5 {
-        border-left: solid 0.0625rem #000000;
+        border-left: solid 1px #000000;
       }
       .mobile-nav-item4,
       .mobile-nav-item5 {
@@ -332,44 +321,53 @@ export default {
     }
   }
 
-  .product-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    border-right: solid 0.0625rem #000000;
-    border-left: solid 0.0625rem #000000;
-    font-size: 2rem;
-    text-decoration: none;
-    padding: 0.6rem 0;
-    color: #1d1d1d;
+  .title-container {
+    background: #ffffff;
+    border-right: solid 1px #000000;
+    border-left: solid 1px #000000;
 
-    @media screen and (max-width: 900px) {
-      border-bottom: solid 0.0625rem #000000;
-      font-size: 1.6rem;
+    .product-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url("../assets/images/android-chrome500.png");
+      background-repeat: no-repeat;
+      background-position-x: center;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+      font-size: 2rem;
+      text-decoration: none;
+      padding: 0.6rem 0;
+      color: #1d1d1d;
+
+      @media screen and (max-width: 900px) {
+        border-bottom: solid 1px #000000;
+        font-size: 1.6rem;
+      }
     }
   }
-
   .nav-item {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: black;
-    border-bottom: solid 0.0625rem #000000;
+    border-bottom: solid 1px #000000;
     z-index: 100;
     text-transform: capitalize;
 
+    p {
+      animation: fadeOut 0.3s linear;
+    }
   }
 
   .border-left {
-    border-left: solid 0.0625rem #000000;
+    border-left: solid 1px #000000;
   }
-
   .border-right {
-    border-right: solid 0.0625rem #000000;
+    border-right: solid 1px #000000;
   }
-
   .nav-item1,
   .nav-item2,
   .nav-item3,
@@ -377,31 +375,25 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 15px 0;
     text-align: center;
     color: black;
-    border-bottom: solid 0.0625rem #000000;
+    border-bottom: solid 1px #000000;
   }
-
   .nav-item1,
   .nav-item2 {
-    border-left: solid 0.0625rem #000000;
+    border-left: solid 1px #000000;
   }
-
   .nav-item3 {
-    border-left: solid 0.0625rem #000000;
+    border-left: solid 1px #000000;
   }
-
   .nav-item3,
   .nav-item4 {
-    border-right: solid 0.0625rem #000000;
+    border-right: solid 1px #000000;
   }
-
   .nav-item2,
   .nav-item3 {
-    border-top: solid 0.0625rem #000000;
+    border-top: solid 1px #000000;
   }
-
   .nav-item,
   .nav-item1,
   .nav-item2,
@@ -414,31 +406,35 @@ export default {
     text-align: center;
     text-decoration: none;
     color: #1d1d1d;
-    transition: 0.5s;
+    transition: 0.3s;
     cursor: pointer;
   }
 
+  .nav-item4:hover,
   .nav-item:hover,
   .nav-item1:hover,
   .nav-item2:hover,
-  .nav-item3:hover,
-  .nav-item4:hover {
-    background: #000000;
-    color: white;
-    transition: 0.5s;
+  .nav-item3:hover {
+    color: #65ac4d;
+    transition: 0.3s;
   }
-
   .desktop-view {
     @media screen and (max-width: 900px) {
       display: none;
     }
   }
-
   .mobile-view {
     display: none;
-
     @media screen and (max-width: 900px) {
       display: flex;
+    }
+  }
+  @keyframes fadeOut {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
     }
   }
 }

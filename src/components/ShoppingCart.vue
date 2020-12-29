@@ -40,7 +40,7 @@
               <button
                 @click="decreaseProductQuantity(cartItems[index].product.id)"
               >
-                &#45;
+                &#8722;
               </button>
               <span>{{ cartItems[index].quantity }}</span>
               <button
@@ -98,11 +98,11 @@
             </div>
             <div class="quantity">
               <button @click="decreaseProductQuantity(localCartItem[index].id)">
-                -
+                &#8722;
               </button>
               <span>{{ localCartItem[index].quantity }}</span>
               <button @click="increaseProductQuantity(localCartItem[index].id)">
-                +
+                &#43;
               </button>
             </div>
             <div class="amount">
@@ -155,8 +155,10 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import api from "@/utils/api.js";
 import contentLoader from "@/components/contentLoader";
+
 export default {
   name: "ShoppingCart",
   components: {
@@ -187,6 +189,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions("notificationModule", ["showToast", "showModal"]),
     navigateTo(page) {
       this.$router.push(page);
     },
@@ -226,10 +229,7 @@ export default {
             this.checkIfLocalStorageIsEmpty();
           })
           .catch((error) => {
-            this.$swal.fire({
-              icon: "info",
-              html: error.message,
-            });
+            alert(error.message);
           });
         return;
       }
@@ -242,10 +242,7 @@ export default {
           }
         })
         .catch((error) => {
-          this.$swal.fire({
-            icon: "info",
-            html: error.message,
-          });
+          alert(error.message);
         });
     },
     removeProductFromCart(productId) {
@@ -275,14 +272,10 @@ export default {
         });
         localStorage.setItem("local_cart", JSON.stringify(this.localCartItem));
         this.checkIfLocalStorageIsEmpty();
-        this.$swal.fire({
-          position: "top",
-          icon: "success",
-          width: 150,
-          html: "Removed",
-          showConfirmButton: false,
-          timer: 1000,
-          toast: true,
+        this.showToast({
+          description: "Removed from cart",
+          display: true,
+          type: "success",
         });
         return;
       }
@@ -303,14 +296,10 @@ export default {
             });
             this.customerCart = data.data;
             this.checkIfCartIsEmpty();
-            this.$swal.fire({
-              position: "top",
-              icon: "success",
-              width: 150,
-              html: "Removed",
-              showConfirmButton: false,
-              timer: 1000,
-              toast: true,
+            this.showToast({
+              description: "Removed from Cart",
+              display: true,
+              type: "success",
             });
           }
         })
@@ -361,6 +350,9 @@ export default {
               );
               this.$store.dispatch("decrementCartCounter");
             }
+            if (this.$store.state.cartCounter === 0) {
+              this.removeProductFromCart(productId);
+            }
           });
         });
         return;
@@ -385,10 +377,7 @@ export default {
           }
         })
         .catch(({ response }) => {
-          this.$swal.fire({
-            icon: "info",
-            html: response.data.message,
-          });
+          alert(response.data.message);
         });
     },
     increaseProductQuantity(productId) {
@@ -402,9 +391,10 @@ export default {
               items.id === productId &&
               item.id === productId
             ) {
-              this.$swal.fire({
-                icon: "info",
-                html: `We have only ${item.stock.quantity_available} of this Product left`,
+              this.showModal({
+                description: `We have only ${item.stock.quantity_available} of this Product left.`,
+                display: true,
+                type: "error",
               });
               return;
             }
@@ -448,18 +438,20 @@ export default {
           }
         })
         .catch(({ response }) => {
-          this.$swal.fire({
-            icon: "info",
-            html: response.data.message,
+          this.showModal({
+            description: response.data.message,
+            display: true,
+            type: "error",
           });
         });
     },
     checkout() {
       this.fetchedCart = false;
       if (!localStorage.getItem("user_details")) {
-        this.$swal.fire({
-          icon: "info",
-          html: "You have to login or signup to check out 🙃",
+        this.showModal({
+          description: "You have to login or signup to checkout 🙃",
+          display: true,
+          type: "info",
         });
         this.navigateTo("/login");
         return;

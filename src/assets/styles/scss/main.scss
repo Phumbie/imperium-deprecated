@@ -46,7 +46,6 @@ button {
 #signup-section,
 #paas-sub,
 #edit-section {
-  padding-top: 5rem;
   padding-bottom: 7rem;
   display: flex;
   flex-direction: column;
@@ -257,7 +256,7 @@ button {
         margin-top: 2rem;
         margin-left: 0px;
         padding: 14px 36px;
-        font-size: 14px;
+        font-size: 16px;
         background: transparent;
         border: solid 1px black;
         transition: 0.5s;
@@ -270,24 +269,26 @@ button {
       .login-btn:hover,
       .login-btn:focus {
         text-decoration: none;
-        background: black;
-        color: white;
-        transition: 0.5s;
+        color: #65ac4d;
+        transition: 0.3s;
         cursor: pointer;
+      }
+
+      input[type="submit"] {
+        font-size: 16px;
       }
 
       input[type="submit"]:hover,
       input[type="submit"]:focus {
-        background: black;
-        color: white;
-        transition: 0.5s;
+        color: #65ac4d;
+        transition: 0.3s;
         cursor: pointer;
       }
 
       .loader {
         display: flex;
-        border: 1px solid #000000;
-        border-top: 1px groove #ffffff;
+        border: 2px solid #65ac4d;
+        border-top: 2px solid rgba(101, 172, 77, 0.3);
         border-radius: 50%;
         width: 10px;
         height: 10px;

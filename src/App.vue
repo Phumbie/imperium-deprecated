@@ -1,12 +1,21 @@
 <template>
   <div id="app">
+    <Toast />
+    <Modal />
     <router-view />
   </div>
 </template>
 
 <script>
+import Toast from "@/components/Notification/Toast/Toast";
+import Modal from "@/components/Notification/Modal/Modal";
+
 export default {
-  name: "App"
+  name: "App",
+  components: {
+    Toast,
+    Modal,
+  },
 };
 </script>
 

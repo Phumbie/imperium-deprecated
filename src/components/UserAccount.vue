@@ -14,7 +14,7 @@
         <router-link to="my-account/update" class="edit">Edit</router-link>
       </span>
       <div class="details-container">
-        <div class="box">
+        <div class="box border-right">
           <label>Personal Details</label>
           <div class="info-text capitalize">{{ userFullName }}</div>
           <div class="info-text">{{ userDetails.user.email }}</div>
@@ -72,17 +72,12 @@
       <span>{{ contentLoaderText }}</span>
     </content-loader>
     <div class="pagination">
-      <el-pagination
-        :background="false"
-        @current-change="handlePageChange"
-        :hide-on-single-page="true"
-        :page-size="this.pagination.per_page"
-        :current-page="this.pagination.page"
-        :pager-count="9"
-        layout="prev, pager, next"
-        :total="this.pagination.totalRecords"
-      >
-      </el-pagination>
+      <BackendPagination
+        @pageChange="handlePageChange"
+        :totalRecord="pagination.totalRecords"
+        :currentPage="pagination.page"
+        :perPage="pagination.per_page"
+      />
     </div>
     <!-- <span class="section-title">Power As A Service</span>
     <div class="paas-active-plan-container">
@@ -95,13 +90,16 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import api from "@/utils/api.js";
 import contentLoader from "@/components/contentLoader";
+import BackendPagination from "@/components/Pagination/BackendPagination";
 
 export default {
   name: "UserAccount",
   components: {
     contentLoader,
+    BackendPagination,
   },
   data() {
     return {
@@ -132,6 +130,7 @@ export default {
     this.getOrders();
   },
   methods: {
+    ...mapActions("notificationModule", ["showToast"]),
     logout() {
       localStorage.clear();
       this.navigateTo("login");
@@ -175,14 +174,10 @@ export default {
           }
         })
         .catch(({ response }) => {
-          this.$swal.fire({
-            position: "top",
-            icon: "error",
-            width: 200,
-            html: "invalid account",
-            showConfirmButton: false,
-            timer: 1000,
-            toast: true,
+          this.showToast({
+            description: "Invalid account",
+            display: true,
+            type: "error",
           });
           localStorage.clear();
           this.navigateTo("login");

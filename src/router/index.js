@@ -2,27 +2,10 @@ import Vue from "vue";
 import Router from "vue-router";
 import MainPage from "@/views/MainPage";
 import LoginSignup from "@/views/LoginSignup";
-import PaasPage from "@/views/PaasPage";
-import PaasSubscriptionPlan from "@/components/PaasSubscriptionPlan";
-import PaasPersonalDetails from "@/components/PaasPersonalDetails";
-import PaasAccountDetails from "@/components/PaasAccountDetails";
-import PaasStatementConfirmation from "@/components/PaasStatementConfirmation";
-import PaasApplianceConfiguration from "@/components/PaasApplianceConfiguration";
-import BuyProducts from "@/components/BuyProducts";
-import ProductView from "@/components/ProductView";
-import ShoppingCart from "@/components/ShoppingCart";
-import Landing from "@/components/Landing";
-import Login from "@/components/Login";
-import Confirm from "@/components/Confirm";
-import ForgetPassword from "@/components/ForgetPassword";
-import ResetPassword from "@/components/ResetPassword";
-import UserAccount from "@/components/UserAccount";
-import EditUserAccount from "@/components/EditUserAccount";
-import UserOrderHistory from "@/components/UserOrderHistory";
-import Signup from "@/components/Signup";
-import TermsAndCondition from "@/components/TermsAndCondition";
-import CheckoutPage from "@/views/CheckoutPage";
-import PageNotFound from "@/views/404";
+// import PaasPage from "@/views/PaasPage";
+// import PaasPersonalDetails from "@/components/PaasPersonalDetails";
+// import PaasAccountDetails from "@/components/PaasAccountDetails";
+// import PaasStatementConfirmation from "@/components/PaasStatementConfirmation";
 
 // [Router, VModal].forEach((x) => Vue.use(x))
 Vue.use(Router);
@@ -34,43 +17,118 @@ export default new Router({
       path: "/",
       component: MainPage,
       children: [
-        { path: "", component: Landing },
-        { path: "/products", component: BuyProducts },
+        {
+          path: "",
+          component: () => import("@/components/Landing"),
+          hidden: true,
+        },
+        {
+          path: "/products",
+          component: () => import("@/components/BuyProducts"),
+          hidden: true,
+        },
+        {
+          path: "/products/search/:id",
+          component: () => import("../views/Search"),
+          hidden: true,
+        },
         {
           path: "paas/appliance-configuration",
-          component: PaasApplianceConfiguration
+          component: () => import("@/components/PaasApplianceConfiguration"),
+          hidden: true,
         },
-        { path: "power-as-a-service", component: PaasSubscriptionPlan },
-        { path: "product/:slug/id/:id", component: ProductView },
-        { path: "cart", component: ShoppingCart },
-        { path: "/my-account", component: UserAccount },
-        { path: "/terms-and-condition", component: TermsAndCondition },
-        { path: "/my-account/update", component: EditUserAccount },
-        { path: "/my-account/order-history", component: UserOrderHistory },
-        { path: "/user/confirm", component: Confirm },
-      ]
+        {
+          path: "power-as-a-service",
+          component: () => import("@/components/PaasSubscriptionPlan"),
+          hidden: true,
+        },
+        {
+          path: "product/:slug/id/:id",
+          component: () => import("@/components/ProductView"),
+          hidden: true,
+        },
+        {
+          path: "cart",
+          component: () => import("@/components/ShoppingCart"),
+          hidden: true,
+        },
+        {
+          path: "/my-account",
+          component: () => import("@/components/UserAccount"),
+          hidden: true,
+        },
+        {
+          path: "/terms-and-condition",
+          component: () => import("@/components/TermsAndCondition"),
+          hidden: true,
+        },
+        {
+          path: "/my-account/update",
+          component: () => import("@/components/EditUserAccount"),
+          hidden: true,
+        },
+        {
+          path: "/my-account/order-history",
+          component: () => import("@/components/UserOrderHistory"),
+          hidden: true,
+        },
+        {
+          path: "/user/confirm",
+          component: () => import("@/components/Confirm"),
+          hidden: true,
+        },
+      ],
     },
     {
       path: "/",
       component: LoginSignup,
       children: [
-        { path: "login", component: Login },
-        { path: "signup", component: Signup },
-        { path: "forget-password", component: ForgetPassword },
-        { path: "reset-password", component: ResetPassword },
-        { path: "/checkout", name: "CheckoutPage", component: CheckoutPage }
-      ]
+        {
+          path: "login",
+          component: () => import("@/views/Login"),
+          hidden: true,
+        },
+        {
+          path: "signup",
+          component: () => import("@/views/Signup"),
+          hidden: true,
+        },
+        {
+          path: "forget-password",
+          component: () => import("@/components/Accounts/ForgetPassword"),
+          hidden: true,
+        },
+        {
+          path: "reset-password",
+          component: () => import("@/components/ResetPassword"),
+          hidden: true,
+        },
+        {
+          path: "/checkout",
+          component: () => import("@/views/CheckoutPage"),
+          hidden: true,
+        },
+      ],
+    },
+    // {
+    //   path: "/paas",
+    //   component: PaasPage,
+    //   children: [
+    //     { path: "register", component: PaasPersonalDetails },
+    //     { path: "account-details", component: PaasAccountDetails },
+    //     { path: "statement-confirmed", component: PaasStatementConfirmation },
+    //   ],
+    // },
+    {
+      path: "/specta",
+      component: () => import("@/components/PayWithSpecta"),
+      hidden: true,
     },
     {
-      path: "/paas",
-      component: PaasPage,
-      children: [
-        { path: "register", component: PaasPersonalDetails },
-        { path: "account-details", component: PaasAccountDetails },
-        { path: "statement-confirmed", component: PaasStatementConfirmation }
-      ]
+      path: "*",
+      component: () => import("@/views/404"),
+      hidden: true,
     },
-    { path: "/404", name: "404Page", component: PageNotFound }
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
@@ -78,5 +136,5 @@ export default new Router({
     } else {
       return { x: 0, y: 0 };
     }
-  }
+  },
 });

@@ -96,9 +96,11 @@
         }
       }
 
-      .border-left {
-        border-left: solid #000000 1px;
+      .border-right {
+        border-right: solid #000000 1px;
+      }
 
+      .border-left {
         @media screen and (max-width: 900px) {
           border-left: none;
           border-top: solid #000000 1px;
@@ -174,24 +176,16 @@
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            height: 19rem;
+            height: 15rem;
             margin-bottom: 1.2rem;
             padding-bottom: 1.4rem;
 
-            @media screen and (max-width: 900px) {
-              height: 10rem;
-            }
-
             img {
-              width: 70%;
+              width: 60%;
               position: relative;
               object-position: bottom;
               object-fit: contain;
               max-height: 100%;
-
-              @media screen and (max-width: 900px) {
-                width: 60%;
-              }
             }
           }
 

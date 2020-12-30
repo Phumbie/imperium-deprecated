@@ -21,9 +21,9 @@
         class="text-field capitalize"
       />
       <button @click="placeOrder()">Outright payment</button>
-      <button @click="payWithSpecta()">
+      <!-- <button @click="payWithSpecta()">
         Lease to own<span class="loader" v-if="loading"></span>
-      </button>
+      </button> -->
     </div>
     <div class="right-side">
       <div

@@ -96,9 +96,11 @@
         }
       }
 
-      .border-left {
-        border-left: solid #000000 1px;
+      .border-right {
+        border-right: solid #000000 1px;
+      }
 
+      .border-left {
         @media screen and (max-width: 900px) {
           border-left: none;
           border-top: solid #000000 1px;
@@ -207,12 +209,11 @@
             font-size: 1rem;
             background: transparent;
             padding: 0.8rem 0;
-            transition: 0.5s;
+            transition: 0.3s;
           }
 
           button:hover {
-            background-color: #1d1d1d;
-            color: white;
+            color: #65ac4d;
           }
         }
       }

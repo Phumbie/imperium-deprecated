@@ -85,17 +85,17 @@ export default new Router({
       children: [
         {
           path: "login",
-          component: () => import("@/components/Login"),
+          component: () => import("@/views/Login"),
           hidden: true,
         },
         {
           path: "signup",
-          component: () => import("@/components/Signup"),
+          component: () => import("@/views/Signup"),
           hidden: true,
         },
         {
           path: "forget-password",
-          component: () => import("@/components/ForgetPassword"),
+          component: () => import("@/components/Accounts/ForgetPassword"),
           hidden: true,
         },
         {

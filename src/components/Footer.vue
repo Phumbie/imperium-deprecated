@@ -49,9 +49,9 @@ export default {
   name: "Footer",
   data() {
     return {
-      calculatorURL: process.env.VUE_APP_CALCULATOR_URL
+      calculatorURL: process.env.VUE_APP_CALCULATOR_URL,
     };
-  }
+  },
 };
 </script>
 
@@ -123,6 +123,11 @@ export default {
         letter-spacing: 0.03rem;
         margin-bottom: 0.7rem;
         cursor: pointer;
+        transition: 0.3s ease-in-out;
+
+        &:hover {
+          color: #65ac4d;
+        }
       }
 
       .margin-bottom {
@@ -184,9 +189,8 @@ export default {
         }
       }
       .button-send-mail:hover {
-        background: #1b1b1b;
-        color: white;
-        transition: 0.5s ease-in-out;
+        color: #65ac4d;
+        transition: 0.3s ease-in-out;
       }
     }
   }

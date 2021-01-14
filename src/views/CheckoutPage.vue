@@ -21,9 +21,9 @@
         class="text-field capitalize"
       />
       <button @click="placeOrder()">Outright payment</button>
-      <button @click="payWithSpecta()">
+      <!-- <button @click="payWithSpecta()">
         Lease to own<span class="loader" v-if="loading"></span>
-      </button>
+      </button> -->
     </div>
     <div class="right-side">
       <div
@@ -61,9 +61,9 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import api from "@/utils/api.js";
 import TopNav from "@/components/TopNav";
-
 export default {
   components: {
     TopNav,
@@ -96,6 +96,7 @@ export default {
     // this.phone_number = `${this.user.user.phone_number}`;
   },
   methods: {
+    ...mapActions("notificationModule", ["showToast"]),
     navigateTo(page) {
       this.$router.push(page);
     },
@@ -134,14 +135,10 @@ export default {
           },
         },
         callback: function(response) {
-          x.$swal.fire({
-            position: "top",
-            icon: "success",
-            width: 280,
-            html: "your order is being processed",
-            showConfirmButton: false,
-            timer: 2000,
-            toast: true,
+          x.showToast({
+            description: "Your order is being processed",
+            display: true,
+            type: "success",
           });
           x.navigateTo("/products");
         },

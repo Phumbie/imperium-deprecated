@@ -8,9 +8,9 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import api from "@/utils/api.js";
 import contentLoader from "@/components/contentLoader";
-
 export default {
   name: "PayWIthSpecta",
   components: {
@@ -36,26 +36,24 @@ export default {
         } = data.data;
         switch (message) {
           case "Completed":
-            this.$swal.fire({
-              position: "top",
-              icon: "success",
-              width: 280,
-              html: "your order is being processed",
-              showConfirmButton: false,
-              timer: 2000,
-              toast: true,
+            this.showToast({
+              description: "Your order is being processed",
+              display: true,
+              type: "success",
             });
             this.$router.push("/products");
             break;
           case "Failed":
-            this.$swal.fire({
-              icon: "info",
-              html: "Your payment was not successful 🙃",
+            this.showModal({
+              description: "Your loan request was not successful.",
+              display: true,
+              type: "error",
             });
+
             this.$router.push("/checkout");
             break;
-
           default:
+            alert("an error occured");
             break;
         }
       })
@@ -63,6 +61,9 @@ export default {
         alert(error);
         this.$router.push("/checkout");
       });
+  },
+  methods: {
+    ...mapActions("notificationModule", ["showToast", "showModal"]),
   },
 };
 </script>
@@ -75,7 +76,6 @@ export default {
   justify-content: center;
   align-items: center;
   font-size: 20px;
-
   .specta-loader {
     width: 90vw;
     height: 30vh;

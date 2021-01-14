@@ -25,8 +25,8 @@
           cartCounter === 0 ? "0" : cartCounter
         }})</router-link
       >
-      <router-link to="/cart" class="mobile-nav-item border-right"
-        ><i class="el-icon-shopping-cart-2"></i> ({{
+      <router-link to="/cart" class="mobile-nav-item border-right">
+        <img src="@/assets/images/shopping-cart.svg" alt="" />({{
           cartCounter === 0 ? "0" : cartCounter
         }})</router-link
       >
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import api from "@/utils/api.js";
 import gsap from "@/utils/gsap.js";
 import Search from "@/components/Search/Search";
@@ -82,6 +82,12 @@ export default {
       search: true,
     };
   },
+  created() {
+    window.addEventListener("scroll", this.topNavAnimation);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.topNavAnimation);
+  },
   computed: {
     ...mapGetters(["cartCounter"]),
   },
@@ -91,6 +97,7 @@ export default {
     this.getUser();
   },
   methods: {
+    ...mapActions("notificationModule", ["showModal"]),
     showSearch() {
       this.search = !this.search;
     },
@@ -104,12 +111,19 @@ export default {
       const topSectionTop = topSection.getBoundingClientRect().top;
       const topSectionBottom = topSection.getBoundingClientRect().bottom;
       const height = topSectionBottom - topSectionTop;
-      gsap.topNavAnimation(
-        ".bottom-section",
-        ".top-section",
-        "top",
-        -height + 1
-      );
+      if (topSectionTop < 1) {
+        gsap.gsapClass().to(".bottom-section", {
+          y: -height - 0.5,
+          duration: 0.2,
+          ease: "Power0.easeInOut",
+        });
+      } else {
+        gsap.gsapClass().to(".bottom-section", {
+          y: -1,
+          duration: 0.2,
+          ease: "Power0.easeInOut",
+        });
+      }
     },
     toggle() {
       if (this.$refs.checkBox.checked === true) {
@@ -156,10 +170,14 @@ export default {
         })
         .catch(({ response }) => {
           if (response) {
-            this.$swal.fire({
-              icon: "error",
-              html: "Unauthorized account",
+            this.showModal({
+              description: "Unauthorized account.",
+              display: true,
+              type: "error",
             });
+            localStorage.clear();
+            this.setCartCounter();
+            this.$router.push("/products");
           }
         });
     },
@@ -187,7 +205,7 @@ export default {
   .top-section {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
-    border-top: solid 0.0625rem #000000;
+    border-top: solid 1px #000000;
     @media screen and (max-width: 900px) {
       grid-template-columns: 1fr 4fr 1fr;
     }
@@ -255,12 +273,9 @@ export default {
         text-align: center;
         background: white;
         color: black;
-        border-bottom: solid 0.0625rem #000000;
+        border-bottom: solid 1px #000000;
         text-decoration: none;
         z-index: 100;
-      }
-      .el-icon-shopping-cart-2 {
-        font-size: 1.4rem;
       }
     }
   }
@@ -276,7 +291,7 @@ export default {
     display: none;
     @media screen and (max-width: 900px) {
       grid-template-columns: repeat(2, 1fr);
-      border: solid 0.0625rem #000000;
+      border: solid 1px #000000;
       border-top: none;
       background: white;
 
@@ -285,7 +300,7 @@ export default {
       .mobile-nav-item3,
       .mobile-nav-item4,
       .mobile-nav-item5 {
-        border-bottom: solid 0.0625rem #000000;
+        border-bottom: solid 1px #000000;
         padding: 14px;
         text-align: center;
         text-decoration: none;
@@ -297,7 +312,7 @@ export default {
       }
       .mobile-nav-item3,
       .mobile-nav-item5 {
-        border-left: solid 0.0625rem #000000;
+        border-left: solid 1px #000000;
       }
       .mobile-nav-item4,
       .mobile-nav-item5 {
@@ -308,8 +323,8 @@ export default {
 
   .title-container {
     background: #ffffff;
-    border-right: solid 0.0625rem #000000;
-    border-left: solid 0.0625rem #000000;
+    border-right: solid 1px #000000;
+    border-left: solid 1px #000000;
 
     .product-title {
       display: flex;
@@ -327,7 +342,7 @@ export default {
       color: #1d1d1d;
 
       @media screen and (max-width: 900px) {
-        border-bottom: solid 0.0625rem #000000;
+        border-bottom: solid 1px #000000;
         font-size: 1.6rem;
       }
     }
@@ -338,7 +353,7 @@ export default {
     justify-content: center;
     text-align: center;
     color: black;
-    border-bottom: solid 0.0625rem #000000;
+    border-bottom: solid 1px #000000;
     z-index: 100;
     text-transform: capitalize;
 
@@ -348,10 +363,10 @@ export default {
   }
 
   .border-left {
-    border-left: solid 0.0625rem #000000;
+    border-left: solid 1px #000000;
   }
   .border-right {
-    border-right: solid 0.0625rem #000000;
+    border-right: solid 1px #000000;
   }
   .nav-item1,
   .nav-item2,
@@ -362,22 +377,22 @@ export default {
     justify-content: center;
     text-align: center;
     color: black;
-    border-bottom: solid 0.0625rem #000000;
+    border-bottom: solid 1px #000000;
   }
   .nav-item1,
   .nav-item2 {
-    border-left: solid 0.0625rem #000000;
+    border-left: solid 1px #000000;
   }
-  .nav-item2 {
-    border-right: solid 0.0625rem #000000;
+  .nav-item3 {
+    border-left: solid 1px #000000;
   }
   .nav-item3,
   .nav-item4 {
-    border-right: solid 0.0625rem #000000;
+    border-right: solid 1px #000000;
   }
   .nav-item2,
   .nav-item3 {
-    border-top: solid 0.0625rem #000000;
+    border-top: solid 1px #000000;
   }
   .nav-item,
   .nav-item1,

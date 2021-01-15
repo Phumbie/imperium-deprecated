@@ -108,7 +108,6 @@ export default {
         .then(({ data }) => {
           this.productDetails = data.data;
           this.fetchedProductDetails = true;
-
           api
             .getSimilarProducts(data.data.category, 100000)
             .then((response) => {

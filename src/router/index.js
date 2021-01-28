@@ -23,7 +23,7 @@ export default new Router({
           hidden: true,
         },
         {
-          path: "/products",
+          path: "/products/:page",
           component: () => import("@/components/BuyProducts"),
           hidden: true,
         },

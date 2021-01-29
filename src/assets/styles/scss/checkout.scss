@@ -11,7 +11,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    border-right: solid 1px #1d1d1d;
+    // border-right: solid 1px #1d1d1d;
 
     @media screen and (max-width: 900px) {
       border-right: none;
@@ -68,6 +68,7 @@
     flex-direction: column;
     align-items: center;
     padding-bottom: 8rem;
+    border-left: solid 1px #1d1d1d;
 
     .cart-item {
       display: grid;

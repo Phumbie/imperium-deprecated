@@ -1,5 +1,5 @@
 <template>
-  <div id="nav-container">
+  <div id="nav-container" class="container">
     <section class="top-section" ref="topSection">
       <p
         class="nav-item border-left desktop-view"
@@ -199,7 +199,7 @@ export default {
   border-bottom: none;
   position: sticky;
   position: -webkit-sticky;
-  margin: 38px 0;
+  margin: 38px auto;
   top: -1px;
   z-index: 10;
   .top-section {

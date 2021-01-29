@@ -1,5 +1,5 @@
 <template>
-  <div id="search">
+  <div id="search" class="container">
     <div class="header-text-28">
       Search results for "{{ $route.params.id }}"
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <div id="landing">
+  <div id="landing" class="container">
     <div v-if="!loading">
       <section class="top-section">
         <div>

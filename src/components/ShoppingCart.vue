@@ -1,5 +1,5 @@
 <template>
-  <div id="cart-section">
+  <div id="cart-section" class="container">
     <section class="header-section">
       <div class="header-text-28">Shopping Cart</div>
       <div class="header" v-if="fetchedCart || fetchedLocalStorage">

@@ -1,5 +1,5 @@
 <template>
-  <div id="normal-products-section">
+  <div id="normal-products-section" class="container">
     <section class="header-section">
       <div class="header-text-28 capitalize">{{ this.header }}</div>
       <div class="category-nav">

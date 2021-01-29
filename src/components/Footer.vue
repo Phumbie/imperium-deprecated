@@ -1,5 +1,5 @@
 <template>
-  <div id="footer">
+  <div id="footer" class="container">
     <div class="footer-container">
       <div class="box">
         <div class="small-header-text">Shop</div>

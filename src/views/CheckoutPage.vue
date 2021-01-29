@@ -1,5 +1,5 @@
 <template>
-  <div id="checkout-page">
+  <div id="checkout-page" class="container">
     <div class="left-side">
       <div class="header-text-28">Shipping details</div>
       <input

@@ -1,5 +1,5 @@
 <template>
-  <div id="user-account" v-if="loading">
+  <div id="user-account" class="container" v-if="loading">
     <section class="header-section">
       <div class="header-text-28">My Account</div>
       <ul>
@@ -14,7 +14,7 @@
         <router-link to="my-account/update" class="edit">Edit</router-link>
       </span>
       <div class="details-container">
-        <div class="box border-right">
+        <div class="box">
           <label>Personal Details</label>
           <div class="info-text capitalize">{{ userFullName }}</div>
           <div class="info-text">{{ userDetails.user.email }}</div>
@@ -22,7 +22,7 @@
             {{ userDetails.user.phone_number }}
           </div>
         </div>
-        <div class="box border-left">
+        <div class="box border-left border-center">
           <label>Address</label>
           <div class="info-text capitalize">
             {{ userDetails.customer.address.street }},

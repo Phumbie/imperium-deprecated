@@ -91,7 +91,7 @@
             "
             src="https://res.cloudinary.com/imperiumng/image/upload/v1611899209/hnam1ivshxvivcnoimhe.jpg"
             loading="lazy"
-            sizes="(max-width: 600px) 100vw, 33.3vw"
+            sizes="(max-width: 600px) 100vw"
             alt="installation image"
           />
         </div>

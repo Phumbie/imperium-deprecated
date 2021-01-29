@@ -41,7 +41,7 @@
       <router-link to="/my-account" class="nav-item2" v-else
         >Hi, {{ userDetail | setUppercase }}</router-link
       >
-      <router-link to="/products" class="nav-item3">Buy Products</router-link>
+      <router-link to="/products/1" class="nav-item3">Buy Products</router-link>
       <a :href="requestAuditURL" target="_blank" class="nav-item4">Buy Power</a>
     </section>
     <section class="mobile-bottom-section">
@@ -56,7 +56,7 @@
       <a :href="calculatorURL" class="mobile-nav-item3">
         Energy Calculator
       </a>
-      <router-link to="/products" class="mobile-nav-item4"
+      <router-link to="/products/1" class="mobile-nav-item4"
         >Buy Products</router-link
       >
       <a :href="requestAuditURL" class="mobile-nav-item5">Buy Power</a>

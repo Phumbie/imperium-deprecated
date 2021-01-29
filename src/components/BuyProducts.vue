@@ -207,6 +207,7 @@ export default {
         page: this.$store.state.productModule.page,
         category: this.$store.state.activeTab,
       });
+      this.$router.push({ path: `/products/${page}` });
     },
     switchCategory(category) {
       this.$store.dispatch("productModule/setLoading", true);

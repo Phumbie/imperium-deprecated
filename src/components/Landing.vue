@@ -232,7 +232,7 @@ export default {
     setActiveTab(activeTabID) {
       this.$store.dispatch("productModule/setLoading", true);
       this.$store.dispatch("setActiveTabId", activeTabID);
-      this.$router.push({ path: "/products" });
+      this.$router.push({ path: "/products/1" });
     },
   },
 };

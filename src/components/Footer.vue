@@ -7,7 +7,7 @@
         <div class="info-text">Payment</div>
         <div class="info-text">Privacy policy</div>
         <router-link to="/terms-and-condition" class="info-text margin-bottom"
-          >Terms & Conditions</router-link
+          >Terms & conditions</router-link
         >
       </div>
       <div class="box">
@@ -15,7 +15,7 @@
         <div class="small-header-text mobile-screen">PaaS</div>
         <div class="info-text desktop-screen">
           <a :href="calculatorURL" target="_blank" class="info-text"
-            >Energy Calculator</a
+            >Energy calculator</a
           >
         </div>
         <div class="mobile-screen">
@@ -25,7 +25,7 @@
         </div>
         <div class="info-text">Plans</div>
         <div class="info-text">Purchase</div>
-        <div class="info-text margin-bottom">Lease to Own</div>
+        <div class="info-text margin-bottom">Lease to own</div>
       </div>
       <div class="box last-box">
         <div class="small-header-text">Can't find what you're looking for?</div>

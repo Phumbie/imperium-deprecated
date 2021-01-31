@@ -77,7 +77,7 @@ export const signupCustomer = ({ commit, dispatch }, payload) => {
               reject(error);
             });
         } else {
-          router.push("/my-account");
+          router.push("/my-account/1");
           commit("CLEAR_SIGNUP_DETAILS", {
             signupDetails: {
               first_name: "",
@@ -171,7 +171,7 @@ export const loginCustomer = ({ commit }, payload) => {
               reject(error);
             });
         } else {
-          router.push("/my-account");
+          router.push("/my-account/1");
           commit("CLEAR_LOGIN_DETAILS", {
             loginDetails: {
               email: "",

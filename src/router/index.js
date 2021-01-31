@@ -53,7 +53,7 @@ export default new Router({
           hidden: true,
         },
         {
-          path: "/my-account",
+          path: "/my-account/:page",
           component: () => import("@/components/UserAccount"),
           hidden: true,
         },
@@ -68,7 +68,7 @@ export default new Router({
           hidden: true,
         },
         {
-          path: "/my-account/order-history",
+          path: "/order-history",
           component: () => import("@/components/UserOrderHistory"),
           hidden: true,
         },

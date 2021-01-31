@@ -136,7 +136,7 @@
       </div>
       <div class="text">Delivery and taxes are calculated at checkout</div>
       <div class="buttons">
-        <button @click="navigateTo('/products')">Continue shopping</button>
+        <button @click="navigateTo('/products/1')">Continue shopping</button>
         <button class="bg-black" @click="checkout()">Check out</button>
       </div>
     </section>
@@ -147,7 +147,7 @@
       </div>
       <div class="text">Delivery and taxes are calculated at checkout</div>
       <div class="buttons">
-        <button @click="navigateTo('/products')">Continue shopping</button>
+        <button @click="navigateTo('/products/1')">Continue shopping</button>
         <button class="bg-black" @click="checkout()">Check out</button>
       </div>
     </section>

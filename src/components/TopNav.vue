@@ -35,10 +35,10 @@
       <a :href="calculatorURL" target="_blank" class="nav-item1 border-left"
         >Energy Calculator</a
       >
-      <router-link to="/my-account" class="nav-item2" v-if="!userDetail"
+      <router-link to="/login" class="nav-item2" v-if="!userDetail"
         >Account</router-link
       >
-      <router-link to="/my-account" class="nav-item2" v-else
+      <router-link to="/my-account/1" class="nav-item2" v-else
         >Hi, {{ userDetail | setUppercase }}</router-link
       >
       <router-link to="/products/1" class="nav-item3">Buy Products</router-link>
@@ -47,10 +47,10 @@
     <section class="mobile-bottom-section">
       <p class="mobile-nav-item1" v-if="search" @click="showSearch">Search</p>
       <Search class="mobile-nav-item1" @toggleFocus="closeNav" v-else />
-      <router-link to="/my-account" class="mobile-nav-item2" v-if="!userDetail"
+      <router-link to="/login" class="mobile-nav-item2" v-if="!userDetail"
         >Account</router-link
       >
-      <router-link to="/my-account" class="mobile-nav-item2" v-else
+      <router-link to="/my-account/1" class="mobile-nav-item2" v-else
         >Hi, {{ userDetail | setUppercase }}</router-link
       >
       <a :href="calculatorURL" class="mobile-nav-item3">

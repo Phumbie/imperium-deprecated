@@ -5,9 +5,9 @@
         <div class="small-header-text">Shop</div>
         <div class="info-text">Returns</div>
         <div class="info-text">Payment</div>
-        <div class="info-text">Delivery</div>
+        <div class="info-text">Privacy policy</div>
         <router-link to="/terms-and-condition" class="info-text margin-bottom"
-          >Terms&Conditions</router-link
+          >Terms & Conditions</router-link
         >
       </div>
       <div class="box">

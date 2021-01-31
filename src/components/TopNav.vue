@@ -411,7 +411,7 @@ export default {
   }
 
   .cart {
-    background: #1b1b1b;
+    background: #1d1d1d;
     color: #ffffff;
   }
 
@@ -426,7 +426,6 @@ export default {
 
   .cart:hover {
     color: #65ac4d;
-    background: #ffffff;
     transition: 0.3s;
   }
 

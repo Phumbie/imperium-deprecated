@@ -20,7 +20,7 @@
       <div class="title-container">
         <router-link to="/" class="product-title">Imperium</router-link>
       </div>
-      <router-link to="/cart" class="nav-item border-right desktop-view"
+      <router-link to="/cart" class="nav-item cart border-right desktop-view"
         >Shopping cart ({{
           cartCounter === 0 ? "0" : cartCounter
         }})</router-link
@@ -410,6 +410,11 @@ export default {
     cursor: pointer;
   }
 
+  .cart {
+    background: #1b1b1b;
+    color: #ffffff;
+  }
+
   .nav-item4:hover,
   .nav-item:hover,
   .nav-item1:hover,
@@ -418,6 +423,13 @@ export default {
     color: #65ac4d;
     transition: 0.3s;
   }
+
+  .cart:hover {
+    color: #65ac4d;
+    background: #ffffff;
+    transition: 0.3s;
+  }
+
   .desktop-view {
     @media screen and (max-width: 900px) {
       display: none;

@@ -140,7 +140,7 @@ export default {
             display: true,
             type: "success",
           });
-          x.navigateTo("/products");
+          x.navigateTo("/products/1");
         },
       });
       handler.openIframe();

@@ -2,18 +2,18 @@
   <div id="footer" class="container">
     <div class="footer-container">
       <div class="box">
-        <div class="small-header-text">Shop</div>
-        <div class="info-text">Returns</div>
-        <div class="info-text">Payment</div>
+        <div class="small-header-text">Imperium</div>
+        <div class="info-text">About us</div>
+        <div class="info-text">Contact us</div>
         <div class="info-text">Privacy policy</div>
+        <div class="info-text">Sell on Imperium</div>
         <router-link to="/terms-and-condition" class="info-text margin-bottom"
           >Terms & conditions</router-link
         >
       </div>
       <div class="box">
-        <div class="small-header-text desktop-screen">Power as a service</div>
-        <div class="small-header-text mobile-screen">PaaS</div>
-        <div class="info-text desktop-screen">
+        <div class="small-header-text">Offerings</div>
+        <div class="info-text  desktop-screen">
           <a :href="calculatorURL" target="_blank" class="info-text"
             >Energy calculator</a
           >
@@ -23,9 +23,13 @@
             >Calculator</a
           >
         </div>
-        <div class="info-text">Plans</div>
-        <div class="info-text">Purchase</div>
-        <div class="info-text margin-bottom">Lease to own</div>
+        <div class="info-text">Installation</div>
+        <div class="info-text">Outright purchase</div>
+        <div class="info-text">Lease to own</div>
+        <div class="info-text margin-bottom desktop-screen">
+          Power as a service
+        </div>
+        <div class="info-text margin-bottom mobile-screen">PaaS</div>
       </div>
       <div class="box last-box">
         <div class="small-header-text">Can't find what you're looking for?</div>
@@ -111,9 +115,9 @@ export default {
         font-family: HelveticaNeue;
         font-size: 1.4rem;
         font-weight: 500;
-        letter-spacing: 0.003rem;
+        // letter-spacing: 0.003rem;
         color: #353535;
-        margin-bottom: 0.8rem;
+        margin-bottom: 1rem;
       }
 
       .info-text {

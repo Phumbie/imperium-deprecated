@@ -1,5 +1,5 @@
 <template>
-  <div id="checkout-page">
+  <div id="checkout-page" class="container">
     <div class="left-side">
       <div class="header-text-28">Shipping details</div>
       <input
@@ -20,9 +20,9 @@
         :value="this.address"
         class="text-field capitalize"
       />
-      <button @click="placeOrder()">Outright payment</button>
+      <button @click="placeOrder()">Outright Payment</button>
       <button @click="payWithSpecta()">
-        Lease to own<span class="loader" v-if="loading"></span>
+        Lease To Own<span class="loader" v-if="loading"></span>
       </button>
     </div>
     <div class="right-side">
@@ -140,7 +140,7 @@ export default {
             display: true,
             type: "success",
           });
-          x.navigateTo("/products");
+          x.navigateTo("/products/1");
         },
       });
       handler.openIframe();

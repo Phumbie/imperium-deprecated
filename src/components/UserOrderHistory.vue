@@ -1,5 +1,5 @@
 <template>
-  <div id="user-order-history" v-if="loading">
+  <div id="user-order-history" class="container" v-if="loading">
     <section class="header-section">
       <div class="header-text-28">Order Details</div>
     </section>

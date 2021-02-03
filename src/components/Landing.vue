@@ -1,5 +1,5 @@
 <template>
-  <div id="landing">
+  <div id="landing" class="container">
     <div v-if="!loading">
       <section class="top-section">
         <div>
@@ -78,7 +78,22 @@
           <p class="small-text">reduce your carbon footprint</p>
         </div>
         <div class="image" @click="setActiveTab('bundle')">
-          <img src="~@/assets/images/landing1.jpg" />
+          <img
+            srcset="
+              https://res.cloudinary.com/imperiumng/image/upload/v1611900068/v616qqazyeow6bxhwfjc.jpg 2560w,
+              https://res.cloudinary.com/imperiumng/image/upload/v1611899874/zgifhqbgzhgeofsjjlyc.jpg 1800w,
+              https://res.cloudinary.com/imperiumng/image/upload/v1611899858/qhhsgfzpmsvr6hs13q8m.jpg 1600w,
+              https://res.cloudinary.com/imperiumng/image/upload/v1611899837/bqdks7a5qb5gp9xrkp5c.jpg 1536w,
+              https://res.cloudinary.com/imperiumng/image/upload/v1611899668/agjcmk8golvk5mcmqono.jpg 1440w,
+              https://res.cloudinary.com/imperiumng/image/upload/v1611899606/vh0p9p2ir9myclx38pms.jpg 1336w,
+              https://res.cloudinary.com/imperiumng/image/upload/v1611899513/h3r272rxgamuwsuvxskt.jpg 1280w,
+              https://res.cloudinary.com/imperiumng/image/upload/v1611899313/ro2sedoqsyqvwut9of5j.jpg 1080w
+            "
+            src="https://res.cloudinary.com/imperiumng/image/upload/v1611899209/hnam1ivshxvivcnoimhe.jpg"
+            loading="lazy"
+            sizes="(max-width: 600px) 100vw"
+            alt="installation image"
+          />
         </div>
       </section>
       <section class="bottom-section">

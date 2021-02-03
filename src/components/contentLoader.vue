@@ -1,5 +1,5 @@
 <template>
-  <div id="content-loader">
+  <div id="content-loader" class="container">
     <slot />
   </div>
 </template>

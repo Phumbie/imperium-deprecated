@@ -1,5 +1,5 @@
 <template>
-  <div id="product-view">
+  <div id="product-view" class="container">
     <div class="product" v-if="fetchedProductDetails">
       <div class="image-container">
         <img :src="productDetails.display_image" />

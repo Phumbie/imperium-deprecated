@@ -24,7 +24,7 @@
           >
         </div>
         <div class="info-text">Installation</div>
-        <div class="info-text">Outright purchase</div>
+        <div class="info-text">Delivery</div>
         <div class="info-text">Lease to own</div>
         <div class="info-text margin-bottom desktop-screen">
           Power as a service

@@ -116,14 +116,14 @@ export default {
   },
   mounted() {
     if (!localStorage.getItem("user_details")) {
-      this.navigateTo("login");
+      this.navigateTo("/login");
       return;
     }
 
     this.userDetails = JSON.parse(localStorage.getItem("user_details"));
     if (this.userDetails.customer === undefined) {
       localStorage.clear();
-      this.navigateTo("login");
+      this.navigateTo("/login");
       return;
     }
     this.userFullName = `${this.userDetails.customer.first_name} ${this.userDetails.customer.last_name}`;
@@ -133,7 +133,7 @@ export default {
     ...mapActions("notificationModule", ["showToast"]),
     logout() {
       localStorage.clear();
-      this.navigateTo("login");
+      this.navigateTo("/login");
     },
     navigateTo(page) {
       this.$router.push(page);
@@ -142,6 +142,7 @@ export default {
       this.loading = false;
       this.page = page;
       // this.$router.push({ path: "/my-account", query: { page: page } });
+      this.$router.push({ path: `/my-account/${page}` });
       this.getOrders();
     },
     getOrders() {
@@ -180,7 +181,7 @@ export default {
             type: "error",
           });
           localStorage.clear();
-          this.navigateTo("login");
+          this.navigateTo("/login");
         });
     },
     getOrderHistoryById(orderId) {
@@ -191,7 +192,7 @@ export default {
           if (data.status == "success") {
             localStorage.setItem("placed_order", JSON.stringify(data.data));
           }
-          this.navigateTo("my-account/order-history");
+          this.navigateTo("/order-history");
         })
         .catch(({ response }) => {
           alert(response.data.message);

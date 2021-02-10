@@ -232,11 +232,18 @@
             :key="index"
             v-bind:class="{ float_right: index % 2 > 0 }"
           >
+            <img
+              src="@/assets/images/close.svg"
+              alt="close icon"
+              class="icon-close"
+              @click="removeAppliance(index)"
+            />
             <div class="appliance-details">
               <div>{{ device.name }}</div>
               <span>{{ device.quantity }}</span
-              >, <span> {{ device.size }} kw</span>,
-              <span> {{ device.on_time }} hrs daily</span>
+              ><span class="pipe">|</span> <span> {{ device.size }} kw</span
+              ><span class="pipe">|</span
+              ><span> {{ device.on_time }} hrs daily</span>
             </div>
           </div>
         </div>

@@ -108,7 +108,6 @@
 <script>
   import contentLoader from "@/components/contentLoader";
   import BackendPagination from "@/components/Pagination/BackendPagination";
-  import { mapActions } from "vuex";
 
   export default {
     components: {
@@ -145,20 +144,6 @@
           },
         ],
       };
-    },
-    beforeRouteEnter(to, from, next) {
-      if (to.query.redirectFrom) {
-        next((vm) => {
-          vm.showModal({
-            description:
-              "Sorry, you can't access checkout page if cart is empty",
-            display: true,
-            type: "error",
-          });
-        });
-      } else {
-        next();
-      }
     },
     created() {
       if (!JSON.parse(localStorage.getItem("active_tab"))) {

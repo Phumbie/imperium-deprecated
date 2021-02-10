@@ -114,7 +114,6 @@ export default new Router({
             if (store.getters.cartCounter == 0) {
               next({
                 name: "products",
-                query: { redirectFrom: to.fullPath },
               });
             } else {
               next();

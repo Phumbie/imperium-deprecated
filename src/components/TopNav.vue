@@ -32,9 +32,9 @@
       >
     </section>
     <section class="bottom-section">
-      <a :href="calculatorURL" target="_blank" class="nav-item1 border-left"
-        >Energy Calculator</a
-      >
+      <router-link to="/calculator" class="nav-item1 border-left">
+        Energy Calculator
+      </router-link>
       <router-link to="/login" class="nav-item2" v-if="!userDetail"
         >Account</router-link
       >
@@ -53,9 +53,9 @@
       <router-link to="/my-account/1" class="mobile-nav-item2" v-else
         >Hi, {{ userDetail | setUppercase }}</router-link
       >
-      <a :href="calculatorURL" class="mobile-nav-item3">
+      <router-link to="/calculator" class="mobile-nav-item3">
         Energy Calculator
-      </a>
+      </router-link>
       <router-link to="/products/1" class="mobile-nav-item4"
         >Buy Products</router-link
       >
@@ -421,7 +421,7 @@ export default {
   .nav-item2:hover,
   .nav-item3:hover {
     color: #65ac4d;
-    transition: 0.3s;
+    // transition: 0.3s;
   }
 
   .cart:hover {

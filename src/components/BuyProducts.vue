@@ -195,8 +195,6 @@
     },
 
     methods: {
-      ...mapActions("notificationModule", ["showToast", "showModal"]),
-
       navigateTo(page) {
         if (page.split("/")[2] === "undefined") {
           return;

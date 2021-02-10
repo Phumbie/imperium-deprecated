@@ -12,6 +12,8 @@ const RESET_PASSWORD_URL = `${BASE_URL}/user/reset-password-confirmation`;
 const CONFIRM_CUSTOMER_URL = `${BASE_URL}/user/confirm`;
 const SEARCH_PRODUCTS_URL = `${BASE_URL}/product/search/`;
 const SPECTA_PAYMENT = `${BASE_URL}/lease`;
+const DEVICE_URL = `${BASE_URL}/device`;
+const CALCULATION_URL = `${BASE_URL}/calculation`;
 
 export default {
   getHeader() {
@@ -100,5 +102,17 @@ export default {
   },
   spectaVerifyPayment: (data) => {
     return axios.post(`${SPECTA_PAYMENT}/verifyPurchase`, data);
+  },
+  getAppliance() {
+    return axios.get(`${DEVICE_URL}`);
+  },
+  getFuelCostPerLitre() {
+    return axios.get(`${CALCULATION_URL}/fuel-prices`);
+  },
+  costAndEnergyConsumptionGenerator: (generator) => {
+    return axios.post(`${CALCULATION_URL}/generator`, generator);
+  },
+  costAndEnergyConsumptionDevice: (devices) => {
+    return axios.post(`${CALCULATION_URL}/device`, devices);
   },
 };

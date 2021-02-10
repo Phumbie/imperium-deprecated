@@ -53,12 +53,15 @@
         >
           <div class="form-body">
             <div class="text-dropdown-field">
+              <img src="@/assets/images/chevron-down.svg" alt="chevron icon" />
               <select
                 class="full-width text-align-left"
                 required
                 @change="onChangeFuelType($event)"
               >
-                <option value="" disabled selected>Select fuel type</option>
+                <option value="" disabled selected class="disabled"
+                  >Select fuel type</option
+                >
                 <option value="petrol">Petrol</option>
                 <option value="diesel">Diesel</option>
               </select>
@@ -123,6 +126,7 @@
         <form v-else @submit.prevent="addAppliance()">
           <div class="form-body">
             <div class="text-dropdown-field">
+              <img src="@/assets/images/chevron-down.svg" alt="chevron icon" />
               <select
                 class="full-width text-align-left"
                 required

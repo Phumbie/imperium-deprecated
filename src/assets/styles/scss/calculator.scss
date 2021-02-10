@@ -81,6 +81,7 @@
         padding: 0 1.2rem 0rem 1.2rem;
 
         .text-dropdown-field {
+          position: relative;
           width: 100%;
           //   margin-bottom: 16px;
           //   height: 36px;
@@ -99,6 +100,11 @@
             background: transparent;
           }
 
+          img {
+            position: absolute;
+            right: 0.5rem;
+          }
+
           select {
             width: 26%;
             // height: 100%;
@@ -110,6 +116,7 @@
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
+            cursor: pointer;
           }
 
           .text-align-left {

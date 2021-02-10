@@ -111,7 +111,6 @@ export default new Router({
           component: () => import("@/views/CheckoutPage"),
           hidden: true,
           beforeEnter(to, from, next) {
-            // console.log(Storage.getCartCount());
             if (store.getters.cartCounter == 0) {
               next({
                 name: "products",

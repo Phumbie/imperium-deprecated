@@ -21,9 +21,9 @@
             renewable energy providers for you.
           </div>
         </div>
-        <div class="btn">
+        <router-link to="/request-audit" class="btn">
           <button>Request Energy Audit</button>
-        </div>
+        </router-link>
       </div>
     </section>
     <section class="center">
@@ -438,7 +438,7 @@ export default {
             localStorage.fuelCostPerMonth = data.data.fuelCostPerMonth;
             localStorage.fuelCostPerYear = data.data.fuelCostPerYear;
 
-            this.$router.push("/calculator-results");
+            this.$router.push("/calculator-result");
           })
           .catch(({ response }) => {
             alert(`${response.data.status}`);
@@ -460,7 +460,7 @@ export default {
               localStorage.energyConsumptionPerYear =
                 data.data.energyConsumptionPerYear;
 
-              this.$router.push("/calculator-results");
+              this.$router.push("/calculator-result");
             })
             .catch(({ response }) => {
               alert(`${response.data.status}`);

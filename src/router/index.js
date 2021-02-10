@@ -114,6 +114,16 @@ export default new Router({
           component: () => import("@/components/Calculator"),
           hidden: true,
         },
+        {
+          path: "/calculator-result",
+          component: () => import("@/components/CalculatorResult"),
+          hidden: true,
+        },
+        {
+          path: "/request-audit",
+          component: () => import("@/components/RequestAudit"),
+          hidden: true,
+        },
       ],
     },
     {

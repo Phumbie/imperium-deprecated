@@ -2,6 +2,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import MainPage from "@/views/MainPage";
 import LoginSignup from "@/views/LoginSignup";
+import store from "@/store";
+
 // import PaasPage from "@/views/PaasPage";
 // import PaasPersonalDetails from "@/components/PaasPersonalDetails";
 // import PaasAccountDetails from "@/components/PaasAccountDetails";
@@ -26,6 +28,7 @@ export default new Router({
           path: "/products/:page",
           component: () => import("@/components/BuyProducts"),
           hidden: true,
+          name: "products",
         },
         {
           path: "/products/search/:id",
@@ -107,6 +110,15 @@ export default new Router({
           path: "/checkout",
           component: () => import("@/views/CheckoutPage"),
           hidden: true,
+          beforeEnter(to, from, next) {
+            if (store.getters.cartCounter == 0) {
+              next({
+                name: "products",
+              });
+            } else {
+              next();
+            }
+          },
         },
       ],
     },

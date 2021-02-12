@@ -42,7 +42,7 @@
         >Hi, {{ userDetail | setUppercase }}</router-link
       >
       <router-link to="/products/1" class="nav-item3">Buy Products</router-link>
-      <a :href="requestAuditURL" target="_blank" class="nav-item4">Buy Power</a>
+      <router-link to="/request-audit" class="nav-item4">Buy Power</router-link>
     </section>
     <section class="mobile-bottom-section">
       <p class="mobile-nav-item1" v-if="search" @click="showSearch">Search</p>
@@ -59,7 +59,9 @@
       <router-link to="/products/1" class="mobile-nav-item4"
         >Buy Products</router-link
       >
-      <a :href="requestAuditURL" class="mobile-nav-item5">Buy Power</a>
+      <router-link to="/request-audit" class="mobile-nav-item5"
+        >Buy Power</router-link
+      >
     </section>
   </div>
 </template>

@@ -216,7 +216,7 @@
           v-if="formGeneralIsActive && priceOfGenerator"
           @click="calculateCostAndEnergyConsumption()"
         >
-          Sudgested Product
+          Suggested Product
         </button>
         <div id="appliances-list-view" class="form-body">
           <div class="header-text" v-if="!formGeneralIsActive">

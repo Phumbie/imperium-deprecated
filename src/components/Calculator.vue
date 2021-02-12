@@ -76,9 +76,7 @@
                 required
               />
               <span>
-                <select class="select-disabled" disabled>
-                  <option value="kva">KVA</option>
-                </select>
+                KVA
               </span>
             </div>
             <div class="form-label">
@@ -93,9 +91,7 @@
                 required
               />
               <span>
-                <select class="select-disabled" disabled>
-                  <option value="hours">Hrs/day</option>
-                </select>
+                Hrs/day
               </span>
             </div>
             <!-- <div class="form-label" v-if="fuelType === 'diesel'">
@@ -151,9 +147,9 @@
                 disabled
                 required
               />
-              <select ref="powerMeasurment" disabled>
-                <option value="watts">Watts</option>
-              </select>
+              <span ref="powerMeasurment">
+                Watts
+              </span>
             </div>
             <div class="form-label">Quantity</div>
             <div class="text-dropdown-field">
@@ -410,7 +406,6 @@ export default {
       let appliance = this.$refs.applianceName;
       let name = appliance.options[appliance.selectedIndex].value;
       let size = parseFloat(this.$refs.capacityNum.value);
-      let powerMeasurment = this.$refs.powerMeasurment.value;
       let quantity = parseInt(this.$refs.quantity.value);
       let on_time = parseInt(this.$refs.dailyUsageHours.value);
       this.appliance = { size, name, on_time, quantity };

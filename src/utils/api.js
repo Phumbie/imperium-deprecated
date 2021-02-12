@@ -115,4 +115,7 @@ export default {
   costAndEnergyConsumptionDevice: (devices) => {
     return axios.post(`${CALCULATION_URL}/device`, devices);
   },
+  sendAuditForm: (formData) => {
+    return axios.post(`${BASE_URL}/power`, formData);
+  },
 };

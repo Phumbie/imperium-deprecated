@@ -145,17 +145,18 @@
         width: 100%;
         border: none;
         padding: 1rem 0;
-        border-top: 1px solid #1d1d1d;
-        background: #ffffff;
+        // border-top: 1px solid #1d1d1d;
+        background: #59a358;
+        // background: #ffffff;
         font-size: 1rem;
-        color: #1d1d1d;
+        color: #ffffff;
         margin-top: 30px;
         transition: 0.3s;
         cursor: pointer;
 
-        &:hover {
-          color: #65ac4d;
-        }
+        // &:hover {
+        //   color: #65ac4d;
+        // }
       }
     }
   }
@@ -192,15 +193,17 @@
     .btn {
       button {
         padding: 0.7rem 1.2rem;
-        background-color: #ffffff;
-        color: #1d1d1d;
-        border: 1px solid #1d1d1d;
+        background: #59a358;
+        // background-color: #ffffff;
+        color: #ffffff;
+        // border: 1px solid #1d1d1d;
+        border: none;
         transition: 0.3s;
         cursor: pointer;
 
-        &:hover {
-          color: #65ac4d;
-        }
+        // &:hover {
+        //   color: #65ac4d;
+        // }
 
         @media screen and (max-width: 1000px) {
           width: 100%;

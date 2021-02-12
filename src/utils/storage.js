@@ -8,4 +8,7 @@ export default {
   getStorageCart() {
     return JSON.parse(localStorage.getItem("product_id"));
   },
+  getCartCount() {
+    return JSON.parse(localStorage.getItem("cartCounter"));
+  },
 };

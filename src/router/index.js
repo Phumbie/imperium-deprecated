@@ -3,6 +3,14 @@ import Router from "vue-router";
 import MainPage from "@/views/MainPage";
 import LoginSignup from "@/views/LoginSignup";
 import PaasPage from "@/views/PaasPage";
+import store from "@/store";
+
+// import PaasPage from "@/views/PaasPage";
+// import PaasPersonalDetails from "@/components/PaasPersonalDetails";
+// import PaasAccountDetails from "@/components/PaasAccountDetails";
+// import PaasStatementConfirmation from "@/components/PaasStatementConfirmation";
+
+// [Router, VModal].forEach((x) => Vue.use(x))
 Vue.use(Router);
 
 export default new Router({
@@ -21,6 +29,7 @@ export default new Router({
           path: "/products/:page",
           component: () => import("@/components/BuyProducts"),
           hidden: true,
+          name: "products",
         },
         {
           path: "/products/search/:id",
@@ -102,6 +111,15 @@ export default new Router({
           path: "/checkout",
           component: () => import("@/views/CheckoutPage"),
           hidden: true,
+          beforeEnter(to, from, next) {
+            if (store.getters.cartCounter == 0) {
+              next({
+                name: "products",
+              });
+            } else {
+              next();
+            }
+          },
         },
       ],
     },

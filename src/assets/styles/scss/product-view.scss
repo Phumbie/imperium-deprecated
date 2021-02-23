@@ -25,13 +25,16 @@
     }
 
     .image-container {
-      // background-color: rgba(99, 155, 97, 0.2);
       width: 99.8%;
       display: flex;
       align-items: center;
       justify-content: center;
       padding-right: 1px;
       border-right: solid 1px #000000;
+
+      @media screen and (max-width: 900px) {
+        border-right: none;
+      }
 
       img {
         width: 60%;
@@ -49,7 +52,6 @@
 
     .product-details {
       width: 100%;
-      // border-left: solid 1px #000000;
 
       @media screen and (max-width: 900px) {
         border-left: none;

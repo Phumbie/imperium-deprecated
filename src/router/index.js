@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import MainPage from "@/views/MainPage";
 import LoginSignup from "@/views/LoginSignup";
+import PaasPage from "@/views/PaasPage";
 import store from "@/store";
 
 // import PaasPage from "@/views/PaasPage";
@@ -87,22 +88,22 @@ export default new Router({
       component: LoginSignup,
       children: [
         {
-          path: "login",
+          path: "/login",
           component: () => import("@/views/Login"),
           hidden: true,
         },
         {
-          path: "signup",
+          path: "/signup",
           component: () => import("@/views/Signup"),
           hidden: true,
         },
         {
-          path: "forget-password",
+          path: "/forget-password",
           component: () => import("@/components/Accounts/ForgetPassword"),
           hidden: true,
         },
         {
-          path: "reset-password",
+          path: "/reset-password",
           component: () => import("@/components/ResetPassword"),
           hidden: true,
         },
@@ -122,15 +123,27 @@ export default new Router({
         },
       ],
     },
-    // {
-    //   path: "/paas",
-    //   component: PaasPage,
-    //   children: [
-    //     { path: "register", component: PaasPersonalDetails },
-    //     { path: "account-details", component: PaasAccountDetails },
-    //     { path: "statement-confirmed", component: PaasStatementConfirmation },
-    //   ],
-    // },
+    {
+      path: "/",
+      component: PaasPage,
+      children: [
+        {
+          path: "/calculator",
+          component: () => import("@/components/Calculator"),
+          hidden: true,
+        },
+        {
+          path: "/calculator-result",
+          component: () => import("@/components/CalculatorResult"),
+          hidden: true,
+        },
+        {
+          path: "/request-audit",
+          component: () => import("@/components/RequestAudit"),
+          hidden: true,
+        },
+      ],
+    },
     {
       path: "/specta",
       component: () => import("@/components/PayWithSpecta"),

@@ -14,7 +14,7 @@
   padding-bottom: 200px;
 
   @media screen and (max-width: 900px) {
-    margin-top: 0.5rem;
+    margin-top: 3rem;
   }
 
   .loader {

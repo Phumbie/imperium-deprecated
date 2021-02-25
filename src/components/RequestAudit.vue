@@ -263,6 +263,21 @@ export default {
 
 <style lang="scss" scoped>
 #request-audit {
+  animation-name: fadeIn;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
   display: grid;
   grid-template-columns: 1.4fr 2fr;
   column-gap: 5rem;

@@ -107,6 +107,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import contentLoader from "@/components/contentLoader";
 import BackendPagination from "@/components/Pagination/BackendPagination";
 
@@ -148,7 +149,7 @@ export default {
   },
   created() {
     if (!JSON.parse(localStorage.getItem("active_tab"))) {
-      this.switchCategory(this.$store.state.activeTab);
+      this.switchCategory(this.activeTab);
     } else {
       let category = JSON.parse(localStorage.getItem("active_tab"));
       this.switchCategory(category);
@@ -158,41 +159,18 @@ export default {
   mounted() {},
 
   computed: {
-    productsList: {
-      get() {
-        return this.$store.state.productModule.productsList;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setProductsList", newValue);
-      },
-    },
-    pagination: {
-      get() {
-        return this.$store.state.productModule.pagination;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setPagination", newValue);
-      },
-    },
-    loading: {
-      get() {
-        return this.$store.state.productModule.loading;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setLoading", newValue);
-      },
-    },
-    activeTab: {
-      get() {
-        return this.$store.state.activeTab;
-      },
-      set(newValue) {
-        return this.$store.dispatch("setActiveTabId", newValue);
-      },
-    },
+    ...mapState({
+      loading: (state) => state.productModule.loading,
+      activeTab: (state) => state.activeTab,
+      productsList: (state) => state.productModule.productsList,
+      pagination: (state) => state.productModule.pagination,
+      page: (state) => state.productModule.page,
+    }),
   },
 
   methods: {
+    ...mapActions("productModule", ["setLoading", "setPage", "getAllProducts"]),
+    ...mapActions(["setActiveTabId"]),
     navigateTo(page) {
       if (page.split("/")[2] === "undefined") {
         return;
@@ -200,18 +178,17 @@ export default {
       this.$router.push(page);
     },
     handlePageChange(page) {
-      this.$store.dispatch("productModule/setLoading", true);
-      this.$store.dispatch("productModule/setPage", page);
-      // this.$router.push({ path: "/products", query: { page: page } });
-      this.$store.dispatch("productModule/getAllProducts", {
-        page: this.$store.state.productModule.page,
-        category: this.$store.state.activeTab,
+      this.setLoading(true);
+      this.setPage(page);
+      this.getAllProducts({
+        page: this.page,
+        category: this.activeTab,
       });
       this.$router.push({ path: `/products/${page}` });
     },
     switchCategory(category) {
-      this.$store.dispatch("productModule/setLoading", true);
-      this.$store.dispatch("setActiveTabId", category);
+      this.setLoading(true);
+      this.setActiveTabId(category);
       this.header = category;
       switch (category) {
         case "battery":
@@ -230,11 +207,10 @@ export default {
           this.header = "complete solution";
           break;
       }
-      this.$store.dispatch("productModule/setPage", null);
-      // this.$router.push({ path: "/products", query: { category: category } });
-      this.$store.dispatch("productModule/getAllProducts", {
-        page: this.$store.state.productModule.page,
-        category: this.$store.state.activeTab,
+      this.setPage(null);
+      this.getAllProducts({
+        page: this.page,
+        category: this.activeTab,
       });
     },
     setCategory() {

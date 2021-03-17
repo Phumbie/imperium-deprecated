@@ -14,14 +14,14 @@
       <div class="box">
         <div class="small-header-text">Offerings</div>
         <div class="info-text  desktop-screen">
-          <a :href="calculatorURL" target="_blank" class="info-text"
-            >Energy calculator</a
-          >
+          <router-link to="/calculator" class="info-text">
+            Energy calculator
+          </router-link>
         </div>
         <div class="mobile-screen">
-          <a :href="calculatorURL" target="_blank" class="info-text"
-            >Calculator</a
-          >
+          <router-link to="/calculator" class="info-text">
+            Calculator
+          </router-link>
         </div>
         <div class="info-text">Installation</div>
         <div class="info-text">Delivery</div>
@@ -52,9 +52,7 @@
 export default {
   name: "Footer",
   data() {
-    return {
-      calculatorURL: process.env.VUE_APP_CALCULATOR_URL,
-    };
+    return {};
   },
 };
 </script>

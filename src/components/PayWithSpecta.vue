@@ -41,7 +41,7 @@ export default {
               display: true,
               type: "success",
             });
-            this.$router.push("/products");
+            this.$router.push("/products/1");
             break;
           case "Failed":
             this.showModal({

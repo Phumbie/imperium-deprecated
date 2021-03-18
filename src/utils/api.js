@@ -34,9 +34,9 @@ export default {
   getAllProductsQuery_per_page: (per_page) => {
     return axios.get(`${PRODUCTS_URL}?per_page=${per_page}`);
   },
-  getSudggestedProducts: (category, min_price) => {
+  getSudggestedProducts: (category, query) => {
     return axios.get(
-      `${PRODUCTS_URL}?category=${category}&min_price=${min_price}`
+      `${PRODUCTS_URL}?category=${category}&${query.label}=${query.value}`
     );
   },
   getProductBySlug: (slug) => {

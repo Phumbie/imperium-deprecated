@@ -158,9 +158,24 @@ export default {
     },
 
     getSudggestedProducts() {
-      let suggestedCost = this.totalOperatingCost.replace(/,/g, "") * 12;
+      let key;
+      let suggestion;
+      if (this.calculationType == "device-based") {
+        key = "capacity";
+        suggestion =
+          this.energyConsumptionPerWeek.substring(
+            0,
+            this.energyConsumptionPerWeek.length - 4
+          ) / 7;
+      } else {
+        key = "min_price";
+        suggestion = this.totalOperatingCost.replace(/,/g, "") * 12;
+      }
       api
-        .getSudggestedProducts("bundle", suggestedCost)
+        .getSudggestedProducts("bundle", {
+          key: key,
+          value: suggestion,
+        })
         .then((response) => {
           if (response.data.data.result.length === 0) {
             this.show = false;

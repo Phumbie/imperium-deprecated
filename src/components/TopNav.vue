@@ -173,13 +173,13 @@ export default {
         .catch(({ response }) => {
           if (response) {
             this.showModal({
-              description: "Unauthorized account.",
+              description: "Invalid login details",
               display: true,
               type: "error",
             });
             localStorage.clear();
             this.setCartCounter();
-            this.$router.push("/products");
+            this.$router.push("/products/1");
           }
         });
     },

@@ -158,43 +158,58 @@ export default {
     },
 
     getSudggestedProducts() {
-      let key;
-      let suggestion;
       if (this.calculationType == "device-based") {
-        key = "capacity";
-        suggestion =
+        let capacity = parseFloat(
           this.energyConsumptionPerWeek.substring(
             0,
             this.energyConsumptionPerWeek.length - 4
-          ) / 7;
+          )
+        );
+        api
+          .getSudggestedProductsByCapacity("bundle", capacity)
+          .then((response) => {
+            if (response.data.data.result.length === 0) {
+              this.show = false;
+              return;
+            }
+            if (response.data.data.result.length < 4) {
+              const fill = fillArray(4, response.data.data.result.length);
+              this.suggestedProduct = response.data.data.result.concat(fill);
+              this.loading = false;
+            } else {
+              this.suggestedProduct = shuffleArray(
+                response.data.data.result
+              ).slice(-4);
+              this.loading = false;
+            }
+          })
+          .catch((error) => {
+            alert(error);
+          });
       } else {
-        key = "min_price";
-        suggestion = this.totalOperatingCost.replace(/,/g, "") * 12;
+        let suggestedCost = this.totalOperatingCost.replace(/,/g, "") * 12;
+        api
+          .getSudggestedProductsByMinPrice("bundle", suggestedCost)
+          .then((response) => {
+            if (response.data.data.result.length === 0) {
+              this.show = false;
+              return;
+            }
+            if (response.data.data.result.length < 4) {
+              const fill = fillArray(4, response.data.data.result.length);
+              this.suggestedProduct = response.data.data.result.concat(fill);
+              this.loading = false;
+            } else {
+              this.suggestedProduct = shuffleArray(
+                response.data.data.result
+              ).slice(-4);
+              this.loading = false;
+            }
+          })
+          .catch((error) => {
+            alert(error);
+          });
       }
-      api
-        .getSudggestedProducts("bundle", {
-          key: key,
-          value: suggestion,
-        })
-        .then((response) => {
-          if (response.data.data.result.length === 0) {
-            this.show = false;
-            return;
-          }
-          if (response.data.data.result.length < 4) {
-            const fill = fillArray(4, response.data.data.result.length);
-            this.suggestedProduct = response.data.data.result.concat(fill);
-            this.loading = false;
-          } else {
-            this.suggestedProduct = shuffleArray(
-              response.data.data.result
-            ).slice(-4);
-            this.loading = false;
-          }
-        })
-        .catch((error) => {
-          alert(error);
-        });
     },
 
     onConsumptionPerDurationChange(event) {

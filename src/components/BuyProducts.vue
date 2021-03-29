@@ -213,7 +213,7 @@ export default {
         category: this.activeTab,
       });
     },
-    setCategory() {
+    setCategory(event) {
       const category =
         event.target.options[event.target.options.selectedIndex].attributes[2]
           .value;

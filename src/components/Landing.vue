@@ -24,7 +24,12 @@
                 <p>{{ panel.description | shortenString | setUppercase }}</p>
               </div>
               <div class="price">
-                ₦ {{ panel.price ? panel.price.toLocaleString() : "" }}
+                ₦
+                {{
+                  panel.total_price
+                    ? panel.total_price.toLocaleString()
+                    : panel.price.toLocaleString()
+                }}
               </div>
             </div>
           </div>
@@ -43,7 +48,12 @@
                 <p>{{ inverter.description | shortenString | setUppercase }}</p>
               </div>
               <div class="price">
-                ₦ {{ inverter.price ? inverter.price.toLocaleString() : "" }}
+                ₦
+                {{
+                  inverter.total_price
+                    ? inverter.total_price.toLocaleString()
+                    : inverter.price.toLocaleString()
+                }}
               </div>
             </div>
           </div>
@@ -120,7 +130,12 @@
               </div>
 
               <div class="price">
-                ₦ {{ battery.price ? battery.price.toLocaleString() : "" }}
+                ₦
+                {{
+                  battery.total_price
+                    ? battery.total_price.toLocaleString()
+                    : battery.price.toLocaleString()
+                }}
               </div>
             </div>
           </div>
@@ -143,7 +158,12 @@
                 </p>
               </div>
               <div class="price">
-                ₦ {{ bundle.price ? bundle.price.toLocaleString() : "" }}
+                ₦
+                {{
+                  bundle.total_price
+                    ? bundle.total_price.toLocaleString()
+                    : bundle.price.toLocaleString()
+                }}
               </div>
             </div>
           </div>

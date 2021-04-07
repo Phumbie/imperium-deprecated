@@ -34,9 +34,14 @@ export default {
   getAllProductsQuery_per_page: (per_page) => {
     return axios.get(`${PRODUCTS_URL}?per_page=${per_page}`);
   },
-  getSudggestedProducts: (category, min_price) => {
+  getSudggestedProductsByMinPrice: (category, min_price) => {
     return axios.get(
       `${PRODUCTS_URL}?category=${category}&min_price=${min_price}`
+    );
+  },
+  getSudggestedProductsByCapacity: (category, capacity) => {
+    return axios.get(
+      `${PRODUCTS_URL}?category=${category}&min_capacity=${capacity}`
     );
   },
   getProductBySlug: (slug) => {

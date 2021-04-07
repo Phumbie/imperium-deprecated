@@ -230,11 +230,11 @@ export default {
         this.signupCustomer(this.details);
       }
     },
-    resetInputValidation() {
+    resetInputValidation(event) {
       let field = event.target.attributes.placeholder.value;
       this.validate({ field: field, invalid: false });
     },
-    validateInput() {
+    validateInput(event) {
       let field = event.target.attributes.placeholder.value;
       switch (field) {
         case "First name":

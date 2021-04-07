@@ -167,6 +167,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import contentLoader from "@/components/contentLoader";
 
 export default {
@@ -177,67 +178,24 @@ export default {
     return {};
   },
   created() {
-    this.$store.dispatch("productModule/getSimilarProducts", {
-      category: "solar panel",
-      per_page: 100000,
-    });
-    this.$store.dispatch("productModule/getSimilarProducts", {
-      category: "inverter",
-      per_page: 100000,
-    });
-    this.$store.dispatch("productModule/getSimilarProducts", {
-      category: "battery",
-      per_page: 100000,
-    });
-    this.$store.dispatch("productModule/getSimilarProducts", {
-      category: "bundle",
-      per_page: 100000,
-    });
+    this.getSimilarProducts({ category: "solar panel", per_page: 100000 });
+    this.getSimilarProducts({ category: "inverter", per_page: 100000 });
+    this.getSimilarProducts({ category: "battery", per_page: 100000 });
+    this.getSimilarProducts({ category: "bundle", per_page: 100000 });
   },
   mounted() {},
   computed: {
-    batteries: {
-      get() {
-        return this.$store.state.productModule.batteries;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setBatteries", newValue);
-      },
-    },
-    inverters: {
-      get() {
-        return this.$store.state.productModule.inverters;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setInverters", newValue);
-      },
-    },
-    panels: {
-      get() {
-        return this.$store.state.productModule.panels;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setPanels", newValue);
-      },
-    },
-    bundles: {
-      get() {
-        return this.$store.state.productModule.bundles;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setBundles", newValue);
-      },
-    },
-    loading: {
-      get() {
-        return this.$store.state.productModule.loading;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setLoading", newValue);
-      },
-    },
+    ...mapState({
+      loading: (state) => state.productModule.loading,
+      bundles: (state) => state.productModule.bundles,
+      panels: (state) => state.productModule.panels,
+      inverters: (state) => state.productModule.inverters,
+      batteries: (state) => state.productModule.batteries,
+    }),
   },
   methods: {
+    ...mapActions("productModule", ["setLoading", "getSimilarProducts"]),
+    ...mapActions(["setActiveTabId"]),
     navigateTo(page) {
       if (page.split("/")[2] === "undefined") {
         return;
@@ -245,8 +203,8 @@ export default {
       this.$router.push(page);
     },
     setActiveTab(activeTabID) {
-      this.$store.dispatch("productModule/setLoading", true);
-      this.$store.dispatch("setActiveTabId", activeTabID);
+      this.setLoading(true);
+      this.setActiveTabId(activeTabID);
       this.$router.push({ path: "/products/1" });
     },
   },

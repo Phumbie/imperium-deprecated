@@ -84,7 +84,12 @@
           </div>
 
           <div class="price">
-            ₦ {{ product.price ? product.price.toLocaleString() : "" }}
+            ₦
+            {{
+              product.total_price
+                ? product.total_price.toLocaleString()
+                : product.price.toLocaleString()
+            }}
           </div>
         </div>
       </div>

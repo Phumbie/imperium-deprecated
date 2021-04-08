@@ -9,7 +9,14 @@
           <div class="product-name">
             {{ productDetails.name }}
           </div>
-          <div class="price">₦ {{ productDetails.price.toLocaleString() }}</div>
+          <div class="price">
+            ₦
+            {{
+              productDetails.total_price
+                ? productDetails.total_price.toLocaleString()
+                : productDetails.price.toLocaleString()
+            }}
+          </div>
           <div class="btn-add-to-cart" @click="addProductToCart()">
             Add to cart
           </div>
@@ -55,7 +62,14 @@
           <div class="product-description">
             {{ products.description | shortenString | setUppercase }}
           </div>
-          <div class="price">₦ {{ products.price.toLocaleString() }}</div>
+          <div class="price">
+            ₦
+            {{
+              products.total_price
+                ? products.total_price.toLocaleString()
+                : products.price.toLocaleString()
+            }}
+          </div>
         </div>
       </div>
     </div>

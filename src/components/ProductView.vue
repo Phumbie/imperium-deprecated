@@ -1,6 +1,6 @@
 <template>
   <div id="product-view" class="container">
-    <div class="product" v-if="fetchedProductDetails">
+    <div class="product" v-if="!loading">
       <div class="image-container">
         <img :src="productDetails.display_image" />
       </div>
@@ -35,10 +35,10 @@
         </div>
       </div>
     </div>
-    <div class="header-text-28" v-if="fetchedProductDetails">
+    <div class="header-text-28" v-if="!loading">
       <p>Similar Products</p>
     </div>
-    <div class="products-container" v-if="fetchedProductDetails">
+    <div class="products-container" v-if="!loading">
       <div
         class="product-item"
         v-for="products in similarProducts"
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 import api from "@/utils/api.js";
 import shuffleArray from "@/utils/shuffleArray.js";
 import contentLoader from "@/components/contentLoader";
@@ -78,18 +78,25 @@ export default {
   },
   data() {
     return {
-      productSlug: "",
       productId: "",
-      productDetails: {},
-      similarProducts: [],
-      fetchedProductDetails: false,
     };
   },
   mounted() {
     this.getProductDetails();
   },
+
+  computed: {
+    ...mapState({
+      loading: (state) => state.productModule.loading,
+      productDetails: (state) => state.productModule.productDetails,
+      productSlug: (state) => state.productModule.productSlug,
+      similarProducts: (state) => state.productModule.similarProducts,
+    }),
+  },
+
   methods: {
     ...mapActions("notificationModule", ["showToast", "showModal"]),
+    ...mapActions("productModule", ["getProductBySlug", "setProductSlug"]),
     navigateTo(page) {
       if (
         page.split("/")[2] === "undefined" ||
@@ -101,45 +108,8 @@ export default {
       this.getProductDetails();
     },
     getProductDetails() {
-      (this.fetchedProductDetails = false),
-        (this.productSlug = this.$route.params.slug);
-      api
-        .getProductBySlug(this.productSlug)
-        .then(({ data }) => {
-          this.productDetails = data.data;
-          this.fetchedProductDetails = true;
-          api
-            .getSimilarProducts(data.data.category, 100000)
-            .then((response) => {
-              if (response.data.data.result.length > 4) {
-                this.similarProducts = response.data.data.result.slice(-4);
-              } else {
-                this.similarProducts = response.data.data.result;
-              }
-              if (response.data.data.result.length < 4) {
-                let emptyProductSpace = 4 - response.data.data.result.length;
-                let emptyObject = {};
-                let emptyProductArray = new Array(emptyProductSpace).fill(
-                  emptyObject
-                );
-                this.similarProducts = shuffleArray(
-                  response.data.data.result
-                ).concat(emptyProductArray);
-              } else {
-                this.similarProducts = shuffleArray(
-                  response.data.data.result
-                ).slice(-4);
-              }
-            });
-        })
-        .catch(({ response }) => {
-          this.showModal({
-            description: response.data.message,
-            display: true,
-            type: "error",
-          });
-          this.$router.push("/products");
-        });
+      this.setProductSlug(this.$route.params.slug);
+      this.getProductBySlug(this.productSlug);
     },
     addProductToCart() {
       this.productId = this.$route.params.id;

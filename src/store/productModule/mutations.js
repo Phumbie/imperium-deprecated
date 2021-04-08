@@ -22,6 +22,18 @@ export const SET_PRODUCTLIST = (state, payload) => {
   state.productsList = payload;
 };
 
+export const SET_SIMILAR_PRODUCT = (state, payload) => {
+  state.similarProducts = payload;
+};
+
+export const SET_PRODUCT_DETAILS = (state, payload) => {
+  state.productDetails = payload;
+};
+
+export const SET_PRODUCT_SLUG = (state, payload) => {
+  state.productSlug = payload;
+};
+
 export const SET_PAGINATION = (state, payload) => {
   state.pagination = payload;
 };

@@ -6,6 +6,7 @@ export default {
   productsList: [],
   productDetails: {},
   productSlug: "",
+  productId: "",
   similarProducts: [],
   pagination: "",
   loading: true,

@@ -70,6 +70,7 @@ import { mapState, mapActions } from "vuex";
 import api from "@/utils/api.js";
 import shuffleArray from "@/utils/shuffleArray.js";
 import contentLoader from "@/components/contentLoader";
+import storage from "@/utils/storage.js";
 
 export default {
   name: "ProductView",
@@ -77,9 +78,7 @@ export default {
     contentLoader,
   },
   data() {
-    return {
-      productId: "",
-    };
+    return {};
   },
   mounted() {
     this.getProductDetails();
@@ -90,13 +89,22 @@ export default {
       loading: (state) => state.productModule.loading,
       productDetails: (state) => state.productModule.productDetails,
       productSlug: (state) => state.productModule.productSlug,
+      productId: (state) => state.productModule.productId,
       similarProducts: (state) => state.productModule.similarProducts,
     }),
   },
 
   methods: {
     ...mapActions("notificationModule", ["showToast", "showModal"]),
-    ...mapActions("productModule", ["getProductBySlug", "setProductSlug"]),
+    ...mapActions("productModule", [
+      "getProductBySlug",
+      "setProductSlug",
+      "setProductId",
+    ]),
+    ...mapActions("cartModule", [
+      "addProductToLocalCart",
+      "addProductToOnlineCart",
+    ]),
     navigateTo(page) {
       if (
         page.split("/")[2] === "undefined" ||
@@ -112,84 +120,11 @@ export default {
       this.getProductBySlug(this.productSlug);
     },
     addProductToCart() {
-      this.productId = this.$route.params.id;
-      if (!localStorage.getItem("user_details")) {
-        let mathcingProducts = false;
-        let localDetails = JSON.parse(localStorage.getItem("product_id"));
-        localDetails.map((items) => {
-          if (items.id == this.productId) {
-            if (items.quantity < this.productDetails.stock.quantity_available) {
-              items.quantity += 1;
-              items.subtotal += this.productDetails.price;
-              mathcingProducts = true;
-              this.$store.dispatch("incrementCartCounter");
-              this.showToast({
-                description: "Added to cart",
-                display: true,
-                type: "success",
-              });
-            } else {
-              this.showModal({
-                description: `We have only ${this.productDetails.stock.quantity_available} of this Product left.`,
-                display: true,
-                type: "error",
-              });
-              mathcingProducts = true;
-            }
-            return;
-          }
-        });
-        if (!mathcingProducts) {
-          if (this.productDetails.stock.quantity_available === 0) {
-            this.showModal({
-              description: `Product is not available.`,
-              display: true,
-              type: "error",
-            });
-            return;
-          }
-          let productDetails = {
-            id: this.productId,
-            quantity: 1,
-            subtotal: this.productDetails.price,
-          };
-          localDetails.push(productDetails);
-          this.$store.dispatch("incrementCartCounter");
-          this.showToast({
-            description: "Added to cart",
-            display: true,
-            type: "success",
-          });
-        }
-        localStorage.setItem("product_id", JSON.stringify(localDetails));
+      this.setProductId(this.$route.params.id);
+      if (!storage.getUser()) {
+        this.addProductToLocalCart();
       } else {
-        api
-          .addProductToCart(this.productId)
-          .then(({ data }) => {
-            let newQuantity = 0;
-            if (data.data.cart.items.length === 0) {
-              newQuantity = 0;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
-            }
-            data.data.cart.items.map((item) => {
-              newQuantity += item.quantity;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
-            });
-            this.showToast({
-              description: "Added to cart",
-              display: true,
-              type: "success",
-            });
-          })
-          .catch(({ response }) => {
-            this.showModal({
-              description: response.data.message,
-              display: true,
-              type: "error",
-            });
-          });
+        this.addProductToOnlineCart(this.productId);
       }
     },
   },

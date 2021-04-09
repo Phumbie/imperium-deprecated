@@ -34,6 +34,10 @@ export const SET_PRODUCT_SLUG = (state, payload) => {
   state.productSlug = payload;
 };
 
+export const SET_PRODUCT_ID = (state, payload) => {
+  state.productId = payload;
+};
+
 export const SET_PAGINATION = (state, payload) => {
   state.pagination = payload;
 };

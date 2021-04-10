@@ -137,22 +137,22 @@ export default {
     setCartCounter() {
       if (
         !localStorage.getItem("user_details") &&
-        !localStorage.getItem("product_id")
+        !localStorage.getItem("local_cart")
       ) {
         let details = [];
         let localCart = [];
         let cartSize = 0;
-        localStorage.setItem("product_id", JSON.stringify(details));
+        // localStorage.setItem("product_id", JSON.stringify(details));
         localStorage.setItem("local_cart", JSON.stringify(localCart));
         this.$store.dispatch("setCartCounter", cartSize);
         return;
       }
       if (
         !localStorage.getItem("user_details") &&
-        JSON.parse(localStorage.getItem("product_id"))
+        JSON.parse(localStorage.getItem("local_cart"))
       ) {
         let cartSize = 0;
-        JSON.parse(localStorage.getItem("product_id")).map((item) => {
+        JSON.parse(localStorage.getItem("local_cart")).map((item) => {
           cartSize += item.quantity;
         });
         this.$store.dispatch("setCartCounter", cartSize);

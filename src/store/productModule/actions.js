@@ -1,8 +1,10 @@
 import api from "@/utils/api.js";
 import shuffleArray from "@/utils/shuffleArray.js";
 import fillArray from "@/utils/fillArray.js";
+import storage from "@/utils/storage.js";
 
 export const getAllProducts = ({ commit }, queryParams) => {
+  commit("SET_LOADING", true);
   return new Promise((resolve, reject) => {
     if (queryParams.category === "all products") {
       api
@@ -51,6 +53,7 @@ export const getAllProducts = ({ commit }, queryParams) => {
 };
 
 export const getSimilarProducts = ({ commit }, queryParams) => {
+  commit("SET_LOADING", true);
   return new Promise((resolve, reject) => {
     api
       .getSimilarProducts(queryParams.category, queryParams.per_page)
@@ -143,6 +146,7 @@ export const getSimilarProducts = ({ commit }, queryParams) => {
 };
 
 export const searchProducts = ({ commit }, queryParams) => {
+  commit("SET_LOADING", true);
   return new Promise((resolve, reject) => {
     api
       .searchProducts(queryParams.query)
@@ -173,18 +177,35 @@ export const searchProducts = ({ commit }, queryParams) => {
 };
 
 export const getProductBySlug = ({ commit, dispatch }, slug) => {
+  commit("SET_LOADING", true);
   return new Promise((resolve, reject) => {
     api
       .getProductBySlug(slug)
       .then(({ data }) => {
         const productDetails = data.data;
         commit("SET_PRODUCT_DETAILS", productDetails);
-        commit("SET_LOADING", false);
         dispatch("getSimilarProducts", {
           category: data.data.category,
           per_page: 100000,
           quantity: 4,
         });
+        commit("SET_LOADING", false);
+        resolve({ data });
+      })
+      .catch(({ data }) => {
+        alert(data.message);
+        reject({ data });
+      });
+  });
+};
+
+export const getProductsByQuery = ({ commit }, quantity) => {
+  return new Promise((resolve, reject) => {
+    api
+      .getAllProductsQuery_per_page(quantity)
+      .then(({ data }) => {
+        const productList = data.data.result;
+        commit("SET_PRODUCTLIST", productList);
         resolve({ data });
       })
       .catch(({ data }) => {
@@ -200,6 +221,10 @@ export const setLoading = ({ commit }, payload) => {
 
 export const setProductSlug = ({ commit }, payload) => {
   commit("SET_PRODUCT_SLUG", payload);
+};
+
+export const setProductId = ({ commit }, payload) => {
+  commit("SET_PRODUCT_ID", payload);
 };
 
 export const setBundles = ({ commit }, payload) => {

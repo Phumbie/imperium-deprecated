@@ -20,4 +20,10 @@ export default {
   getCartCount() {
     return JSON.parse(localStorage.getItem("cartCounter"));
   },
+  setLocalCart(data) {
+    localStorage.setItem("local_cart", JSON.stringify(data));
+  },
+  getLocalCart() {
+    return JSON.parse(localStorage.getItem("local_cart"));
+  },
 };

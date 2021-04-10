@@ -9,7 +9,9 @@
           <div class="product-name">
             {{ productDetails.name }}
           </div>
-          <div class="price">₦ {{ productDetails.price.toLocaleString() }}</div>
+          <div class="price" v-if="productDetails.price">
+            ₦ {{ productDetails.price.toLocaleString() }}
+          </div>
           <div class="btn-add-to-cart" @click="addProductToCart()">
             Add to cart
           </div>

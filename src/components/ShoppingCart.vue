@@ -72,52 +72,57 @@
       <div v-else-if="fetchedLocalStorage">
         <div
           class="cart-item"
-          v-for="(n, index) in localCartItem.length"
+          v-for="(item, index) in localCartItem"
           :key="index"
         >
           <div class="product-details">
             <div class="image-container">
-              <img :src="localCartItem[index].display_image" />
+              <img :src="item.display_image" />
             </div>
             <div class="product-name-price">
               <div class="product-name capitalize">
-                {{ localCartItem[index].name }}
+                {{ item.name }}
               </div>
               <div class="price">
-                ₦ {{ localCartItem[index].price.toLocaleString() }}
+                ₦
+                {{
+                  item.total_price
+                    ? item.total_price.toLocaleString()
+                    : item.price.toLocaleString()
+                }}
               </div>
               <div class="cart-item-description">
-                {{ localCartItem[index].description }}
+                {{ item.description }}
               </div>
               <button
                 class="button-remove"
-                @click="removeProductFromCart(localCartItem[index].id)"
+                @click="removeProductFromCart(item.id)"
               >
                 Remove
               </button>
             </div>
             <div class="quantity">
-              <button @click="decreaseProductQuantity(localCartItem[index].id)">
+              <button @click="decreaseProductQuantity(item.id)">
                 &#8722;
               </button>
-              <span>{{ localCartItem[index].quantity }}</span>
-              <button @click="increaseProductQuantity(localCartItem[index].id)">
+              <span>{{ item.quantity }}</span>
+              <button @click="increaseProductQuantity(item.id)">
                 &#43;
               </button>
             </div>
             <div class="amount">
-              <div>
+              <div v-if="item.total_price">
                 ₦
-                {{
-                  (
-                    localCartItem[index].price * localCartItem[index].quantity
-                  ).toLocaleString()
-                }}
+                {{ (item.total_price * item.quantity).toLocaleString() }}
+              </div>
+              <div v-else>
+                ₦
+                {{ (item.price * item.quantity).toLocaleString() }}
               </div>
             </div>
             <button
               class="mobile-button-remove"
-              @click="removeProductFromCart(localCartItem[index].id)"
+              @click="removeProductFromCart(item.id)"
             >
               Remove
             </button>
@@ -143,7 +148,7 @@
     <section class="checkout-button-section" v-else-if="fetchedLocalStorage">
       <div class="subtotal-section">
         <span>Subtotal</span>
-        <span>₦ {{ subtotalArr.toLocaleString() }}</span>
+        <span>₦ {{ localSubtotal.toLocaleString() }}</span>
       </div>
       <div class="text">Delivery and taxes are calculated at checkout</div>
       <div class="buttons">
@@ -155,7 +160,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 import api from "@/utils/api.js";
 import contentLoader from "@/components/contentLoader";
 
@@ -167,20 +172,24 @@ export default {
   data() {
     return {
       fetchedCart: false,
-      fetchedLocalStorage: false,
       productsList: [],
-      localCartItem: [],
       localCart: [],
       subtotalArr: [],
       customerCart: {},
-      contentLoaderText: "",
-      show: true,
     };
   },
   mounted() {
     this.getCart();
   },
   computed: {
+    ...mapState({
+      fetchedLocalStorage: (state) => state.cartModule.fetchedLocalStorage,
+      localCartItem: (state) => state.cartModule.localCartItem,
+      subtotal: (state) => state.cartModule.subtotal,
+      localSubtotal: (state) => state.cartModule.localSubtotal,
+      contentLoaderText: (state) => state.cartModule.contentLoaderText,
+      show: (state) => state.cartModule.show,
+    }),
     cartItems: function() {
       return this.customerCart.cart.items;
     },
@@ -190,47 +199,18 @@ export default {
   },
   methods: {
     ...mapActions("notificationModule", ["showToast", "showModal"]),
+    ...mapActions("cartModule", [
+      "getLocalCart",
+      "removeFromLocalCart",
+      "decreaseLocalCart",
+      "increaseLocalCart",
+    ]),
     navigateTo(page) {
       this.$router.push(page);
     },
     getCart() {
       if (!localStorage.getItem("user_details")) {
-        api
-          .getAllProductsQuery_per_page(100000000)
-          .then(({ data }) => {
-            this.productsList = data.data.result;
-            JSON.parse(localStorage.getItem("product_id")).map((item) => {
-              this.productsList.map((product) => {
-                if (product.id === item.id) {
-                  product.local_id = item.id;
-                  product.quantity = item.quantity;
-                  product.subtotal = item.subtotal;
-                  this.localCartItem.push(product);
-                }
-              });
-            });
-            JSON.parse(localStorage.getItem("product_id")).map(
-              (item, index) => {
-                this.subtotalArr.push(item.subtotal);
-              }
-            );
-            localStorage.setItem(
-              "subtotal_arr",
-              JSON.stringify(this.subtotalArr)
-            );
-            localStorage.setItem(
-              "local_cart",
-              JSON.stringify(this.localCartItem)
-            );
-            this.subtotalArr = this.subtotalArr.reduce((acc, value) => {
-              return acc + value;
-            }, 0);
-            localStorage.setItem("subtotal", JSON.stringify(this.subtotalArr));
-            this.checkIfLocalStorageIsEmpty();
-          })
-          .catch((error) => {
-            alert(error.message);
-          });
+        this.getLocalCart();
         return;
       }
       api
@@ -247,36 +227,7 @@ export default {
     },
     removeProductFromCart(productId) {
       if (!localStorage.getItem("user_details")) {
-        let local_items = JSON.parse(localStorage.getItem("product_id"));
-        let counter = JSON.parse(localStorage.getItem("cartCounter"));
-        local_items.map((item, index) => {
-          if (item.id === productId) {
-            counter -= item.quantity;
-            item.quantity = 0;
-            this.subtotalArr -= item.subtotal;
-            local_items.splice(index, 1);
-            this.$store.dispatch("setCartCounter", counter);
-            localStorage.setItem("cartCounter", JSON.stringify(counter));
-          }
-        });
-        localStorage.setItem("product_id", JSON.stringify(local_items));
-        this.localCartItem = [];
-        JSON.parse(localStorage.getItem("product_id")).map((item) => {
-          this.productsList.map((product) => {
-            if (product.id === item.id) {
-              product.local_id = item.id;
-              product.quantity = item.quantity;
-              this.localCartItem.push(product);
-            }
-          });
-        });
-        localStorage.setItem("local_cart", JSON.stringify(this.localCartItem));
-        this.checkIfLocalStorageIsEmpty();
-        this.showToast({
-          description: "Removed from cart",
-          display: true,
-          type: "success",
-        });
+        this.removeFromLocalCart(productId);
         return;
       }
       api
@@ -327,34 +278,7 @@ export default {
     },
     decreaseProductQuantity(productId) {
       if (!localStorage.getItem("user_details")) {
-        let localCart = JSON.parse(localStorage.getItem("local_cart"));
-        let localQuantity = JSON.parse(localStorage.getItem("product_id"));
-        localCart.map((item) => {
-          localQuantity.map((items) => {
-            if (item.quantity == 0) {
-              return;
-            }
-            if (
-              item.id === productId &&
-              items.id === productId &&
-              item.quantity !== 0
-            ) {
-              item.quantity = item.quantity -= 1;
-              items.quantity = items.quantity -= 1;
-              items.subtotal -= item.price;
-              this.subtotalArr -= item.price;
-              localStorage.setItem("local_cart", JSON.stringify(localCart));
-              localStorage.setItem("product_id", JSON.stringify(localQuantity));
-              this.localCartItem = JSON.parse(
-                localStorage.getItem("local_cart")
-              );
-              this.$store.dispatch("decrementCartCounter");
-            }
-            if (this.$store.state.cartCounter === 0) {
-              this.removeProductFromCart(productId);
-            }
-          });
-        });
+        this.decreaseLocalCart(productId);
         return;
       }
       api
@@ -382,41 +306,7 @@ export default {
     },
     increaseProductQuantity(productId) {
       if (!localStorage.getItem("user_details")) {
-        let localCart = JSON.parse(localStorage.getItem("local_cart"));
-        let localQuantity = JSON.parse(localStorage.getItem("product_id"));
-        localCart.map((item) => {
-          localQuantity.map((items) => {
-            if (
-              item.quantity === item.stock.quantity_available &&
-              items.id === productId &&
-              item.id === productId
-            ) {
-              this.showModal({
-                description: `We have only ${item.stock.quantity_available} of this Product left.`,
-                display: true,
-                type: "error",
-              });
-              return;
-            }
-            if (
-              item.id === productId &&
-              items.id === productId &&
-              item.quantity !== item.stock.quantity_available
-            ) {
-              item.quantity = item.quantity += 1;
-              items.quantity = items.quantity += 1;
-              items.subtotal += item.price;
-              this.subtotalArr += item.price;
-              localStorage.setItem("local_cart", JSON.stringify(localCart));
-              localStorage.setItem("product_id", JSON.stringify(localQuantity));
-              this.localCartItem = JSON.parse(
-                localStorage.getItem("local_cart")
-              );
-              this.$store.dispatch("incrementCartCounter");
-              return;
-            }
-          });
-        });
+        this.increaseLocalCart(productId);
         return;
       }
       api

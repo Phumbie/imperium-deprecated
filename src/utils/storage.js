@@ -3,7 +3,7 @@ export default {
     return localStorage.setItem("user_details", JSON.stringify(data));
   },
   getUser() {
-    return localStorage.getItem("user_details");
+    return JSON.parse(localStorage.getItem("user_details"));
   },
   setToken(data) {
     return localStorage.setItem("token", data);

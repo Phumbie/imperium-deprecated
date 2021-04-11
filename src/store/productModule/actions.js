@@ -199,22 +199,6 @@ export const getProductBySlug = ({ commit, dispatch }, slug) => {
   });
 };
 
-export const getProductsByQuery = ({ commit }, quantity) => {
-  return new Promise((resolve, reject) => {
-    api
-      .getAllProductsQuery_per_page(quantity)
-      .then(({ data }) => {
-        const productList = data.data.result;
-        commit("SET_PRODUCTLIST", productList);
-        resolve({ data });
-      })
-      .catch(({ data }) => {
-        alert(data.message);
-        reject({ data });
-      });
-  });
-};
-
 export const setLoading = ({ commit }, payload) => {
   commit("SET_LOADING", payload);
 };

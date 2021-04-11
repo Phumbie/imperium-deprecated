@@ -6,6 +6,14 @@ export const SET_CART_ITEMS = (state, payload) => {
   state.cartItems = payload;
 };
 
+export const ORDER = (state, payload) => {
+  state.order = payload;
+};
+
+export const ORDER_ITEMS = (state, payload) => {
+  state.orderItems = payload;
+};
+
 export const SUB_TOTAL_ARR = (state, payload) => {
   state.subtotalArr = payload;
 };
@@ -20,6 +28,10 @@ export const SUB_TOTAL = (state, payload) => {
 
 export const SHOW = (state, payload) => {
   state.show = payload;
+};
+
+export const SET_LOADING = (state, payload) => {
+  state.loading = payload;
 };
 
 export const FETCHED_LOCAL_STORAGE = (state, payload) => {

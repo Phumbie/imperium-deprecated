@@ -1,6 +1,4 @@
 import api from "@/utils/api.js";
-import shuffleArray from "@/utils/shuffleArray.js";
-import fillArray from "@/utils/fillArray.js";
 import storage from "@/utils/storage.js";
 
 export const addProductToLocalCart = ({ dispatch, rootState }) => {
@@ -70,50 +68,38 @@ export const addProductToLocalCart = ({ dispatch, rootState }) => {
   storage.setLocalCart(localCart);
 };
 
-export const addProductToOnlineCart = ({ commit, dispatch }, productId) => {
-  return new Promise((resolve, reject) => {
-    api
-      .addProductToCart(productId)
-      .then(({ data }) => {
-        const cartItems = data.data.cart.items;
-        let newQuantity = 0;
-        if (cartItems.length === 0) {
-          newQuantity = 0;
-          dispatch("setCartCounter", newQuantity, { root: true });
-          storage.setCartCount(newQuantity);
-        }
-        cartItems.map((item) => {
-          newQuantity += item.quantity;
-          dispatch("setCartCounter", newQuantity, { root: true });
-          storage.setCartCount(newQuantity);
-        });
-        dispatch(
-          "notificationModule/showToast",
-          {
-            description: "Added to cart",
-            display: true,
-            type: "success",
-          },
-          { root: true }
-        );
-        resolve({ data });
-      })
-      .catch(({ response }) => {
-        dispatch(
-          "notificationModule/showModal",
-          {
-            description: response.data.message,
-            display: true,
-            type: "error",
-          },
-          { root: true }
-        );
-        reject({ response });
-      });
-  });
+export const addProductToOnlineCart = ({ dispatch }, productId) => {
+  api
+    .addProductToCart(productId)
+    .then(({ data }) => {
+      let cartCounter = data.data.total_quantity;
+      dispatch("setCartCounter", cartCounter, { root: true });
+      storage.setCartCount(cartCounter);
+      dispatch(
+        "notificationModule/showToast",
+        {
+          description: "Added to cart",
+          display: true,
+          type: "success",
+        },
+        { root: true }
+      );
+    })
+    .catch(({ response }) => {
+      dispatch(
+        "notificationModule/showModal",
+        {
+          description: response.data.message,
+          display: true,
+          type: "error",
+        },
+        { root: true }
+      );
+    });
 };
 
 export const getLocalCart = ({ commit, state }) => {
+  commit("FETCHED_ONLINE_CART", false);
   commit("FETCHED_LOCAL_STORAGE", false);
   commit("SHOW", true);
   setTimeout(() => {
@@ -135,32 +121,30 @@ export const getLocalCart = ({ commit, state }) => {
 };
 
 export const getOnlineCart = ({ commit, dispatch, state }) => {
+  commit("FETCHED_LOCAL_STORAGE", false);
   commit("FETCHED_ONLINE_CART", false);
-  return new Promise((resolve, reject) => {
-    api
-      .getCart()
-      .then(({ data }) => {
-        commit("SET_CUSTOMER_CART", data.data);
-        commit("SET_CART_ITEMS", data.data.cart.items);
-        state.cartItems.length === 0
-          ? (commit("SHOW", false),
-            commit("CONTENT_LOADER_TEXT", "Nothing to show"))
-          : commit("FETCHED_ONLINE_CART", true);
-        resolve({ data });
-      })
-      .catch(({ response }) => {
-        dispatch(
-          "notificationModule/showModal",
-          {
-            description: response.data.message,
-            display: true,
-            type: "error",
-          },
-          { root: true }
-        );
-        reject({ response });
-      });
-  });
+  commit("SHOW", true);
+  api
+    .getCart()
+    .then(({ data }) => {
+      commit("SUB_TOTAL", data.data.sub_total);
+      commit("SET_CART_ITEMS", data.data.cart.items);
+      state.cartItems.length === 0
+        ? (commit("SHOW", false),
+          commit("CONTENT_LOADER_TEXT", "Nothing to show"))
+        : commit("FETCHED_ONLINE_CART", true);
+    })
+    .catch(({ response }) => {
+      dispatch(
+        "notificationModule/showModal",
+        {
+          description: response.data.message,
+          display: true,
+          type: "error",
+        },
+        { root: true }
+      );
+    });
 };
 
 export const removeFromLocalCart = ({ commit, dispatch, state }, productId) => {
@@ -194,54 +178,42 @@ export const removeFromLocalCart = ({ commit, dispatch, state }, productId) => {
   }, 500);
 };
 
-export const removeFromOnlineCart = (
-  { commit, dispatch, state },
-  productId
-) => {
+export const removeFromCart = ({ commit, dispatch, state }, productId) => {
   commit("FETCHED_ONLINE_CART", false);
-  commit("SHOW", false);
-  return new Promise((resolve, reject) => {
-    api
-      .removeFromCart(productId)
-      .then(({ data }) => {
-        let newQuantity = 0;
-        if (data.data.cart.items.length === 0) {
-          newQuantity = 0;
-          dispatch("setCartCounter", newQuantity, { root: true });
-          storage.setCartCount(newQuantity);
-        }
-        data.data.cart.items.map((item) => {
-          newQuantity += item.quantity;
-          dispatch("setCartCounter", newQuantity, { root: true });
-          storage.setCartCount(newQuantity);
-        });
-        commit("SET_CUSTOMER_CART", data.data);
-        // this.customerCart = data.data;
-        // this.checkIfCartIsEmpty();
-        dispatch(
-          "notificationModule/showToast",
-          {
-            description: "Removed from Cart",
-            display: true,
-            type: "success",
-          },
-          { root: true }
-        );
-        resolve({ data });
-      })
-      .catch(({ response }) => {
-        dispatch(
-          "notificationModule/showModal",
-          {
-            description: response.data.message,
-            display: true,
-            type: "error",
-          },
-          { root: true }
-        );
-        reject({ response });
-      });
-  });
+  commit("SHOW", true);
+  api
+    .removeFromCart(productId)
+    .then(({ data }) => {
+      let cartCounter = data.data.total_quantity;
+      dispatch("setCartCounter", cartCounter, { root: true });
+      storage.setCartCount(cartCounter);
+      commit("SUB_TOTAL", data.data.sub_total);
+      commit("SET_CART_ITEMS", data.data.cart.items);
+      state.cartItems.length === 0
+        ? (commit("SHOW", false),
+          commit("CONTENT_LOADER_TEXT", "Nothing to show"))
+        : commit("FETCHED_ONLINE_CART", true);
+      dispatch(
+        "notificationModule/showToast",
+        {
+          description: "Removed from Cart",
+          display: true,
+          type: "success",
+        },
+        { root: true }
+      );
+    })
+    .catch(({ response }) => {
+      dispatch(
+        "notificationModule/showModal",
+        {
+          description: response.data.message,
+          display: true,
+          type: "error",
+        },
+        { root: true }
+      );
+    });
 };
 
 export const decreaseLocalCart = ({ commit, dispatch, state }, productId) => {
@@ -256,7 +228,7 @@ export const decreaseLocalCart = ({ commit, dispatch, state }, productId) => {
         ? (item.subtotal -= item.total_price)
         : (item.subtotal -= item.price);
       dispatch("decrementCartCounter", {}, { root: true });
-      item.quantity === 0 ? localCart.splice(index, 1) : "";
+      item.quantity === 0 ? localCart.splice(index, 1) : null;
     }
     subtotalArr.push(item.subtotal);
   });
@@ -269,6 +241,35 @@ export const decreaseLocalCart = ({ commit, dispatch, state }, productId) => {
   state.localCartItem.length === 0
     ? (commit("SHOW", false), commit("CONTENT_LOADER_TEXT", "Nothing to show"))
     : commit("FETCHED_LOCAL_STORAGE", true);
+};
+
+export const decreaseFromCart = ({ commit, dispatch, state }, productId) => {
+  commit("FETCHED_ONLINE_CART", false);
+  commit("SHOW", true);
+  api
+    .decreaseProductQuantityInCart(productId)
+    .then(({ data }) => {
+      let cartCounter = data.data.total_quantity;
+      dispatch("setCartCounter", cartCounter, { root: true });
+      storage.setCartCount(cartCounter);
+      commit("SUB_TOTAL", data.data.sub_total);
+      commit("SET_CART_ITEMS", data.data.cart.items);
+      state.cartItems.length === 0
+        ? (commit("SHOW", false),
+          commit("CONTENT_LOADER_TEXT", "Nothing to show"))
+        : commit("FETCHED_ONLINE_CART", true);
+    })
+    .catch(({ response }) => {
+      dispatch(
+        "notificationModule/showModal",
+        {
+          description: response.data.message,
+          display: true,
+          type: "error",
+        },
+        { root: true }
+      );
+    });
 };
 
 export const increaseLocalCart = ({ commit, dispatch, state }, productId) => {
@@ -309,4 +310,70 @@ export const increaseLocalCart = ({ commit, dispatch, state }, productId) => {
   state.localCartItem.length === 0
     ? (commit("SHOW", false), commit("CONTENT_LOADER_TEXT", "Nothing to show"))
     : commit("FETCHED_LOCAL_STORAGE", true);
+};
+
+export const increaseFromCart = ({ commit, dispatch, state }, productId) => {
+  commit("FETCHED_ONLINE_CART", false);
+  commit("SHOW", true);
+  api
+    .addProductToCart(productId)
+    .then(({ data }) => {
+      let cartCounter = data.data.total_quantity;
+      dispatch("setCartCounter", cartCounter, { root: true });
+      storage.setCartCount(cartCounter);
+      commit("SUB_TOTAL", data.data.sub_total);
+      commit("SET_CART_ITEMS", data.data.cart.items);
+      state.cartItems.length === 0
+        ? (commit("SHOW", false),
+          commit("CONTENT_LOADER_TEXT", "Nothing to show"))
+        : commit("FETCHED_ONLINE_CART", true);
+    })
+    .catch(({ response }) => {
+      dispatch(
+        "notificationModule/showModal",
+        {
+          description: response.data.message,
+          display: true,
+          type: "error",
+        },
+        { root: true }
+      );
+      commit("FETCHED_ONLINE_CART", true);
+    });
+};
+
+export const cartCheckout = ({ commit, dispatch }) => {
+  commit("SET_LOADING", false);
+  commit("SHOW", true);
+  api
+    .cartCheckout()
+    .then(({ data }) => {
+      commit("ORDER", data.data.order);
+      commit("ORDER_ITEMS", data.data.order.items);
+      commit("SET_LOADING", true);
+    })
+    .catch(({ response }) => {
+      dispatch(
+        "notificationModule/showModal",
+        {
+          description: response.data.message,
+          display: true,
+          type: "error",
+        },
+        { root: true }
+      );
+      commit("SET_LOADING", true);
+    });
+};
+
+export const order = ({ commit }, payload) => {
+  commit("ORDER", payload);
+};
+
+export const orderItems = ({ commit }, payload) => {
+  commit("ORDER_ITEMS", payload);
+};
+
+export const setLoading = ({ commit }, payload) => {
+  commit("SET_LOADING", payload);
 };

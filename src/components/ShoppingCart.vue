@@ -10,58 +10,57 @@
     </section>
     <section class="cart-details-section">
       <div v-if="fetchedCart">
-        <div
-          class="cart-item"
-          v-for="(n, index) in cartItems.length"
-          :key="index"
-        >
+        <div class="cart-item" v-for="(item, index) in cartItems" :key="index">
           <div class="product-details">
             <div class="image-container">
-              <img :src="cartItems[index].product.display_image" />
+              <img :src="item.product.display_image" />
             </div>
             <div class="product-name-price">
               <div class="product-name capitalize">
-                {{ cartItems[index].product.name }}
+                {{ item.product.name }}
               </div>
               <div class="price">
-                ₦ {{ cartItems[index].product.price.toLocaleString() }}
+                ₦
+                {{
+                  item.product.total_price
+                    ? item.product.total_price.toLocaleString()
+                    : item.product.price.toLocaleString()
+                }}
               </div>
               <div class="cart-item-description">
-                {{ cartItems[index].product.description }}
+                {{ item.product.description }}
               </div>
               <button
                 class="button-remove"
-                @click="removeProductFromCart(cartItems[index].product.id)"
+                @click="removeProductFromCart(item.product.id)"
               >
                 Remove
               </button>
             </div>
             <div class="quantity">
-              <button
-                @click="decreaseProductQuantity(cartItems[index].product.id)"
-              >
+              <button @click="decreaseProductQuantity(item.product.id)">
                 &#8722;
               </button>
-              <span>{{ cartItems[index].quantity }}</span>
-              <button
-                @click="increaseProductQuantity(cartItems[index].product.id)"
-              >
+              <span>{{ item.quantity }}</span>
+              <button @click="increaseProductQuantity(item.product.id)">
                 &#43;
               </button>
             </div>
             <div class="amount">
-              <div>
+              <div v-if="item.product.total_price">
                 ₦
                 {{
-                  (
-                    cartItems[index].product.price * cartItems[index].quantity
-                  ).toLocaleString()
+                  (item.product.total_price * item.quantity).toLocaleString()
                 }}
+              </div>
+              <div v-else>
+                ₦
+                {{ (item.product.price * item.quantity).toLocaleString() }}
               </div>
             </div>
             <button
               class="mobile-button-remove"
-              @click="removeProductFromCart(cartItems[index].product.id)"
+              @click="removeProductFromCart(item.product.id)"
             >
               Remove
             </button>
@@ -161,7 +160,6 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import api from "@/utils/api.js";
 import contentLoader from "@/components/contentLoader";
 
 export default {
@@ -170,13 +168,7 @@ export default {
     contentLoader,
   },
   data() {
-    return {
-      fetchedCart: false,
-      productsList: [],
-      localCart: [],
-      subtotalArr: [],
-      customerCart: {},
-    };
+    return {};
   },
   mounted() {
     this.getCart();
@@ -184,18 +176,14 @@ export default {
   computed: {
     ...mapState({
       fetchedLocalStorage: (state) => state.cartModule.fetchedLocalStorage,
+      fetchedCart: (state) => state.cartModule.fetchedCart,
       localCartItem: (state) => state.cartModule.localCartItem,
+      cartItems: (state) => state.cartModule.cartItems,
       subtotal: (state) => state.cartModule.subtotal,
       localSubtotal: (state) => state.cartModule.localSubtotal,
       contentLoaderText: (state) => state.cartModule.contentLoaderText,
       show: (state) => state.cartModule.show,
     }),
-    cartItems: function() {
-      return this.customerCart.cart.items;
-    },
-    subtotal: function() {
-      return this.customerCart.sub_total;
-    },
   },
   methods: {
     ...mapActions("notificationModule", ["showToast", "showModal"]),
@@ -204,6 +192,10 @@ export default {
       "removeFromLocalCart",
       "decreaseLocalCart",
       "increaseLocalCart",
+      "getOnlineCart",
+      "removeFromCart",
+      "decreaseFromCart",
+      "increaseFromCart",
     ]),
     navigateTo(page) {
       this.$router.push(page);
@@ -213,150 +205,40 @@ export default {
         this.getLocalCart();
         return;
       }
-      api
-        .getCart()
-        .then(({ data }) => {
-          if (data.status == "success") {
-            this.customerCart = data.data;
-            this.checkIfCartIsEmpty();
-          }
-        })
-        .catch((error) => {
-          alert(error.message);
-        });
+      this.getOnlineCart();
     },
     removeProductFromCart(productId) {
       if (!localStorage.getItem("user_details")) {
         this.removeFromLocalCart(productId);
         return;
       }
-      api
-        .removeFromCart(productId)
-        .then(({ data }) => {
-          if (data.status == "success") {
-            let newQuantity = 0;
-            if (data.data.cart.items.length === 0) {
-              newQuantity = 0;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
-            }
-            data.data.cart.items.map((item) => {
-              newQuantity += item.quantity;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
-            });
-            this.customerCart = data.data;
-            this.checkIfCartIsEmpty();
-            this.showToast({
-              description: "Removed from Cart",
-              display: true,
-              type: "success",
-            });
-          }
-        })
-        .catch(({ response }) => {
-          alert(response.data.message);
-        });
-    },
-    checkIfCartIsEmpty() {
-      this.fetchedCart = false;
-      if (this.cartItems.length == 0) {
-        this.show = false;
-        this.contentLoaderText = "Nothing to show";
-        return;
-      }
-      this.fetchedCart = true;
-    },
-    checkIfLocalStorageIsEmpty() {
-      this.fetchedLocalStorage = false;
-      if (this.localCartItem.length === 0) {
-        this.show = false;
-        this.contentLoaderText = "Nothing to show";
-        return;
-      }
-      this.fetchedLocalStorage = true;
+      this.removeFromCart(productId);
     },
     decreaseProductQuantity(productId) {
       if (!localStorage.getItem("user_details")) {
         this.decreaseLocalCart(productId);
         return;
       }
-      api
-        .decreaseProductQuantityInCart(productId)
-        .then(({ data }) => {
-          if (data.status == "success") {
-            let newQuantity = 0;
-            if (data.data.cart.items.length === 0) {
-              newQuantity = 0;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
-            }
-            data.data.cart.items.map((item) => {
-              newQuantity += item.quantity;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
-            });
-            this.customerCart = data.data;
-            this.checkIfCartIsEmpty();
-          }
-        })
-        .catch(({ response }) => {
-          alert(response.data.message);
-        });
+      this.decreaseFromCart(productId);
     },
     increaseProductQuantity(productId) {
       if (!localStorage.getItem("user_details")) {
         this.increaseLocalCart(productId);
         return;
       }
-      api
-        .addProductToCart(productId)
-        .then(({ data }) => {
-          if (data.status == "success") {
-            let newQuantity = 0;
-            if (data.data.cart.items.length === 0) {
-              newQuantity = 0;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
-            }
-            data.data.cart.items.map((item) => {
-              newQuantity += item.quantity;
-              this.$store.dispatch("setCartCounter", newQuantity);
-              localStorage.setItem("cartCounter", JSON.stringify(newQuantity));
-            });
-            this.customerCart = data.data;
-          }
-        })
-        .catch(({ response }) => {
-          this.showModal({
-            description: response.data.message,
-            display: true,
-            type: "error",
-          });
-        });
+      this.increaseFromCart(productId);
     },
     checkout() {
-      this.fetchedCart = false;
       if (!localStorage.getItem("user_details")) {
         this.showModal({
-          description: "You have to login or signup to checkout 🙃",
+          description: "You have to login or signup before you can checkout 🙃",
           display: true,
           type: "info",
         });
         this.navigateTo("/login");
         return;
       }
-      api
-        .cartCheckout()
-        .then(({ data }) => {
-          if (data.status == "success") {
-            localStorage.setItem("user_order", JSON.stringify(data.data.order));
-            this.navigateTo("/checkout");
-          }
-        })
-        .catch(({ response }) => {
-          alert(response.data.message);
-        });
+      this.navigateTo("/checkout");
     },
   },
 };

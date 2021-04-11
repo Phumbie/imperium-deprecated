@@ -47,14 +47,15 @@ export default new Router({
           hidden: true,
         },
         {
-          path: "product/:slug/id/:id",
+          path: "/product/:slug/id/:id",
           component: () => import("@/components/ProductView"),
           hidden: true,
         },
         {
-          path: "cart",
+          path: "/cart",
           component: () => import("@/components/ShoppingCart"),
           hidden: true,
+          name: "cart",
         },
         {
           path: "/my-account/:page",
@@ -114,7 +115,7 @@ export default new Router({
           beforeEnter(to, from, next) {
             if (store.getters.cartCounter == 0) {
               next({
-                name: "products",
+                name: "cart",
               });
             } else {
               next();

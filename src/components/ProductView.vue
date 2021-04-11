@@ -125,6 +125,7 @@ export default {
       this.setProductId(this.$route.params.id);
       if (!storage.getUser()) {
         this.addProductToLocalCart();
+        return;
       } else {
         this.addProductToOnlineCart(this.productId);
       }

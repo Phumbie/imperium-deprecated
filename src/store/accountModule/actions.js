@@ -3,199 +3,215 @@ import router from "../../router";
 import storage from "@/utils/storage.js";
 
 export const signupCustomer = ({ commit, dispatch }, payload) => {
-  return new Promise((resolve, reject) => {
-    commit("SET_LOADING", true, { root: true });
-    api
-      .signupCustomer(payload)
-      .then(({ data }) => {
-        if (data.status == "success") {
-          dispatch(
-            "notificationModule/showToast",
-            {
-              description: "Welcome to imperium",
-              display: true,
-              type: "success",
-            },
-            { root: true }
-          );
-          storage.setUser(data.data);
-          storage.setToken(data.data.token);
-        }
-        if (storage.getStorageCart().length !== 0) {
-          let localCart = storage.getStorageCart();
-          localCart.map((product) => {
-            product.product_id = product.id;
-            delete product.subtotal;
-            delete product.id;
-          });
-          const payload = { products: localCart };
-          api
-            .addBulkProductToCart(payload)
-            .then((response) => {
-              if (response) {
-                api
-                  .getCart()
-                  .then(({ data }) => {
-                    if (data.status == "success") {
-                      let cartSize = 0;
-                      let cartItems = data.data.cart.items;
-                      cartItems.forEach((item) => {
-                        cartSize += item.quantity;
-                      });
-                      commit("SET_CART_COUNTER", cartSize, {
-                        root: true,
-                      });
-                    }
-                    resolve({ data });
-                  })
-                  .catch((error) => {
-                    alert(error.data.data.message);
-                    reject(error);
-                  });
-              }
-              router.push("/cart");
-              commit("CLEAR_SIGNUP_DETAILS", {
-                signupDetails: {
-                  first_name: "",
-                  last_name: "",
-                  email: "",
-                  password: "",
-                  phone_number: "",
-                  address: {
-                    street: "",
-                    lga: "",
-                    state: "",
-                  },
-                },
-                confirmPassword: "",
-              });
-              commit("SET_LOADING", false, { root: true });
-              resolve(response);
-            })
-            .catch((error) => {
-              alert(error.data.data.message);
-              reject(error);
-            });
-        } else {
-          router.push("/my-account/1");
-          commit("CLEAR_SIGNUP_DETAILS", {
-            signupDetails: {
-              first_name: "",
-              last_name: "",
-              email: "",
-              password: "",
-              phone_number: "",
-              address: {
-                street: "",
-                lga: "",
-                state: "",
-              },
-            },
-            confirmPassword: "",
-          });
-          commit("SET_LOADING", false, { root: true });
-        }
-        resolve({ data });
-      })
-      .catch(({ data }) => {
-        commit("SET_LOADING", false, { root: true });
+  commit("SET_LOADING", true, { root: true });
+  let localCart = storage.getLocalCart();
+  api
+    .signupCustomer(payload)
+    .then(({ data }) => {
+      if (data.status == "success") {
         dispatch(
-          "notificationModule/showModal",
+          "notificationModule/showToast",
           {
-            description: "Email or Phone number already exist",
+            description: "Welcome to imperium",
             display: true,
-            type: "error",
+            type: "success",
           },
           { root: true }
         );
-        router.push("/login");
-        reject({ data });
-      });
-  });
+        storage.setUser(data.data);
+        storage.setToken(data.data.token);
+      }
+      if (localCart.length !== 0) {
+        localCart.map((product) => {
+          product.product_id = product.id;
+          delete product.subtotal;
+          delete product.id;
+        });
+        const payload = { products: localCart };
+        api
+          .addBulkProductToCart(payload)
+          .then((response) => {
+            if (response) {
+              api
+                .getCart()
+                .then(({ data }) => {
+                  if (data.status == "success") {
+                    let cartSize = 0;
+                    let cartItems = data.data.cart.items;
+                    cartItems.forEach((item) => {
+                      cartSize += item.quantity;
+                    });
+                    commit("SET_CART_COUNTER", cartSize, {
+                      root: true,
+                    });
+                  }
+                })
+                .catch((error) => {
+                  alert(error.data.data.message);
+                });
+            }
+            router.push("/cart");
+            commit("CLEAR_SIGNUP_DETAILS", {
+              signupDetails: {
+                first_name: "",
+                last_name: "",
+                email: "",
+                password: "",
+                phone_number: "",
+                address: {
+                  street: "",
+                  lga: "",
+                  state: "",
+                },
+              },
+              confirmPassword: "",
+            });
+            commit("SET_LOADING", false, { root: true });
+          })
+          .catch((error) => {
+            dispatch(
+              "notificationModule/showModal",
+              {
+                description:
+                  "The quantity you're trying to buy is not available... Please pick other products.",
+                display: true,
+                type: "error",
+              },
+              { root: true }
+            );
+            router.push("/cart");
+            commit("CLEAR_LOGIN_DETAILS", {
+              loginDetails: {
+                email: "",
+                password: "",
+              },
+            });
+            commit("SET_LOADING", false, { root: true });
+          });
+      } else {
+        router.push("/products/1");
+        commit("CLEAR_SIGNUP_DETAILS", {
+          signupDetails: {
+            first_name: "",
+            last_name: "",
+            email: "",
+            password: "",
+            phone_number: "",
+            address: {
+              street: "",
+              lga: "",
+              state: "",
+            },
+          },
+          confirmPassword: "",
+        });
+        commit("SET_LOADING", false, { root: true });
+      }
+    })
+    .catch(({ error }) => {
+      commit("SET_LOADING", false, { root: true });
+      dispatch(
+        "notificationModule/showModal",
+        {
+          description: "Email or Phone number already exist",
+          display: true,
+          type: "error",
+        },
+        { root: true }
+      );
+      router.push("/login");
+    });
 };
 
-export const loginCustomer = ({ commit }, payload) => {
-  return new Promise((resolve, reject) => {
-    commit("SET_LOADING", true, { root: true });
-    api
-      .loginCustomer(payload)
-      .then(({ data }) => {
-        commit("SET_LOADING", false, { root: true });
-
-        if (data.status == "success") {
-          storage.setUser(data.data);
-          storage.setToken(data.data.token);
-        }
-        if (storage.getStorageCart().length !== 0) {
-          let localCart = storage.getStorageCart();
-          localCart.map((product) => {
-            product.product_id = product.id;
-            delete product.subtotal;
-            delete product.id;
-          });
-          const payload = { products: localCart };
-          api
-            .addBulkProductToCart(payload)
-            .then((response) => {
-              if (response) {
-                api
-                  .getCart()
-                  .then(({ data }) => {
-                    if (data.status == "success") {
-                      let cartSize = 0;
-                      let cartItems = data.data.cart.items;
-                      cartItems.forEach((item) => {
-                        cartSize += item.quantity;
-                      });
-                      commit("SET_CART_COUNTER", cartSize, { root: true });
-                    }
-                    resolve({ data });
-                  })
-                  .catch((error) => {
-                    alert(error.data.data.message);
-                    reject(error);
-                  });
-              }
-              router.push("/cart");
-              commit("CLEAR_LOGIN_DETAILS", {
-                loginDetails: {
-                  email: "",
-                  password: "",
-                },
-              });
-              commit("SET_LOADING", false, { root: true });
-              resolve(response);
-            })
-            .catch((error) => {
-              alert(error.data.data.message);
-              reject(error);
+export const loginCustomer = ({ commit, dispatch }, payload) => {
+  commit("SET_LOADING", true, { root: true });
+  let localCart = storage.getLocalCart();
+  api
+    .loginCustomer(payload)
+    .then(({ data }) => {
+      if (data.status == "success") {
+        storage.setUser(data.data);
+        storage.setToken(data.data.token);
+      }
+      if (localCart.length !== 0) {
+        localCart.map((product) => {
+          product.product_id = product.id;
+          delete product.subtotal;
+          delete product.id;
+        });
+        const payload = { products: localCart };
+        api
+          .addBulkProductToCart(payload)
+          .then((response) => {
+            if (response) {
+              api
+                .getCart()
+                .then(({ data }) => {
+                  if (data.status == "success") {
+                    let cartSize = 0;
+                    let cartItems = data.data.cart.items;
+                    cartItems.forEach((item) => {
+                      cartSize += item.quantity;
+                    });
+                    commit("SET_CART_COUNTER", cartSize, { root: true });
+                  }
+                })
+                .catch((error) => {
+                  alert(error.data.data.message);
+                });
+            }
+            router.push("/cart");
+            commit("CLEAR_LOGIN_DETAILS", {
+              loginDetails: {
+                email: "",
+                password: "",
+              },
             });
-        } else {
-          router.push("/my-account/1");
-          commit("CLEAR_LOGIN_DETAILS", {
-            loginDetails: {
-              email: "",
-              password: "",
-            },
+            commit("SET_LOADING", false, { root: true });
+          })
+          .catch((response) => {
+            dispatch(
+              "notificationModule/showModal",
+              {
+                description:
+                  "The quantity you're trying to buy is not available... Please pick other products.",
+                display: true,
+                type: "error",
+              },
+              { root: true }
+            );
+            router.push("/cart");
+            commit("CLEAR_LOGIN_DETAILS", {
+              loginDetails: {
+                email: "",
+                password: "",
+              },
+            });
+            commit("SET_LOADING", false, { root: true });
           });
-          commit("SET_LOADING", false, { root: true });
-        }
-        resolve({ data });
-      })
-      .catch((error) => {
-        commit("SET_LOADING", false, { root: true });
-        commit(
-          "notificationModule/SHOW_MODAL",
-          {
-            description: `Invalid account. ${error}`,
-            display: true,
-            type: "error",
+      } else {
+        router.push("/products/1");
+        commit("CLEAR_LOGIN_DETAILS", {
+          loginDetails: {
+            email: "",
+            password: "",
           },
-          { root: true }
-        );
-        reject(error);
-      });
-  });
+        });
+        commit("SET_LOADING", false, { root: true });
+      }
+    })
+    .catch((error) => {
+      commit("SET_LOADING", false, { root: true });
+      dispatch(
+        "notificationModule/showModal",
+        {
+          description: "Invalid account... This is not a customer account.💂",
+          display: true,
+          type: "error",
+        },
+        { root: true }
+      );
+    });
 };
 
 export const validate = ({ commit }, payload) => {

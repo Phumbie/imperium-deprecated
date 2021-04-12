@@ -60,7 +60,7 @@ export default {
 .toast-container {
   position: fixed;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 20%);
   z-index: 1000;
 
   @media screen and (max-width: 600px) {
@@ -87,6 +87,10 @@ export default {
       font-family: Graphik;
       font-size: 1.1rem;
       margin-left: 0.3rem;
+
+      @media screen and (max-width: 600px) {
+        font-size: 1rem;
+      }
     }
   }
 }
@@ -98,7 +102,7 @@ export default {
 
 .show-enter,
 .show-leave-to {
-  transform: translate(-50%, -30px);
+  transform: translate(-50%, -10px);
   opacity: 0;
 }
 </style>

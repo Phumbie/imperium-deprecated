@@ -17,9 +17,9 @@
         <input type="checkbox" class="toggler" ref="checkBox" @click="toggle" />
         <div class="hamburger"><div></div></div>
       </div>
-      <div class="title-container">
-        <router-link to="/" class="product-title">Imperium</router-link>
-      </div>
+      <router-link to="/" class="title-container">
+        <div class="product-title">Imperium</div>
+      </router-link>
       <router-link to="/cart" class="nav-item cart border-right desktop-view"
         >Shopping cart ({{
           cartCounter === 0 ? "0" : cartCounter
@@ -137,22 +137,22 @@ export default {
     setCartCounter() {
       if (
         !localStorage.getItem("user_details") &&
-        !localStorage.getItem("product_id")
+        !localStorage.getItem("local_cart")
       ) {
         let details = [];
         let localCart = [];
         let cartSize = 0;
-        localStorage.setItem("product_id", JSON.stringify(details));
+        // localStorage.setItem("product_id", JSON.stringify(details));
         localStorage.setItem("local_cart", JSON.stringify(localCart));
         this.$store.dispatch("setCartCounter", cartSize);
         return;
       }
       if (
         !localStorage.getItem("user_details") &&
-        JSON.parse(localStorage.getItem("product_id"))
+        JSON.parse(localStorage.getItem("local_cart"))
       ) {
         let cartSize = 0;
-        JSON.parse(localStorage.getItem("product_id")).map((item) => {
+        JSON.parse(localStorage.getItem("local_cart")).map((item) => {
           cartSize += item.quantity;
         });
         this.$store.dispatch("setCartCounter", cartSize);
@@ -324,29 +324,28 @@ export default {
   }
 
   .title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     background: #ffffff;
     border-right: solid 1px #000000;
     border-left: solid 1px #000000;
 
     .product-title {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      color: transparent;
       background: url("../assets/images/android-chrome500.png");
       background-repeat: no-repeat;
       background-position-x: center;
       background-clip: text;
-      -webkit-text-fill-color: transparent;
       -webkit-background-clip: text;
       font-size: 2rem;
-      text-decoration: none;
       padding: 0.6rem 0;
-      color: #1d1d1d;
+    }
 
-      @media screen and (max-width: 900px) {
-        border-bottom: solid 1px #000000;
-        font-size: 1.6rem;
-      }
+    @media screen and (max-width: 900px) {
+      border-bottom: solid 1px #000000;
+      font-size: 1.6rem;
     }
   }
   .nav-item {

@@ -1,8 +1,10 @@
 import api from "@/utils/api.js";
 import shuffleArray from "@/utils/shuffleArray.js";
 import fillArray from "@/utils/fillArray.js";
+import storage from "@/utils/storage.js";
 
 export const getAllProducts = ({ commit }, queryParams) => {
+  commit("SET_LOADING", true);
   return new Promise((resolve, reject) => {
     if (queryParams.category === "all products") {
       api
@@ -51,31 +53,40 @@ export const getAllProducts = ({ commit }, queryParams) => {
 };
 
 export const getSimilarProducts = ({ commit }, queryParams) => {
+  commit("SET_LOADING", true);
   return new Promise((resolve, reject) => {
     api
       .getSimilarProducts(queryParams.category, queryParams.per_page)
       .then(({ data }) => {
-        if (data.data.result.length < 2) {
-          const fill = fillArray(2, data.data.result.length);
+        if (data.data.result.length < queryParams.quantity) {
+          const fill = fillArray(queryParams.quantity, data.data.result.length);
           switch (queryParams.category) {
             case "solar panel":
               const panels = shuffleArray(data.data.result).concat(fill);
-              commit("SET_PANELS", panels);
+              queryParams.quantity === 2
+                ? commit("SET_PANELS", panels)
+                : commit("SET_SIMILAR_PRODUCT", panels);
               break;
 
             case "inverter":
               const inverters = shuffleArray(data.data.result).concat(fill);
-              commit("SET_INVERTERS", inverters);
+              queryParams.quantity === 2
+                ? commit("SET_INVERTERS", inverters)
+                : commit("SET_SIMILAR_PRODUCT", inverters);
               break;
 
             case "battery":
               const batteries = shuffleArray(data.data.result).concat(fill);
-              commit("SET_BATTERIES", batteries);
+              queryParams.quantity === 2
+                ? commit("SET_BATTERIES", batteries)
+                : commit("SET_SIMILAR_PRODUCT", batteries);
               break;
 
             case "bundle":
               const bundles = shuffleArray(data.data.result).concat(fill);
-              commit("SET_BUNDLES", bundles);
+              queryParams.quantity === 2
+                ? commit("SET_BUNDLES", bundles)
+                : commit("SET_SIMILAR_PRODUCT", bundles);
               break;
 
             default:
@@ -85,23 +96,39 @@ export const getSimilarProducts = ({ commit }, queryParams) => {
         } else {
           switch (queryParams.category) {
             case "solar panel":
-              const panels = shuffleArray(data.data.result).slice(-2);
-              commit("SET_PANELS", panels);
+              const panels = shuffleArray(data.data.result).slice(
+                -queryParams.quantity
+              );
+              queryParams.quantity === 2
+                ? commit("SET_PANELS", panels)
+                : commit("SET_SIMILAR_PRODUCT", panels);
               break;
 
             case "inverter":
-              const inverters = shuffleArray(data.data.result).slice(-2);
-              commit("SET_INVERTERS", inverters);
+              const inverters = shuffleArray(data.data.result).slice(
+                -queryParams.quantity
+              );
+              queryParams.quantity === 2
+                ? commit("SET_INVERTERS", inverters)
+                : commit("SET_SIMILAR_PRODUCT", inverters);
               break;
 
             case "battery":
-              const batteries = shuffleArray(data.data.result).slice(-2);
-              commit("SET_BATTERIES", batteries);
+              const batteries = shuffleArray(data.data.result).slice(
+                -queryParams.quantity
+              );
+              queryParams.quantity === 2
+                ? commit("SET_BATTERIES", batteries)
+                : commit("SET_SIMILAR_PRODUCT", batteries);
               break;
 
             case "bundle":
-              const bundles = shuffleArray(data.data.result).slice(-2);
-              commit("SET_BUNDLES", bundles);
+              const bundles = shuffleArray(data.data.result).slice(
+                -queryParams.quantity
+              );
+              queryParams.quantity === 2
+                ? commit("SET_BUNDLES", bundles)
+                : commit("SET_SIMILAR_PRODUCT", bundles);
               break;
 
             default:
@@ -119,6 +146,7 @@ export const getSimilarProducts = ({ commit }, queryParams) => {
 };
 
 export const searchProducts = ({ commit }, queryParams) => {
+  commit("SET_LOADING", true);
   return new Promise((resolve, reject) => {
     api
       .searchProducts(queryParams.query)
@@ -148,8 +176,39 @@ export const searchProducts = ({ commit }, queryParams) => {
   });
 };
 
+export const getProductBySlug = ({ commit, dispatch }, slug) => {
+  commit("SET_LOADING", true);
+  return new Promise((resolve, reject) => {
+    api
+      .getProductBySlug(slug)
+      .then(({ data }) => {
+        const productDetails = data.data;
+        commit("SET_PRODUCT_DETAILS", productDetails);
+        dispatch("getSimilarProducts", {
+          category: data.data.category,
+          per_page: 100000,
+          quantity: 4,
+        });
+        commit("SET_LOADING", false);
+        resolve({ data });
+      })
+      .catch(({ data }) => {
+        alert(data.message);
+        reject({ data });
+      });
+  });
+};
+
 export const setLoading = ({ commit }, payload) => {
   commit("SET_LOADING", payload);
+};
+
+export const setProductSlug = ({ commit }, payload) => {
+  commit("SET_PRODUCT_SLUG", payload);
+};
+
+export const setProductId = ({ commit }, payload) => {
+  commit("SET_PRODUCT_ID", payload);
 };
 
 export const setBundles = ({ commit }, payload) => {

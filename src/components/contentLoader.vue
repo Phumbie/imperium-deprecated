@@ -6,7 +6,7 @@
 
 <style lang="scss">
 #content-loader {
-  margin-top: 31px;
+  margin-top: 3rem;
   border: solid 1px black;
   font-size: 20px;
   text-align: center;
@@ -14,7 +14,8 @@
   padding-bottom: 200px;
 
   @media screen and (max-width: 900px) {
-    margin-top: 3rem;
+    padding-top: 150px;
+    padding-bottom: 150px;
   }
 
   .loader {

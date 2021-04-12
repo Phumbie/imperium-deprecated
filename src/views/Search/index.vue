@@ -29,19 +29,6 @@
       <div v-if="show" class="loader"></div>
       <span v-else>{{ contentLoaderText }}</span>
     </content-loader>
-    <div class="pagination">
-      <el-pagination
-        :background="false"
-        @current-change="handlePageChange"
-        :hide-on-single-page="true"
-        :page-size="pagination.per_page"
-        :current-page="pagination.page"
-        :pager-count="9"
-        layout="prev, pager, next"
-        :total="pagination.totalRecords"
-      >
-      </el-pagination>
-    </div>
   </div>
 </template>
 <script>

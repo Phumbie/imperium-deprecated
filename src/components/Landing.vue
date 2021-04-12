@@ -198,10 +198,26 @@ export default {
     return {};
   },
   created() {
-    this.getSimilarProducts({ category: "solar panel", per_page: 100000 });
-    this.getSimilarProducts({ category: "inverter", per_page: 100000 });
-    this.getSimilarProducts({ category: "battery", per_page: 100000 });
-    this.getSimilarProducts({ category: "bundle", per_page: 100000 });
+    this.getSimilarProducts({
+      category: "solar panel",
+      per_page: 100000,
+      quantity: 2,
+    });
+    this.getSimilarProducts({
+      category: "inverter",
+      per_page: 100000,
+      quantity: 2,
+    });
+    this.getSimilarProducts({
+      category: "battery",
+      per_page: 100000,
+      quantity: 2,
+    });
+    this.getSimilarProducts({
+      category: "bundle",
+      per_page: 100000,
+      quantity: 2,
+    });
   },
   mounted() {},
   computed: {

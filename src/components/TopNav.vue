@@ -17,9 +17,9 @@
         <input type="checkbox" class="toggler" ref="checkBox" @click="toggle" />
         <div class="hamburger"><div></div></div>
       </div>
-      <div class="title-container">
-        <router-link to="/" class="product-title">Imperium</router-link>
-      </div>
+      <router-link to="/" class="title-container">
+        <div class="product-title">Imperium</div>
+      </router-link>
       <router-link to="/cart" class="nav-item cart border-right desktop-view"
         >Shopping cart ({{
           cartCounter === 0 ? "0" : cartCounter
@@ -324,29 +324,28 @@ export default {
   }
 
   .title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     background: #ffffff;
     border-right: solid 1px #000000;
     border-left: solid 1px #000000;
 
     .product-title {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      color: transparent;
       background: url("../assets/images/android-chrome500.png");
       background-repeat: no-repeat;
       background-position-x: center;
       background-clip: text;
-      -webkit-text-fill-color: transparent;
       -webkit-background-clip: text;
       font-size: 2rem;
-      text-decoration: none;
       padding: 0.6rem 0;
-      color: #1d1d1d;
+    }
 
-      @media screen and (max-width: 900px) {
-        border-bottom: solid 1px #000000;
-        font-size: 1.6rem;
-      }
+    @media screen and (max-width: 900px) {
+      border-bottom: solid 1px #000000;
+      font-size: 1.6rem;
     }
   }
   .nav-item {

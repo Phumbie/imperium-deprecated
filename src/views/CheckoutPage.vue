@@ -1,117 +1,137 @@
 <template>
-  <div id="checkout-page" class="container">
-    <div class="left-side">
-      <div class="header-text-28">Shipping details</div>
-      <input
-        type="text"
-        placeholder="Full name"
-        :value="this.fullName"
-        class="text-field capitalize"
-      />
-      <input
-        type="text"
-        placeholder="Phone number"
-        :value="this.phone_number"
-        class="text-field"
-      />
-      <input
-        type="text"
-        placeholder="Address"
-        :value="this.address"
-        class="text-field capitalize"
-      />
-      <button @click="placeOrder()">Outright Payment</button>
-      <button @click="payWithSpecta()">
-        Lease To Own<span class="loader" v-if="loading"></span>
-      </button>
-    </div>
-    <div class="right-side">
-      <div
-        class="cart-item"
-        v-for="(product, index) in orderItems.length"
-        :key="index"
-      >
-        <div class="image-container">
-          <img :src="orderItems[index].display_image" />
-        </div>
-        <div class="details">
-          <div class="product-name capitalize">
-            {{ orderItems[index].name }}
+  <div>
+    <div id="checkout-page" class="container" v-if="loading">
+      <div class="left-side">
+        <div class="header-text-28">Shipping details</div>
+        <input
+          type="text"
+          placeholder="Full name"
+          :value="this.fullName"
+          class="text-field capitalize"
+        />
+        <input
+          type="text"
+          placeholder="Phone number"
+          :value="this.phone_number"
+          class="text-field"
+        />
+        <input
+          type="text"
+          placeholder="Address"
+          :value="this.address"
+          class="text-field capitalize"
+        />
+        <button @click="placeOrder()">Outright Payment</button>
+        <button @click="payWithSpecta()">
+          Lease To Own
+        </button>
+      </div>
+      <div class="right-side">
+        <div
+          class="cart-item"
+          v-for="(product, index) in orderItems"
+          :key="index"
+        >
+          <div class="image-container">
+            <img :src="product.display_image" />
           </div>
-          <div class="price">
-            ₦ {{ orderItems[index].price.toLocaleString() }}
+          <div class="details">
+            <div class="product-name capitalize">
+              {{ product.name }}
+            </div>
+            <div class="price">₦ {{ product.price.toLocaleString() }}</div>
+            <div class="quantity">{{ product.quantity }}</div>
           </div>
-          <div class="quantity">{{ orderItems[index].quantity }}</div>
+        </div>
+        <div class="text-row">
+          <span class="left-text">Subtotal</span>
+          <span class="right-text"
+            >₦ {{ order.sub_total.toLocaleString() }}</span
+          >
+        </div>
+        <div class="text-row">
+          <span class="left-text">Delivery</span>
+          <span class="right-text"
+            >₦ {{ order.delivery_cost.toLocaleString() }}</span
+          >
+        </div>
+        <div class="text-row">
+          <span class="left-text">Total</span>
+          <span class="right-text"
+            >₦ {{ order.total_price.toLocaleString() }}</span
+          >
         </div>
       </div>
-      <div class="text-row">
-        <span class="left-text">Subtotal</span>
-        <span class="right-text">₦ {{ subtotal.toLocaleString() }}</span>
-      </div>
-      <div class="text-row">
-        <span class="left-text">Delivery</span>
-        <span class="right-text">₦ {{ deliveryCost.toLocaleString() }}</span>
-      </div>
-      <div class="text-row">
-        <span class="left-text">Total</span>
-        <span class="right-text">₦ {{ totalCost.toLocaleString() }}</span>
-      </div>
     </div>
+    <content-loader v-else>
+      <div v-if="show" class="loader"></div>
+      <span v-else>{{ contentLoaderText }}</span>
+    </content-loader>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 import api from "@/utils/api.js";
 import TopNav from "@/components/TopNav";
+import contentLoader from "@/components/contentLoader";
+import storage from "@/utils/storage.js";
+
 export default {
   components: {
     TopNav,
+    contentLoader,
   },
   data() {
     return {
-      order: {},
-      orderItems: [],
-      subtotal: 0,
-      totalCost: 0,
-      deliveryCost: 0,
       address: "",
       user: "",
       fullName: "",
-      phone_number: JSON.parse(localStorage.getItem("user_order"))
-        .contact_phone,
-      store: this.$store,
-      loading: false,
+      phone_number: "",
     };
   },
   mounted() {
-    this.order = this.getNewlyCreatedOrder();
-    this.totalCost = this.order.total_price;
-    this.subtotal = this.order.sub_total;
-    this.deliveryCost = this.order.delivery_cost;
-    this.orderItems = this.order.items;
-    this.user = JSON.parse(localStorage.getItem("user_details"));
-    this.address = `${this.order.shipping_address.street}, ${this.order.shipping_address.lga}, ${this.order.shipping_address.state}`;
+    this.user = storage.getUser();
     this.fullName = `${this.user.customer.first_name} ${this.user.customer.last_name}`;
-    // this.phone_number = `${this.user.user.phone_number}`;
+    this.address = `${this.user.customer.address.street}, ${this.user.customer.address.lga}, ${this.user.customer.address.state}`;
+    this.phone_number = this.user.user.phone_number;
+    this.cartCheckout();
+  },
+  computed: {
+    ...mapState({
+      order: (state) => state.cartModule.order,
+      orderItems: (state) => state.cartModule.orderItems,
+      loading: (state) => state.cartModule.loading,
+      show: (state) => state.cartModule.show,
+    }),
   },
   methods: {
-    ...mapActions("notificationModule", ["showToast"]),
+    ...mapActions("notificationModule", ["showToast", "showModal"]),
+    ...mapActions("cartModule", ["cartCheckout", "setLoading"]),
+
     navigateTo(page) {
       this.$router.push(page);
     },
-    getNewlyCreatedOrder() {
-      return JSON.parse(localStorage.getItem("user_order"));
-    },
+
     payWithSpecta() {
-      this.loading = true;
+      this.setLoading(false);
+      if (this.order.total_price < 20000) {
+        this.showModal({
+          description:
+            "Total amount must be ₦20,000 and above to access our loan service.",
+          display: true,
+          type: "error",
+        });
+        this.setLoading(true);
+        return;
+      }
       const items = this.orderItems.map((item) => {
         return item.name;
       });
       const data = {
         reference: this.getRandomString(10) + this.order.id,
-        description: `Purchase of ${items}`,
-        amount: Math.ceil(this.totalCost),
+        description: `Payment for ${items}`,
+        amount: Math.ceil(this.order.total_price),
       };
       api
         .spectaPaymentUrl(data)
@@ -119,15 +139,21 @@ export default {
           window.location = data.data;
         })
         .catch((error) => {
-          alert(error);
+          this.showModal({
+            description: "Loan payment is down, please contact support.",
+            display: true,
+            type: "error",
+          });
+          this.setLoading(true);
         });
     },
+
     placeOrder() {
       let x = this;
       const handler = PaystackPop.setup({
         key: process.env.VUE_APP_PS_KEY,
         email: x.user.user.email,
-        amount: Math.ceil(this.totalCost * 100),
+        amount: Math.ceil(x.order.total_price * 100),
         currency: "NGN",
         metadata: {
           custom_fields: {
@@ -145,9 +171,10 @@ export default {
       });
       handler.openIframe();
     },
+
     getRandomString(length) {
       let randomChars =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+=-`~?><{}][/|.,";
       let result = "";
       for (let i = 0; i < length; i++) {
         result += randomChars.charAt(

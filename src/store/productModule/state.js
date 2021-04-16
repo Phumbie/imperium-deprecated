@@ -3,6 +3,8 @@ export default {
   inverters: [],
   panels: [],
   bundles: [],
+  accessories: [],
+  packagies: [],
   productsList: [],
   productDetails: {},
   productSlug: "",
@@ -12,4 +14,5 @@ export default {
   loading: true,
   page: 1,
   show: true,
+  contentLoaderText: "Nothing to Show",
 };

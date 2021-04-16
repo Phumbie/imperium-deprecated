@@ -38,14 +38,21 @@
             v-if="this.$store.state.activeTab == 'accessory'"
           ></div>
         </div>
-        <div
-          class="category-link margin-right-none"
-          @click="switchCategory('bundle')"
-        >
+        <div class="category-link" @click="switchCategory('bundle')">
           <div class="category">Complete Solution</div>
           <div
             class="underline"
             v-if="this.$store.state.activeTab == 'bundle'"
+          ></div>
+        </div>
+        <div
+          class="category-link margin-right-none"
+          @click="switchCategory('package')"
+        >
+          <div class="category">Special offer</div>
+          <div
+            class="underline"
+            v-if="this.$store.state.activeTab == 'package'"
           ></div>
         </div>
       </div>
@@ -79,8 +86,25 @@
             <img :src="product.display_image" />
           </div>
           <div class="product-name">{{ product.name | setUppercase }}</div>
-          <div class="product-description">
+          <div class="product-description" v-if="product.description">
             <p>{{ product.description | shortenString | setUppercase }}</p>
+          </div>
+          <div
+            class="product-description"
+            v-if="product.components.MPPT_controller"
+          >
+            <p>
+              Solar PV:
+              {{ product.components.solar_PV | shortenString | setUppercase }}
+            </p>
+            <p>
+              Inverter:
+              {{
+                product.components.battery_inverter
+                  | shortenString
+                  | setUppercase
+              }}
+            </p>
           </div>
 
           <div class="price">
@@ -91,6 +115,14 @@
                 : product.price.toLocaleString()
             }}
           </div>
+          <!-- <ul class="location">
+            <li
+              v-for="(location, index) in product.vendor_location"
+              :key="index"
+            >
+              {{ location | setUppercase }}
+            </li>
+          </ul> -->
         </div>
       </div>
     </section>
@@ -148,6 +180,10 @@ export default {
         {
           value: "bundle",
           label: "Complete Solution",
+        },
+        {
+          value: "package",
+          label: "Special offer",
         },
       ],
     };
@@ -210,6 +246,9 @@ export default {
           break;
         case "bundle":
           this.header = "complete solution";
+          break;
+        case "package":
+          this.header = "packages";
           break;
       }
       this.setPage(null);

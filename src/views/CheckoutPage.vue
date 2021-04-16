@@ -39,7 +39,14 @@
             <div class="product-name capitalize">
               {{ product.name }}
             </div>
-            <div class="price">₦ {{ product.price.toLocaleString() }}</div>
+            <div class="price">
+              ₦
+              {{
+                product.total_price
+                  ? (product.total_price * product.quantity).toLocaleString()
+                  : (product.price * product.quantity).toLocaleString()
+              }}
+            </div>
             <div class="quantity">{{ product.quantity }}</div>
           </div>
         </div>

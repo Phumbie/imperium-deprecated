@@ -1,6 +1,6 @@
 <template>
   <div id="product-view" class="container">
-    <div class="product" v-if="!loading">
+    <div class="product" v-if="!loading && productDetails">
       <div class="image-container">
         <img :src="productDetails.display_image" />
       </div>
@@ -9,7 +9,7 @@
           <div class="product-name">
             {{ productDetails.name }}
           </div>
-          <div class="price">
+          <div class="price" v-if="productDetails.price">
             ₦
             {{
               productDetails.total_price
@@ -21,22 +21,66 @@
             Add to cart
           </div>
           <div class="details-label">
-            <div>
-              <div class="nav-link">
-                Description
-              </div>
-            </div>
+            <p>Description</p>
           </div>
           <div>
-            <div class="details">
-              {{ productDetails.description }}
+            <div class="details" v-if="productDetails.description">
+              {{ productDetails.description | setUppercase }}
             </div>
-            <div class="details extra-details">
-              <p>What's more?</p>
-              <p>
-                We offer a Guarantee on the Quality of solutions you get from
-                our installer partners as a consumer.
-              </p>
+            <div class="details" v-else>
+              {{
+                `Solar PV: ${productDetails.components.solar_PV}, MPPT Controller: ${productDetails.components.MPPT_controller}, Inverter: ${productDetails.components.battery_inverter}, Lead Battery: ${productDetails.components.lead_battery}`
+              }}
+            </div>
+            <div
+              class="details extra-details"
+              v-if="productDetails.recommended_load.length > 0"
+            >
+              <label>Recommended load</label>
+              <ul>
+                <li
+                  v-for="(load, index) in productDetails.recommended_load"
+                  :key="index"
+                >
+                  {{ `${load.load}` | setUppercase }} &#45;
+                  {{ `${load.quantity}pcs` }}
+                </li>
+              </ul>
+              <label>Delivery location</label>
+              <ul>
+                <li class="bullet">
+                  Nation wide
+                </li>
+              </ul>
+            </div>
+            <div
+              class="details extra-details"
+              v-if="productDetails.vendor_location.length > 0"
+            >
+              <label>Delivery location</label>
+              <ul>
+                <li
+                  v-for="(location, index) in productDetails.vendor_location"
+                  :key="index"
+                >
+                  {{ location | setUppercase }}
+                </li>
+              </ul>
+            </div>
+            <div
+              class="details extra-details"
+              v-if="productDetails.stock.quantity_available"
+            >
+              <ul>
+                <li>
+                  {{
+                    `Available stock &#45; ${productDetails.stock.quantity_available}pcs`
+                  }}
+                </li>
+                <li v-if="productDetails.components.vat">
+                  {{ `Vat &#45; ${productDetails.components.vat}% Inclusive` }}
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -45,7 +89,7 @@
     <div class="header-text-28" v-if="!loading">
       <p>Similar Products</p>
     </div>
-    <div class="products-container" v-if="!loading">
+    <div class="products-container" v-if="!loading && similarProducts">
       <div
         class="product-item"
         v-for="products in similarProducts"
@@ -59,8 +103,22 @@
           <div class="product-name truncate-name">
             {{ products.name | shortenString | setUppercase }}
           </div>
-          <div class="product-description">
+          <div class="product-description" v-if="products.description">
             {{ products.description | shortenString | setUppercase }}
+          </div>
+          <div class="product-description" v-else>
+            <p>
+              Solar PV:
+              {{ products.components.solar_PV | shortenString | setUppercase }}
+            </p>
+            <p>
+              Inverter:
+              {{
+                products.components.battery_inverter
+                  | shortenString
+                  | setUppercase
+              }}
+            </p>
           </div>
           <div class="price">
             ₦
@@ -81,8 +139,6 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import api from "@/utils/api.js";
-import shuffleArray from "@/utils/shuffleArray.js";
 import contentLoader from "@/components/contentLoader";
 import storage from "@/utils/storage.js";
 

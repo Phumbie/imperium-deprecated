@@ -32,9 +32,8 @@ export default {
         !this.searchProduct ||
         this.$router.history.current.params.id === this.searchProduct
       ) {
-        return false;
+        return;
       } else {
-        this.$store.dispatch("productModule/setLoading", true);
         this.$router.push(`/products/search/${this.searchProduct}`);
         this.$emit("toggleFocus");
       }

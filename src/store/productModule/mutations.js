@@ -10,6 +10,14 @@ export const SET_PANELS = (state, payload) => {
   state.panels = payload;
 };
 
+export const SET_ACCESSORIES = (state, payload) => {
+  state.accessories = payload;
+};
+
+export const SET_PACKAGIES = (state, payload) => {
+  state.packagies = payload;
+};
+
 export const SET_BUNDLES = (state, payload) => {
   state.bundles = payload;
 };

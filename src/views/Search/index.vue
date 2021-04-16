@@ -6,7 +6,7 @@
     <section class="products-container" v-if="!loading">
       <div
         class="product-item"
-        v-for="(product, index) in productList"
+        v-for="(product, index) in productsList"
         :key="index"
         @click="navigateTo(`/product/${product.slug}/id/${product.id}`)"
       >
@@ -15,12 +15,31 @@
             <img :src="product.display_image" />
           </div>
           <div class="product-name">{{ product.name | setUppercase }}</div>
-          <div class="product-description">
+          <div class="product-description" v-if="product.description">
             <p>{{ product.description | shortenString | setUppercase }}</p>
+          </div>
+          <div class="product-description" v-if="product.components.solar_PV">
+            <p>
+              Solar PV:
+              {{ product.components.solar_PV | shortenString | setUppercase }}
+            </p>
+            <p>
+              Inverter:
+              {{
+                product.components.battery_inverter
+                  | shortenString
+                  | setUppercase
+              }}
+            </p>
           </div>
 
           <div class="price">
-            ₦ {{ product.price ? product.price.toLocaleString() : "" }}
+            ₦
+            {{
+              product.total_price
+                ? product.total_price.toLocaleString()
+                : product.price.toLocaleString()
+            }}
           </div>
         </div>
       </div>
@@ -32,6 +51,7 @@
   </div>
 </template>
 <script>
+import { mapState, mapActions } from "vuex";
 import contentLoader from "@/components/contentLoader";
 
 export default {
@@ -39,81 +59,38 @@ export default {
     contentLoader,
   },
   data() {
-    return {
-      contentLoaderText: "",
-    };
+    return {};
   },
-  created() {
-    this.$store.dispatch("productModule/searchProducts", {
-      query: this.$route.params.id,
-    });
-  },
-  watch: {
-    "$route.params.id": {
-      handler: function(value) {
-        this.$store.dispatch("productModule/searchProducts", {
-          query: this.$route.params.id,
-        });
-      },
-      deep: true,
-      immediate: true,
-    },
-    show(value) {
-      if (!value) {
-        this.contentLoaderText = "Nothing to Show";
-      }
-    },
-  },
+  mounted() {},
+
   computed: {
-    productList: {
-      get() {
-        return this.$store.state.productModule.productsList;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setProductsList", newValue);
-      },
-    },
-    loading: {
-      get() {
-        return this.$store.state.productModule.loading;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setLoading", newValue);
-      },
-    },
-    pagination: {
-      get() {
-        return this.$store.state.productModule.pagination;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setPagination", newValue);
-      },
-    },
-    show: {
-      get() {
-        return this.$store.state.productModule.show;
-      },
-      set(newValue) {
-        return this.$store.dispatch("productModule/setShow", newValue);
-      },
-    },
+    ...mapState({
+      loading: (state) => state.productModule.loading,
+      productsList: (state) => state.productModule.productsList,
+      show: (state) => state.productModule.show,
+      contentLoaderText: (state) => state.productModule.contentLoaderText,
+    }),
   },
   methods: {
+    ...mapActions("productModule", ["searchProducts"]),
+
     navigateTo(page) {
       if (page.split("/")[2] === "undefined") {
         return;
       }
       this.$router.push(page);
     },
+  },
 
-    handlePageChange(page) {
-      this.$store.dispatch("searchProductModule/setLoading", true);
-      this.$store.dispatch("searchProductModule/setPage", page);
-      // this.$router.push({ path: "/products", query: { page: page } });
-      this.$store.dispatch("searchProductModule/searchProducts", {
-        query: this.$route.params.id,
-        page: this.$store.state.searchProductModule.page,
-      });
+  watch: {
+    "$route.params.id": {
+      handler: function(newValue, oldValue) {
+        oldValue !== newValue
+          ? this.searchProducts({ query: this.$route.params.id })
+          : "";
+      },
+      deep: true,
+      immediate: true,
     },
   },
 };
@@ -212,6 +189,7 @@ export default {
         }
 
         .product-description {
+          height: 2.8rem;
           font-family: HelveticaNeue;
           font-size: 0.9rem;
           color: #000000;

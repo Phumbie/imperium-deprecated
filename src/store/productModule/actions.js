@@ -9,6 +9,7 @@ export const getAllProducts = ({ commit }, queryParams) => {
     api
       .getAllProducts(queryParams.page)
       .then(({ data }) => {
+        // console.log(data);
         if (data.data.result.length < 4) {
           const fill = fillArray(4, data.data.result.length);
           const productsList = data.data.result.concat(fill);
@@ -28,6 +29,7 @@ export const getAllProducts = ({ commit }, queryParams) => {
     api
       .getProductByCategory(queryParams.category, queryParams.page)
       .then(({ data }) => {
+        // console.log(data);
         if (data.data.result.length < 4) {
           const fill = fillArray(4, data.data.result.length);
           const productsList = data.data.result.concat(fill);

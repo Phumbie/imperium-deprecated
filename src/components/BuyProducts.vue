@@ -52,7 +52,7 @@
           <div class="category">Special offer</div>
           <div
             class="underline"
-            v-if="this.$store.state.activeTab == 'package'"
+            v-if="$store.state.activeTab == 'package'"
           ></div>
         </div>
       </div>
@@ -115,6 +115,11 @@
                 : product.price.toLocaleString()
             }}
           </div>
+          <!-- <p v-if="product.components">
+            Loan Payment/month: ₦{{
+              product.components.lto_price.toLocaleString()
+            }}
+          </p> -->
           <!-- <ul class="location">
             <li
               v-for="(location, index) in product.vendor_location"
@@ -144,129 +149,133 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import contentLoader from "@/components/contentLoader";
-import BackendPagination from "@/components/Pagination/BackendPagination";
+  import { mapState, mapActions } from "vuex";
+  import contentLoader from "@/components/contentLoader";
+  import BackendPagination from "@/components/Pagination/BackendPagination";
 
-export default {
-  components: {
-    contentLoader,
-    BackendPagination,
-  },
-  data() {
-    return {
-      header: "all products",
-      links: [
-        {
-          value: "all products",
-          label: "All Products",
-        },
-        {
-          value: "solar panel",
-          label: "Solar Panel",
-        },
-        {
-          value: "inverter",
-          label: "Inverter",
-        },
-        {
-          value: "battery",
-          label: "Battery",
-        },
-        {
-          value: "accessory",
-          label: "Accessory",
-        },
-        {
-          value: "bundle",
-          label: "Complete Solution",
-        },
-        {
-          value: "package",
-          label: "Special offer",
-        },
-      ],
-    };
-  },
-  created() {
-    if (!JSON.parse(localStorage.getItem("active_tab"))) {
-      this.switchCategory(this.activeTab);
-    } else {
-      let category = JSON.parse(localStorage.getItem("active_tab"));
-      this.switchCategory(category);
-    }
-  },
-
-  mounted() {},
-
-  computed: {
-    ...mapState({
-      loading: (state) => state.productModule.loading,
-      activeTab: (state) => state.activeTab,
-      productsList: (state) => state.productModule.productsList,
-      pagination: (state) => state.productModule.pagination,
-      page: (state) => state.productModule.page,
-    }),
-  },
-
-  methods: {
-    ...mapActions("productModule", ["setLoading", "setPage", "getAllProducts"]),
-    ...mapActions(["setActiveTabId"]),
-    navigateTo(page) {
-      if (page.split("/")[2] === "undefined") {
-        return;
+  export default {
+    components: {
+      contentLoader,
+      BackendPagination,
+    },
+    data() {
+      return {
+        header: "all products",
+        links: [
+          {
+            value: "all products",
+            label: "All Products",
+          },
+          {
+            value: "solar panel",
+            label: "Solar Panel",
+          },
+          {
+            value: "inverter",
+            label: "Inverter",
+          },
+          {
+            value: "battery",
+            label: "Battery",
+          },
+          {
+            value: "accessory",
+            label: "Accessory",
+          },
+          {
+            value: "bundle",
+            label: "Complete Solution",
+          },
+          {
+            value: "package",
+            label: "Special offer",
+          },
+        ],
+      };
+    },
+    created() {
+      if (!JSON.parse(localStorage.getItem("active_tab"))) {
+        this.switchCategory(this.activeTab);
+      } else {
+        let category = JSON.parse(localStorage.getItem("active_tab"));
+        this.switchCategory(category);
       }
-      this.$router.push(page);
     },
-    handlePageChange(page) {
-      this.setLoading(true);
-      this.setPage(page);
-      this.getAllProducts({
-        page: this.page,
-        category: this.activeTab,
-      });
-      this.$router.push({ path: `/products/${page}` });
+
+    mounted() {},
+
+    computed: {
+      ...mapState({
+        loading: (state) => state.productModule.loading,
+        activeTab: (state) => state.activeTab,
+        productsList: (state) => state.productModule.productsList,
+        pagination: (state) => state.productModule.pagination,
+        page: (state) => state.productModule.page,
+      }),
     },
-    switchCategory(category) {
-      this.setLoading(true);
-      this.setActiveTabId(category);
-      this.header = category;
-      switch (category) {
-        case "battery":
-          this.header = "batteries";
-          break;
-        case "inverter":
-          this.header = "inverters";
-          break;
-        case "solar panel":
-          this.header = "solar panels";
-          break;
-        case "accessory":
-          this.header = "accessories";
-          break;
-        case "bundle":
-          this.header = "complete solution";
-          break;
-        case "package":
-          this.header = "packages";
-          break;
-      }
-      this.setPage(null);
-      this.getAllProducts({
-        page: this.page,
-        category: this.activeTab,
-      });
+
+    methods: {
+      ...mapActions("productModule", [
+        "setLoading",
+        "setPage",
+        "getAllProducts",
+      ]),
+      ...mapActions(["setActiveTabId"]),
+      navigateTo(page) {
+        if (page.split("/")[2] === "undefined") {
+          return;
+        }
+        this.$router.push(page);
+      },
+      handlePageChange(page) {
+        this.setLoading(true);
+        this.setPage(page);
+        this.getAllProducts({
+          page: this.page,
+          category: this.activeTab,
+        });
+        this.$router.push({ path: `/products/${page}` });
+      },
+      switchCategory(category) {
+        this.setLoading(true);
+        this.setActiveTabId(category);
+        this.header = category;
+        switch (category) {
+          case "battery":
+            this.header = "batteries";
+            break;
+          case "inverter":
+            this.header = "inverters";
+            break;
+          case "solar panel":
+            this.header = "solar panels";
+            break;
+          case "accessory":
+            this.header = "accessories";
+            break;
+          case "bundle":
+            this.header = "complete solution";
+            break;
+          case "package":
+            this.header = "packages";
+            break;
+        }
+        this.setPage(null);
+        this.getAllProducts({
+          page: this.page,
+          category: this.activeTab,
+        });
+      },
+      setCategory(event) {
+        const category =
+          event.target.options[event.target.options.selectedIndex].attributes[2]
+            .value;
+        this.switchCategory(category);
+      },
     },
-    setCategory(event) {
-      const category =
-        event.target.options[event.target.options.selectedIndex].attributes[2]
-          .value;
-      this.switchCategory(category);
-    },
-  },
-};
+  };
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/scss/products.scss";
+  @import "@/assets/styles/scss/products.scss";
 </style>

@@ -17,6 +17,9 @@
                 : productDetails.price.toLocaleString()
             }}
           </div>
+          <p class="loan-price" v-if="productDetails.components">
+            Loan payment/month: ₦{{ productDetails.components.lto_price }}
+          </p>
           <div class="btn-add-to-cart" @click="addProductToCart()">
             Add to cart
           </div>
@@ -138,70 +141,70 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import contentLoader from "@/components/contentLoader";
-import storage from "@/utils/storage.js";
+  import { mapState, mapActions } from "vuex";
+  import contentLoader from "@/components/contentLoader";
+  import storage from "@/utils/storage.js";
 
-export default {
-  name: "ProductView",
-  components: {
-    contentLoader,
-  },
-  data() {
-    return {};
-  },
-  mounted() {
-    this.getProductDetails();
-  },
-
-  computed: {
-    ...mapState({
-      loading: (state) => state.productModule.loading,
-      productDetails: (state) => state.productModule.productDetails,
-      productSlug: (state) => state.productModule.productSlug,
-      productId: (state) => state.productModule.productId,
-      similarProducts: (state) => state.productModule.similarProducts,
-    }),
-  },
-
-  methods: {
-    ...mapActions("notificationModule", ["showToast", "showModal"]),
-    ...mapActions("productModule", [
-      "getProductBySlug",
-      "setProductSlug",
-      "setProductId",
-    ]),
-    ...mapActions("cartModule", [
-      "addProductToLocalCart",
-      "addProductToOnlineCart",
-    ]),
-    navigateTo(page) {
-      if (
-        page.split("/")[2] === "undefined" ||
-        page === this.$router.currentRoute.fullPath
-      ) {
-        return;
-      }
-      this.$router.push(page);
+  export default {
+    name: "ProductView",
+    components: {
+      contentLoader,
+    },
+    data() {
+      return {};
+    },
+    mounted() {
       this.getProductDetails();
     },
-    getProductDetails() {
-      this.setProductSlug(this.$route.params.slug);
-      this.getProductBySlug(this.productSlug);
+
+    computed: {
+      ...mapState({
+        loading: (state) => state.productModule.loading,
+        productDetails: (state) => state.productModule.productDetails,
+        productSlug: (state) => state.productModule.productSlug,
+        productId: (state) => state.productModule.productId,
+        similarProducts: (state) => state.productModule.similarProducts,
+      }),
     },
-    addProductToCart() {
-      this.setProductId(this.$route.params.id);
-      if (!storage.getUser()) {
-        this.addProductToLocalCart();
-        return;
-      } else {
-        this.addProductToOnlineCart(this.productId);
-      }
+
+    methods: {
+      ...mapActions("notificationModule", ["showToast", "showModal"]),
+      ...mapActions("productModule", [
+        "getProductBySlug",
+        "setProductSlug",
+        "setProductId",
+      ]),
+      ...mapActions("cartModule", [
+        "addProductToLocalCart",
+        "addProductToOnlineCart",
+      ]),
+      navigateTo(page) {
+        if (
+          page.split("/")[2] === "undefined" ||
+          page === this.$router.currentRoute.fullPath
+        ) {
+          return;
+        }
+        this.$router.push(page);
+        this.getProductDetails();
+      },
+      getProductDetails() {
+        this.setProductSlug(this.$route.params.slug);
+        this.getProductBySlug(this.productSlug);
+      },
+      addProductToCart() {
+        this.setProductId(this.$route.params.id);
+        if (!storage.getUser()) {
+          this.addProductToLocalCart();
+          return;
+        } else {
+          this.addProductToOnlineCart(this.productId);
+        }
+      },
     },
-  },
-};
+  };
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/scss/product-view.scss";
+  @import "@/assets/styles/scss/product-view.scss";
 </style>
